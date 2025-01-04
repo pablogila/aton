@@ -1,4 +1,4 @@
-<p align="center"><img width="50.0%" src="figures/logo.png"></p>
+<p align="center"><img width="50.0%" src="aton.svg"></p>
 
 # Ab-iniTiO & Neutron research toolbox
 
