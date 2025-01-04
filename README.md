@@ -1,4 +1,4 @@
-![](figures/logo.png)
+<p align="center"><img width="50.0%" src="figures/logo.png"></p>
 
 # Ab-iniTiO and Neutron research toolbox
 
