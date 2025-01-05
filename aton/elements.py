@@ -1,7 +1,7 @@
 '''
 # Description
 
-This module contains functions to sort and organise element data
+This module contains functions to sort and analyse element data
 from the `aton.atoms` megadictionary, which contains the properties of all elements.
 It also contains the tools needed to automatically update said megadictionary.
 

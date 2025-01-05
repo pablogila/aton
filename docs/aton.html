@@ -59,6 +59,29 @@
             <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
                    pattern=".+" required>
 
+            <h2>Contents</h2>
+            <ul>
+  <li><a href="#installation">Installation</a>
+  <ul>
+    <li><a href="#with-pip">With pip</a></li>
+    <li><a href="#from-source">From source</a></li>
+  </ul></li>
+  <li><a href="#documentation">Documentation</a>
+  <ul>
+    <li><a href="#submodules">Submodules</a></li>
+    <li><a href="#general-text-edition">General text edition</a></li>
+    <li><a href="#interfaces-for-ab-initio-codes">Interfaces for ab-initio codes</a></li>
+    <li><a href="#spectral-analysis-tools">Spectral analysis tools</a></li>
+  </ul></li>
+  <li><a href="#contributing">Contributing</a>
+  <ul>
+    <li><a href="#code-style">Code style</a></li>
+    <li><a href="#testing-with-pytest">Testing with PyTest</a></li>
+    <li><a href="#compiling-the-documentation">Compiling the documentation</a></li>
+  </ul></li>
+  <li><a href="#license">License</a></li>
+</ul>
+
 
             <h2>Submodules</h2>
             <ul>
@@ -87,7 +110,152 @@
                     <h1 class="modulename">
 aton    </h1>
 
-                        <div class="docstring"><p>Welcome to the <strong>A</strong>b-ini<strong>T</strong>i<strong>O</strong> and <strong>N</strong>eutron research toolbox, or <a href="https://en.wikipedia.org/wiki/Aten">Aton</a>. Just as the ancient Egyptian deity, this all-in-one Python package provides powerful and comprehensive tools for cutting-edge materials research.</p>
+                        <div class="docstring"><p>Welcome to the <strong>A</strong>b-ini<strong>T</strong>i<strong>O</strong> and <strong>N</strong>eutron research toolbox, or <a href="https://en.wikipedia.org/wiki/Aten">Aton</a>. Just as the ancient Egyptian deity, this all-in-one Python package provides powerful and comprehensive tools for cutting-edge materials research.  </p>
+
+<p>Aton allows you to easily create, edit and analyse all kinds of text files, with a special focus on <em>ab-initio</em> calculations. In particular, it contains interfaces for <a href="https://www.quantum-espresso.org/">Quantum ESPRESSO</a>, <a href="https://phonopy.github.io/phonopy/">Phonopy</a> and <a href="https://castep-docs.github.io/castep-docs/">CASTEP</a>.  </p>
+
+<p>This is combined with a range of spectral analysis tools to analyse your experimental campaigns, from inelastic neutron scattering to FTIR spectroscopy.  </p>
+
+<h1 id="installation">Installation</h1>
+
+<p>As always, it is recommended to install your packages in a virtual environment:  </p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</code></pre>
+</div>
+
+<h2 id="with-pip">With pip</h2>
+
+<p>The fastest way to install Aton is through pip:  </p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>aton
+</code></pre>
+</div>
+
+<h2 id="from-source">From source</h2>
+
+<p>Optionally, you can install Aton from the <a href="https://github.com/pablogila/Aton/">GitHub repository</a>.  </p>
+
+<p>First install the dependencies:  </p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pandas<span class="w"> </span>numpy<span class="w"> </span>scipy
+</code></pre>
+</div>
+
+<p>Then clone the repository or download the <a href="https://github.com/pablogila/Aton/tags">latest stable release</a> as a ZIP, unzip it, and run inside the <code>Aton/</code> directory:  </p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>.
+</code></pre>
+</div>
+
+<h1 id="documentation">Documentation</h1>
+
+<p>Check the <a href="https://pablogila.github.io/Aton/">full Aton documentation online</a>.<br />
+An offline version of the documentation is available in <code>docs/aton.html</code>.<br />
+Code examples are included in the <code>examples/</code> folder.  </p>
+
+<h2 id="submodules">Submodules</h2>
+
+<p>Aton contains the following modules:  </p>
+
+<ul>
+<li><a href="https://pablogila.github.io/Aton/aton/text.html">text</a>. See <a href="#general-text-edition">General text edition</a>.</li>
+<li><a href="https://pablogila.github.io/Aton/aton/interface.html">interface</a>. See <a href="#interfaces-for-ab-initio-codes">Interfaces for ab-initio codes</a>.  </li>
+<li><a href="https://pablogila.github.io/Aton/aton/spectra.html">spectra</a>. See <a href="#spectral-analysis-tools">Spectral analysis tools</a>.</li>
+<li><a href="https://pablogila.github.io/Aton/aton/units.html">units</a>. Physical constants and conversion factors.</li>
+<li><a href="https://pablogila.github.io/Aton/aton/atoms.html">atoms</a>. Megadictionary with data of all chemical elements.  </li>
+<li><a href="https://pablogila.github.io/Aton/aton/elements.html">elements</a>. Sort and analyse element data, and manage the atoms dictionary.  </li>
+<li><code><a href="aton/file.html">aton.file</a></code>. Manipulate files.  </li>
+<li><code><a href="aton/call.html">aton.call</a></code>. Run bash scripts and related.  </li>
+<li><a href="https://pablogila.github.io/Aton/aton/alias.html">alias</a>. Useful dictionaries for user input correction.  </li>
+</ul>
+
+<h2 id="general-text-edition">General text edition</h2>
+
+<p>The <a href="https://pablogila.github.io/Aton/aton/text.html">text</a> module includes the following general text-related submodules:</p>
+
+<ul>
+<li><code><a href="aton/text/find.html">aton.text.find</a></code>. Search for specific content in a text file.  </li>
+<li><a href="https://pablogila.github.io/Aton/aton/text/edit.html">edit</a>. Manipulate text files.  </li>
+<li><code><a href="aton/text/extract.html">aton.text.extract</a></code>. Extract data from raw text strings.  </li>
+</ul>
+
+<h2 id="interfaces-for-ab-initio-codes">Interfaces for ab-initio codes</h2>
+
+<p>The <a href="https://pablogila.github.io/Aton/aton/interface.html">interface</a> module contains interfaces for several <em>ab-initio</em> codes. These are powered by the <a href="https://pablogila.github.io/Aton/aton/text.html">text</a> module and can be easily extended. The following interfaces are included:  </p>
+
+<ul>
+<li><code><a href="aton/interface/qe.html">aton.interface.qe</a></code>. Interface for <a href="https://www.quantum-espresso.org/">Quantum ESPRESSO</a> calculations.</li>
+<li><code><a href="aton/interface/phonopy.html">aton.interface.phonopy</a></code>. Interface for <a href="https://phonopy.github.io/phonopy/">Phonopy</a> calculations.</li>
+<li><code><a href="aton/interface/castep.html">aton.interface.castep</a></code> Interface for <a href="https://castep-docs.github.io/castep-docs/">CASTEP</a> calculations.</li>
+</ul>
+
+<h2 id="spectral-analysis-tools">Spectral analysis tools</h2>
+
+<p>The <a href="https://pablogila.github.io/Aton/aton/spectra.html">spectra</a> module IS YET TO BE IMPLEMENTED.</p>
+
+<ul>
+<li>Things...</li>
+</ul>
+
+<h1 id="contributing">Contributing</h1>
+
+<p>If you are interested in opening an issue or a pull request, please feel free to do so on <a href="https://github.com/pablogila/Aton/">GitHub</a>.<br />
+For major changes, please get in touch first to discuss the details.  </p>
+
+<h2 id="code-style">Code style</h2>
+
+<p>Please try to follow some general guidelines:  </p>
+
+<ul>
+<li>Use a code style consistent with the rest of the project.  </li>
+<li>Include docstrings to document new additions.  </li>
+<li>Include tests for new features or modifications.  </li>
+<li>Arrange function arguments by order of relevance. Most implemented functions follow something similar to <code>function(file, key/s, value/s, optional)</code>.  </li>
+</ul>
+
+<h2 id="testing-with-pytest">Testing with PyTest</h2>
+
+<p>If you are modifying the source code, you should run the automated tests of the <code>tests/</code> folder to check that everything works as intended.
+To do so, first install PyTest in your environment,</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pytest
+</code></pre>
+</div>
+
+<p>And then run PyTest inside the <code>Aton/</code> directory,</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>pytest<span class="w"> </span>-vv
+</code></pre>
+</div>
+
+<h2 id="compiling-the-documentation">Compiling the documentation</h2>
+
+<p>The documentation can be compiled automatically to <code>docs/aton.html</code> with <a href="https://pdoc.dev/">pdoc</a> and Aton itself, by running:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>python3<span class="w"> </span>makedocs.py
+</code></pre>
+</div>
+
+<h1 id="license">License</h1>
+
+<p>Copyright (C) 2024  Pablo Gila-Herranz<br />
+This program is free software: you can redistribute it and/or modify
+it under the terms of the <strong>GNU Affero General Public License</strong> as published
+by the Free Software Foundation, either version <strong>3</strong> of the License, or
+(at your option) any later version.<br />
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.<br />
+See the attached GNU Affero General Public License for more details.  </p>
 </div>
 
                         <input id="mod-aton-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
