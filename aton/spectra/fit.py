@@ -1,54 +1,23 @@
-'''
+"""
 # Description
-This module contains functions for fitting and analyzing data.
+This module contains functions for fitting and analyzing spectral data.
 
 # Index
-- `mean()`
 - `plateau()`
 - `area_under_peak()`
 - `ratio_areas()`
+- `mean()`
 
 ---
-'''
+"""
 
 
 import math
-from .constants import *
-from .classes import *
 import scipy
 import numpy as np
 from copy import deepcopy
-
-
-def mean(
-        array:list,
-        rounded:bool=True,
-        degrees_of_freedom=0
-    ) -> tuple:
-    '''
-    Takes an `array` of numerical values
-    and returns a tuple with the mean and standard deviation,
-    calculated with numpy as:\n
-    $\\sigma_{x}=\\sqrt{\\frac{\\sum{(x_{i}-{\\overline{x}})^2}}{N-\\text{ddof}}}$\n
-    where ddof are the delta `degrees_of_freedom`, zero by default.
-    Set it to `1` for a corrected sample standard deviation (low N cases),
-    see more details [here](https://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation).\n
-    The mean is rounded up to the order of the error by default. To override this behaviour, set `rounded=False`.
-    '''
-    if not all(isinstance(x, (int, float, np.ndarray)) for x in array):
-        raise ValueError("mean_std(list) requires numerical values (int, float, or numpy.ndarray).")
-    data = np.asarray(array)
-    mean = float(data.mean())
-    error = float(data.std(ddof=degrees_of_freedom))
-    if not rounded or error == 0:
-        return mean, error
-    exponent = int(math.floor(math.log10(abs(error))))
-    first_three_digits = int(100*abs(error) / 10**exponent)
-    if 104 < first_three_digits < 195:
-        exponent -= 1
-    rounded_mean = round(mean, -exponent)
-    rounded_error = round(error, -exponent)
-    return rounded_mean, rounded_error
+from aton.units import *
+from .classes import Spectra
 
 
 def plateau(
@@ -56,15 +25,15 @@ def plateau(
         cuts=None,
         df_index:int=0
     ) -> tuple:
-    '''
-    Fit the mean value and the error of a plateau in a `maatpy.classes.Spectra` object.
-    If `maatpy.classes.Spectra.dataframe[df_index]` has an 'Error' column, those errors are also taken into account
+    """Fit the mean value and the error of a plateau in a `aton.spectra.Spectra` object.
+    
+    If `aton.spectra.Spectra.dfs[df_index]` has an 'Error' column, those errors are also taken into account
     along with the standard deviation of the mean, else only the standard deviation is considered.
     The 'Error' column title can be any string in `maatpy.alias.file['Error']`.\n
     Use as `maatpy.fit.plateau(spectra, cuts=[low_cut, high_cut], df_index=0)`.
     Note that `cuts`, `low_cut` and/or `top_cut` can be set to None.
-    '''
-    df = deepcopy(spectra.dataframe[df_index])
+    """
+    df = deepcopy(spectra.dfs[df_index])
     if isinstance(cuts, list):
         low_cut = cuts[0]
         if len(cuts) > 1:
@@ -85,7 +54,7 @@ def plateau(
         df = df[df[df.columns[0]] <= top_cut]
     mean = df[df.columns[1]].mean()
     std_mean = df[df.columns[1]].std()
-    error_column = next((col for col in alias.file['Error'] if col in df.columns), None)  # Get the error column title
+    error_column = next((col for col in alias.file['error'] if col in df.columns), None)  # Get the error column title
     if error_column:
         errors = df[error_column].to_numpy()
         std_data = np.sqrt(np.sum(errors**2)) / len(errors)
@@ -102,7 +71,7 @@ def area_under_peak(
         errors_as_in_baseline:bool=True,
         min_as_baseline:bool=False
     ) -> tuple:
-    '''
+    """
     Calculate the area under a given peak.
 
     Peaks must be defined as `peak:list=[xmin, xmax, baseline=0, baseline_error=0]`.
@@ -111,7 +80,7 @@ def area_under_peak(
     If `min_as_baseline=True` and `baseline=0`, the baseline is assumed to be the minimum value.
     Also, if `min_as_baseline=True` and there are negative areas even after applying the baseline,
     the baseline will be corrected to the minimum value.
-    '''
+    """
     if len(peak) < 2:
         raise ValueError("area_under_peak: peak must have at least two values: [xmin, xmax]")
     xmin = peak[0]
@@ -119,7 +88,7 @@ def area_under_peak(
     baseline = peak[2] if len(peak) >= 3 else 0.0
     baseline_error = peak[3] if len(peak) >= 4 else 0.0
 
-    df = deepcopy(spectra.dataframe[df_index])
+    df = deepcopy(spectra.dfs[df_index])
     df_range = df[(df[df.columns[0]] >= xmin) & (df[df.columns[0]] <= xmax)]
     x = df_range[df.columns[0]].to_numpy()
     y = df_range[df.columns[1]].to_numpy()
@@ -153,12 +122,12 @@ def ratio_areas(
         area_total_error:float=0.0,
         inverse_ratio:bool=False
     ) -> tuple:
-    '''
-    Check the ratio between two areas, e.g. to estimate deuteration levels from ATR data.
+    """Check the ratio between two areas, e.g. to estimate deuteration levels from ATR data.
+    
     The ratio is calculated as `area / area_total`. This behavior is modified if `inverse_ratio = True`,
     so that the ratio is calculated as `(area_total - area) / area_total`.
     Note that changing the ratio calculation also affects the error propagation.
-    '''
+    """
     if inverse_ratio:
         ratio = (area_total - area) / area_total
         if ratio != 0.0:
@@ -173,4 +142,34 @@ def ratio_areas(
             ratio_error = None
     
     return ratio, ratio_error
+
+
+def mean(
+        array:list,
+        rounded:bool=True,
+        degrees_of_freedom=0
+    ) -> tuple:
+    """Takes an `array` of numerical values and returns the mean and standard deviation.
+
+    It is calculated with numpy as:\n
+    $\\sigma_{x}=\\sqrt{\\frac{\\sum{(x_{i}-{\\overline{x}})^2}}{N-\\text{ddof}}}$\n
+    where ddof are the delta `degrees_of_freedom`, zero by default.
+    Set it to `1` for a corrected sample standard deviation (low N cases),
+    see more details [here](https://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation).\n
+    The mean is rounded up to the order of the error by default. To override this behaviour, set `rounded=False`.
+    """
+    if not all(isinstance(x, (int, float, np.ndarray)) for x in array):
+        raise ValueError("mean_std(list) requires numerical values (int, float, or numpy.ndarray).")
+    data = np.asarray(array)
+    mean = float(data.mean())
+    error = float(data.std(ddof=degrees_of_freedom))
+    if not rounded or error == 0:
+        return mean, error
+    exponent = int(math.floor(math.log10(abs(error))))
+    first_three_digits = int(100*abs(error) / 10**exponent)
+    if 104 < first_three_digits < 195:
+        exponent -= 1
+    rounded_mean = round(mean, -exponent)
+    rounded_error = round(error, -exponent)
+    return rounded_mean, rounded_error
 

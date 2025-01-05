@@ -1,13 +1,13 @@
 <p align="center"><img width="50.0%" src="pics/aton.png"></p>
 
 Welcome to the **A**b-ini**T**i**O** and **N**eutron research toolbox, or [Aton](https://en.wikipedia.org/wiki/Aten).
-Just like its ancient Egyptian deity counterpart, this is an all-in-one Python package with powerful and comprehensive tools for cutting-edge materials research.  
+Inspired by its ancient Egyptian deity counterpart, this all-in-one Python package provides powerful and comprehensive tools for cutting-edge materials research, focused on (but not limited to) neutron science.  
 
-Aton allows you to easily create, edit and analyse all kinds of text files, with a special focus on *ab-initio* calculations.
+Aton provides a range of spectral analysis tools, from spectra normalisation to deuteration estimation using the DINS impulse approximation.  
+A set of physico-chemical constants and definitions is also included.  
+
+Aton also allows you to easily create, edit and analyse all kinds of text files, with a special focus on *ab-initio* calculations.
 In particular, it contains interfaces for [Quantum ESPRESSO](https://www.quantum-espresso.org/), [Phonopy](https://phonopy.github.io/phonopy/) and [CASTEP](https://castep-docs.github.io/castep-docs/).  
-
-This is combined with a range of spectral analysis tools, focused on (but not limited to) neutron science.
-A set of physico-chemical constants and definitions is also included.
 
 Check the [full documentation online](https://pablogila.github.io/Aton/).  
 
@@ -46,8 +46,8 @@ pip install .
 
 # Documentation
 
-Check the [full Aton documentation online](https://pablogila.github.io/Aton/).  
-An offline version of the documentation is available in `docs/aton.html`.  
+The full Aton documentation is available [online](https://pablogila.github.io/Aton/).  
+An offline version of the documentation is found at `docs/aton.html`.  
 Code examples are included in the `examples/` folder.  
 
 ## Submodules

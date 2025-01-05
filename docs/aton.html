@@ -90,13 +90,14 @@
                     <li><a href="aton/call.html">call</a></li>
                     <li><a href="aton/elements.html">elements</a></li>
                     <li><a href="aton/file.html">file</a></li>
+                    <li><a href="aton/interface.html">interface</a></li>
+                    <li><a href="aton/spectra.html">spectra</a></li>
                     <li><a href="aton/text.html">text</a></li>
                     <li><a href="aton/units.html">units</a></li>
-                    <li><a href="aton/interface.html">interface</a></li>
             </ul>
 
 
-            <footer>Aton v0.0.1a3 documentation</footer>
+            <footer>Aton v0.0.1b1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -111,13 +112,13 @@
 aton    </h1>
 
                         <div class="docstring"><p>Welcome to the <strong>A</strong>b-ini<strong>T</strong>i<strong>O</strong> and <strong>N</strong>eutron research toolbox, or <a href="https://en.wikipedia.org/wiki/Aten">Aton</a>.
-Just like its ancient Egyptian deity counterpart, this is an all-in-one Python package with powerful and comprehensive tools for cutting-edge materials research.  </p>
+Inspired by its ancient Egyptian deity counterpart, this all-in-one Python package provides powerful and comprehensive tools for cutting-edge materials research, focused on (but not limited to) neutron science.  </p>
 
-<p>Aton allows you to easily create, edit and analyse all kinds of text files, with a special focus on <em>ab-initio</em> calculations.
+<p>Aton provides a range of spectral analysis tools, from spectra normalisation to deuteration estimation using the DINS impulse approximation.<br />
+A set of physico-chemical constants and definitions is also included.  </p>
+
+<p>Aton also allows you to easily create, edit and analyse all kinds of text files, with a special focus on <em>ab-initio</em> calculations.
 In particular, it contains interfaces for <a href="https://www.quantum-espresso.org/">Quantum ESPRESSO</a>, <a href="https://phonopy.github.io/phonopy/">Phonopy</a> and <a href="https://castep-docs.github.io/castep-docs/">CASTEP</a>.  </p>
-
-<p>This is combined with a range of spectral analysis tools, focused on (but not limited to) neutron science.
-A set of physico-chemical constants and definitions is also included.</p>
 
 <hr />
 
@@ -162,8 +163,8 @@ A set of physico-chemical constants and definitions is also included.</p>
 
 <h1 id="documentation">Documentation</h1>
 
-<p>Check the <a href="https://pablogila.github.io/Aton/">full Aton documentation online</a>.<br />
-An offline version of the documentation is available in <code>docs/aton.html</code>.<br />
+<p>The full Aton documentation is available <a href="https://pablogila.github.io/Aton/">online</a>.<br />
+An offline version of the documentation is found at <code>docs/aton.html</code>.<br />
 Code examples are included in the <code>examples/</code> folder.  </p>
 
 <h2 id="submodules">Submodules</h2>
@@ -173,7 +174,7 @@ Code examples are included in the <code>examples/</code> folder.  </p>
 <ul>
 <li><code><a href="aton/text.html">aton.text</a></code>. See <a href="#general-text-edition">General text edition</a>.</li>
 <li><code><a href="aton/interface.html">aton.interface</a></code>. See <a href="#interfaces-for-ab-initio-codes">Interfaces for ab-initio codes</a>.  </li>
-<li><code>aton.spectra</code>. See <a href="#spectral-analysis-tools">Spectral analysis tools</a>.</li>
+<li><code><a href="aton/spectra.html">aton.spectra</a></code>. See <a href="#spectral-analysis-tools">Spectral analysis tools</a>.</li>
 <li><code><a href="aton/units.html">aton.units</a></code>. Physical constants and conversion factors.</li>
 <li><code><a href="aton/atoms.html">aton.atoms</a></code>. Megadictionary with data for all chemical elements.  </li>
 <li><code><a href="aton/elements.html">aton.elements</a></code>. Sort and analyse element data, and manage the atoms dictionary.  </li>
@@ -204,7 +205,7 @@ Code examples are included in the <code>examples/</code> folder.  </p>
 
 <h2 id="spectral-analysis-tools">Spectral analysis tools</h2>
 
-<p>The <code>aton.spectra</code> module IS YET TO BE IMPLEMENTED.</p>
+<p>The <code><a href="aton/spectra.html">aton.spectra</a></code> module IS YET TO BE IMPLEMENTED.</p>
 
 <ul>
 <li>Things...</li>
@@ -287,6 +288,7 @@ See the attached GNU Affero General Public License for more details.  </p>
 </span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">file</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">text</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">interface</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spectra</span>
 </span></pre></div>
 
 

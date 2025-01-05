@@ -31,7 +31,7 @@ fix_dict ={
     '[interface.castep](https://pablogila.github.io/Aton/aton/interface/castep.html)'   : '`aton.interface.castep`',
     '[spectra](https://pablogila.github.io/Aton/aton/spectra.html)'                     : '`aton.spectra`',
     'Check the [full documentation online](https://pablogila.github.io/Aton/).'         : '',
-    '<p align="center"><img width="50.0%" src="aton.svg"></p>'                          : '',
+    '<p align="center"><img width="50.0%" src="pics/aton.png"></p>'                     : '',
 }
 
 aton.text.edit.from_template(readme, temp_readme, fix_dict)

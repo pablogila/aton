@@ -12,4 +12,5 @@ from . import call
 from . import file
 from . import text
 from . import interface
+from . import spectra
 

@@ -11,10 +11,10 @@ This module contains functions to normalize data and other variables.
 '''
 
 
-from . import alias
+import aton.alias as alias
+from aton.units import *
 from .classes import *
 from .fit import *
-from .constants import *
 
 
 def unit_str(unit:str):
@@ -27,92 +27,92 @@ def unit_str(unit:str):
 
 
 def spectra(spectra:Spectra):
-    '''Normalize the given spectra by height, with optional `maatpy.classes.ScaleRange` attributes.'''
+    '''Normalize the given spectra by height, with optional `maatpy.classes.Scaling` attributes.'''
     sdata = deepcopy(spectra)
-    if hasattr(sdata, 'scale_range') and sdata.scale_range is not None:
-        scale_range = sdata.scale_range
-        if scale_range.ymax:
+    if hasattr(sdata, 'scaling') and sdata.scaling is not None:
+        scaling = sdata.scaling
+        if scaling.ymax:
             return _spectra_y(sdata)
     else:
-        scale_range = ScaleRange()
+        scaling = Scaling()
 
-    df_index = scale_range.index if scale_range.index else 0
-    df0 = sdata.dataframe[df_index]
+    df_index = scaling.index if scaling.index else 0
+    df0 = sdata.dfs[df_index]
 
-    if scale_range.xmin is None:
-        scale_range.xmin = min(df0[df0.columns[0]])
-    if scale_range.xmax is None:
-        scale_range.xmax = max(df0[df0.columns[0]])
+    if scaling.xmin is None:
+        scaling.xmin = min(df0[df0.columns[0]])
+    if scaling.xmax is None:
+        scaling.xmax = max(df0[df0.columns[0]])
 
-    sdata.scale_range = scale_range
+    sdata.scaling = scaling
 
-    xmin = scale_range.xmin
-    xmax = scale_range.xmax
+    xmin = scaling.xmin
+    xmax = scaling.xmax
 
     df0 = df0[(df0[df0.columns[0]] >= xmin) & (df0[df0.columns[0]] <= xmax)]
     ymax_on_range = df0[df0.columns[1]].max()
     normalized_dataframes = []
-    for df in sdata.dataframe:
+    for df in sdata.dfs:
         df_range = df[(df[df.columns[0]] >= xmin) & (df[df.columns[0]] <= xmax)]
         i_ymax_on_range = df_range[df_range.columns[1]].max()
         df[df.columns[1]] =  df[df.columns[1]] * ymax_on_range / i_ymax_on_range
         normalized_dataframes.append(df)
-    sdata.dataframe = normalized_dataframes
+    sdata.dfs = normalized_dataframes
     return sdata
 
 
 def _spectra_y(sdata:Spectra):
-    if not len(sdata.scale_range.ymax) == len(sdata.dataframe):
+    if not len(sdata.scaling.ymax) == len(sdata.dfs):
         raise ValueError("normalize: len(ymax) does not match len(dataframe)")
-    scale_range = sdata.scale_range
-    ymax = scale_range.ymax
-    ymin = scale_range.ymin if scale_range.ymin else [0.0]
+    scaling = sdata.scaling
+    ymax = scaling.ymax
+    ymin = scaling.ymin if scaling.ymin else [0.0]
     if len(ymin) == 1:
-        ymin = ymin * len(sdata.dataframe)
-    index = scale_range.index if scale_range.index else 0
+        ymin = ymin * len(sdata.dfs)
+    index = scaling.index if scaling.index else 0
     reference_height = ymax[index] - ymin[index]
     normalized_dataframes = []
-    for i, df in enumerate(sdata.dataframe):
+    for i, df in enumerate(sdata.dfs):
         height = ymax[i] - ymin[i]
         df[df.columns[1]] =  df[df.columns[1]] * reference_height / height
         normalized_dataframes.append(df)
-    sdata.dataframe = normalized_dataframes
+    sdata.dfs = normalized_dataframes
     return sdata
 
 
 def area(spectra:Spectra):
     '''
-    Normalize the given spectra by the area under the datasets, with optional `maatpy.classes.ScaleRange` attributes.
+    Normalize the given spectra by the area under the datasets, with optional `maatpy.classes.Scaling` attributes.
     '''
     sdata = deepcopy(spectra)
-    if hasattr(sdata, 'scale_range') and sdata.scale_range is not None:
-        scale_range = sdata.scale_range
-        if scale_range.ymax:
+    if hasattr(sdata, 'scaling') and sdata.scaling is not None:
+        scaling = sdata.scaling
+        if scaling.ymax:
             return _normalize_y(sdata)
     else:
-        scale_range = ScaleRange()
+        scaling = Scaling()
 
-    df_index = scale_range.index if scale_range.index else 0
-    df0 = sdata.dataframe[df_index]
+    df_index = scaling.index if scaling.index else 0
+    df0 = sdata.dfs[df_index]
 
-    if scale_range.xmin is None:
-        scale_range.xmin = min(df0[df0.columns[0]])
-    if scale_range.xmax is None:
-        scale_range.xmax = max(df0[df0.columns[0]])
+    if scaling.xmin is None:
+        scaling.xmin = min(df0[df0.columns[0]])
+    if scaling.xmax is None:
+        scaling.xmax = max(df0[df0.columns[0]])
 
-    sdata.scale_range = scale_range
+    sdata.scaling = scaling
 
-    xmin = scale_range.xmin
-    xmax = scale_range.xmax
+    xmin = scaling.xmin
+    xmax = scaling.xmax
 
     df0 = df0[(df0[df0.columns[0]] >= xmin) & (df0[df0.columns[0]] <= xmax)]
     area_df0, _ = area_under_peak(sdata, peak=[xmin,xmax], df_index=df_index, min_as_baseline=True)
     normalized_dataframes = []
-    for df_i, df in enumerate(sdata.dataframe):
+    for df_i, df in enumerate(sdata.dfs):
         area_df, _ = area_under_peak(sdata, peak=[xmin,xmax], df_index=df_i, min_as_baseline=True)
-        scaling = area_df0 / area_df
-        df[df.columns[1]] =  df[df.columns[1]] * scaling
+        scaling_factor = area_df0 / area_df
+        df[df.columns[1]] =  df[df.columns[1]] * scaling_factor
         normalized_dataframes.append(df)
-    sdata.dataframe = normalized_dataframes
+    sdata.dfs = normalized_dataframes
     return sdata
 

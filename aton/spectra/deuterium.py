@@ -1,20 +1,20 @@
-'''
+"""
 # Description
-This module contains different methods to calculate deuteration levels from spectra.
+This module contains methods to calculate deuteration levels from different spectra.
 
 # Index
 - `impulse_approx()`
 - `peaks_mapi()`
 
 ---
-'''
+"""
 
 
-from . import alias
-from .constants import *
-from .classes import *
-from .fit import area_under_peak, ratio_areas, plateau
 from copy import deepcopy
+import aton.alias as alias
+from aton.units import *
+from .classes import Spectra, Material
+from aton.spectra.fit import area_under_peak, ratio_areas, plateau
 
 
 def impulse_approx(
@@ -23,17 +23,22 @@ def impulse_approx(
         material_D: Material,
         threshold: float=600,
         H_df_index: int=0,
-        D_df_index: int=1
+        D_df_index: int=1,
     ) -> tuple:
-    '''
-    Calculate the deuteration levels from INS spectra with the *Impulse Approximation*,
-    see https://www.tandfonline.com/doi/full/10.1080/00018732.2017.1317963.
+    """Calculate the deuteration levels from INS spectra
+    with the *Impulse Approximation*, see
+    https://www.tandfonline.com/doi/full/10.1080/00018732.2017.1317963.
 
-    Protonated and deuterated materials must be specified as `maatpy.classes.Material` objects.
-    The threshold controls the start of the plateau (in meV) to consider Deep Inelastic Neutron Scattering (DINS).
-    The protonated and deuterated dataframe indexes are specified by `H_df_index` and `D_df_index`, respectively.
+    Protonated and deuterated materials must be specified
+    as `aton.spectra.Material` objects.
+    The threshold controls the start of the plateau (in meV)
+    to start considering Deep Inelastic Neutron Scattering (DINS).
+    The protonated and deuterated dataframe indexes are specified
+    by `H_df_index` and `D_df_index`, respectively.
 
-    In this approximation, the ideal ratio between the cross-sections and the experimental ratio between the pleteaus at high energies should be the same:
+    In this approximation, the ideal ratio between
+    the cross-sections and the experimental ratio between
+    the pleteaus at high energies should be the same:
     $$
     \\frac{\\text{plateau_D}}{\\text{plateau_H}} \\approx \\frac{\\text{cross_section_D}}{\\text{cross_section_H}}
     $$
@@ -43,8 +48,8 @@ def impulse_approx(
     $$
 
     > [!WARNING]
-    > This approximation is very sensitive to the mass sample, specified by `maatpy.classes.Material.grams`.
-    '''
+    > This approximation is very sensitive to the mass sample, specified by `aton.spectra.Material.grams`.
+    """
     ins = deepcopy(ins)
     material_H = deepcopy(material_H)
     material_D = deepcopy(material_D)
@@ -64,8 +69,8 @@ def impulse_approx(
         ins.set_units('meV', units_in)
 
     # Divide the y values of the dataframes by the mols of the material.
-    ins.dataframe[H_df_index][ins.dataframe[H_df_index].columns[1]] = ins.dataframe[H_df_index][ins.dataframe[H_df_index].columns[1]]
-    ins.dataframe[D_df_index][ins.dataframe[D_df_index].columns[1]] = ins.dataframe[D_df_index][ins.dataframe[D_df_index].columns[1]]
+    ins.dfs[H_df_index][ins.dfs[H_df_index].columns[1]] = ins.dfs[H_df_index][ins.dfs[H_df_index].columns[1]]
+    ins.dfs[D_df_index][ins.dfs[D_df_index].columns[1]] = ins.dfs[D_df_index][ins.dfs[D_df_index].columns[1]]
 
     plateau_H, plateau_H_error = plateau(ins, [threshold, None], H_df_index)
     plateau_D, plateau_D_error = plateau(ins, [threshold, None], D_df_index)
@@ -99,9 +104,11 @@ def peaks_mapi(
         df_index:int=0,
     ) -> str:
     '''
-    Calculate the deuteration of your CH$_3$NH$_3$PbI$_3$ samples by integrating the INS disrotatory peaks,
+    Calculate the deuteration of your CH$_3$NH$_3$PbI$_3$ samples
+    by integrating the INS disrotatory peaks,
     which appear at around 38 meV for the fully protonated sample.
-    Note that `peaks` must be a dictionary with the peak limits and the baseline, as in the example below:
+    Note that `peaks` must be a dictionary with the peak limits
+    and the baseline, as in the example below:
     ```python
     peaks = {
         'baseline' : None,
@@ -115,19 +122,22 @@ def peaks_mapi(
         'h0d6' : [26.5, 28.0],
         }
     ```
-    Peak keywords required for partial deuteration: `h6d0`, `h5d1`, `h4d2`, `h3d3`.
-    Additional peak keywords required for total deuteration: `h2d4`, `h1d5`, `h0d6`.
-    If some peak is not present in your sample, just set the limits to a small baseline plateau.
+    Peak keywords required for selective deuteration (only C or only N):
+    `h6d0`, `h5d1`, `h4d2`, `h3d3`.
+    Additional peak keywords required for total deuteration:
+    `h2d4`, `h1d5`, `h0d6`.
+    If some peak is not present in your sample,
+    just set the limits to a small baseline plateau.
     '''
 
     peak_data = deepcopy(ins)
 
     baseline = 0.0
     baseline_error = 0.0
-    if 'baseline' in peaks:
+    if 'baseline' in peaks.keys():
         if peaks['baseline'] is not None:
             baseline = peaks['baseline']
-    if 'baseline_error' in peaks:
+    if 'baseline_error' in peaks.keys():
         if peaks['baseline_error'] is not None:
             baseline_error = peaks['baseline_error']
 
@@ -227,12 +237,11 @@ def peaks_mapi(
         protonation_CDND_amine = 1 * h3d3_ratio_CDND + (2/3) * h2d4_ratio_CDND + (1/3) * h1d5_ratio_CDND + 0 * h0d6_ratio_CDND
         protonation_CDND_amine_error = np.sqrt((1 * h3d3_error_CDND)**2 + (2/3 * h2d4_error_CDND)**2 + (1/3 * h1d5_error_CDND)**2)
 
-
     print()
     if hasattr(ins, "plotting") and ins.plotting.legend != None:
         print(f'Sample:  {ins.plotting.legend[df_index]}')
     else:
-        print(f'Sample:  {ins.filename[df_index]}')
+        print(f'Sample:  {ins.files[df_index]}')
     print(f'Corrected baseline: {round(baseline,2)} +- {round(baseline_error,2)}')
     if not run_total:
         print(f"HHH {h6d0_limits}:  {round(h6d0_ratio,2)}  +-  {round(h6d0_error,2)}")

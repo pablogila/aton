@@ -373,7 +373,7 @@ def set_value(
     '''
     Replace the `value` of a `key` parameter in an input `filepath`.
     If `value=''`, the parameter gets deleted.\n
-    Remember to include the upper commas `'` on values that use them.\n
+    Remember to include the single quotes `'` on values that use them.\n
     Updating 'ATOMIC_POSITIONS' updates 'nat' automatically,
     and updating 'ATOMIC_SPECIES' updates 'ntyp'.
     '''
