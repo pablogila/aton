@@ -25,7 +25,7 @@
      inkscape:document-units="px"
      inkscape:zoom="1.4142136"
      inkscape:cx="193.04015"
-     inkscape:cy="144.24978"
+     inkscape:cy="145.66399"
      inkscape:window-width="1366"
      inkscape:window-height="736"
      inkscape:window-x="0"
@@ -85,7 +85,8 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="logo"
-     transform="translate(-0.16068269,-19.596826)"><circle
+     transform="translate(-0.16018343,-19.596824)"
+     sodipodi:insensitive="true"><circle
        style="fill:#ffef4b;fill-opacity:1;stroke:#c9b423;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        id="path19"
        cx="59.605644"
@@ -132,9 +133,4 @@
          style="display:inline;fill:#ff8a4b;fill-opacity:1;stroke:#c94f23;stroke-width:0.529167;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
          d="M 13.229075,85.818027 65.558769,48.43427"
          id="path12"
-         sodipodi:nodetypes="cc" /><circle
-         style="display:inline;fill:#ffef4b;fill-opacity:0.570544;stroke:#c9b423;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.513814"
-         id="circle4"
-         cx="59.605644"
-         cy="46.05302"
-         r="16.404182" /></g></g></svg>
+         sodipodi:nodetypes="cc" /></g></g></svg>

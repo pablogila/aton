@@ -783,7 +783,7 @@ def scf_from_relax(
     # Create the scf.in from the previous relax.in
     scf_in = os.path.join(folder_path, 'scf.in')
     comment = f'! Automatic SCF input made with aton.interface.qe {__version__}. https://github.com/pablogila/ThotPy'
-    file.from_template(relax_in, scf_in, None, comment)
+    edit.from_template(relax_in, scf_in, None, comment)
     scf_in = file.get(folder_path, scf_in)
     # Replace CELL_PARAMETERS, ATOMIC_POSITIONS, ATOMIC_SPECIES, alat, ibrav and calculation
     atomic_species = data['ATOMIC_SPECIES']

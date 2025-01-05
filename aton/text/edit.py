@@ -10,6 +10,7 @@ Functions to manipulate the content of text files.
 - `replace_between()`
 - `delete_under()`
 - `correct_with_dict()`
+- `from_template()`
 
 ---
 '''
@@ -287,5 +288,24 @@ def correct_with_dict(
         f.seek(0)
         f.write(content)
         f.truncate()
+    return None
+
+
+def from_template(
+        old:str,
+        new:str,
+        correct:dict=None,
+        comment:str=None,
+    ) -> None:
+    '''
+    Copies an `old` text file to a `new` file,
+    correcting the output file with a `correct` dictionary.
+    Additionally, it can add a `comment` at the beginning of the new file.
+    '''
+    file.copy(old, new)
+    if comment:
+        insert_at(new, comment, 0)
+    if correct:
+        correct_with_dict(new, correct)
     return None
 

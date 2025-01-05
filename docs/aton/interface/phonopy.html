@@ -92,7 +92,7 @@
     </ul>
 
 
-            <footer>Aton v0.0.1a2 documentation</footer>
+            <footer>Aton v0.0.1a3 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -244,7 +244,7 @@ along with <a href="https://www.quantum-espresso.org/">Quantum ESPRESSO</a>.</p>
 </span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>            <span class="n">key_input</span><span class="p">:</span> <span class="n">supercell</span><span class="p">,</span>
 </span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>            <span class="n">key_output</span><span class="p">:</span> <span class="n">supercell_out</span>
 </span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>        <span class="p">}</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="n">file</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="n">slurm_id</span><span class="p">,</span> <span class="n">fixing_dict</span><span class="p">)</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="n">edit</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="n">slurm_id</span><span class="p">,</span> <span class="n">fixing_dict</span><span class="p">)</span>
 </span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>        <span class="k">if</span> <span class="n">testing</span><span class="p">:</span>
 </span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>            <span class="n">call</span><span class="o">.</span><span class="n">bash</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;echo </span><span class="si">{</span><span class="n">slurm_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">folder</span><span class="p">)</span>
 </span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>        <span class="k">else</span><span class="p">:</span>
@@ -513,7 +513,7 @@ Finally, it checks the <code>slurm_template</code> with <code><a href="#check_sl
 </span><span id="sbatch-108"><a href="#sbatch-108"><span class="linenos">108</span></a>            <span class="n">key_input</span><span class="p">:</span> <span class="n">supercell</span><span class="p">,</span>
 </span><span id="sbatch-109"><a href="#sbatch-109"><span class="linenos">109</span></a>            <span class="n">key_output</span><span class="p">:</span> <span class="n">supercell_out</span>
 </span><span id="sbatch-110"><a href="#sbatch-110"><span class="linenos">110</span></a>        <span class="p">}</span>
-</span><span id="sbatch-111"><a href="#sbatch-111"><span class="linenos">111</span></a>        <span class="n">file</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="n">slurm_id</span><span class="p">,</span> <span class="n">fixing_dict</span><span class="p">)</span>
+</span><span id="sbatch-111"><a href="#sbatch-111"><span class="linenos">111</span></a>        <span class="n">edit</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="n">slurm_id</span><span class="p">,</span> <span class="n">fixing_dict</span><span class="p">)</span>
 </span><span id="sbatch-112"><a href="#sbatch-112"><span class="linenos">112</span></a>        <span class="k">if</span> <span class="n">testing</span><span class="p">:</span>
 </span><span id="sbatch-113"><a href="#sbatch-113"><span class="linenos">113</span></a>            <span class="n">call</span><span class="o">.</span><span class="n">bash</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;echo </span><span class="si">{</span><span class="n">slurm_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">folder</span><span class="p">)</span>
 </span><span id="sbatch-114"><a href="#sbatch-114"><span class="linenos">114</span></a>        <span class="k">else</span><span class="p">:</span>

@@ -1,10 +1,13 @@
 <p align="center"><img width="50.0%" src="aton.svg"></p>
 
-Welcome to the **A**b-ini**T**i**O** and **N**eutron research toolbox, or [Aton](https://en.wikipedia.org/wiki/Aten). Just as the ancient Egyptian deity, this all-in-one Python package provides powerful and comprehensive tools for cutting-edge materials research.  
+Welcome to the **A**b-ini**T**i**O** and **N**eutron research toolbox, or [Aton](https://en.wikipedia.org/wiki/Aten).
+Just like its ancient Egyptian deity counterpart, this is an all-in-one Python package with powerful and comprehensive tools for cutting-edge materials research.  
 
-Aton allows you to easily create, edit and analyse all kinds of text files, with a special focus on *ab-initio* calculations. In particular, it contains interfaces for [Quantum ESPRESSO](https://www.quantum-espresso.org/), [Phonopy](https://phonopy.github.io/phonopy/) and [CASTEP](https://castep-docs.github.io/castep-docs/).  
+Aton allows you to easily create, edit and analyse all kinds of text files, with a special focus on *ab-initio* calculations.
+In particular, it contains interfaces for [Quantum ESPRESSO](https://www.quantum-espresso.org/), [Phonopy](https://phonopy.github.io/phonopy/) and [CASTEP](https://castep-docs.github.io/castep-docs/).  
 
-This is combined with a range of spectral analysis tools to analyse your experimental campaigns, from inelastic neutron scattering to FTIR spectroscopy.  
+This is combined with a range of spectral analysis tools, focused on (but not limited to) neutron science.
+A set of physico-chemical constants and definitions is also included.
 
 Check the [full documentation online](https://pablogila.github.io/Aton/).  
 
@@ -40,35 +43,43 @@ pip install .
 
 
 # Documentation
+
 Check the [full Aton documentation online](https://pablogila.github.io/Aton/).  
 An offline version of the documentation is available in `docs/aton.html`.  
 Code examples are included in the `examples/` folder.  
 
 ## Submodules
+
 Aton contains the following modules:  
+
 - [text](https://pablogila.github.io/Aton/aton/text.html). See [General text edition](#general-text-edition).
 - [interface](https://pablogila.github.io/Aton/aton/interface.html). See [Interfaces for ab-initio codes](#interfaces-for-ab-initio-codes).  
 - [spectra](https://pablogila.github.io/Aton/aton/spectra.html). See [Spectral analysis tools](#spectral-analysis-tools).
 - [units](https://pablogila.github.io/Aton/aton/units.html). Physical constants and conversion factors.
-- [atoms](https://pablogila.github.io/Aton/aton/atoms.html). Megadictionary with data of all chemical elements.  
+- [atoms](https://pablogila.github.io/Aton/aton/atoms.html). Megadictionary with data for all chemical elements.  
 - [elements](https://pablogila.github.io/Aton/aton/elements.html). Sort and analyse element data, and manage the atoms dictionary.  
 - [file](https://pablogila.github.io/Aton/aton/file.html). Manipulate files.  
 - [call](https://pablogila.github.io/Aton/aton/call.html). Run bash scripts and related.  
 - [alias](https://pablogila.github.io/Aton/aton/alias.html). Useful dictionaries for user input correction.  
 
 ## General text edition
+
 The [text](https://pablogila.github.io/Aton/aton/text.html) module includes the following general text-related submodules:
-- [find](https://pablogila.github.io/Aton/aton/text/find.html). Search for specific content in a text file.  
-- [edit](https://pablogila.github.io/Aton/aton/text/edit.html). Manipulate text files.  
-- [extract](https://pablogila.github.io/Aton/aton/text/extract.html). Extract data from raw text strings.  
+
+- [text.find](https://pablogila.github.io/Aton/aton/text/find.html). Search for specific content in a text file.  
+- [text.edit](https://pablogila.github.io/Aton/aton/text/edit.html). Manipulate text files.  
+- [text.extract](https://pablogila.github.io/Aton/aton/text/extract.html). Extract data from raw text strings.  
 
 ## Interfaces for ab-initio codes
+
 The [interface](https://pablogila.github.io/Aton/aton/interface.html) module contains interfaces for several *ab-initio* codes. These are powered by the [text](https://pablogila.github.io/Aton/aton/text.html) module and can be easily extended. The following interfaces are included:  
-- [qe](https://pablogila.github.io/Aton/aton/interface/qe.html). Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/) calculations.
-- [phonopy](https://pablogila.github.io/Aton/aton/interface/phonopy.html). Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations.
-- [castep](https://pablogila.github.io/Aton/aton/interface/castep.html) Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations.
+
+- [interface.qe](https://pablogila.github.io/Aton/aton/interface/qe.html). Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/) calculations.
+- [interface.phonopy](https://pablogila.github.io/Aton/aton/interface/phonopy.html). Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations.
+- [interface.castep](https://pablogila.github.io/Aton/aton/interface/castep.html) Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations.
 
 ## Spectral analysis tools
+
 The [spectra](https://pablogila.github.io/Aton/aton/spectra.html) module IS YET TO BE IMPLEMENTED.
 - Things...
 

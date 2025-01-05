@@ -107,7 +107,7 @@ def sbatch(
             key_input: supercell,
             key_output: supercell_out
         }
-        file.from_template(slurm_file, slurm_id, fixing_dict)
+        edit.from_template(slurm_file, slurm_id, fixing_dict)
         if testing:
             call.bash(f"echo {slurm_id}", folder)
         else:

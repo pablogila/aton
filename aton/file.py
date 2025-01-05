@@ -8,7 +8,6 @@ Functions to move files around.
 - `copy()`
 - `move()`
 - `remove()`
-- `from_template()`
 - `rename_on_folder()`
 - `rename_on_folders()`
 - `copy_to_folders()`
@@ -127,34 +126,6 @@ def remove(filepath:str) -> None:
         shutil.rmtree(filepath)
     else:
         return None  # It did not exist in the first place
-    return None
-
-
-def from_template(
-        old:str,
-        new:str,
-        correct:dict=None,
-        comment:str=None,
-    ) -> None:
-    '''
-    Copies an `old` text file to a `new` file,
-    correcting the output file with a `correct` dictionary.
-    Additionally, it can add a `comment` at the beginning of the new file.
-    '''
-    copy(old, new)
-    if comment:
-        with open(new, 'r+') as f:
-            content = f.read()
-            f.seek(0)
-            f.write(comment + '\n' + content)
-    if correct:
-        with open(new, 'r+') as f:
-            content = f.read()
-            for key, value in correct.items():
-                content = content.replace(key, value)
-            f.seek(0)
-            f.write(content)
-            f.truncate()
     return None
 
 
