@@ -11,6 +11,7 @@ A set of physico-chemical constants and definitions is also included.
 
 Check the [full documentation online](https://pablogila.github.io/Aton/).  
 
+---
 
 # Installation
 
@@ -41,6 +42,7 @@ Then clone the repository or download the [latest stable release](https://github
 pip install .
 ```
 
+---
 
 # Documentation
 
@@ -83,6 +85,7 @@ The [interface](https://pablogila.github.io/Aton/aton/interface.html) module con
 The [spectra](https://pablogila.github.io/Aton/aton/spectra.html) module IS YET TO BE IMPLEMENTED.
 - Things...
 
+---
 
 # Contributing
 
@@ -117,6 +120,7 @@ The documentation can be compiled automatically to `docs/aton.html` with [pdoc](
 python3 makedocs.py
 ```
 
+---
 
 # License
 
