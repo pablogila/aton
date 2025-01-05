@@ -14,7 +14,8 @@ Functions to extract data from raw text strings.
 
 
 import re
-import maatpy as mt
+import aton.elements
+import aton.atoms
 
 
 def number(
@@ -106,10 +107,10 @@ def coords(text:str) -> list:
 
 
 def element(text:str, index:int=0) -> str:
-    '''
-    Extract a chemical element from a raw `text` string.
+    '''Extract a chemical element from a raw `text` string.
+
     If there are several elements, you can return a specific `index` match (positive, 0 by default).
-    Allows for standard elements (H, He, Na...) and isotopes (H2, He4...) using MaatPy.
+    Allows for standard elements (H, He, Na...) and isotopes (H2, He4...).
     '''
     if text is None:
         return None
@@ -124,9 +125,9 @@ def element(text:str, index:int=0) -> str:
     elements = []
     for possible_element in matches:
         possible_element = possible_element.strip()
-        if not possible_element in mt.atom.keys():
+        if not possible_element in aton.atoms.keys():
             try:
-                element, isotope = mt.atoms.split_isotope(possible_element)
+                element, isotope = aton.elements.split_isotope(possible_element)
             except:  # It is not a valid atom
                 continue
         elements.append(possible_element)

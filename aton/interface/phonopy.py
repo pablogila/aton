@@ -19,13 +19,13 @@ The following functions are available for whoever seeks more control:
 
 import os
 import re
-from .core import *
-from . import file
-from . import find
-from . import text
-from . import call
-from . import extract
-from . import qe
+from aton._version import __version__
+import aton.file as file
+import aton.text.find as find
+import aton.text.edit as edit # text
+import aton.call as call
+import aton.text.extract as extract
+import aton.interface.qe as qe
 
 
 def make(
@@ -42,7 +42,7 @@ def make(
     It runs sequentially `thotpy.qe.scf_from_relax()`, `supercells_from_scf()` and `scf_header_to_supercells()`.
     Finally, it checks the `slurm_template` with `check_slurm_template()`.
     '''
-    print(f'\nWelcome to thotpy.phonopy {version}\n'
+    print(f'\nWelcome to thotpy.phonopy {__version__}\n'
           'Creating all supercell inputs with Phonopy for Quantum ESPRESSO...\n')
     qe.scf_from_relax(folder, relax_in, relax_out)
     supercells_from_scf(dimension, folder)
@@ -76,7 +76,7 @@ def sbatch(
     mpirun pw.x -inp INPUT_FILE > OUTPUT_FILE
     ```
     '''
-    print(f'\nthotpy.phonopy {version}\n'
+    print(f'\naton.interface.phonopy {__version__}\n'
           'Sbatching all supercells...\n')
     key_input = 'INPUT_FILE'
     key_output = 'OUTPUT_FILE'
@@ -125,7 +125,7 @@ def supercells_from_scf(
     Creates supercells of a given `dimension` (`2 2 2` by default) inside a `folder`,
     from a Quantum ESPRESSO `scf` input (`scf.in` by default).
     '''
-    print(f'\nthotpy.phonopy {version}\n')
+    print(f'\naton.interface.phonopy {__version__}\n')
     folder = call.here(folder)
     scf_in = file.get(folder, scf, True)
     if scf_in is None:
@@ -141,7 +141,7 @@ def scf_header_to_supercells(
     '''
     Paste the header from the `scf` file in `folder` to the supercells created by Phonopy.
     '''
-    print(f'\nthotpy.phonopy {version}\n'
+    print(f'\naton.interface.phonopy {__version__}\n'
           f'Adding headers to Phonopy supercells for Quantum ESPRESSO...\n')
     folder = call.here(folder)
     # Check if the header file, the scf.in, exists
@@ -165,7 +165,7 @@ def scf_header_to_supercells(
     temp_scf = '_scf_temp.in'
     file.copy(scf_file, temp_scf)
     # Remove the top content from the temp file
-    text.delete_under(temp_scf, 'K_POINTS', -1, 2, False)
+    edit.delete_under(temp_scf, 'K_POINTS', -1, 2, False)
     # Find the new number of atoms and replace the line
     updated_values = find.lines(supercell_sample, 'ibrav', 1)  # !    ibrav = 0, nat = 384, ntyp = 5
     if not updated_values:
@@ -184,13 +184,13 @@ def scf_header_to_supercells(
     qe.set_value(temp_scf, 'cosAB', '')
     qe.set_value(temp_scf, 'cosAC', '')
     qe.set_value(temp_scf, 'cosBC', '')
-    #text.replace_line(temp_scf, r'celldm\(\d\)\s*=', '', 0, 0, 0, True)
-    #text.replace_line(temp_scf, r'[ABC]\s*=', '', 0, 0, 0, True)
+    #edit.replace_line(temp_scf, r'celldm\(\d\)\s*=', '', 0, 0, 0, True)
+    #edit.replace_line(temp_scf, r'[ABC]\s*=', '', 0, 0, 0, True)
     # Add the header to the supercells
     with open(temp_scf, 'r') as f:
         header = f.read()
     for supercell in supercells:
-        text.insert_at(supercell, header, 0)
+        edit.insert_at(supercell, header, 0)
     # Remove the temp file
     os.remove('_scf_temp.in')
     print('Done!')
@@ -210,7 +210,7 @@ def check_slurm_template(
     slurm_example = 'scf_EXAMPLE.slurm'
     new_slurm_file = os.path.join(folder, slurm_example)
     # Default slurm template
-    content =f'''# Automatic slurm template created with thotpy.phonopy {version}. https://github.com/pablogila/ThotPy
+    content =f'''# Automatic slurm template created with aton.interface.phonopy {__version__}. https://github.com/pablogila/ThotPy
 #!/bin/bash
 #SBATCH --partition=general
 #SBATCH --qos=regular

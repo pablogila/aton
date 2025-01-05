@@ -22,7 +22,7 @@ Functions to find the position in the file of specific text strings:
 
 import mmap
 import re
-from .file import *
+import aton.file as file
 
 
 def lines(
@@ -52,7 +52,7 @@ def lines(
     To use regular expressions in the search, set `regex=True`.
     By default regex search is deactivated, using the faster mmap.find and rfind methods instead.
     '''
-    file_path = get(filepath)
+    file_path = file.get(filepath)
     matches_found = []
     if regex:
         positions = pos_regex(file_path, key, matches)
@@ -110,7 +110,7 @@ def between(
     set `match` (int) to specify a particular match (1, 2... 0 is considered as 1!).
     Use negative numbers to start from the end of the file.
     '''
-    file_path = get(filepath)
+    file_path = file.get(filepath)
     start, end = between_pos(file_path, key1, key2, include_keys, match, regex)
     with open(file_path, 'r+b') as f:
         mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
@@ -133,7 +133,7 @@ def pos(
     positions = []
     mm = filepath
     if not isinstance(filepath, mmap.mmap):
-        file_path = get(filepath)
+        file_path = file.get(filepath)
         with open(file_path, 'r+b') as f:
             mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
     keyword_bytes = key.encode()
@@ -171,7 +171,7 @@ def pos_regex(
     or to negative integers to start searching from the end of the file upwards.\n
     This method is slower than `pos()`, but it can search for regular expressions.
     '''
-    file_path = get(filepath)
+    file_path = file.get(filepath)
     positions = []
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -211,7 +211,7 @@ def next_pos(
     '''
     mm = filepath
     if not isinstance(filepath, mmap.mmap):
-        file_path = get(filepath)
+        file_path = file.get(filepath)
         with open(file_path, 'r+b') as f:
             mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
     start, end = position
@@ -253,7 +253,7 @@ def next_pos_regex(
     This method is specific for regular expressions.\n
     For normal strings, check the faster `next_pos()` method.
     '''
-    file_path = get(filepath)
+    file_path = file.get(filepath)
     start, end = position
     with open(file_path, 'r') as f:
         content = f.read()
@@ -298,7 +298,7 @@ def line_pos(
     '''
     mm = filepath
     if not isinstance(filepath, mmap.mmap):
-        file_path = get(filepath)
+        file_path = file.get(filepath)
         with open(file_path, 'r+b') as f:
             mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
     if position == (-1, -1):  # No match
@@ -352,7 +352,7 @@ def between_pos(
     set `match` number to specify a particular match (1, 2... 0 is considered as 1!).
     Use negative numbers to start from the end of the file.
     '''
-    file_path = get(filepath)
+    file_path = file.get(filepath)
     if match == 0:
         match = 1
     if regex:

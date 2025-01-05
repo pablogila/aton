@@ -16,8 +16,8 @@ Functions to manipulate the content of text files.
 
 
 import mmap
-from .file import *
-from .find import *
+import aton.file as file
+from . import find
 
 
 def insert_at(
@@ -29,7 +29,7 @@ def insert_at(
     Inserts a `text` in the line with `position` index of a given `filepath`.
     If `position` is negative, starts from the end of the file.
     '''
-    file_path = get(filepath)
+    file_path = file.get(filepath)
     with open(file_path, 'r+') as f:
         lines = f.read().splitlines()
         if position < 0:
@@ -62,18 +62,18 @@ def insert_under(
     changing the value `skips`. Negative integers introduce the text in the previous lines.
     Regular expressions can be used by setting `regex=True`. 
     '''
-    file_path = get(filepath)
+    file_path = file.get(filepath)
     if regex:
-        positions = pos_regex(file_path, key, insertions)
+        positions = find.pos_regex(file_path, key, insertions)
     else:
-        positions = pos(file_path, key, insertions)
+        positions = find.pos(file_path, key, insertions)
     positions.reverse()  # Must start replacing from the end, otherwise the atual positions may change!
     # Open the file in read-write mode
     with open(file_path, 'r+b') as f:
         with mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_WRITE) as mm:
             # Get the places to insert the text
             for position in positions:
-                start, end = line_pos(mm, position, skips)
+                start, end = find.line_pos(mm, position, skips)
                 inserted_text = '\n' + text # Ensure we end in a different line
                 if end == 0: # If on the first line
                     inserted_text = text + '\n'
@@ -105,11 +105,11 @@ def replace(
     line... key ...line -> line... text ...line
     ```
     '''
-    file_path = get(filepath)
+    file_path = file.get(filepath)
     if regex:
-        positions = pos_regex(file_path, key, replacements)
+        positions = find.pos_regex(file_path, key, replacements)
     else:
-        positions = pos(file_path, key, replacements)
+        positions = find.pos(file_path, key, replacements)
     positions.reverse()  # Must start replacing from the end, otherwise the atual positions may change!
     with open(file_path, 'r+') as f:
         content = f.read()
@@ -145,18 +145,18 @@ def replace_line(
     More lines can be replaced with `additional` lines (int).
     Note that the matched line plus the additional lines will be replaced, this is, additional lines +1.
     '''
-    file_path = get(filepath)
+    file_path = file.get(filepath)
     if regex:
-        positions = pos_regex(file_path, key, replacements)
+        positions = find.pos_regex(file_path, key, replacements)
     else:
-        positions = pos(file_path, key, replacements)
+        positions = find.pos(file_path, key, replacements)
     positions.reverse()  # Must start replacing from the end, otherwise the atual positions may change!
     # Open the file in read-write mode
     with open(file_path, 'r+b') as f:
         with mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_WRITE) as mm:
             for position in positions:
                 # Get the positions of the full line containing the match
-                line_start, line_end = line_pos(mm, position, skips)
+                line_start, line_end = find.line_pos(mm, position, skips)
                 # Additional lines
                 if additional > 0:
                     for _ in range(abs(additional)):
@@ -212,11 +212,11 @@ def replace_between(
     lines...
     ```
     '''
-    file_path = get(filepath)
+    file_path = file.get(filepath)
     index = 1
     if from_end:
         index = -1
-    start, end = between_pos(file_path, key1, key2, delete_keys, index, regex)
+    start, end = find.between_pos(file_path, key1, key2, delete_keys, index, regex)
     with open(file_path, 'r+b') as f:
         with mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_WRITE) as mm:
             # Replace the line
@@ -254,13 +254,13 @@ def delete_under(
     changing the value `skips`, that skips the specified number of lines.
     Negative integers start deleting the content from the previous lines.
     '''
-    file_path = get(filepath)
+    file_path = file.get(filepath)
     if matches == 0:
         matches = 1
     if regex:
-        positions = pos_regex(file_path, key, matches)
+        positions = find.pos_regex(file_path, key, matches)
     else:
-        positions = pos(file_path, key, matches)
+        positions = find.pos(file_path, key, matches)
     if matches > 0:  # We only want one match, and should be the last if matches > 0
         positions.reverse()
     position = positions[0]
@@ -268,7 +268,7 @@ def delete_under(
     with open(file_path, 'r+b') as f:
         with mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_WRITE) as mm:
             # Get the places to insert the text
-            start, end = line_pos(mm, position, skips)
+            start, end = find.line_pos(mm, position, skips)
             mm.resize(len(mm) - len(mm[end:]))
             mm[end:] = b''
     return None
@@ -276,15 +276,13 @@ def delete_under(
 
 def correct_with_dict(
         filepath:str,
-        replaces:dict
+        correct:dict
     ) -> None:
-    '''
-    Corrects the given text file `filepath` using a `replaces` dictionary.
-    '''
-    file_path = get(filepath)
+    '''Corrects the given text file `filepath` using a `correct` dictionary.'''
+    file_path = file.get(filepath)
     with open(file_path, 'r+') as f:
         content = f.read()
-        for key, value in replaces.items():
+        for key, value in correct.items():
             content = content.replace(key, value)
         f.seek(0)
         f.write(content)

@@ -9,9 +9,9 @@ Functions to work with [CASTEP](https://castep-docs.github.io/castep-docs/) calc
 '''
 
 
-from . import file
-from . import find
-from . import extract
+import aton.file as file
+import aton.text.find as find
+import aton.text.extract as extract
 
 
 def read_castep(filename) -> dict:

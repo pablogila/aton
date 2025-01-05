@@ -15,7 +15,7 @@ import subprocess
 import datetime
 import sys
 import os
-from .core import *
+from ._version import __version__ as version
 
 
 def bash(

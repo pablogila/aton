@@ -1,9 +1,15 @@
 '''
-.. include:: ../README.md
+.. include:: ../_README_temp.md
 '''
 
+
+from ._version import __version__ as version
+from . import alias
 from . import units
-
-
-__version__ = '0.0.1a1'
+from . import elements
+from .atoms import atoms
+from . import call
+from . import file
+from . import text
+from . import interface
 

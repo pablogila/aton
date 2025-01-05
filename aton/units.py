@@ -19,6 +19,9 @@ recommended 2022 values of the Fundamental Physical Constants.
 ## Energy conversion factors
 Note that `cm` refers to cm$^{-1}$.
 '''
+
+import numpy as np
+
 eV_to_meV   = 1000.0
 meV_to_eV   = 0.001
 meV_to_cm   = 8.0655

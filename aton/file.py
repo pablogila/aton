@@ -133,13 +133,13 @@ def remove(filepath:str) -> None:
 def from_template(
         old:str,
         new:str,
-        replaces:dict=None,
+        correct:dict=None,
         comment:str=None,
     ) -> None:
     '''
-    Similar to `copy_file()`, copies an `old` file to a `new` file,
-    but optionally corrects the output file with a `replaces` dictionary.
-    Additio, it can add a `comment` at the beginning of the new file.
+    Copies an `old` file to a `new` file,
+    correcting the output file with a `correct` dictionary.
+    Additionally, it can add a `comment` at the beginning of the new file.
     '''
     copy(old, new)
     if comment:
@@ -147,10 +147,10 @@ def from_template(
             content = f.read()
             f.seek(0)
             f.write(comment + '\n' + content)
-    if replaces:
+    if correct:
         with open(new, 'r+') as f:
             content = f.read()
-            for key, value in replaces.items():
+            for key, value in correct.items():
                 content = content.replace(key, value)
             f.seek(0)
             f.write(content)

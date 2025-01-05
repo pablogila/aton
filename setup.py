@@ -1,28 +1,22 @@
-from setuptools import find_packages, setup
-import re
+from setuptools import setup
 
 DESCRIPTION = "Aton is an all-in-one Python package that provides powerful and comprehensive tools for cutting-edge materials research."
 
-with open('aton/__init__.py', 'r') as f:
-    content = f.read()
-    version_match = re.search(r"__version__\s*=\s*'([^']+)'", content)
-    if not version_match:
-        raise RuntimeError("Unable to find version.")
-    VERSION = version_match.group(1)
+exec(open('aton/_version.py').read())
 
 with open('README.md', 'r') as f:
     LONG_DESCRIPTION = f.read()
 
 setup(
     name='aton', 
-    version=VERSION,
+    version=__version__,
     author='Pablo Gila-Herranz',
     author_email='pgila001@ikasle.ehu.eus',
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     long_description_content_type='text/markdown',
     packages=['aton'],
-    install_requires=['pandas'],
+    install_requires=['numpy', 'pandas'],
     extras_requires={
         'dev': ['pytest', 'twine']
         },
