@@ -21,7 +21,7 @@ fix_dict ={
     '[phonopy](https://pablogila.github.io/Aton/aton/interface/phonopy.html)'   : '`aton.interface.phonopy`',
     '[castep](https://pablogila.github.io/Aton/aton/interface/castep.html)'     : '`aton.interface.castep`',
     'Check the [full documentation online](https://pablogila.github.io/Aton/).' : '',
-    '<p align="center"><img width="50.0%" src="aton.jpg"></p>'                  : ''
+    '<p align="center"><img width="50.0%" src="aton.svg"></p>'                  : ''
 }
 
 print(f'Updating docs to {__version__}...')
