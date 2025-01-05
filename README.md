@@ -1,4 +1,4 @@
-<p align="center"><img width="50.0%" src="aton.svg"></p>
+<p align="center"><img width="50.0%" src="pics/aton.png"></p>
 
 Welcome to the **A**b-ini**T**i**O** and **N**eutron research toolbox, or [Aton](https://en.wikipedia.org/wiki/Aten).
 Just like its ancient Egyptian deity counterpart, this is an all-in-one Python package with powerful and comprehensive tools for cutting-edge materials research.  
