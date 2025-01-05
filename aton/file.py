@@ -137,7 +137,7 @@ def from_template(
         comment:str=None,
     ) -> None:
     '''
-    Copies an `old` file to a `new` file,
+    Copies an `old` text file to a `new` file,
     correcting the output file with a `correct` dictionary.
     Additionally, it can add a `comment` at the beginning of the new file.
     '''
