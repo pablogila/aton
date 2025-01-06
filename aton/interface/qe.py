@@ -1,9 +1,10 @@
-'''
+"""
 # Description
 Functions to work with [Quantum ESPRESSO](https://www.quantum-espresso.org/) calculation files.
 
 # Index
-- `pw_description`
+- `pw_namelists`
+- `pw_cards`
 - `read_in()`
 - `read_out()`
 - `read_dir()`
@@ -16,7 +17,7 @@ Functions to work with [Quantum ESPRESSO](https://www.quantum-espresso.org/) cal
 - `scf_from_relax()`
 
 ---
-'''
+"""
 
 
 import pandas as pd
@@ -25,10 +26,11 @@ from aton._version import __version__
 import aton.file as file
 import aton.text.find as find
 import aton.text.edit as edit
+from aton.text import extract
 import aton.atoms
 
 
-pw_description = {
+pw_namelists = {
     '&CONTROL' : ['calculation', 'title', 'verbosity', 'restart_mode', 'wf_collect', 'nstep', 'iprint', 'tstress', 'tprnfor', 'dt', 'outdir', 'wfcdir', 'prefix', 'lkpoint_dir', 'max_seconds', 'etot_conv_thr', 'forc_conv_thr', 'disk_io', 'pseudo_dir', 'tefield', 'dipfield', 'lelfield', 'nberrycyc', 'lorbm', 'lberry', 'gdir', 'nppstr', 'gate', 'twochem', 'lfcp', 'trism'],
     #
     '&SYSTEM' : ['ibrav', 'celldm(1)', 'celldm(2)', 'celldm(3)', 'celldm(4)', 'celldm(5)', 'celldm(6)', 'A', 'B', 'C', 'cosAB', 'cosAC', 'cosBC', 'nat', 'ntyp', 'nbnd', 'nbnd_cond', 'tot_charge', 'starting_charge', 'tot_magnetization', 'starting_magnetization', 'ecutwfc', 'ecutrho', 'ecutfock', 'nr1', 'nr2', 'nr3', 'nr1s', 'nr2s', 'nr3s', 'nosym', 'nosym_evc', 'noinv', 'no_t_rev', 'force_symmorphic', 'use_all_frac', 'occupations', 'one_atom_occupations', 'starting_spin_angle', 'degauss_cond', 'nelec_cond', 'degauss', 'smearing', 'nspin', 'sic_gamma', 'pol_type', 'sic_energy', 'sci_vb', 'sci_cb', 'noncolin', 'ecfixed', 'qcutz', 'q2sigma', 'input_dft', 'ace', 'exx_fraction', 'screening_parameter', 'exxdiv_treatment', 'x_gamma_extrapolation', 'ecutvcut' 'nqx1', 'nqx2', 'nqx3', 'localization_thr', 'Hubbard_occ', 'Hubbard_alpha', 'Hubbard_beta', 'starting_ns_eigenvalue', 'dmft', 'dmft_prefix', 'ensemble_energies', 'edir', 'emaxpos', 'eopreg', 'eamp', 'angle1', 'angle2', 'lforcet', 'constrained_magnetization', 'fixed_magnetization', 'lambda', 'report', 'lspinorb', 'assume_isolated', 'esm_bc', 'esm_w', 'esm_efield', 'esm_nfit', 'lgcscf', 'gcscf_mu', 'gcscf_conv_thr', 'gcscf_beta', 'vdw_corr', 'london', 'london_s6', 'london_c6', 'london_rvdw', 'london_rcut', 'dftd3_version', 'dftd3_threebody', 'ts_vdw_econv_thr', 'ts_vdw_isolated', 'xdm', 'xdm_a1', 'xdm_a2', 'space_group', 'uniqueb', 'origin_choice', 'rhombohedral', 'zgate', 'relaxz', 'block', 'block_1', 'block_2', 'block_height', 'nextffield'],
@@ -42,7 +44,11 @@ pw_description = {
     '&FCP' : ['fcp_mu', 'fcp_dynamics', 'fcp_conv_thr', 'fcp_ndiis', 'fcp_mass','fcp_velocity', 'fcp_temperature', 'fcp_tempw', 'fcp_tolp ', 'fcp_delta_t', 'fcp_nraise', 'freeze_all_atoms'],
     #
     '&RISM' : ['nsolv', 'closure', 'tempv', 'ecutsolv', 'solute_lj', 'solute_epsilon', 'solute_sigma', 'starting1d', 'starting3d', 'smear1d', 'smear3d', 'rism1d_maxstep', 'rism3d_maxstep', 'rism1d_conv_thr', 'rism3d_conv_thr', 'mdiis1d_size', 'mdiis3d_size', 'mdiis1d_step', 'mdiis3d_step', 'rism1d_bond_width', 'rism1d_dielectric', 'rism1d_molesize', 'rism1d_nproc', 'rism3d_conv_level', 'rism3d_planar_average', 'laue_nfit', 'laue_expand_right', 'laue_expand_left', 'laue_starting_right', 'laue_starting_left', 'laue_buffer_right', 'laue_buffer_left', 'laue_both_hands', 'laue_wall', 'laue_wall_z', 'laue_wall_rho', 'laue_wall_epsilon', 'laue_wall_sigma', 'laue_wall_lj6'],
-    #
+}
+"""Dictionary with all possible NAMELIST as keys, and the corresponding variables as values."""
+
+
+pw_cards = {
     'ATOMIC_SPECIES' : ['X', 'Mass_X', 'PseudoPot_X'],
     #
     'ATOMIC_POSITIONS' : ['X', 'x', 'y', 'z', 'if_pos(1)', 'if_pos(2)', 'if_pos(3)'],
@@ -65,9 +71,7 @@ pw_description = {
     #
     'HUBBARD' : ['label(1)-manifold(1)', 'u_val(1)', 'label(1)-manifold(1)', 'j0_val(1)', 'paramType(1)', 'label(1)-manifold(1)', 'paramValue(1)', 'label(I)-manifold(I)', 'u_val(I)', 'label(I)-manifold(I)', 'j0_val(I)', 'label(I)-manifold(I)', 'label(J)-manifold(J)', 'I', 'J', 'v_val(I,J)'],
 }
-'''
-Dictionary with every possible namelist as keys, and the corresponding variables as values.
-'''
+"""Dictionary with every possible CARD as keys, and the corresponding variables as values."""
 
 
 def read_in(filepath) -> dict:
@@ -79,6 +83,7 @@ def read_in(filepath) -> dict:
     must_be_int = ['max_seconds', 'nstep', 'ibrav', 'nat', 'ntyp', 'dftd3_version', 'electron_maxstep']
     file_path = file.get(filepath)
     data = {}
+    # First get the values from the namelists
     lines = find.lines(file_path, '=')
     for line in lines:
         line.strip()
@@ -98,49 +103,28 @@ def read_in(filepath) -> dict:
         except ValueError:
             pass # Then it is a string
         data[var] = value
-    # K_POINTS
-    k_points = find.lines(file_path, r'(?!\s*!)(k_points|K_POINTS)', -1, 1, True, True)
-    if k_points:
-        k_points = k_points[1].strip()
-        data['K_POINTS'] = k_points
-    # ATOMIC_SPECIES
-    key_species = r'(?!\s*!)(ATOMIC_SPECIES|atomic_species)'
-    atomic_species = None
-    if data['ntyp']:
-        ntyp = data['ntyp']
-        atomic_species_raw = find.lines(file_path, key_species, -1, int(ntyp+1), True, True)
-        atomic_species = normalize_atomic_species(atomic_species_raw)
-        if atomic_species:  # Just a check for clueless people
-            if len(atomic_species) != ntyp:
-                print(f'WARNING: ntyp={ntyp}, len(ATOMIC_SCPECIES)={len(atomic_species)}')
-    else: # We assume species go before
-        key_species_end = r"(?!\s*!)(ATOMIC_POSITIONS|atomic_positions|CELL_PARAMETERS|cell_parameters)" 
-        atomic_species = find.between(file_path, key_species, key_species_end, False, 1, True)
-        atomic_species = normalize_atomic_species(atomic_species_raw)
-    if atomic_species:
-        data['ATOMIC_SPECIES'] = atomic_species
-    # CELL_PARAMETERS. Let's take some extra lines just in case there were empty or commented lines in between.
-    cell_parameters_raw = find.lines(file_path, r'(?!\s*!)(cell_parameters|CELL_PARAMETERS)', -1, 4, True, True)
-    if cell_parameters_raw:
-        cell_parameters = normalize_cell_parameters(cell_parameters_raw)
-        if cell_parameters:
-            # extract a possible alat from CELL_PARAMETERS
-            alat = extract.number(cell_parameters[0])
-            if alat:  # This overwrites any possible celldm(1) previously defined!
-                data['celldm(1)'] = alat
-            cell_parameters[0] = 'CELL_PARAMETERS alat'
-            data['CELL_PARAMETERS'] = cell_parameters
-    # ATOMIC_POSITIONS. We assume nat is correct.
-    if data['nat']:
-        nat = data['nat']
-        atomic_positions_raw = find.lines(file_path, r'(?!\s*!)(atomic_positions|ATOMIC_POSITIONS)', -1, int(nat+1), True, True)
-        if atomic_positions_raw:
-            atomic_positions = normalize_atomic_positions(atomic_positions_raw)
-            if len(atomic_positions) != (nat + 1):
-                print("WARNING:  len(nat) != len (ATOMIC_POSITIONS)")
-            data['ATOMIC_POSITIONS'] = atomic_positions
-    else:
-        print("WARNING: 'nat' is missing, so no ATOMIC_POSITIONS were obtained!")
+    # Try to find all the cards. Card titles will be saved in the 0 position of each result.
+    upper_cards = pw_cards.keys()
+    all_cards = []
+    for upper_card in upper_cards:
+        all_cards.append(upper_card.lower())
+    all_cards.extend(upper_cards)
+    all_cards_regex = '|'.join(lower_cards)     
+    all_cards_regex = rf'(?!\s*!s*)({all_cards_regex})'
+    for card in upper_cards:
+        card_lower = card.lower()
+        card_uncommented = rf'(?!\s*!s*)({card}|{card_lower})'
+        card_content = find.between(filepath=file_path, key1=card_uncommented, key2=all_cards_regex, include_keys=True, match=-1, regex=True)
+        if not card_content:
+            continue
+        card_content = normalize_card(card_content)
+        data[card] = card_content
+    # If there are CELL_PARAMETERS, check if we can extract the alat to celldm(1).
+    if 'CELL_PARAMETERS' in data.keys():
+        alat = extract.number(data['CELL_PARAMETERS'][0])
+        if alat:  # This overwrites any possible celldm(1) previously defined!
+            data['celldm(1)'] = alat
+        data['CELL_PARAMETERS'][0] = 'CELL_PARAMETERS alat'
     return data
 
 
@@ -467,17 +451,32 @@ def _add_value(
         key:str,
         value
     ) -> None:
-    '''
-    Adds an input `value` for a `key_uncommented` that was not present before in the `filepath`.
-    Note that namelists must be in capital letters in yor file. Namelists must be introduced by hand.
-    '''
+    """Adds an input `value` for a `key_uncommented` that was not present before in the `filepath`.
+    
+    Note that namelists must be in capital letters in yor file.
+    """
     if value == '':  # We are trying to delete a value that is not present!
         return None
     file_path = file.get(filepath)
     old_values = read_in(file_path)
+    if key in pw_namelists.keys():
+        _add_to_namelist(filepath, key, value)       ################## TODO this function
+    elif key in pw_cards.keys():
+        _add_card(filepath, key, value)
+    return None
+
+##########################################################  TODO check
+def _add_card(
+        filepath,
+        key:str,
+        value,
+    ) -> None:
+    """Adds the `key` CARD with a given `value` to the `filepath`."""
+    file_path = file.get(filepath)
+    old_values = read_in(file_path)
     # K_POINTS ?
     if key == 'K_POINTS':
-        k_points = f'K_POINTS\n{value}'
+        k_points = f'K_POINTS\n{value}'     ########  I WANT TO SAVE ALL CARD TITLES
         edit.insert_at(file_path, k_points, -1)
         return None
     # ATOMIC_SPECIES ?
@@ -536,26 +535,26 @@ def _add_value(
     return None
 
 
-def _add_section(
+def _add_namelist(
         filepath,
-        section:str
+        namelist:str
     ) -> None:
-    '''
-    Adds a `section` namelist to the `filepath`.
-    The section must be in CAPITAL LETTERS, as in `&CONTROL`.
-    '''
+    """Adds a `namelist` namelist to the `filepath`.
+
+    The namelist must be in CAPITAL LETTERS, as in `&CONTROL`.
+    """
     file_path = file.get(filepath)
-    namelists = pw_description.keys()
-    if not section in namelists:
-        raise ValueError(f'{section} is not a valid namelist!')
+    namelists = pw_namelists.keys()
+    if not namelist in namelists:
+        raise ValueError(f'{namelist} is not a valid namelist!')
     namelists_reversed = namelists.reverse()
     next_namelist = None
-    for namelist in namelists_reversed:
-        if namelist == section:
+    for section in namelists_reversed:
+        if section == namelist:
             break
-        next_namelist = namelist
+        next_namelist = section
     next_namelist_uncommented = rf'(?!\s*!){next_namelist}'
-    edit.insert_under(file_path, next_namelist_uncommented, f'{section}\n/', 1, -1, True)
+    edit.insert_under(file_path, next_namelist_uncommented, f'{namelist}\n/', 1, -1, True)
     return None
 
 
@@ -609,85 +608,62 @@ def add_atom(filepath, position) -> None:
     return None
 
 
-def normalize_cell_parameters(params) -> list:
-    '''
-    Takes a `params` string or a list of strings with the cell parameters
-    and possibly some additional rogue lines, and returns a list os size 4,
-    with the "CELL_PARAMETERS {alat|bohr|angstrom}" on list[0],
-    followed by the three coordinates.
-    '''
-    if params == None:
-        return None
-    if isinstance(params, str):  # Convert to a list
-        params = params.splitlines()
-    if not isinstance(params, list):
-        raise ValueError(f'The provided cell parameters must be a list or a string! Yours was:\n{params}')
-    # Clean it
-    cell_key = 'cell_parameters'
-    stop_keys = ['atomic_species','atomic_positions']
-    header = ''
-    cell_parameters = []
-    for line in params:
+def normalize_card(card:list) -> list:
+    """Take a matched card, and return it in a normalised format."""
+    upper_cards = pw_cards.keys()
+    all_cards = []
+    for upper_card in upper_cards:
+        all_cards.append(upper_card.lower())
+    all_cards.extend(upper_cards)
+    cleaned_content = card[0].strip()
+    for line in card[1:]:
         line = line.strip()
-        if line == '' or line.startswith('!'):
+        if line = '' or line.startswith('!') or line.startswith('#'):
             continue
-        if any(key in line.lower() for key in stop_keys):
+        elif any(key in line for key in all_cards):
             break
-        if cell_key in line.lower():
-            header = line
-            continue
+        items = line.split()
+        cleaned_line = '  '  # Two spaces at the start of the line
+        for item in items:
+            item = item.strip()
+            cleaned_line = cleaned_line + '   ' + item  # Three spaces between elements
+        cleaned_content.append(cleaned_line)
+    # CELL_PARAMETERS
+    if any(key in cleaned_content[0] for key in ['cell_parameters', 'CELL_PARAMETERS']):
+        cleaned_content = _normalize_cell_parameters(cleaned_content)
+    # ATOMIC_POSITIONS
+    elif any(key in cleaned_content[0] for key in ['atomic_positions', 'ATOMIC_POSITIONS']):
+        cleaned_content = _normalize_atomic_positions(cleaned_content)
+    # ATOMIC_SPECIES
+    elif any(key in cleaned_content[0] for key in ['atomic_species', 'ATOMIC_SPECIES']):
+        cleaned_content = _normalize_atomic_species(cleaned_content)
+    return cleaned_content
+
+
+
+def _normalize_cell_parameters(card) -> list:
+    """Performs extra formatting to a previously cleaned CELL_PARAMETERS `card`."""
+    if card == None:
+        return None
+    cell_parameters = card[0]
+    for line in card[1:]:
         coords = extract.coords(line)
         if len(coords) < 3:
             raise ValueError(f'Each CELL_PARAMETER must have three coordinates! Yours was:\n{params}\nDetected coordinates were:\n{coords}')
-        if len(coords) > 3:
+        if len(coords) > 3:  # This should never happen but who knows...
             coords = coords[:3]
         new_line = f"  {coords[0]:.15f}   {coords[1]:.15f}   {coords[2]:.15f}"
         cell_parameters.append(new_line)
-    # Check the header
-    if 'bohr' in header.lower():
-        header = 'CELL_PARAMETERS bohr'
-    elif 'angstrom' in header.lower():
-        header = 'CELL_PARAMETERS angstrom'
-    elif 'alat' in header.lower():
-        alat = extract.number(header, 'alat')
-        header = 'CELL_PARAMETERS alat'
-        if alat:
-            header = f'CELL_PARAMETERS alat= {alat}'
-    elif not header:
-        header = 'CELL_PARAMETERS alat'
-    else:
-        raise ValueError(f'CELL_PARAMETERS must be in alat, bohr or angstrom! Yours was:\n{header}')
-    cell_parameters.insert(0, header)
     return cell_parameters
 
 
-def normalize_atomic_positions(positions) -> list:
-    '''
-    Takes a `positions` string or a list of strings with the atomic positions
-    and possibly some additional rogue lines, and returns a list with the atomic positions,
-    with the "ATOMIC_POSITIONS {alat|bohr|angstrom|crystal|crystal_sg}" on list[0],
-    followed by the coordinates.
-    '''
-    if positions == None:
+def _normalize_atomic_positions(card) -> list:
+    """Performs extra formatting to a previously cleaned ATOMIC_POSITIONS `card`."""
+    if card == None:
         return None
-    if isinstance(positions, str):  # Convert to a list
-        positions = positions.splitlines()
-    if not isinstance(positions, list):
-        raise ValueError(f'The provided atomic positions must be a list or a string! Yours was:\n{positions}')
-    # Clean it
-    pos_key = 'atomic_positions'
-    stop_keys = ['atomic_species','cell_parameters']
-    header = ''
-    atomic_positions = []
-    for line in positions:
+    atomic_positions = card[0]
+    for line in card[1:]:
         line = line.strip()
-        if line == '' or line.startswith('!'):
-            continue
-        if any(key in line.lower() for key in stop_keys):
-            break
-        if pos_key in line.lower():
-            header = line
-            continue
         atom = extract.element(line)
         if not atom:
             raise ValueError(f'Atoms must be defined as the atom (H, He, Na...) or the isotope (H2, He4...)! Yours was:\n{line}')
@@ -696,51 +672,20 @@ def normalize_atomic_positions(positions) -> list:
             raise ValueError(f'Each ATOMIC_POSITION must have at least three coordinates! Yours contained the line:\n{line}\nDetected coordinates were:\n{coords}')
         if len(coords) > 6:  # Including optional parameters
             coords = coords[:6]
-        new_line = f"  {atom}   {coords[0]:.15f}   {coords[1]:.15f}   {coords[2]:.15f}"
+        new_line = f"  {atom}"
+        for coord in coords:
+            new_line = f"{new_line}   {coord:.15f}"
         atomic_positions.append(new_line)
-    # Check the header
-    if 'bohr' in header.lower():
-        header = 'ATOMIC_POSITIONS bohr'
-    elif 'angstrom' in header.lower():
-        header = 'ATOMIC_POSITIONS angstrom'
-    elif 'alat' in header.lower():
-        header = 'ATOMIC_POSITIONS alat'
-    elif 'crystal_sg' in header.lower():
-        header = 'ATOMIC_POSITIONS crystal_sg'
-    elif 'crystal' in header.lower():
-        header = 'ATOMIC_POSITIONS crystal'
-    elif not header:
-        header = 'ATOMIC_POSITIONS crystal'
-    else:
-        raise ValueError(f'ATOMIC_POSITIONS must be in alat, bohr, angstrom, crystal or crystal_sg. Yours was:\n{header}')
-    atomic_positions.insert(0, header)
     return atomic_positions
 
 
-def normalize_atomic_species(species) -> list:
-    '''
-    Takes a `species` string or a list of strings with the atomic species
-    and possibly some additional rogue lines, and returns a list with the atomic species
-    (without the ATOMIC_SPECIES header!).
-    '''
-    if species == None:
+def _normalize_atomic_species(card) -> list:
+    """Performs extra formatting to a previously cleaned ATOMIC_SPECIES `card`."""
+    if card == None:
         return None
-    if isinstance(species, str):  # Convert to a list
-        species = species.splitlines()
-    if not isinstance(species, list):
-        raise ValueError(f'The provided atomic species must be a list or a string! Yours was:\n{species}')
-    # Clean it
-    stop_keys = ['atomic_positions','cell_parameters']
-    atomic_species = []
-    for line in species:
+    atomic_species = card[0]
+    for line in card[1:]:
         line = line.strip()
-        if line == '' or line.startswith('!'):
-            continue
-        if any(key in line.lower() for key in stop_keys):
-            break
-        if 'atomic_species' in line.lower():
-            continue
-        atom = None
         atom = extract.element(line)
         if not atom:
             raise ValueError(f'Atom must be specified at the beginning! Your line was:\n{line}')

@@ -8,22 +8,22 @@ with open('README.md', 'r') as f:
     LONG_DESCRIPTION = f.read()
 
 setup(
-    name='aton', 
-    version=__version__,
-    author='Pablo Gila-Herranz',
-    author_email='pgila001@ikasle.ehu.eus',
-    description=DESCRIPTION,
-    long_description=LONG_DESCRIPTION,
-    long_description_content_type='text/markdown',
-    packages=['aton'],
-    install_requires=['numpy', 'pandas'],
-    extras_requires={
-        'dev': ['pytest', 'twine']
-        },
-    python_requires='>=3',
-    license='AGPL-3.0',
-    keywords=['Aton', 'Neutron', 'Neutron research', 'Spectra', 'Inelastic Neutron Scattering', 'INS', 'Ab-initio', 'DFT', 'Density Functional Theory', 'MD', 'Molecular Dynamics', 'Quantum ESPRESSO', 'Phonopy', 'CASTEP'],
-    classifiers= [
+    name = 'aton', 
+    version = __version__,
+    author = 'Pablo Gila-Herranz',
+    author_email = 'pgila001@ikasle.ehu.eus',
+    description = DESCRIPTION,
+    long_description = LONG_DESCRIPTION,
+    long_description_content_type = 'text/markdown',
+    packages = ['aton'],
+    install_requires = ['numpy', 'pandas', 'scipy', 'matplotlib'],
+    extras_requires = {
+        'dev': ['pytest', 'twine', 'build']
+    },
+    python_requires = '>=3',
+    license = 'AGPL-3.0',
+    keywords = ['Aton', 'Neutron', 'Neutron research', 'Spectra', 'Inelastic Neutron Scattering', 'INS', 'Ab-initio', 'DFT', 'Density Functional Theory', 'MD', 'Molecular Dynamics', 'Quantum ESPRESSO', 'Phonopy', 'CASTEP'],
+    classifiers = [
         "Development Status :: 5 - Production/Stable",
         "Natural Language :: English",
         "Intended Audience :: Science/Research",
@@ -33,3 +33,4 @@ setup(
         "Operating System :: Other OS",
     ]
 )
+

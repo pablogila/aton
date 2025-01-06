@@ -1,8 +1,7 @@
-from thotpy import find
+from aton.text import find
 
 
 sample = 'tests/samples/sample.txt'
-'''For this path to be detected properly, the `pytest` must be executed from `ThotPy`!'''
 
 
 def test_lines():
