@@ -134,3 +134,9 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 See the attached GNU Affero General Public License for more details.  
 
+
+# To-DO
+
+- Check text.find, between must return the remaining lines if the second key was not found
+- Check qe
+

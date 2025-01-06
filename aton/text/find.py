@@ -100,7 +100,7 @@ def between(
         include_keys:bool=True,
         match:int=1,
         regex:bool=False
-    ) -> list:
+    ) -> str:
     '''
     Returns the content between the lines with `key1` and `key2` in the given `filepath`.
     Keywords can be at any position within the line.

@@ -1,20 +1,26 @@
 """
 # Description
-Functions to work with [Quantum ESPRESSO](https://www.quantum-espresso.org/) calculation files.
+
+Functions to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module from [Quantum ESPRESSO](https://www.quantum-espresso.org/).
 
 # Index
-- `pw_namelists`
-- `pw_cards`
+
+User functions:  
 - `read_in()`
 - `read_out()`
 - `read_dir()`
 - `read_dirs()`
 - `set_value()`
 - `add_atom()`
-- `normalize_cell_parameters()`
-- `normalize_atomic_positions()`
-- `normalize_atomic_species()`
+- `normalize_card()`
+- `count_elements()`
 - `scf_from_relax()`
+
+Useful lists and dictionaries:  
+- `pw_namelists`
+- `pw_cards`
+- `pw_int_values`,
+- `all_cards_regex`
 
 ---
 """
@@ -45,7 +51,7 @@ pw_namelists = {
     #
     '&RISM' : ['nsolv', 'closure', 'tempv', 'ecutsolv', 'solute_lj', 'solute_epsilon', 'solute_sigma', 'starting1d', 'starting3d', 'smear1d', 'smear3d', 'rism1d_maxstep', 'rism3d_maxstep', 'rism1d_conv_thr', 'rism3d_conv_thr', 'mdiis1d_size', 'mdiis3d_size', 'mdiis1d_step', 'mdiis3d_step', 'rism1d_bond_width', 'rism1d_dielectric', 'rism1d_molesize', 'rism1d_nproc', 'rism3d_conv_level', 'rism3d_planar_average', 'laue_nfit', 'laue_expand_right', 'laue_expand_left', 'laue_starting_right', 'laue_starting_left', 'laue_buffer_right', 'laue_buffer_left', 'laue_both_hands', 'laue_wall', 'laue_wall_z', 'laue_wall_rho', 'laue_wall_epsilon', 'laue_wall_sigma', 'laue_wall_lj6'],
 }
-"""Dictionary with all possible NAMELIST as keys, and the corresponding variables as values."""
+"""Dictionary with all possible NAMELISTs as keys, and the corresponding variables as values."""
 
 
 pw_cards = {
@@ -71,16 +77,30 @@ pw_cards = {
     #
     'HUBBARD' : ['label(1)-manifold(1)', 'u_val(1)', 'label(1)-manifold(1)', 'j0_val(1)', 'paramType(1)', 'label(1)-manifold(1)', 'paramValue(1)', 'label(I)-manifold(I)', 'u_val(I)', 'label(I)-manifold(I)', 'j0_val(I)', 'label(I)-manifold(I)', 'label(J)-manifold(J)', 'I', 'J', 'v_val(I,J)'],
 }
-"""Dictionary with every possible CARD as keys, and the corresponding variables as values."""
+"""Dictionary with every possible CARDs as keys, and the corresponding variables as values."""
+
+
+pw_int_values = ['max_seconds', 'nstep', 'ibrav', 'nat', 'ntyp', 'dftd3_version', 'electron_maxstep']
+"""Values from any namelist that must be integers"""
+
+
+_upper_cards = pw_cards.keys()
+_all_cards = []
+for _upper_card in _upper_cards:
+    _all_cards.append(_upper_card.lower())
+_all_cards.extend(_upper_cards)
+all_cards_regex = '|'.join(_all_cards)
+"""Regex string that matches all CARDS present in the file."""
+all_cards_regex = rf'(?!\s*!\s*)({all_cards_regex})'
 
 
 def read_in(filepath) -> dict:
+    '''Reads a Quantum ESPRESSO input `filepath` and returns the values as a dict.
+
+    Dict keys are named after the corresponding variable.
+    CARDS are returned as lists, and contain the
+    title card + parameters in the first item.
     '''
-    Reads an input `filepath` from Quantum ESPRESSO,
-    returning a dictionary with the input values used.
-    The keys are named after the name of the corresponding variable.
-    '''
-    must_be_int = ['max_seconds', 'nstep', 'ibrav', 'nat', 'ntyp', 'dftd3_version', 'electron_maxstep']
     file_path = file.get(filepath)
     data = {}
     # First get the values from the namelists
@@ -98,33 +118,29 @@ def read_in(filepath) -> dict:
             value_float = value_float.replace('E', 'e')
             value_float = float(value_float)
             value = value_float
-            if var in must_be_int: # Keep ints as int
+            if var in pw_int_values: # Keep ints as int
                 value = int(value)
         except ValueError:
             pass # Then it is a string
         data[var] = value
     # Try to find all the cards. Card titles will be saved in the 0 position of each result.
-    upper_cards = pw_cards.keys()
-    all_cards = []
-    for upper_card in upper_cards:
-        all_cards.append(upper_card.lower())
-    all_cards.extend(upper_cards)
-    all_cards_regex = '|'.join(lower_cards)     
-    all_cards_regex = rf'(?!\s*!s*)({all_cards_regex})'
-    for card in upper_cards:
+    for card in pw_cards.keys():
         card_lower = card.lower()
-        card_uncommented = rf'(?!\s*!s*)({card}|{card_lower})'
+        card_uncommented = rf'(?!\s*!\s*)({card}|{card_lower})'
         card_content = find.between(filepath=file_path, key1=card_uncommented, key2=all_cards_regex, include_keys=True, match=-1, regex=True)
         if not card_content:
             continue
+        # If found, clean and normalise the card's content
+        card_content = card_content.splitlines()
         card_content = normalize_card(card_content)
         data[card] = card_content
     # If there are CELL_PARAMETERS, check if we can extract the alat to celldm(1).
     if 'CELL_PARAMETERS' in data.keys():
-        alat = extract.number(data['CELL_PARAMETERS'][0])
-        if alat:  # This overwrites any possible celldm(1) previously defined!
-            data['celldm(1)'] = alat
-        data['CELL_PARAMETERS'][0] = 'CELL_PARAMETERS alat'
+        if 'alat' in data['CELL_PARAMETERS'][0]:
+            alat = extract.number(data['CELL_PARAMETERS'][0])
+            if alat:  # This overwrites any possible celldm(1) previously defined!
+                data['celldm(1)'] = alat
+                data['CELL_PARAMETERS'][0] = 'CELL_PARAMETERS alat'
     return data
 
 
@@ -223,8 +239,8 @@ def read_out(filepath) -> dict:
                 cell_parameters_raw.append(line)
             elif append_positions:
                 atomic_positions_raw.append(line)
-        cell_parameters = normalize_cell_parameters(cell_parameters_raw)
-        atomic_positions = normalize_atomic_positions(atomic_positions_raw)
+        cell_parameters = normalize_card(cell_parameters_raw)
+        atomic_positions = normalize_card(atomic_positions_raw)
         if cell_parameters:
             if 'alat' in cell_parameters[0]:
                 alat = extract.number(cell_parameters[0], 'alat')
@@ -352,246 +368,239 @@ def read_dirs(
 def set_value(
         filepath,
         key:str,
-        value
+        value,
     ) -> None:
-    '''
-    Replace the `value` of a `key` parameter in an input `filepath`.
-    If `value=''`, the parameter gets deleted.\n
+    """Replace the `value` of a `key` parameter in an input `filepath`.
+    
+    Delete parameters with `value=''`.
     Remember to include the single quotes `'` on values that use them.\n
     Updating 'ATOMIC_POSITIONS' updates 'nat' automatically,
     and updating 'ATOMIC_SPECIES' updates 'ntyp'.
-    '''
+    """
+    key = key.lower().strip()
+    file_path = file.get(filepath)
+    input_old = read_in(file_path)
+    # Lower all existing keys
+    present_keys_lower = []
+    for present_key in input_old.keys():
+        present_keys_lower.append(present_key.lower())
+    # All namelist values
+    pw_values = []
+    for namelist_values in pw_namelists.values():
+        pw_values.extend(namelist_values)
+    # All cards
+    pw_cards_lower = ['atomic_positions_out', 'cell_parameters_out']  # Don't forget about these!
+    for card in pw_cards.keys():
+        pw_cards_lower.append(card.lower())
+    # Check if it's a namelist
+    if key in pw_values:
+        if key in present_keys_lower:
+            _update_value(filepath, key, value)
+        else:  # Write the value from scratch
+            _add_value(filepath, key, value)
+    # Check if it's a card
+    elif key in pw_cards_lower:
+        value = normalize_card(value)
+        if key in present_keys_lower:
+            _update_card(filepath, key, value)
+        else:
+            _add_card(filepath, key, value)
+    else:
+        raise ValueError(f'Unrecognised key: {key}')
+    return None
+
+
+def _update_value(
+        filepath,
+        key:str,
+        value,
+        ) -> None:
+    """Update the `value` of an existing `key` from a namelist. Called by `set_value()`."""
+    key = key.lower().strip()
     key_uncommented = key
     key_uncommented = key_uncommented.replace('(', r'\(')
     key_uncommented = key_uncommented.replace(')', r'\)')
-    key_uncommented = rf'(?!\s*!){key_uncommented}'
-    file_path = file.get(filepath)
-    input_old = read_in(file_path)
-    # Do we have to include the value from scratch?
-    if not key in input_old.keys():
-        _add_value(file_path, key, value)
-        return None
-    # K_POINTS ?
-    if key == 'K_POINTS':
-        if value == '':  # Remove from the file
-            edit.replace_line(file_path, key_uncommented, '', -1, 0, 1, True)
-        else:
-            edit.replace_line(file_path, key_uncommented, value, -1, 1, 0, True)
-        return None
-    # ATOMIC_SPECIES ?
-    elif key == 'ATOMIC_SPECIES':
-        ntyp = input_old['ntyp']
-        atomic_species = normalize_atomic_species(value)
-        atomic_species_str = '\n'.join(atomic_species)
-        if value == '':  # Remove from the file
-            edit.replace_line(file_path, r'(?!\s*!)ATOMIC_SPECIES', '', -1, 0, int(ntyp), True)
-        else:
-            edit.replace_line(file_path, r'(?!\s*!)ATOMIC_SPECIES', atomic_species_str, -1, 1, int(ntyp-1), True)
-        new_ntyp = len(atomic_species)
-        if new_ntyp != ntyp:
-            edit.replace_line(file_path, r'(?!\s*!)ntyp\s*=', f'  ntyp = {new_ntyp}', 1, 0, 0, True)
-        return None
-    # CELL_PARAMETERS ?
-    elif key in ['CELL_PARAMETERS', 'CELL_PARAMETERS_out']:
-        cell_parameters = normalize_cell_parameters(value)
-        cell_parameters_str = '\n'.join(cell_parameters)
-        if value == '':  # Remove from the file
-            edit.replace_line(file_path, r'(?!\s*!)CELL_PARAMETERS', '', -1, 0, 3, True)
-        else:
-            edit.replace_line(file_path, r'(?!\s*!)CELL_PARAMETERS', cell_parameters_str, -1, 0, 3, True)
-            # Now, if there were units there, overwrite previous definitions
-            if 'angstrom' in cell_parameters[0] or 'bohr' in cell_parameters[0]:
-                edit.replace_line(file_path, r'(?!\s*!)celldm\(\d\)\s*=', '', 1, 0, 0, True)
-                edit.replace_line(file_path, r'(?!\s*!)[ABC]\s*=', '', 1, 0, 0, True)
-                edit.replace_line(file_path, r'(?!\s*!)cos[ABC]\s*=', '', 1, 0, 0, True)
-            elif 'alat' in cell_parameters[0]:
-                alat = extract.number(cell_parameters[0])
-                if alat:
-                    edit.replace_line(file_path, r'(?!\s*!)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
-                    edit.replace_line(file_path, r'(?!\s*!)celldm\(\d\)\s*=', '', 1, 0, 0, True)
-                    edit.insert_under(file_path, r'(?!\s*!)&SYSTEM', f'  celldm(1) = {alat}', 1, 0, True)
-        return None
-    # ATOMIC_POSITIONS ?
-    elif key in ['ATOMIC_POSITIONS', 'ATOMIC_POSITIONS_out']:    
-        nat = input_old['nat']
-        new_nat = None
-        atomic_positions = normalize_atomic_positions(value)
-        new_nat = len(atomic_positions) - 1
-        atomic_positions_str = '\n'.join(atomic_positions)
-        if value == '':  # Remove from the file
-            edit.replace_line(file_path, r'(?!\s*!)ATOMIC_POSITIONS', '', -1, 0, int(nat), True)
-        else:
-            edit.replace_line(file_path, r'(?!\s*!)ATOMIC_POSITIONS', atomic_positions_str, -1, 0, int(nat), True)
-        if new_nat != nat:
-            edit.replace_line(file_path, r'(?!\s*!)nat\s*=', f'  nat = {new_nat}', 1, 0, 0, True)
-        return None
-    # The value seems single-lined, do we want to delete it?
-    elif value == '':
-        edit.replace_line(file_path, key_uncommented, '', 1, 0, 0, True)
-        return None
-    # Update a single-line value
-    else:
-        must_be_int = ['max_seconds', 'nstep', 'ibrav', 'nat', 'ntyp', 'dftd3_version', 'electron_maxstep']
-        if key in must_be_int:
-            value = int(value)
-        edit.replace_line(file_path, key_uncommented, f"  {key} = {str(value)}", 1, 0, 0, True)
-        # If the key is a lattice parameter, remove previous lattice parameter definitions
-        if key in ['A', 'B', 'C', 'cosAB', 'cosAC', 'cosBC']:
-            edit.replace_line(file_path, r'(?!\s*!)celldm\(\d\)\s*=', '', 1, 0, 0, True)
-            edit.replace_line(file_path, r'(?!\s*!)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1)
-        elif 'celldm(' in key:
-            edit.replace_line(file_path, r'(?!\s*!)[ABC]\s*=', '', 1, 0, 0, True)
-            edit.replace_line(file_path, r'(?!\s*!)cos[ABC]\s*=', '', 1, 0, 0, True)
-            edit.replace_line(file_path, r'(?!\s*!)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1)
+    key_uncommented = rf'(?!\s*!\s*){key_uncommented}'
+    # Convert to int if necessary
+    if value in pw_int_values:
+        value = int(value)
+    line = f'  {key} = {value}'
+    edit.replace_line(filepath=filepath, key=key_uncommented, text=line, replacements=1, regex=True)
+    _update_other_values(filepath, key, str)
     return None
 
 
 def _add_value(
         filepath,
         key:str,
-        value
-    ) -> None:
-    """Adds an input `value` for a `key_uncommented` that was not present before in the `filepath`.
-    
-    Note that namelists must be in capital letters in yor file.
-    """
-    if value == '':  # We are trying to delete a value that is not present!
-        return None
-    file_path = file.get(filepath)
-    old_values = read_in(file_path)
-    if key in pw_namelists.keys():
-        _add_to_namelist(filepath, key, value)       ################## TODO this function
-    elif key in pw_cards.keys():
-        _add_card(filepath, key, value)
-    return None
-
-##########################################################  TODO check
-def _add_card(
-        filepath,
-        key:str,
         value,
     ) -> None:
-    """Adds the `key` CARD with a given `value` to the `filepath`."""
-    file_path = file.get(filepath)
-    old_values = read_in(file_path)
-    # K_POINTS ?
-    if key == 'K_POINTS':
-        k_points = f'K_POINTS\n{value}'     ########  I WANT TO SAVE ALL CARD TITLES
-        edit.insert_at(file_path, k_points, -1)
-        return None
-    # ATOMIC_SPECIES ?
-    elif key == 'ATOMIC_SPECIES':    
-        atomic_species = normalize_atomic_species(value)
-        new_ntyp = len(atomic_species)
-        atomic_species_str = '\n'.join(atomic_species)
-        atomic_species_str = 'ATOMIC_SPECIES\n' + atomic_species_str
-        edit.insert_at(file_path, atomic_species_str, -1)
-        if old_values['ntyp'] != new_ntyp:
-            edit.replace_line(file_path, r'(?!\s*!)ntyp\s*=', f'ntyp = {new_ntyp}', 1, 0, 0, True)
-        return None
-    # CELL_PARAMETERS ?
-    elif key in ['CELL_PARAMETERS', 'CELL_PARAMETERS_old']:
-        cell_parameters = normalize_cell_parameters(value)
-        cell_parameters_str = '\n'.join(cell_parameters)
-        edit.insert_at(file_path, cell_parameters_str, -1)
-        if 'angstrom' in cell_parameters[0] or 'bohr' in cell_parameters[0]:
-            edit.replace_line(file_path, r'(?!\s*!)celldm\(\d\)\s*=', '', 1, 0, 0, True)
-            edit.replace_line(file_path, r'(?!\s*!)[ABC]\s*=', '', 1, 0, 0, True)
-            edit.replace_line(file_path, r'(?!\s*!)cos[ABC]\s*=', '', 1, 0, 0, True)
-        elif 'alat' in cell_parameters[0]:
-            alat = extract.number(cell_parameters[0])
-            if alat:
-                edit.replace_line(file_path, r'(?!\s*!)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
-                edit.replace_line(file_path, r'(?!\s*!)celldm\(\d\)\s*=', f'celldm(1) = {alat}', 1, 0, 0, True)
-        return None
-    # ATOMIC_POSITIONS ?
-    elif key in ['ATOMIC_POSITIONS', 'ATOMIC_POSITIONS_old']:
-        atomic_positions = normalize_atomic_positions(value)
-        new_nat = len(atomic_positions) - 1
-        atomic_positions_str = '\n'.join(atomic_positions)
-        edit.insert_at(file_path, atomic_positions_str, -1)
-        if old_values['nat'] != new_nat:
-            edit.replace_line(file_path, r'(?!\s*!)nat\s*=', f'nat = {new_nat}', 1, 0, 0, True)
-        return None
-    # Try with regular parameters
-    done = False
-    for section in pw_description.keys():
-        if key in pw_description[section]:
-            is_section_on_file = find.lines(file_path, section)
-            if not is_section_on_file:
-                _add_section(file_path, section)
-            edit.insert_under(file_path, section, f'  {key} = {str(value)}', 1)
-            done = True
+    """Adds a `key` = `value` to a NAMELIST. Called by `set_value()`."""
+    # Which namelist?
+    key = key.lower().strip()
+    value = str(value).strip()
+    parent_namelist = None
+    for namelist in pw_namelists.keys():
+        if key in pw_namelists[namelist]:
+            parent_namelist = namelist
             break
-    if not done:
-        raise ValueError(f'Could not update the following variable: {key}. Are namelists in CAPITAL letters?')
-    if key in ['A', 'B', 'C', 'cosAB', 'cosAC', 'cosBC']:
-        edit.replace_line(file_path, r'(?!\s*!)celldm\(\d\)\s*=', '', 1, 0, 0, True)
-        edit.replace_line(file_path, r'(?!\s*!)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
-    elif 'celldm(' in key:
-        edit.replace_line(file_path, r'(?!\s*!)[ABC]\s*=', '', 1, 0, 0, True)
-        edit.replace_line(file_path, r'(?!\s*!)cos[ABC]\s*=', '', 1, 0, 0, True)
-        edit.replace_line(file_path, r'(?!\s*!)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
+    if not parent_namelist:
+        raise ValueError(f"Key is not valid, '{key}' is not from any NAMELIST!")
+    # Add the parent namelist if it does not exist, then add the value
+    _add_namelist(filepath, parent_namelist)
+    # Convert to int if necessary
+    if value in pw_int_values:
+        value = int(value)
+    line = f'  {key} = {value}'
+    edit.insert_under(filepath=filepath, key=rf'(?!\s*!\s*)({parent_namelist}|{parent_namelist.lower()})', insertions=1, text=line, regex=True)
+    # Update other values if necessary
+    _update_other_values(filepath, key, str)
     return None
 
 
 def _add_namelist(
         filepath,
-        namelist:str
+        namelist:str,
     ) -> None:
-    """Adds a `namelist` namelist to the `filepath`.
-
-    The namelist must be in CAPITAL LETTERS, as in `&CONTROL`.
-    """
-    file_path = file.get(filepath)
+    """Adds a `namelist` namelist to the `filepath` if not present. Called by `add_value()`."""
     namelists = pw_namelists.keys()
+    namelist = namelist.upper().strip()
     if not namelist in namelists:
-        raise ValueError(f'{namelist} is not a valid namelist!')
+        raise ValueError(f'{namelist} is not a valid namelist! Valid namelists are:\n{namelists}')
+    # Is the namelist already there?
+    is_present = find.lines(filepath=filepath, key=rf'(?!\s*!\s*)({namelist}|{namelist.lower()})', regex=True)
+    if is_present:
+        return None
+    # Find where to insert the namelist, from last to first.
+    # We might have to insert it on top of the first CARD found.
+    next_namelist =  all_cards_regex
     namelists_reversed = namelists.reverse()
-    next_namelist = None
     for section in namelists_reversed:
         if section == namelist:
             break
         next_namelist = section
-    next_namelist_uncommented = rf'(?!\s*!){next_namelist}'
-    edit.insert_under(file_path, next_namelist_uncommented, f'{namelist}\n/', 1, -1, True)
+    next_namelist = rf'(?!\s*!\s*)({next_namelist})'
+    # Insert the target namelist on top of it!
+    edit.insert_under(filepath, next_namelist, f'{namelist}\n/', 1, -1, True)
+    return None
+
+
+def _update_card(
+        filepath,
+        key:str,
+        value:list,
+    ) -> None:
+    """Updates the `value` of a `key` CARD, present in `filepath`. Called by `set_value()`."""
+    # Replace the CARD value up to the next CARD found
+    key = key.upper().strip()
+    key_uncommented = rf'(?!\s*!\s*)({key}|{key.lower()})'
+    lines = '\n'.join(value)
+    edit.replace_between(filepath=filepath, key1=key_uncommented, key2=all_cards_regex, text=lines, regex=True)
+    # We added the CARD below the previous CARD title, so we remove the previous CARD title
+    edit.replace_line(filepath, key_uncommented, '', 1, 0, 0, True)
+    # We might have to update other values, such as nat or ntyp
+    _update_other_values(filepath, key, value)
+    return None
+
+
+def _add_card(
+        filepath,
+        key:str,
+        value:list,
+    ) -> None:
+    """Adds a non-present `key` CARD with a given `value` to the `filepath`. Called by `set_value()`."""
+    edit.insert_at(filepath, value, -1)
+    _update_other_values(filepath, key, value)
+    return None
+
+
+def _update_other_values(
+        filepath,
+        key:str,
+        value,
+    ) -> None:
+    """Updates values that depend on the input value, eg. updates 'nat' when updating ATOMIC_POSITIONS."""
+    file_path = file.get(filepath)
+    old_values = read_in(file_path)
+    # Key in upper cases for CARD values
+    key = key.strip().upper()
+    # CELL_PARAMETERS ?
+    if key in ['CELL_PARAMETERS', 'CELL_PARAMETERS_OUT']:
+        if 'angstrom' in value[0] or 'bohr' in value[0]:
+            edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 1, 0, 0, True)
+            edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 1, 0, 0, True)
+            edit.replace_line(file_path, r'(?!\s*!\s*)cos[ABC]\s*=', '', 1, 0, 0, True)
+        elif 'alat' in value[0]:
+            alat = extract.number(value[0])
+            if alat:
+                edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
+                edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', f'celldm(1) = {alat}', 1, 0, 0, True)
+        return None
+    # ATOMIC_SPECIES ?
+    elif key == 'ATOMIC_SPECIES':
+        old_ntyp = old_values['ntyp']
+        elements_found = []
+        for line in value[1:]:
+            element = extract.element(line)
+            if element:
+                if not element in elements_found:
+                    elements_found.append(element)
+        new_ntyp = len(elements_found)
+        if old_ntyp != new_ntyp:
+            set_value(filepath, 'ntyp', new_ntyp)
+        return None
+    # ATOMIC_POSITIONS ?
+    elif key in ['ATOMIC_POSITIONS', 'ATOMIC_POSITIONS_OUT']:
+        new_nat = len(value) - 1
+        if old_values['nat'] != new_nat:
+            set_value(filepath, 'nat', new_nat)
+        return None
+    # Key in lower case for NAMELIST values
+    key = key.lower()
+    # Lattice params Angstroms?
+    if key in ['a', 'b', 'c', 'cosab', 'cosac', 'cosbc']:
+        edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 1, 0, 0, True)
+        edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
+        return None
+    # Lattice params Bohrs ?
+    elif 'celldm(' in key:
+        edit.replace_line(file_path, r'(?!\s*!\s*)[abc]\s*=', '', 1, 0, 0, True)
+        edit.replace_line(file_path, r'(?!\s*!\s*)cos[ab][bc]\s*=', '', 1, 0, 0, True)
+        edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
+        return None
     return None
 
 
 def add_atom(filepath, position) -> None:
-    '''
-    Adds an atom in a given `filepath` at a specified `position`.
+    """Adds an atom in a given `filepath` at a specified `position`.
+
     Position must be a string or a list, as follows:\n
     `"specie:str float float float"` or `[specie:str, float, float, float]`\n
     This method updates automatically 'ntyp' and 'nat'.
-    '''
+    """
+    new_atom = position
     if isinstance(position, list):
         if not len(position) == 4 or not isinstance(position[0], str):
             raise ValueError('If your atomic position is a list, it must contain the atom type and the three coords, as in [str, str/float, str/float, str/float]')
-        new_atom = position[0] + '   ' + str(position[1]) + '   ' + str(position[2]) + '   ' + str(position[3])
-    elif isinstance(position, str):
-        new_atom = position.strip()
-    else:
+        new_atom = '   '.join(position)
+    elif not isinstance(position, str):
         raise ValueError(f'The specified position must be a list of size 4 (atom type and three coordinates) or an equivalent string! Your position was:\n{coords}')
     # Let's check that our new_atom makes sense
     atom = extract.element(new_atom)
     coords = extract.coords(new_atom)
     if not atom:
-        raise ValueError(f'The specified position does not contain an atom at the beginning! Your position was:\n{coords}')
+        raise ValueError(f'The specified position does not contain an atom at the beginning! Your position was:\n{position}')
     if len(coords) < 3:
         raise ValueError(f'Your position has len(coordinates) < 3, please check it.\nYour position was: {position}\nCoordinates detected: {coords}')
     if len(coords) > 3:
         coords = coords[:3]
-    new_atom = atom + '   ' + str(coords[0]) + '   ' + str(coords[1]) + '   ' + str(coords[2])
+    new_atom = f'  {atom}   {coords[0]}   {coords[1]}   {coords[2]}'
     # Get the values from the file
     values = read_in(filepath)
-    nat = values['nat']
-    ntyp = values['ntyp']
     atomic_positions = values['ATOMIC_POSITIONS']
-    nat += 1
     atomic_positions.append(new_atom)
+    # Update ATOMIC_POSITIONS. nat should be updated automatically.
     set_value(filepath, 'ATOMIC_POSITIONS', atomic_positions)
-    set_value(filepath, 'nat', nat)
     # We might have to update ATOMIC_SPECIES!
     atomic_species = values['ATOMIC_SPECIES']
     is_atom_missing = True
@@ -599,28 +608,27 @@ def add_atom(filepath, position) -> None:
         if atom == extract.element(specie):
             is_atom_missing = False
             break
-    if is_atom_missing:
+    if is_atom_missing:  # Update ATOMIC_SPECIES. ntyp should be updated automatically.
         mass = aton.atoms[atom].mass
-        atomic_species.append(f'{atom}   {mass}   {atom}.upf')
-        ntyp += 1
+        atomic_species.append(f'  {atom}   {mass}   {atom}.upf')
         set_value(filepath=filepath, key='ATOMIC_SPECIES', value=atomic_species)
-        set_value(filepath=filepath, key='ntyp', value=ntyp)
     return None
 
 
 def normalize_card(card:list) -> list:
     """Take a matched card, and return it in a normalised format."""
-    upper_cards = pw_cards.keys()
-    all_cards = []
-    for upper_card in upper_cards:
-        all_cards.append(upper_card.lower())
-    all_cards.extend(upper_cards)
-    cleaned_content = card[0].strip()
+    # Make sure it is a list!
+    if isinstance(card, str):
+        card = card.split('\n')
+    if not isinstance(card, list):
+        raise ValueError(f"Card must be a string or a list of strings! Yours was:\n{card}")
+    # Keep the header
+    cleaned_content = [card[0].strip()]
     for line in card[1:]:
         line = line.strip()
-        if line = '' or line.startswith('!') or line.startswith('#'):
+        if line == '' or line.startswith('!') or line.startswith('#'):
             continue
-        elif any(key in line for key in all_cards):
+        elif any(key in line.upper() for key in pw_cards.keys()):
             break
         items = line.split()
         cleaned_line = '  '  # Two spaces at the start of the line
@@ -628,32 +636,42 @@ def normalize_card(card:list) -> list:
             item = item.strip()
             cleaned_line = cleaned_line + '   ' + item  # Three spaces between elements
         cleaned_content.append(cleaned_line)
-    # CELL_PARAMETERS
+    # Perform extra normalization for some CARDs
     if any(key in cleaned_content[0] for key in ['cell_parameters', 'CELL_PARAMETERS']):
         cleaned_content = _normalize_cell_parameters(cleaned_content)
-    # ATOMIC_POSITIONS
     elif any(key in cleaned_content[0] for key in ['atomic_positions', 'ATOMIC_POSITIONS']):
         cleaned_content = _normalize_atomic_positions(cleaned_content)
-    # ATOMIC_SPECIES
     elif any(key in cleaned_content[0] for key in ['atomic_species', 'ATOMIC_SPECIES']):
         cleaned_content = _normalize_atomic_species(cleaned_content)
     return cleaned_content
-
 
 
 def _normalize_cell_parameters(card) -> list:
     """Performs extra formatting to a previously cleaned CELL_PARAMETERS `card`."""
     if card == None:
         return None
-    cell_parameters = card[0]
+    cell_parameters = [card[0].strip()]
     for line in card[1:]:
         coords = extract.coords(line)
         if len(coords) < 3:
-            raise ValueError(f'Each CELL_PARAMETER must have three coordinates! Yours was:\n{params}\nDetected coordinates were:\n{coords}')
+            raise ValueError(f'Each CELL_PARAMETER must have three coordinates! Yours was:\n{card}\nDetected coordinates were:\n{coords}')
         if len(coords) > 3:  # This should never happen but who knows...
             coords = coords[:3]
         new_line = f"  {coords[0]:.15f}   {coords[1]:.15f}   {coords[2]:.15f}"
         cell_parameters.append(new_line)
+    # Normalise the header
+    if 'angstrom' in cell_parameters[0]:
+        cell_parameters[0] = 'CELL_PARAMETERS angstrom'
+    elif 'bohr' in cell_parameters[0]:
+        cell_parameters[0] = 'CELL_PARAMETERS bohr'
+    elif 'alat' in cell_parameters[0]:
+        alat = extract.number(cell_parameters[0], 'alat')
+        if alat:
+            cell_parameters[0] = f'CELL_PARAMETERS alat= {alat}'
+        else:
+            cell_parameters[0] = 'CELL_PARAMETERS alat'
+    else:
+        raise ValueError(f'CELL_PARAMETERS must contain angstrom, bohr or alat! Yours was:\n{cell_parameters}')
     return cell_parameters
 
 
@@ -661,7 +679,7 @@ def _normalize_atomic_positions(card) -> list:
     """Performs extra formatting to a previously cleaned ATOMIC_POSITIONS `card`."""
     if card == None:
         return None
-    atomic_positions = card[0]
+    atomic_positions = [card[0].strip()]
     for line in card[1:]:
         line = line.strip()
         atom = extract.element(line)
@@ -676,6 +694,18 @@ def _normalize_atomic_positions(card) -> list:
         for coord in coords:
             new_line = f"{new_line}   {coord:.15f}"
         atomic_positions.append(new_line)
+    if 'alat' in atomic_positions[0]:
+        atomic_positions[0] = 'ATOMIC_POSITIONS alat'
+    elif 'bohr' in atomic_positions[0]:
+        atomic_positions[0] = 'ATOMIC_POSITIONS bohr'
+    elif 'angstrom' in atomic_positions[0]:
+        atomic_positions[0] = 'ATOMIC_POSITIONS angstrom'
+    elif 'crystal' in atomic_positions[0]:
+        atomic_positions[0] = 'ATOMIC_POSITIONS crystal'
+    elif 'crystal_sg' in atomic_positions[0]:
+        atomic_positions[0] = 'ATOMIC_POSITIONS crystal_sg'
+    else:
+        raise ValueError(f"ATOMIC_POSITIONS[0] must contain alat, bohr, angstrom, crystal or crystal_sg. Yours was:\n{atomic_positions[0]}")
     return atomic_positions
 
 
@@ -683,7 +713,7 @@ def _normalize_atomic_species(card) -> list:
     """Performs extra formatting to a previously cleaned ATOMIC_SPECIES `card`."""
     if card == None:
         return None
-    atomic_species = card[0]
+    atomic_species = [card[0].strip()]
     for line in card[1:]:
         line = line.strip()
         atom = extract.element(line)
@@ -702,6 +732,24 @@ def _normalize_atomic_species(card) -> list:
         full_line = f"  {atom}   {mass}   {pseudopotential}"
         atomic_species.append(full_line)
     return atomic_species
+
+
+def count_elements(atomic_positions) -> dict:
+    """Takes ATOMIC_POSITIONS, returns a dict as `{element : number of atoms}`"""
+    if isinstance(atomic_positions, str):
+        atomic_positions.split()
+    if not isinstance(atomic_positions, list):
+        raise ValueError(f'To count the elements, atomic_positions must be a list or a str! Yours was:\n{atomic_positions}')
+    elements = {}
+    for line in atomic_positions:
+        element = extract.element(line)
+        if not element:
+            continue
+        if element in elements.keys():
+            elements[element] = elements[element] + 1
+        else:
+            elements[element] = 1
+    return elements
 
 
 def scf_from_relax(

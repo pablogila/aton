@@ -16,7 +16,30 @@ def test_lines():
     assert find.lines(filepath=sample, key='line', matches=-2, additional=1, split=True, regex=True) == ['line8', 'line9', 'line9']
 
 
+def test_lines_none():
+    assert find.lines(filepath=sample, key='nonexisting', matches=0, additional=0, split=False, regex=False) == []
+    assert find.lines(filepath=sample, key='nonexisting', matches=0, additional=0, split=False, regex=True) == []
+
+
 def test_between():
     assert find.between(filepath=sample, key1='5', key2='7', include_keys=False, match=1, regex=False) == 'line6'
     assert find.between(filepath=sample, key1='5', key2='7', include_keys=True, match=1, regex=False) == 'line5\nline6\nline7'
+    # Nonexisting keys, it should go all the way to the end
+    assert find.between(filepath=sample, key1='5', key2='nonexisting', include_keys=True, match=1, regex=False) == 'line5\nline6\nline7\nline8\nline9'
+    assert find.between(filepath=sample, key1='5', key2='nonexisting', include_keys=True, match=1, regex=True) == 'line5\nline6\nline7\nline8\nline9'
+    # From the end
+    assert find.between(filepath=sample, key1='5', key2='nonexisting', include_keys=True, match=-1, regex=False) == 'line5\nline6\nline7\nline8\nline9'
+    assert find.between(filepath=sample, key1='5', key2='nonexisting', include_keys=True, match=-1, regex=True) == 'line5\nline6\nline7\nline8\nline9'
+    # With repeated keys, it should go all the way to the end
+    assert find.between(filepath=sample, key1='line5', key2='line5', include_keys=True, match=1, regex=False) == 'line5\nline6\nline7\nline8\nline9'
+    assert find.between(filepath=sample, key1='line5', key2='line5', include_keys=True, match=1, regex=True) == 'line5\nline6\nline7\nline8\nline9'
+    assert find.between(filepath=sample, key1='line5', key2='line5', include_keys=True, match=-1, regex=False) == 'line5\nline6\nline7\nline8\nline9'
+    assert find.between(filepath=sample, key1='line5', key2='line5', include_keys=True, match=-1, regex=True) == 'line5\nline6\nline7\nline8\nline9'
+
+
+def test_between_none():
+    assert find.between(filepath=sample, key1='nonexisting', key2='7', include_keys=False, match=1, regex=False) == None
+    assert find.between(filepath=sample, key1='nonexisting', key2='nonexisting', include_keys=False, match=1, regex=False) == None
+    assert find.between(filepath=sample, key1='nonexisting', key2='7', include_keys=False, match=1, regex=True) == None
+    assert find.between(filepath=sample, key1='nonexisting', key2='nonexisting', include_keys=False, match=1, regex=True) == None
 

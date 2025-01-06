@@ -4,11 +4,12 @@ Functions to work with [Phonopy](https://phonopy.github.io/phonopy/) calculation
 along with [Quantum ESPRESSO](https://www.quantum-espresso.org/).
 
 # Index
+
 The two main functions that you might want to use to run phonon calculations are:  
 - `make()` Build the supercell inputs.
 - `sbatch()` Sbatch'es the supercell calculations.
 
-The following functions are available for whoever seeks more control:
+The following functions are available for more control:  
 - `supercells_from_scf()`
 - `scf_header_to_supercells()`
 - `check_slurm_template()`
@@ -184,8 +185,6 @@ def scf_header_to_supercells(
     qe.set_value(temp_scf, 'cosAB', '')
     qe.set_value(temp_scf, 'cosAC', '')
     qe.set_value(temp_scf, 'cosBC', '')
-    #edit.replace_line(temp_scf, r'celldm\(\d\)\s*=', '', 0, 0, 0, True)
-    #edit.replace_line(temp_scf, r'[ABC]\s*=', '', 0, 0, 0, True)
     # Add the header to the supercells
     with open(temp_scf, 'r') as f:
         header = f.read()
