@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 DESCRIPTION = "Aton is an all-in-one Python package that provides powerful and comprehensive tools for cutting-edge materials research."
 
@@ -15,7 +15,7 @@ setup(
     description = DESCRIPTION,
     long_description = LONG_DESCRIPTION,
     long_description_content_type = 'text/markdown',
-    packages = ['aton'],
+    packages = find_packages(),
     install_requires = ['numpy', 'pandas', 'scipy', 'matplotlib'],
     extras_requires = {
         'dev': ['pytest', 'twine', 'build']

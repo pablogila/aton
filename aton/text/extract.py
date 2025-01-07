@@ -14,8 +14,8 @@ Functions to extract data from raw text strings.
 
 
 import re
-import aton.elements
-import aton.atoms
+import aton.elements as elements
+import aton.atoms as atoms
 
 
 def number(
@@ -122,16 +122,16 @@ def element(text:str, index:int=0) -> str:
         if match:
             matches.append(str(match.group(1)))
     # We have a list with possible matches. Let's determine which are actual elements.
-    elements = []
+    found_elements = []
     for possible_element in matches:
         possible_element = possible_element.strip()
-        if not possible_element in aton.atoms.keys():
+        if not possible_element in atoms.keys():
             try:
-                element, isotope = aton.elements.split_isotope(possible_element)
+                element, isotope = elements.split_isotope(possible_element)
             except:  # It is not a valid atom
                 continue
-        elements.append(possible_element)
-    if len(elements) <= index:
-        return elements[-1]
-    return elements[index]
+        found_elements.append(possible_element)
+    if len(found_elements) <= index:
+        return found_elements[-1]
+    return found_elements[index]
 

@@ -30,10 +30,10 @@ import pandas as pd
 import os
 from aton._version import __version__
 import aton.file as file
+import aton.atoms
 import aton.text.find as find
 import aton.text.edit as edit
-from aton.text import extract
-import aton.atoms
+import aton.text.extract as extract
 
 
 def read_in(filepath) -> dict:
