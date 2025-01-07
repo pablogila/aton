@@ -92,12 +92,8 @@ def copy(
         old:str,
         new:str
     ) -> None:
-    '''
-    Copies the content of `old` file to `new` file with shutil,
-    after making sure that the file exists with `thotpy.file.get()`.
-    '''
-    original_file_path = get(old)
-    file = shutil.copy(original_file_path, new)
+    """Copies the content of `old` file to `new` file with shutil"""
+    file = shutil.copy(old, new)
     return None
 
 
@@ -105,11 +101,8 @@ def move(
         old:str,
         new:str
     ) -> None:
-    '''
-    Moves `old` file to `new` file.
-    '''
-    original_file_path = get(old)
-    file = shutil.move(original_file_path, new)
+    """Moves `old` file to `new` file."""
+    file = shutil.move(old, new)
     return None
 
 

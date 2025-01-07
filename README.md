@@ -1,4 +1,4 @@
-<p align="center"><img width="50.0%" src="pics/aton.png"></p>
+<p align="center"><img width="40.0%" src="pics/aton.png"></p>
 
 Welcome to the **A**b-ini**T**i**O** and **N**eutron research toolbox, or [Aton](https://en.wikipedia.org/wiki/Aten).
 Just like its ancient Egyptian deity counterpart, this all-in-one Python package provides powerful and comprehensive tools for cutting-edge materials research, focused on (but not limited to) neutron science.  
@@ -115,10 +115,12 @@ pytest -vv
 
 ## Compiling the documentation
 
-The documentation can be compiled automatically to `docs/aton.html` with [pdoc](https://pdoc.dev/) and Aton itself, by running:
+The documentation can be compiled automatically to `docs/aton.html` with [Pdoc](https://pdoc.dev/) and Aton itself, by running:
 ```shell
 python3 makedocs.py
 ```
+
+This runs Pdoc, updating links and pictures, and using the dark theme CSS template from the `css/` folder.
 
 ---
 
