@@ -1,7 +1,7 @@
 <p align="center"><img width="50.0%" src="pics/aton.png"></p>
 
 Welcome to the **A**b-ini**T**i**O** and **N**eutron research toolbox, or [Aton](https://en.wikipedia.org/wiki/Aten).
-Inspired by its ancient Egyptian deity counterpart, this all-in-one Python package provides powerful and comprehensive tools for cutting-edge materials research, focused on (but not limited to) neutron science.  
+Just like its ancient Egyptian deity counterpart, this all-in-one Python package provides powerful and comprehensive tools for cutting-edge materials research, focused on (but not limited to) neutron science.  
 
 Aton provides a range of spectral analysis tools, from spectra normalisation to deuteration estimation using the DINS impulse approximation.  
 A set of physico-chemical constants and definitions is also included.  
@@ -133,10 +133,4 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 See the attached GNU Affero General Public License for more details.  
-
-
-# To-DO
-
-- Check text.find, between must return the remaining lines if the second key was not found
-- Check qe
 

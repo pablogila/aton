@@ -1,13 +1,26 @@
 """
-# Description
+# *Ab-initio* interfaces
 
-This module contains interfaces for *ab-initio* and related calculation sofware.
+This module contains interfaces for several *ab-initio* calculation softwares.
 
-# Index
+These interfaces can be easily expanded with the `aton.text` module.
 
-- `aton.interface.qe`
-- `aton.interface.phonopy`
-- `aton.interface.castep`
+## Quantum ESPRESSO
+
+The interface `aton.interface.qe` can read and modify data
+from the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html)
+module of [Quantum ESPRESSO](https://www.quantum-espresso.org/).
+
+## Phonopy
+
+The submodule `aton.interface.phonopy` is used to simplify the
+calculation of phonon modes with [Phonopy](https://phonopy.github.io/phonopy/),
+using Quantum ESPRESSO as calculator.
+
+## CASTEP
+
+The submodule `aton.interface.castep` is used
+to read [CASTEP](http://www.castep.org/) output files.
 
 """
 

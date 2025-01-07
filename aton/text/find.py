@@ -33,25 +33,42 @@ def lines(
         split: bool=False,
         regex:bool=False
     ) -> list:
-    '''
-    Finds the line(s) containing the `key` string in the given `filepath`,
-    returning a list with the matches.\n
+    """Returns a list with the matches containing the `key` string in `filepath`.
+
+    If no match is found, returns an empty list.
+
+    To use regular expressions in the search, set `regex=True`
+    (deactivated by default).
+
     The value `matches` specifies the max number of matches to be returned.
     Defaults to 0 to return all possible matches. Set it to 1 to return only one match,
-    or to negative integers to start the search from the end of the file upwards.\n
+    or to negative integers to start the search from the end of the file upwards.
+
     The value `additional` specifies the number of additional lines
     below the target line that are also returned;
     2 to return the found line plus two additional lines below, etc.
     Negative values return the specified number of lines before the target line.
     The original ordering from the file is preserved.
     Defaults to `additional=0`, only returning the target line.
-    By default, the additional lines are returned in the same list item as the match separated by a `\\n`,
+    By default, the additional lines are returned
+    in the same list item as the match separated by a `\\n`,
     unless `split=True`, in which case these additional lines
     are splitted and added as additional items in the list.
-    This way, `split=False` allows to differentiate between matches.\n
-    To use regular expressions in the search, set `regex=True`.
-    By default regex search is deactivated, using the faster mmap.find and rfind methods instead.
-    '''
+    
+    Use example:
+    ```python
+    # with split = False
+    aton.text.find.lines(filepath=file, key='key', additional=1)
+    >>> ['line with key 1\\nline below first match',
+         'line with key 2\\nline below second match]
+    # with split = True
+    aton.text.find.lines(filepath=file, key='key', additional=1, split=True)
+    >>> ['line with key 1',
+         'line below first match',
+         'line with key 2',
+         'line below second match]
+    ```
+    """
     file_path = file.get(filepath)
     matches_found = []
     if regex:
@@ -101,17 +118,23 @@ def between(
         match:int=1,
         regex:bool=False
     ) -> str:
-    '''
-    Returns the content between the lines with `key1` and `key2` in the given `filepath`.
+    """Returns the content between the lines with `key1` and `key2` in `filepath`.
+
     Keywords can be at any position within the line.
-    Regular expressions can be used by setting `regex=True`.\n
-    Key lines are omited by default, but can be returned with `include_keys=True`.\n
+    Regular expressions can be used by setting `regex=True`.
+
+    Key lines are omited by default, but can be returned with `include_keys=True`.
+
     If there is more than one match, only the first one is considered by default;
     set `match` (int) to specify a particular match (1, 2... 0 is considered as 1!).
     Use negative numbers to start from the end of the file.
-    '''
+
+    If no match is found, returns an empty string.
+    """
     file_path = file.get(filepath)
     start, end = between_pos(file_path, key1, key2, include_keys, match, regex)
+    if (start, end) == (-1, -1):
+        return ''
     with open(file_path, 'r+b') as f:
         mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
     return (mm[start:end].decode())
@@ -122,14 +145,22 @@ def pos(
         key:str,
         matches:int=0
         ) -> list:
-    '''
-    Returns a list of the positions of a `key` in a given `filepath` (whether file or memory mapped file).\n
+    """Returns a list with the positions of the `key` in `filepath`.
+
+    If no match is found, returns an empty list.
+
+    The `filepath` can be a file or a memory mapped file.
+
     The value `matches` specifies the max number of matches to return.
-    Defaults to 0 to return all possible matches. Set it to 1 to return only one match,
+    Defaults to 0 to return all possible matches.
+    Set it to 1 to return only one match,
     2 to get the first two matches, etc.
-    You can also set it to negative integers to start searching from the end of the file upwards.\n
-    This method is faster than `pos_regex()`, but does not search for regular expressions.
-    '''
+    You can also set it to negative integers to start
+    searching from the end of the file upwards.
+
+    This method is faster than `pos_regex()`,
+    but does not search for regular expressions.
+    """
     positions = []
     mm = filepath
     if not isinstance(filepath, mmap.mmap):
@@ -234,9 +265,9 @@ def next_pos(
             end = start + len(keyword_bytes)
             positions.append((start, end))
     positions.reverse()
-    if len(positions) == 0:
+    if len(positions) == 0:               ###########  TODO  what should this return?? 
         positions.append((-1, -1))
-    return positions[0]
+    return positions[0]                     #####  should return empty if not found?
 
 
 def next_pos_regex(
@@ -269,12 +300,12 @@ def next_pos_regex(
             end = end + match_found.end()
             positions.append((start, end))
         positions.reverse()
-        if len(positions) == 0:
+        if len(positions) == 0:  ###########  when pos did not find, it was []  !! should be same here?
             positions.append((-1, -1))
         return positions[0]
     else:  # Reverse match
         all_matches = list(re.finditer(key, content))
-        if not all_matches:
+        if not all_matches:  ###########   when pos did not find, it was []  !! should be same here?
             return (-1, -1)
         if abs(match) > len(all_matches):
             match = -len(all_matches)
@@ -357,19 +388,23 @@ def between_pos(
         match = 1
     if regex:
         positions_1: list = pos_regex(file_path, key1, match)
+        if not positions_1:      #####  TESTING
+            return (-1, -1)
         if match > 0:
             positions_1.reverse()
         position_1 = positions_1[0]
-        if position_1 == (-1, -1):  # No match
-            return (-1, -1)
+#        if position_1 == (-1, -1):  # No match      #### pos and pos_regex return an empty list!
+#            return (-1, -1)
         position_2: tuple = next_pos_regex(file_path, position_1, key2, 1)
     else:
         positions_1: list = pos(file_path, key1, match)
+        if not positions_1:  ######  TESTING
+            return (-1, -1)
         if match > 0:
             positions_1.reverse()
         position_1 = positions_1[0]
-        if position_1 == (-1, -1):  # No match
-            return (-1, -1)
+#        if position_1 == (-1, -1):  # No match
+#            return (-1, -1)
         position_2: tuple = next_pos(file_path, position_1, key2, 1)
     skip_line_1 = 0
     skip_line_2 = 0
@@ -380,6 +415,7 @@ def between_pos(
         mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
     start, _ = line_pos(mm, position_1, skip_line_1)
     if position_2 != (-1, -1):
+#    if position_2:
         _, end = line_pos(mm, position_2, skip_line_2)
     else:
         end = len(mm)

@@ -68,7 +68,10 @@ def test_read():
             'C                0.0000000000        1.0000000000        0.0000000000',
             'N                0.0000000000        0.0000000000        1.0000000000'],
         # relax.in
-        'K_POINTS'             : '2 2 2 0 0 0',
+        'K_POINTS'             : [
+            'K_POINTS automatic',
+            '  2 2 2 0 0 0'],
+        'ecutwfc'              : 60.0,
         'etot_conv_thr'        : 1.0e-12,
         'max_seconds'          : 1000,
         'pseudo_dir'           : "'./pseudos/'",
@@ -131,6 +134,15 @@ def test_scf_from_relax():
         pass
 
 
+def test_update_other_values():
+    tempfile = folder + 'temp.in'
+    aton.file.copy(folder + 'relax.in', tempfile)
+    aton.interface.qe.set_value(tempfile, 'celldm(1)', 10.0)
+    modified = aton.interface.qe.read_in(tempfile)
+    assert 'A' not in modified.keys()
+    aton.file.remove(tempfile)
+
+
 def test_set_value():
     tempfile = folder + 'temp.in'
     aton.file.copy(folder + 'relax.in', tempfile)
@@ -139,16 +151,38 @@ def test_set_value():
     aton.interface.qe.set_value(tempfile, 'calculation', "'vc-relax'")
     aton.interface.qe.set_value(tempfile, 'celldm(1)', 10.0)
     modified = aton.interface.qe.read_in(tempfile)
+    # Check some unmodified values
+    assert modified['max_seconds'] == 1000
+    assert modified['input_dft'] == "'PBEsol'"
+    # Check the modified
+    assert 'A' not in modified.keys()
     assert modified['ecutwfc'] == 80.0
     assert modified['ibrav'] == 5
     assert modified['calculation'] == "'vc-relax'"
     assert modified['celldm(1)'] == 10.0
-    assert 'A' not in modified.keys()
     aton.interface.qe.set_value(tempfile, 'celldm(1)', '')
     modified = aton.interface.qe.read_in(tempfile)
     assert 'A' not in modified.keys()
     assert 'celldm(1)' not in modified.keys()
     aton.file.remove(tempfile)
+
+
+def test_count_elements():
+    atomic_positions = [
+        'ATOMIC_POSITIONS crystal',
+        'I   5.0000000000        0.0000000000        0.0000000000',
+        'C   0.0000000000        5.0000000000        0.0000000000',
+        'N   0.0000000000        0.0000000000        5.0000000000',
+        'Cl   0.0  0.0  0.0',
+        'Cl  1.0  1.0  1.0']
+    ideal = {'I': 1, 'C': 1, 'N': 1, 'Cl': 2}
+    obtained = aton.interface.qe.count_elements(atomic_positions)
+    for key in ideal.keys():
+        assert ideal[key] == obtained[key]
+    # Again, in case it does something weird
+    obtained = aton.interface.qe.count_elements(atomic_positions)
+    for key in ideal.keys():
+        assert ideal[key] == obtained[key]
 
 
 def test_add_atom():
@@ -172,7 +206,10 @@ def test_add_atom():
     atomic_positions = temp['ATOMIC_POSITIONS']
     assert nat == 5
     assert ntyp == 5
-    assert aton.interface.qe.count_elements == {'I':1, 'C':1, 'N':1, 'O':1, 'Cl':1}
+    number_of_elements = aton.interface.qe.count_elements(atomic_positions)
+    ideal_dict = {'I':1, 'C':1, 'N':1, 'O':1, 'Cl':1}
+    for key in ideal_dict.keys():
+        assert ideal_dict[key] == number_of_elements[key]
     # Assert we have the same ATOMIC_POSITIONS
     for i, ideal in enumerate(ideal_positions):
         ideal_str = ideal.split()

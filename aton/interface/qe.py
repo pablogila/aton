@@ -1,26 +1,26 @@
 """
 # Description
 
-Functions to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module from [Quantum ESPRESSO](https://www.quantum-espresso.org/).
+Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module from [Quantum ESPRESSO](https://www.quantum-espresso.org/).
 
 # Index
 
-User functions:  
+Functions to read inputs and outputs:  
 - `read_in()`
 - `read_out()`
 - `read_dir()`
 - `read_dirs()`
+
+Functions to manipulate and build custom input files:  
 - `set_value()`
 - `add_atom()`
 - `normalize_card()`
 - `count_elements()`
 - `scf_from_relax()`
 
-Useful lists and dictionaries:  
+Dictionaries with the input data description:  
 - `pw_namelists`
 - `pw_cards`
-- `pw_int_values`,
-- `all_cards_regex`
 
 ---
 """
@@ -36,71 +36,13 @@ from aton.text import extract
 import aton.atoms
 
 
-pw_namelists = {
-    '&CONTROL' : ['calculation', 'title', 'verbosity', 'restart_mode', 'wf_collect', 'nstep', 'iprint', 'tstress', 'tprnfor', 'dt', 'outdir', 'wfcdir', 'prefix', 'lkpoint_dir', 'max_seconds', 'etot_conv_thr', 'forc_conv_thr', 'disk_io', 'pseudo_dir', 'tefield', 'dipfield', 'lelfield', 'nberrycyc', 'lorbm', 'lberry', 'gdir', 'nppstr', 'gate', 'twochem', 'lfcp', 'trism'],
-    #
-    '&SYSTEM' : ['ibrav', 'celldm(1)', 'celldm(2)', 'celldm(3)', 'celldm(4)', 'celldm(5)', 'celldm(6)', 'A', 'B', 'C', 'cosAB', 'cosAC', 'cosBC', 'nat', 'ntyp', 'nbnd', 'nbnd_cond', 'tot_charge', 'starting_charge', 'tot_magnetization', 'starting_magnetization', 'ecutwfc', 'ecutrho', 'ecutfock', 'nr1', 'nr2', 'nr3', 'nr1s', 'nr2s', 'nr3s', 'nosym', 'nosym_evc', 'noinv', 'no_t_rev', 'force_symmorphic', 'use_all_frac', 'occupations', 'one_atom_occupations', 'starting_spin_angle', 'degauss_cond', 'nelec_cond', 'degauss', 'smearing', 'nspin', 'sic_gamma', 'pol_type', 'sic_energy', 'sci_vb', 'sci_cb', 'noncolin', 'ecfixed', 'qcutz', 'q2sigma', 'input_dft', 'ace', 'exx_fraction', 'screening_parameter', 'exxdiv_treatment', 'x_gamma_extrapolation', 'ecutvcut' 'nqx1', 'nqx2', 'nqx3', 'localization_thr', 'Hubbard_occ', 'Hubbard_alpha', 'Hubbard_beta', 'starting_ns_eigenvalue', 'dmft', 'dmft_prefix', 'ensemble_energies', 'edir', 'emaxpos', 'eopreg', 'eamp', 'angle1', 'angle2', 'lforcet', 'constrained_magnetization', 'fixed_magnetization', 'lambda', 'report', 'lspinorb', 'assume_isolated', 'esm_bc', 'esm_w', 'esm_efield', 'esm_nfit', 'lgcscf', 'gcscf_mu', 'gcscf_conv_thr', 'gcscf_beta', 'vdw_corr', 'london', 'london_s6', 'london_c6', 'london_rvdw', 'london_rcut', 'dftd3_version', 'dftd3_threebody', 'ts_vdw_econv_thr', 'ts_vdw_isolated', 'xdm', 'xdm_a1', 'xdm_a2', 'space_group', 'uniqueb', 'origin_choice', 'rhombohedral', 'zgate', 'relaxz', 'block', 'block_1', 'block_2', 'block_height', 'nextffield'],
-    #
-    '&ELECTRONS' : ['electron_maxstep', 'exx_maxstep', 'scf_must_converge', 'conv_thr', 'adaptive_thr', 'conv_thr_init', 'conv_thr_multi', 'mixing_mode', 'mixing_beta', 'mixing_ndim', 'mixing_fixed_ns', 'diagonalization', 'diago_thr_init', 'diago_cg_maxiter', 'diago_ppcg_maxiter', 'diago_david_ndim', 'diago_rmm_ndim', 'diago_rmm_conv', 'diago_gs_nblock', 'diago_full_acc', 'efield', 'efield_cart', 'efield_phase', 'startingpot', 'startingwfc', 'tqr', 'real_space'],
-    #
-    '&IONS' : ['ion_positions', 'ion_velocities', 'ion_dynamics', 'pot_extrapolation', 'wfc_extrapolation', 'remove_rigid_rot', 'ion_temperature', 'tempw', 'tolp', 'delta_t', 'nraise', 'refold_pos', 'upscale', 'bfgs_ndim', 'trust_radius_max', 'trust_radius_min', 'trust_radius_ini', 'w_1', 'w_2', 'fire_alpha_init', 'fire_falpha', 'fire_nmin', 'fire_f_inc', 'fire_f_dec', 'fire_dtmax'],
-    #
-    '&CELL' : ['cell_dynamics', 'press', 'wmass', 'cell_factor', 'press_conv_thr' 'cell_dofree'],
-    #
-    '&FCP' : ['fcp_mu', 'fcp_dynamics', 'fcp_conv_thr', 'fcp_ndiis', 'fcp_mass','fcp_velocity', 'fcp_temperature', 'fcp_tempw', 'fcp_tolp ', 'fcp_delta_t', 'fcp_nraise', 'freeze_all_atoms'],
-    #
-    '&RISM' : ['nsolv', 'closure', 'tempv', 'ecutsolv', 'solute_lj', 'solute_epsilon', 'solute_sigma', 'starting1d', 'starting3d', 'smear1d', 'smear3d', 'rism1d_maxstep', 'rism3d_maxstep', 'rism1d_conv_thr', 'rism3d_conv_thr', 'mdiis1d_size', 'mdiis3d_size', 'mdiis1d_step', 'mdiis3d_step', 'rism1d_bond_width', 'rism1d_dielectric', 'rism1d_molesize', 'rism1d_nproc', 'rism3d_conv_level', 'rism3d_planar_average', 'laue_nfit', 'laue_expand_right', 'laue_expand_left', 'laue_starting_right', 'laue_starting_left', 'laue_buffer_right', 'laue_buffer_left', 'laue_both_hands', 'laue_wall', 'laue_wall_z', 'laue_wall_rho', 'laue_wall_epsilon', 'laue_wall_sigma', 'laue_wall_lj6'],
-}
-"""Dictionary with all possible NAMELISTs as keys, and the corresponding variables as values."""
-
-
-pw_cards = {
-    'ATOMIC_SPECIES' : ['X', 'Mass_X', 'PseudoPot_X'],
-    #
-    'ATOMIC_POSITIONS' : ['X', 'x', 'y', 'z', 'if_pos(1)', 'if_pos(2)', 'if_pos(3)'],
-    #
-    'K_POINTS' : ['nks', 'xk_x', 'xk_y', 'xk_z', 'wk', 'nk1', 'nk2', 'nk3', 'sk1', 'sk2', 'sk3'],
-    #
-    'ADDITIONAL_K_POINTS' : ['nks_add', 'k_x', 'k_y', 'k_z', 'wk_'],
-    #
-    'CELL_PARAMETERS': ['v1', 'v2', 'v3'],
-    #
-    'CONSTRAINTS' : ['nconstr', 'constr_tol', 'constr_type', 'constr(1)', 'constr(2)', 'constr(3)', 'constr(4)', 'constr_target'],
-    #
-    'OCCUPATIONS': ['f_inp1', 'f_inp2'],
-    #
-    'ATOMIC_VELOCITIES' : ['V', 'vx', 'vy', 'vz'],
-    #
-    'ATOMIC_FORCES' : ['X', 'fx', 'fy', 'fz'],
-    #
-    'SOLVENTS' : ['X', 'Density', 'Molecule', 'X', 'Density_Left', 'Density_Right', 'Molecule'],
-    #
-    'HUBBARD' : ['label(1)-manifold(1)', 'u_val(1)', 'label(1)-manifold(1)', 'j0_val(1)', 'paramType(1)', 'label(1)-manifold(1)', 'paramValue(1)', 'label(I)-manifold(I)', 'u_val(I)', 'label(I)-manifold(I)', 'j0_val(I)', 'label(I)-manifold(I)', 'label(J)-manifold(J)', 'I', 'J', 'v_val(I,J)'],
-}
-"""Dictionary with every possible CARDs as keys, and the corresponding variables as values."""
-
-
-pw_int_values = ['max_seconds', 'nstep', 'ibrav', 'nat', 'ntyp', 'dftd3_version', 'electron_maxstep']
-"""Values from any namelist that must be integers"""
-
-
-_upper_cards = pw_cards.keys()
-_all_cards = []
-for _upper_card in _upper_cards:
-    _all_cards.append(_upper_card.lower())
-_all_cards.extend(_upper_cards)
-all_cards_regex = '|'.join(_all_cards)
-"""Regex string that matches all CARDS present in the file."""
-all_cards_regex = rf'(?!\s*!\s*)({all_cards_regex})'
-
-
 def read_in(filepath) -> dict:
-    '''Reads a Quantum ESPRESSO input `filepath` and returns the values as a dict.
+    """Reads a Quantum ESPRESSO input `filepath` and returns the values as a dict.
 
     Dict keys are named after the corresponding variable.
     CARDS are returned as lists, and contain the
     title card + parameters in the first item.
-    '''
+    """
     file_path = file.get(filepath)
     data = {}
     # First get the values from the namelists
@@ -118,7 +60,7 @@ def read_in(filepath) -> dict:
             value_float = value_float.replace('E', 'e')
             value_float = float(value_float)
             value = value_float
-            if var in pw_int_values: # Keep ints as int
+            if var in _pw_int_values: # Keep ints as int
                 value = int(value)
         except ValueError:
             pass # Then it is a string
@@ -127,7 +69,7 @@ def read_in(filepath) -> dict:
     for card in pw_cards.keys():
         card_lower = card.lower()
         card_uncommented = rf'(?!\s*!\s*)({card}|{card_lower})'
-        card_content = find.between(filepath=file_path, key1=card_uncommented, key2=all_cards_regex, include_keys=True, match=-1, regex=True)
+        card_content = find.between(filepath=file_path, key1=card_uncommented, key2=_all_cards_regex, include_keys=True, match=-1, regex=True)
         if not card_content:
             continue
         # If found, clean and normalise the card's content
@@ -145,14 +87,15 @@ def read_in(filepath) -> dict:
 
 
 def read_out(filepath) -> dict:
-    '''
-    Reads an output `filepath` from Quantum ESPRESSO,
-    returning a dict with the following keys:\n
+    """Reads a Quantum ESPRESSO output `filepath`, returns a dict with the output keys.
+
+    The output keys are:
     `'Energy'` (Ry), `'Total force'` (float), `'Total SCF correction'` (float),
     `'Runtime'` (str), `'JOB DONE'` (bool), `'BFGS converged'` (bool), `'BFGS failed'` (bool),
-    `'Maxiter reached'` (bool), `'Error'` (str), `'Success'` (bool), `'CELL_PARAMETERS_out'` (list of str), `'ATOMIC_POSITIONS_out'` (list of str), `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Density'` (g/cm^3).\n
+    `'Maxiter reached'` (bool), `'Error'` (str), `'Success'` (bool), `'CELL_PARAMETERS_out'` (list of str), `'ATOMIC_POSITIONS_out'` (list of str), `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Density'` (g/cm^3).
+
     Note that these output keys start with a **C**apital letter.
-    '''
+    """
     file_path = file.get(filepath)
 
     energy_key           = '!    total energy'
@@ -270,12 +213,12 @@ def read_dir(
         in_str:str='.in',
         out_str:str='.out'
     ) -> dict:
-    '''
-    Takes a `folder` containing a Quantum ESPRESSO calculation,
-    and returns a dictionary containing the input parameters and output results.
+    """Takes a `folder` from a QE calculation, returns a dict with input and output values.
+    
     Input and output files are determined automatically,
-    but must be specified with `in_str` and `out_str` if more than one file ends with `.in` or `.out`.
-    '''
+    but must be specified with `in_str` and `out_str`
+    if more than one file ends with `.in` or `.out`.
+    """
     input_file = file.get(folder, in_str)
     output_file = file.get(folder, out_str)
     if not input_file and not output_file:
@@ -301,10 +244,9 @@ def read_dirs(
         calc_type_index=0,
         calc_id_index=1
     ) -> None:
-    '''
-    Calls recursively `read_dir()`, reading Quantum ESPRESSO calculations
-    from all the subfolders inside the given `directory`.
-    The results are saved to CSV files inside the current directory.
+    """Reads recursively QE calculations from all the subfolders inside the given `directory`.
+
+    Results are saved to CSV files inside the current directory.
     Input and output files are determined automatically, but must be specified with
     `in_str` and `out_str` if more than one file ends with `.in` or `.out`.
 
@@ -315,8 +257,8 @@ def read_dirs(
     - Calculation type: 'CalculationType' (The output CSV will be named after this)
     - CalculationID: 'CalculationID' (Stored in the 'ID' column of the resulting dataframe)
 
-    If everything fails, the subfolder name will be used.
-    '''
+    If everything fails, the subfolder name will be used for the CSV file.
+    """
     print(f'Reading all Quantum ESPRESSO calculations from {directory} ...')
     folders = file.get_list(directory)
     if not folders:
@@ -377,31 +319,30 @@ def set_value(
     Updating 'ATOMIC_POSITIONS' updates 'nat' automatically,
     and updating 'ATOMIC_SPECIES' updates 'ntyp'.
     """
-    key = key.lower().strip()
+    key = key.strip()
     file_path = file.get(filepath)
     input_old = read_in(file_path)
-    # Lower all existing keys
-    present_keys_lower = []
+    # Present keys uppercase
+    present_keys_upper = []
     for present_key in input_old.keys():
-        present_keys_lower.append(present_key.lower())
+        present_keys_upper.append(present_key.upper())
     # All namelist values
     pw_values = []
     for namelist_values in pw_namelists.values():
         pw_values.extend(namelist_values)
     # All cards
-    pw_cards_lower = ['atomic_positions_out', 'cell_parameters_out']  # Don't forget about these!
+    pw_cards_upper = ['ATOMIC_POSITIONS_OUT', 'CELL_PARAMETERS_OUT']  # Don't forget about these!
     for card in pw_cards.keys():
-        pw_cards_lower.append(card.lower())
+        pw_cards_upper.append(card.upper())
     # Check if it's a namelist
     if key in pw_values:
-        if key in present_keys_lower:
+        if key in input_old.keys():
             _update_value(filepath, key, value)
         else:  # Write the value from scratch
             _add_value(filepath, key, value)
     # Check if it's a card
-    elif key in pw_cards_lower:
-        value = normalize_card(value)
-        if key in present_keys_lower:
+    elif key.upper() in pw_cards_upper:
+        if key.upper in present_keys_upper:
             _update_card(filepath, key, value)
         else:
             _add_card(filepath, key, value)
@@ -416,17 +357,19 @@ def _update_value(
         value,
         ) -> None:
     """Update the `value` of an existing `key` from a namelist. Called by `set_value()`."""
-    key = key.lower().strip()
+    key = key.strip()
     key_uncommented = key
     key_uncommented = key_uncommented.replace('(', r'\(')
     key_uncommented = key_uncommented.replace(')', r'\)')
     key_uncommented = rf'(?!\s*!\s*){key_uncommented}'
     # Convert to int if necessary
-    if value in pw_int_values:
+    if key in _pw_int_values:
         value = int(value)
     line = f'  {key} = {value}'
+    if value == '':
+        line = ''
     edit.replace_line(filepath=filepath, key=key_uncommented, text=line, replacements=1, regex=True)
-    _update_other_values(filepath, key, str)
+    _update_other_values(filepath, key, value)
     return None
 
 
@@ -436,9 +379,13 @@ def _add_value(
         value,
     ) -> None:
     """Adds a `key` = `value` to a NAMELIST. Called by `set_value()`."""
-    # Which namelist?
-    key = key.lower().strip()
+    if value == '':  # No need to delete an unexisting value!
+        return None
+    if key in _pw_int_values:
+        value = int(value)
+    key = key.strip()
     value = str(value).strip()
+    # Which namelist?
     parent_namelist = None
     for namelist in pw_namelists.keys():
         if key in pw_namelists[namelist]:
@@ -449,12 +396,13 @@ def _add_value(
     # Add the parent namelist if it does not exist, then add the value
     _add_namelist(filepath, parent_namelist)
     # Convert to int if necessary
-    if value in pw_int_values:
+    if value in _pw_int_values:
         value = int(value)
     line = f'  {key} = {value}'
-    edit.insert_under(filepath=filepath, key=rf'(?!\s*!\s*)({parent_namelist}|{parent_namelist.lower()})', insertions=1, text=line, regex=True)
+    parent_namelist_regex = rf'(?!\s*!\s*)({parent_namelist}|{parent_namelist.lower()})'
+    edit.insert_under(filepath=filepath, key=parent_namelist_regex, text=line, insertions=1, regex=True)
     # Update other values if necessary
-    _update_other_values(filepath, key, str)
+    _update_other_values(filepath, key, value)
     return None
 
 
@@ -468,12 +416,13 @@ def _add_namelist(
     if not namelist in namelists:
         raise ValueError(f'{namelist} is not a valid namelist! Valid namelists are:\n{namelists}')
     # Is the namelist already there?
-    is_present = find.lines(filepath=filepath, key=rf'(?!\s*!\s*)({namelist}|{namelist.lower()})', regex=True)
+    namelist_regex = rf'(?!\s*!\s*)({namelist}|{namelist.lower()})'
+    is_present = find.lines(filepath=filepath, key=namelist_regex, regex=True)
     if is_present:
         return None
     # Find where to insert the namelist, from last to first.
     # We might have to insert it on top of the first CARD found.
-    next_namelist =  all_cards_regex
+    next_namelist =  _all_cards_regex
     namelists_reversed = namelists.reverse()
     for section in namelists_reversed:
         if section == namelist:
@@ -491,11 +440,14 @@ def _update_card(
         value:list,
     ) -> None:
     """Updates the `value` of a `key` CARD, present in `filepath`. Called by `set_value()`."""
+    if value == '':
+        return None
+    value = normalize_card(value)
     # Replace the CARD value up to the next CARD found
     key = key.upper().strip()
     key_uncommented = rf'(?!\s*!\s*)({key}|{key.lower()})'
     lines = '\n'.join(value)
-    edit.replace_between(filepath=filepath, key1=key_uncommented, key2=all_cards_regex, text=lines, regex=True)
+    edit.replace_between(filepath=filepath, key1=key_uncommented, key2=_all_cards_regex, text=lines, delete_keys=False, regex=True)
     # We added the CARD below the previous CARD title, so we remove the previous CARD title
     edit.replace_line(filepath, key_uncommented, '', 1, 0, 0, True)
     # We might have to update other values, such as nat or ntyp
@@ -509,7 +461,13 @@ def _add_card(
         value:list,
     ) -> None:
     """Adds a non-present `key` CARD with a given `value` to the `filepath`. Called by `set_value()`."""
-    edit.insert_at(filepath, value, -1)
+    if value == '':
+        return None
+    value = normalize_card(value)
+    insert_value = value
+    if isinstance(value, list):
+        insert_value = '\n'.join(value)
+    edit.insert_at(filepath, insert_value, -1)
     _update_other_values(filepath, key, value)
     return None
 
@@ -529,7 +487,7 @@ def _update_other_values(
         if 'angstrom' in value[0] or 'bohr' in value[0]:
             edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 1, 0, 0, True)
             edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 1, 0, 0, True)
-            edit.replace_line(file_path, r'(?!\s*!\s*)cos[ABC]\s*=', '', 1, 0, 0, True)
+            edit.replace_line(file_path, r'(?!\s*!\s*)cos[AB][BC]\s*=', '', 1, 0, 0, True)
         elif 'alat' in value[0]:
             alat = extract.number(value[0])
             if alat:
@@ -564,8 +522,8 @@ def _update_other_values(
         return None
     # Lattice params Bohrs ?
     elif 'celldm(' in key:
-        edit.replace_line(file_path, r'(?!\s*!\s*)[abc]\s*=', '', 1, 0, 0, True)
-        edit.replace_line(file_path, r'(?!\s*!\s*)cos[ab][bc]\s*=', '', 1, 0, 0, True)
+        edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 1, 0, 0, True)
+        edit.replace_line(file_path, r'(?!\s*!\s*)cos[AB][BC]\s*=', '', 1, 0, 0, True)
         edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
         return None
     return None
@@ -582,7 +540,7 @@ def add_atom(filepath, position) -> None:
     if isinstance(position, list):
         if not len(position) == 4 or not isinstance(position[0], str):
             raise ValueError('If your atomic position is a list, it must contain the atom type and the three coords, as in [str, str/float, str/float, str/float]')
-        new_atom = '   '.join(position)
+        new_atom = '   '.join(str(x) for x in position)
     elif not isinstance(position, str):
         raise ValueError(f'The specified position must be a list of size 4 (atom type and three coordinates) or an equivalent string! Your position was:\n{coords}')
     # Let's check that our new_atom makes sense
@@ -604,7 +562,7 @@ def add_atom(filepath, position) -> None:
     # We might have to update ATOMIC_SPECIES!
     atomic_species = values['ATOMIC_SPECIES']
     is_atom_missing = True
-    for specie in atomic_species:
+    for specie in atomic_species[1:]:
         if atom == extract.element(specie):
             is_atom_missing = False
             break
@@ -631,8 +589,8 @@ def normalize_card(card:list) -> list:
         elif any(key in line.upper() for key in pw_cards.keys()):
             break
         items = line.split()
-        cleaned_line = '  '  # Two spaces at the start of the line
-        for item in items:
+        cleaned_line = f'  {items[0].strip()}'  # Two spaces at the start of the line
+        for item in items[1:]:
             item = item.strip()
             cleaned_line = cleaned_line + '   ' + item  # Three spaces between elements
         cleaned_content.append(cleaned_line)
@@ -643,6 +601,8 @@ def normalize_card(card:list) -> list:
         cleaned_content = _normalize_atomic_positions(cleaned_content)
     elif any(key in cleaned_content[0] for key in ['atomic_species', 'ATOMIC_SPECIES']):
         cleaned_content = _normalize_atomic_species(cleaned_content)
+    elif any(key in cleaned_content[0] for key in ['k_points', 'K_POINTS']):
+        cleaned_content = _normalize_k_points(cleaned_content)
     return cleaned_content
 
 
@@ -700,10 +660,10 @@ def _normalize_atomic_positions(card) -> list:
         atomic_positions[0] = 'ATOMIC_POSITIONS bohr'
     elif 'angstrom' in atomic_positions[0]:
         atomic_positions[0] = 'ATOMIC_POSITIONS angstrom'
-    elif 'crystal' in atomic_positions[0]:
-        atomic_positions[0] = 'ATOMIC_POSITIONS crystal'
     elif 'crystal_sg' in atomic_positions[0]:
         atomic_positions[0] = 'ATOMIC_POSITIONS crystal_sg'
+    elif 'crystal' in atomic_positions[0]:
+        atomic_positions[0] = 'ATOMIC_POSITIONS crystal'
     else:
         raise ValueError(f"ATOMIC_POSITIONS[0] must contain alat, bohr, angstrom, crystal or crystal_sg. Yours was:\n{atomic_positions[0]}")
     return atomic_positions
@@ -734,6 +694,37 @@ def _normalize_atomic_species(card) -> list:
     return atomic_species
 
 
+def _normalize_k_points(card) -> list:
+    """Performs extra formatting to a previously cleaned K_POINTS `card`."""
+    if card == None:
+        return None
+    k_points = [card[0].strip()]
+    points = card[1].split()
+    line = f'  {points[0].strip()}'
+    for point in points[1:]:
+        line = f'{line} {point.strip()}'
+    k_points.append(line)
+    if 'automatic' in k_points[0]:
+        k_points[0] = 'K_POINTS automatic'
+    elif 'gamma' in k_points[0]:
+        k_points[0] = 'K_POINTS gamma'
+    elif 'tpiba_b' in k_points[0]:
+        k_points[0] = 'K_POINTS tpiba_b'
+    elif 'tpiba_c' in k_points[0]:
+        k_points[0] = 'K_POINTS tpiba_c'
+    elif 'tpiba' in k_points[0]:
+        k_points[0] = 'K_POINTS tpiba'
+    elif 'crystal_b' in k_points[0]:
+        k_points[0] = 'K_POINTS crystal_b'
+    elif 'crystal_c' in k_points[0]:
+        k_points[0] = 'K_POINTS crystal_c'
+    elif 'crystal' in k_points[0]:
+        k_points[0] = 'K_POINTS crystal'
+    else:
+        raise ValueError(f'K_POINTS must be tpiba, automatic, crystal, gamma, tpiba_b, crystal_b, tpiba_c, or crystal_c. Yours was:\n{k_points}')
+    return k_points
+
+
 def count_elements(atomic_positions) -> dict:
     """Takes ATOMIC_POSITIONS, returns a dict as `{element : number of atoms}`"""
     if isinstance(atomic_positions, str):
@@ -741,6 +732,8 @@ def count_elements(atomic_positions) -> dict:
     if not isinstance(atomic_positions, list):
         raise ValueError(f'To count the elements, atomic_positions must be a list or a str! Yours was:\n{atomic_positions}')
     elements = {}
+    if any(header in atomic_positions[0] for header in ['ATOMIC_POSITIONS', 'atomic_positions']):
+        atomic_positions = atomic_positions[1:]
     for line in atomic_positions:
         element = extract.element(line)
         if not element:
@@ -757,12 +750,12 @@ def scf_from_relax(
         relax_in:str='relax.in',
         relax_out:str='relax.out'
     ) -> None:
-    '''
-    Create a Quantum ESPRESSO `scf.in` file from a previous relax calculation.
+    """Create a Quantum ESPRESSO `scf.in` file from a previous relax calculation.
+    
     If no `folder` is provided, the current working directory is used.
     The `relax_in` and `relax_out` files by default are `relax.in` and `relax.out`,
     update the names if necessary.
-    '''
+    """
     # Terminal feedback
     print(f'\naton.interface.qe {__version__}\n'
           f'Creating Quantum ESPRESSO SCF input from previous relax calculation:\n'
@@ -793,4 +786,67 @@ def scf_from_relax(
     print(f'Created input SCF file at:'
           f'{scf_in}\n')
     return None
+
+
+############################################################
+####################  COMMON VARIABLES  ####################
+############################################################
+
+
+pw_namelists = {
+    '&CONTROL' : ['calculation', 'title', 'verbosity', 'restart_mode', 'wf_collect', 'nstep', 'iprint', 'tstress', 'tprnfor', 'dt', 'outdir', 'wfcdir', 'prefix', 'lkpoint_dir', 'max_seconds', 'etot_conv_thr', 'forc_conv_thr', 'disk_io', 'pseudo_dir', 'tefield', 'dipfield', 'lelfield', 'nberrycyc', 'lorbm', 'lberry', 'gdir', 'nppstr', 'gate', 'twochem', 'lfcp', 'trism'],
+    #
+    '&SYSTEM' : ['ibrav', 'celldm(1)', 'celldm(2)', 'celldm(3)', 'celldm(4)', 'celldm(5)', 'celldm(6)', 'A', 'B', 'C', 'cosAB', 'cosAC', 'cosBC', 'nat', 'ntyp', 'nbnd', 'nbnd_cond', 'tot_charge', 'starting_charge', 'tot_magnetization', 'starting_magnetization', 'ecutwfc', 'ecutrho', 'ecutfock', 'nr1', 'nr2', 'nr3', 'nr1s', 'nr2s', 'nr3s', 'nosym', 'nosym_evc', 'noinv', 'no_t_rev', 'force_symmorphic', 'use_all_frac', 'occupations', 'one_atom_occupations', 'starting_spin_angle', 'degauss_cond', 'nelec_cond', 'degauss', 'smearing', 'nspin', 'sic_gamma', 'pol_type', 'sic_energy', 'sci_vb', 'sci_cb', 'noncolin', 'ecfixed', 'qcutz', 'q2sigma', 'input_dft', 'ace', 'exx_fraction', 'screening_parameter', 'exxdiv_treatment', 'x_gamma_extrapolation', 'ecutvcut' 'nqx1', 'nqx2', 'nqx3', 'localization_thr', 'Hubbard_occ', 'Hubbard_alpha', 'Hubbard_beta', 'starting_ns_eigenvalue', 'dmft', 'dmft_prefix', 'ensemble_energies', 'edir', 'emaxpos', 'eopreg', 'eamp', 'angle1', 'angle2', 'lforcet', 'constrained_magnetization', 'fixed_magnetization', 'lambda', 'report', 'lspinorb', 'assume_isolated', 'esm_bc', 'esm_w', 'esm_efield', 'esm_nfit', 'lgcscf', 'gcscf_mu', 'gcscf_conv_thr', 'gcscf_beta', 'vdw_corr', 'london', 'london_s6', 'london_c6', 'london_rvdw', 'london_rcut', 'dftd3_version', 'dftd3_threebody', 'ts_vdw_econv_thr', 'ts_vdw_isolated', 'xdm', 'xdm_a1', 'xdm_a2', 'space_group', 'uniqueb', 'origin_choice', 'rhombohedral', 'zgate', 'relaxz', 'block', 'block_1', 'block_2', 'block_height', 'nextffield'],
+    #
+    '&ELECTRONS' : ['electron_maxstep', 'exx_maxstep', 'scf_must_converge', 'conv_thr', 'adaptive_thr', 'conv_thr_init', 'conv_thr_multi', 'mixing_mode', 'mixing_beta', 'mixing_ndim', 'mixing_fixed_ns', 'diagonalization', 'diago_thr_init', 'diago_cg_maxiter', 'diago_ppcg_maxiter', 'diago_david_ndim', 'diago_rmm_ndim', 'diago_rmm_conv', 'diago_gs_nblock', 'diago_full_acc', 'efield', 'efield_cart', 'efield_phase', 'startingpot', 'startingwfc', 'tqr', 'real_space'],
+    #
+    '&IONS' : ['ion_positions', 'ion_velocities', 'ion_dynamics', 'pot_extrapolation', 'wfc_extrapolation', 'remove_rigid_rot', 'ion_temperature', 'tempw', 'tolp', 'delta_t', 'nraise', 'refold_pos', 'upscale', 'bfgs_ndim', 'trust_radius_max', 'trust_radius_min', 'trust_radius_ini', 'w_1', 'w_2', 'fire_alpha_init', 'fire_falpha', 'fire_nmin', 'fire_f_inc', 'fire_f_dec', 'fire_dtmax'],
+    #
+    '&CELL' : ['cell_dynamics', 'press', 'wmass', 'cell_factor', 'press_conv_thr' 'cell_dofree'],
+    #
+    '&FCP' : ['fcp_mu', 'fcp_dynamics', 'fcp_conv_thr', 'fcp_ndiis', 'fcp_mass','fcp_velocity', 'fcp_temperature', 'fcp_tempw', 'fcp_tolp ', 'fcp_delta_t', 'fcp_nraise', 'freeze_all_atoms'],
+    #
+    '&RISM' : ['nsolv', 'closure', 'tempv', 'ecutsolv', 'solute_lj', 'solute_epsilon', 'solute_sigma', 'starting1d', 'starting3d', 'smear1d', 'smear3d', 'rism1d_maxstep', 'rism3d_maxstep', 'rism1d_conv_thr', 'rism3d_conv_thr', 'mdiis1d_size', 'mdiis3d_size', 'mdiis1d_step', 'mdiis3d_step', 'rism1d_bond_width', 'rism1d_dielectric', 'rism1d_molesize', 'rism1d_nproc', 'rism3d_conv_level', 'rism3d_planar_average', 'laue_nfit', 'laue_expand_right', 'laue_expand_left', 'laue_starting_right', 'laue_starting_left', 'laue_buffer_right', 'laue_buffer_left', 'laue_both_hands', 'laue_wall', 'laue_wall_z', 'laue_wall_rho', 'laue_wall_epsilon', 'laue_wall_sigma', 'laue_wall_lj6'],
+}
+"""Dictionary with all possible NAMELISTs as keys, and the corresponding variables as values."""
+
+
+pw_cards = {
+    'ATOMIC_SPECIES' : ['X', 'Mass_X', 'PseudoPot_X'],
+    #
+    'ATOMIC_POSITIONS' : ['X', 'x', 'y', 'z', 'if_pos(1)', 'if_pos(2)', 'if_pos(3)'],
+    #
+    'K_POINTS' : ['nks', 'xk_x', 'xk_y', 'xk_z', 'wk', 'nk1', 'nk2', 'nk3', 'sk1', 'sk2', 'sk3'],
+    #
+    'ADDITIONAL_K_POINTS' : ['nks_add', 'k_x', 'k_y', 'k_z', 'wk_'],
+    #
+    'CELL_PARAMETERS': ['v1', 'v2', 'v3'],
+    #
+    'CONSTRAINTS' : ['nconstr', 'constr_tol', 'constr_type', 'constr(1)', 'constr(2)', 'constr(3)', 'constr(4)', 'constr_target'],
+    #
+    'OCCUPATIONS': ['f_inp1', 'f_inp2'],
+    #
+    'ATOMIC_VELOCITIES' : ['V', 'vx', 'vy', 'vz'],
+    #
+    'ATOMIC_FORCES' : ['X', 'fx', 'fy', 'fz'],
+    #
+    'SOLVENTS' : ['X', 'Density', 'Molecule', 'X', 'Density_Left', 'Density_Right', 'Molecule'],
+    #
+    'HUBBARD' : ['label(1)-manifold(1)', 'u_val(1)', 'label(1)-manifold(1)', 'j0_val(1)', 'paramType(1)', 'label(1)-manifold(1)', 'paramValue(1)', 'label(I)-manifold(I)', 'u_val(I)', 'label(I)-manifold(I)', 'j0_val(I)', 'label(I)-manifold(I)', 'label(J)-manifold(J)', 'I', 'J', 'v_val(I,J)'],
+}
+"""Dictionary with every possible CARDs as keys, and the corresponding variables as values."""
+
+
+_pw_int_values = ['max_seconds', 'nstep', 'ibrav', 'nat', 'ntyp', 'dftd3_version', 'electron_maxstep']
+"""Values from any namelist that must be integers"""
+
+
+_upper_cards = pw_cards.keys()
+_all_cards = []
+for _upper_card in _upper_cards:
+    _all_cards.append(_upper_card.lower())
+_all_cards.extend(_upper_cards)
+_all_cards_regex = '|'.join(_all_cards)
+"""Regex string that matches all CARDS present in the file."""
+_all_cards_regex = rf'(?!\s*!\s*)({_all_cards_regex})'
 

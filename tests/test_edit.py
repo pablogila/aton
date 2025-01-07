@@ -14,6 +14,9 @@ def test_insert_at():
     edit.insert_at(filepath=sample_copy, text='END', position=-1)
     with open(sample_copy, 'r') as f:
         assert f.read() == 'START\nline1\nMIDDLE\nline2\nline3\nline4\nline5\nline6\nline7\nline8\nline9\nEND'
+    edit.insert_at(filepath=sample_copy, text='AGAIN', position=6)
+    with open(sample_copy, 'r') as f:
+        assert f.read() == 'START\nline1\nMIDDLE\nline2\nline3\nline4\nAGAIN\nline5\nline6\nline7\nline8\nline9\nEND'
     file.remove(sample_copy)
 
 
@@ -30,6 +33,10 @@ def test_insert_under():
     edit.insert_under(filepath=sample_copy, key=r'l[a-z]*5', text='!!!', regex=True)
     with open(sample_copy, 'r') as f:
         assert f.read() == 'line1\nline2\nline3\nline4\nline5\n!!!\nline6\nline7\nline8\nline9'
+    file.copy(sample, sample_copy)
+    edit.insert_under(filepath=sample_copy, key=r'l[a-z]*4', text='!!!', insertions=1, regex=True)
+    with open(sample_copy, 'r') as f:
+        assert f.read() == 'line1\nline2\nline3\nline4\n!!!\nline5\nline6\nline7\nline8\nline9'
     file.remove(sample_copy)
 
 
