@@ -4,7 +4,7 @@ This module contains methods to calculate deuteration levels from different spec
 
 # Index
 - `impulse_approx()`
-- `peaks_mapi()`
+- `peaks_mapbi3()`
 
 ---
 """
@@ -98,15 +98,14 @@ def impulse_approx(
     return round(deuteration,2), round(deuteration_error,2)
 
 
-def peaks_mapi(
+def peaks_mapbi3(
         ins:Spectra,
         peaks:dict,
         df_index:int=0,
     ) -> str:
-    '''
-    Calculate the deuteration of your CH$_3$NH$_3$PbI$_3$ samples
-    by integrating the INS disrotatory peaks,
-    which appear at around 38 meV for the fully protonated sample.
+    """Estimates CH$_3$NH$_3$PbI$_3$ deuteration by integrating the INS disrotatory peaks.
+
+    The INS disrotatory peaks of CH3NH3 appear at ~38 meV for the fully protonated sample.
     Note that `peaks` must be a dictionary with the peak limits
     and the baseline, as in the example below:
     ```python
@@ -124,11 +123,13 @@ def peaks_mapi(
     ```
     Peak keywords required for selective deuteration (only C or only N):
     `h6d0`, `h5d1`, `h4d2`, `h3d3`.
+
     Additional peak keywords required for total deuteration:
     `h2d4`, `h1d5`, `h0d6`.
+
     If some peak is not present in your sample,
     just set the limits to a small baseline plateau.
-    '''
+    """
 
     peak_data = deepcopy(ins)
 

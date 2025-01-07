@@ -13,9 +13,11 @@ import aton.alias as alias
 
 
 def plot(spectrum:Spectra):
-    '''
-    Plot the given spectra, with optional `maatpy.classes.Plotting` and `maatpy.classes.Scaling` attributes.
-    '''
+    """Plots a `spectra`.
+
+    Optional `aton.spectra.classes.Plotting` and
+    `aton.spectra.classes.Scaling` attributes can be used.
+    """
 
     strings_to_delete_from_name = ['.csv', '.dat', '.txt', '_INS', '_ATR', '_FTIR', '_temp', '_RAMAN', '_Raman', '/data/', 'data/', '/csv/', 'csv/', '/INS/', 'INS/', '/FTIR/', 'FTIR/', '/ATR/', 'ATR/', '_smooth', '_smoothed', '_subtracted', '_cellsubtracted']
     normalize_area_keys = alias.parameters['area']
@@ -30,7 +32,7 @@ def plot(spectrum:Spectra):
         fig, ax = plt.subplots()
 
     if sdata.plotting.normalize in normalize_height_keys:
-        sdata = normalize.spectra(sdata)
+        sdata = normalize.height(sdata)
     elif sdata.plotting.normalize in normalize_area_keys:
         sdata = normalize.area(sdata)
 
@@ -131,6 +133,7 @@ def plot(spectrum:Spectra):
 
 
 def _get_ylimits(spectrum:Spectra) -> tuple[float, float]:
+    """Private function to obtain the ylimits to plot."""
     all_y_values = []
     for df in spectrum.dfs:
         df_trim = df

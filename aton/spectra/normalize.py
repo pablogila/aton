@@ -1,4 +1,4 @@
-'''
+"""
 # Description
 This module contains functions to normalize data and other variables.
 
@@ -8,7 +8,7 @@ This module contains functions to normalize data and other variables.
 - `area()`
 
 ---
-'''
+"""
 
 
 import aton.alias as alias
@@ -18,21 +18,24 @@ from .fit import *
 
 
 def unit_str(unit:str):
-    '''Normalize a given unit string to a standarized unit string, following `maatpy.alias.unit`.'''
-    for key, value in alias.unit.items():
+    """Normalize `unit` string from user input."""
+    for key, value in alias.units.items():
         if unit in value:
             return key
     print(f"WARNING: Unknown unit '{unit}'")
     return unit
 
 
-def spectra(spectra:Spectra):
-    '''Normalize the given spectra by height, with optional `maatpy.classes.Scaling` attributes.'''
+def height(spectra:Spectra):
+    """Normalize a `spectra` by height
+
+    Optional `aton.spectra.classes.Scaling` attributes can be used.
+    """
     sdata = deepcopy(spectra)
     if hasattr(sdata, 'scaling') and sdata.scaling is not None:
         scaling = sdata.scaling
         if scaling.ymax:
-            return _spectra_y(sdata)
+            return _height_y(sdata)
     else:
         scaling = Scaling()
 
@@ -61,7 +64,8 @@ def spectra(spectra:Spectra):
     return sdata
 
 
-def _spectra_y(sdata:Spectra):
+def _height_y(sdata:Spectra):
+    """Private function to handle ``"""
     if not len(sdata.scaling.ymax) == len(sdata.dfs):
         raise ValueError("normalize: len(ymax) does not match len(dataframe)")
     scaling = sdata.scaling
@@ -81,9 +85,10 @@ def _spectra_y(sdata:Spectra):
 
 
 def area(spectra:Spectra):
-    '''
-    Normalize the given spectra by the area under the datasets, with optional `maatpy.classes.Scaling` attributes.
-    '''
+    """Normalize `spectra` by the area under the datasets.
+ 
+    Optional `aton.spectra.classes.Scaling` attributes can be used.
+    """
     sdata = deepcopy(spectra)
     if hasattr(sdata, 'scaling') and sdata.scaling is not None:
         scaling = sdata.scaling
