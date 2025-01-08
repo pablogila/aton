@@ -1,20 +1,26 @@
 :root {
-    --pdoc-background: #212529;
+    --pdoc-background: #000000;
 }
 
 .pdoc {
     --text: #f7f7f7;
     --muted: #9d9d9d;
-    --link: #58a6ff;
-    --link-hover: #3989ff;
-    --code: #333;
-    --active: #555;
+    --link: #82bcff;
+    --link-hover: #2890e6;
+    --code: #111623;
+    --active: #212c3d;
 
-    --accent: #343434;
-    --accent2: #555;
+    --accent: #111623;
+    --accent2: #212c3d;
 
     --nav-hover: rgba(0, 0, 0, 0.1);
-    --name: #77C1FF;
+    --name: #2890e6;
     --def: #0cdd0c;
     --annotation: #00c037;
 }
+
+/* Remove table headers
+th {
+    display: none;
+}
+*/

@@ -12,12 +12,14 @@ readme = './README.md'
 temp_readme = './_README_temp.md'
 # Update links from the README
 fix_dict ={
-    '[call](https://pablogila.github.io/Aton/aton/call.html)'                           : '`aton.call`',
-    '[alias](https://pablogila.github.io/Aton/aton/alias.html)'                         : '`aton.alias`',
-    '[units](https://pablogila.github.io/Aton/aton/units.html)'                         : '`aton.units`',
-    '[atoms](https://pablogila.github.io/Aton/aton/atoms.html)'                         : '`aton.atoms`',
-    '[elements](https://pablogila.github.io/Aton/aton/elements.html)'                   : '`aton.elements`',
-    '[file](https://pablogila.github.io/Aton/aton/file.html)'                           : '`aton.file`',
+    '[st](https://pablogila.github.io/Aton/aton/st.html)'                         : '`aton.st`',
+    '[st.call](https://pablogila.github.io/Aton/aton/st/call.html)'                     : '`aton.st.call`',
+    '[st.file](https://pablogila.github.io/Aton/aton/st/file.html)'                     : '`aton.st.file`',
+    '[st.alias](https://pablogila.github.io/Aton/aton/st/alias.html)'                   : '`aton.st.alias`',
+    '[phys](https://pablogila.github.io/Aton/aton/phys.html)'                           : '`aton.phys`',
+    '[phys.units](https://pablogila.github.io/Aton/aton/phys/units.html)'               : '`aton.phys.units`',
+    '[phys.atoms](https://pablogila.github.io/Aton/aton/phys/atoms.html)'               : '`aton.phys.atoms`',
+    '[phys.functions](https://pablogila.github.io/Aton/aton/phys/functions.html)'       : '`aton.phys.functions`',
     '[text](https://pablogila.github.io/Aton/aton/text.html)'                           : '`aton.text`',
     '[text.find](https://pablogila.github.io/Aton/aton/text/find.html)'                 : '`aton.text.find`',
     '[text.extract](https://pablogila.github.io/Aton/aton/text/extract.html)'           : '`aton.text.extract`',
@@ -27,6 +29,11 @@ fix_dict ={
     '[interface.phonopy](https://pablogila.github.io/Aton/aton/interface/phonopy.html)' : '`aton.interface.phonopy`',
     '[interface.castep](https://pablogila.github.io/Aton/aton/interface/castep.html)'   : '`aton.interface.castep`',
     '[spectra](https://pablogila.github.io/Aton/aton/spectra.html)'                     : '`aton.spectra`',
+    '[spectra.fit](https://pablogila.github.io/Aton/aton/spectra/fit.html)'             : '`aton.spectra.fit`',
+    '[spectra.normalize](https://pablogila.github.io/Aton/aton/spectra/normalize.html)' : '`aton.spectra.normalize`',
+    '[spectra.plot](https://pablogila.github.io/Aton/aton/spectra/plot.html)'           : '`aton.spectra.plot`',
+    '[spectra.deuterium](https://pablogila.github.io/Aton/aton/spectra/deuterium.html)' : '`aton.spectra.deuterium`',
+    '[spectra.samples](https://pablogila.github.io/Aton/aton/spectra/samples.html)'     : '`aton.spectra.samples`',
     'Check the [full documentation online](https://pablogila.github.io/Aton/).'         : '',
 }
 

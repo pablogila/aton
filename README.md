@@ -51,35 +51,53 @@ An offline version of the documentation is found at `docs/aton.html`.
 Code examples are included in the `examples/` folder.    
 
 ## Physico-chemical constants
-The [phys](https://pablogila.github.io/Aton/aton/phys.html) subpackage contains physico-chemical definitions. All values can be accessed directly as `phys.value` or `phys.function()`. More details available in their corresponding documentation:  
-- [units](https://pablogila.github.io/Aton/aton/phys/units.html). Physical constants and conversion factors.
-- [atoms](https://pablogila.github.io/Aton/aton/phys/atoms.html). Megadictionary with data for all chemical elements.  
-- [elements](https://pablogila.github.io/Aton/aton/phys/elements.html). Functions to sort and analyse element data, and to update the atoms dictionary.  
+
+### [phys](https://pablogila.github.io/Aton/aton/phys.html)
+| | |
+| --- | --- |
+| [phys.units](https://pablogila.github.io/Aton/aton/phys/units.html) | Physical constants and conversion factors |
+| [phys.atoms](https://pablogila.github.io/Aton/aton/phys/atoms.html) | Megadictionary with data for all chemical elements |  
+| [phys.functions](https://pablogila.github.io/Aton/aton/phys/functions.html) | Functions to sort and analyse element data, and to update the atoms dictionary |  
+
+The [phys](https://pablogila.github.io/Aton/aton/phys.html) subpackage contains physico-chemical definitions. All values can be accessed directly as `phys.value` or `phys.function()`.
 
 ## Interfaces for ab-initio codes
-
-The [interface](https://pablogila.github.io/Aton/aton/interface.html) module contains interfaces for several *ab-initio* codes. These are powered by the [text](https://pablogila.github.io/Aton/aton/text.html) subpackage and can be easily extended. The following interfaces are included:  
-- [interface.qe](https://pablogila.github.io/Aton/aton/interface/qe.html). Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module.  
-- [interface.phonopy](https://pablogila.github.io/Aton/aton/interface/phonopy.html). Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations.  
-- [interface.castep](https://pablogila.github.io/Aton/aton/interface/castep.html) Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations.  
+### [interface](https://pablogila.github.io/Aton/aton/interface.html)
+| | |
+| --- | --- |
+| [interface.qe](https://pablogila.github.io/Aton/aton/interface/qe.html) | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
+| [interface.phonopy](https://pablogila.github.io/Aton/aton/interface/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
+| [interface.castep](https://pablogila.github.io/Aton/aton/interface/castep.html) | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
+The [interface](https://pablogila.github.io/Aton/aton/interface.html) module contains interfaces for several *ab-initio* codes. These are powered by the [text](https://pablogila.github.io/Aton/aton/text.html) subpackage and can be easily extended.  
 
 ## Spectral analysis tools
-
+### [spectra](https://pablogila.github.io/Aton/aton/spectra.html)
+| | |
+| --- | --- |
+| [spectra.fit](https://pablogila.github.io/Aton/aton/spectra/fit.html) | text |
+| [spectra.normalize](https://pablogila.github.io/Aton/aton/spectra/normalize.html) | |
+| [spectra.plot](https://pablogila.github.io/Aton/aton/spectra/plot.html) | |
+| [spectra.deuterium](https://pablogila.github.io/Aton/aton/spectra/deuterium.html) | |
+| [spectra.samples](https://pablogila.github.io/Aton/aton/spectra/samples.html) | |
 The [spectra](https://pablogila.github.io/Aton/aton/spectra.html) module IS YET TO BE IMPLEMENTED.
-- Things...  
 
 ## General text edition
-
-The [text](https://pablogila.github.io/Aton/aton/text.html) subpackage includes the following submodules for general text edition:
-- [text.find](https://pablogila.github.io/Aton/aton/text/find.html). Search for specific content in a text file.  
-- [text.edit](https://pablogila.github.io/Aton/aton/text/edit.html). Manipulate text files.  
-- [text.extract](https://pablogila.github.io/Aton/aton/text/extract.html). Extract data from raw text strings.  
+### [text](https://pablogila.github.io/Aton/aton/text.html)
+| | |
+| --- | --- |
+| [text.find](https://pablogila.github.io/Aton/aton/text/find.html) | Search for specific content in a text file.  | 
+| [text.edit](https://pablogila.github.io/Aton/aton/text/edit.html) | Manipulate text files.  |
+| [text.extract](https://pablogila.github.io/Aton/aton/text/extract.html) | Extract data from raw text strings.  |
+The [text](https://pablogila.github.io/Aton/aton/text.html) subpackage includes submodules for general text edition.
 
 ## System tools
-The [st](https://pablogila.github.io/Aton/aton/st.html) module contains the following System Tools:
-- [st.file](https://pablogila.github.io/Aton/aton/st/file.html). Manipulate files.  
-- [st.call](https://pablogila.github.io/Aton/aton/st/call.html). Run bash scripts and related.  
-- [st.alias](https://pablogila.github.io/Aton/aton/st/alias.html). Useful dictionaries for user input correction.  
+### [st](https://pablogila.github.io/Aton/aton/st.html)
+| | |
+| --- | --- |
+| [st.file](https://pablogila.github.io/Aton/aton/st/file.html) | Manipulate files |  
+| [st.call](https://pablogila.github.io/Aton/aton/st/call.html) | Run bash scripts and related |  
+| [st.alias](https://pablogila.github.io/Aton/aton/st/alias.html) | Useful dictionaries for user input correction |  
+The [st](https://pablogila.github.io/Aton/aton/st.html) module contains common System Tools.  
 
 ---
 
