@@ -2,20 +2,21 @@
 # Description
 This module contains the `atoms` megadictionary,
 which contains the properties of all elements.
-It is managed and updated automatically with `aton.elements`,
+It is managed and updated automatically with `aton.phys.elements`,
 which also contains the literature references for this data.
 
-The `atoms` dictionary can be loaded directly as `aton.atoms`.
+The `atoms` dictionary can be loaded directly as `aton.phys.atoms`.
 Use example:
 ```python
-aluminium_cross_section = aton.atoms['Al'].cross_section  # 1.503
-He4_mass = aton.atoms['H'].isotope[4].mass  # 4.0026032497
+from aton import phys
+aluminium_cross_section = phys.atoms['Al'].cross_section  # 1.503
+He4_mass = phys.atoms['H'].isotope[4].mass  # 4.0026032497
 ```
 
 ---
 '''
 
-from .elements import Element, Isotope
+from .functions import Element, Isotope
 
 atoms = {
     'H': Element(

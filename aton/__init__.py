@@ -4,12 +4,8 @@
 
 
 from ._version import __version__ as version
-from . import alias
-from . import units
-from . import elements
-from .atoms import atoms
-from . import call
-from . import file
+from . import st
+from . import phys
 from . import text
 from . import interface
 from . import spectra

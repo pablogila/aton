@@ -22,7 +22,7 @@ Functions to find the position in the file of specific text strings:
 
 import mmap
 import re
-import aton.file as file
+import aton.st.file as file
 
 
 def lines(

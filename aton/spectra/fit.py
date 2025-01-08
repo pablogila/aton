@@ -16,7 +16,6 @@ import math
 import scipy
 import numpy as np
 from copy import deepcopy
-from aton.units import *
 from .classes import Spectra
 
 

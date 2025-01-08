@@ -129,23 +129,23 @@ def test_scf_from_relax():
         assert result[key] == ideal[key]
     assert 'A' not in result.keys()
     try:
-        aton.file.remove(folder + 'scf.in')
+        aton.st.file.remove(folder + 'scf.in')
     except:
         pass
 
 
 def test_update_other_values():
     tempfile = folder + 'temp.in'
-    aton.file.copy(folder + 'relax.in', tempfile)
+    aton.st.file.copy(folder + 'relax.in', tempfile)
     aton.interface.qe.set_value(tempfile, 'celldm(1)', 10.0)
     modified = aton.interface.qe.read_in(tempfile)
     assert 'A' not in modified.keys()
-    aton.file.remove(tempfile)
+    aton.st.file.remove(tempfile)
 
 
 def test_set_value():
     tempfile = folder + 'temp.in'
-    aton.file.copy(folder + 'relax.in', tempfile)
+    aton.st.file.copy(folder + 'relax.in', tempfile)
     aton.interface.qe.set_value(tempfile, 'ecutwfc', 80.0)
     aton.interface.qe.set_value(tempfile, 'ibrav', 5)
     aton.interface.qe.set_value(tempfile, 'calculation', "'vc-relax'")
@@ -164,7 +164,7 @@ def test_set_value():
     modified = aton.interface.qe.read_in(tempfile)
     assert 'A' not in modified.keys()
     assert 'celldm(1)' not in modified.keys()
-    aton.file.remove(tempfile)
+    aton.st.file.remove(tempfile)
 
 
 def test_count_elements():
@@ -195,7 +195,7 @@ def test_add_atom():
         'Cl  1.0  1.0  1.0']
     ideal_positions = aton.interface.qe.normalize_card(ideal_positions)
     tempfile = folder + 'temp.in'
-    aton.file.copy(folder + 'relax.in', tempfile)
+    aton.st.file.copy(folder + 'relax.in', tempfile)
     position_1 = '  O   0.0   0.0   0.0'
     position_2 = ['Cl', 1.0, 1.0, 1.0]
     aton.interface.qe.add_atom(filepath=tempfile, position=position_1)
@@ -220,5 +220,5 @@ def test_add_atom():
     assert temp['A'] == 10.0
     assert temp['ecutwfc'] == 60.0
     assert temp['input_dft'] == "'PBEsol'"
-    aton.file.remove(tempfile)
+    aton.st.file.remove(tempfile)
 

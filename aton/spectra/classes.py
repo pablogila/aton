@@ -26,10 +26,8 @@ import numpy as np
 import pandas as pd
 from copy import deepcopy
 import os
-import aton.alias as alias
-from aton.units import *
-import aton.atoms
-import aton.elements
+import aton.st.alias as alias
+import aton.phys as phys
 
 
 class Plotting:
@@ -406,9 +404,9 @@ class Spectra:
             if unit == units_in[i]:
                 continue
             if unit == mev and units_in[i] == cm:
-                self.dfs[i][self.dfs[i].columns[0]] = self.dfs[i][self.dfs[i].columns[0]] * cm_to_meV
+                self.dfs[i][self.dfs[i].columns[0]] = self.dfs[i][self.dfs[i].columns[0]] * phys.cm_to_meV
             elif unit == cm and units_in[i] == mev:
-                self.dfs[i][self.dfs[i].columns[0]] = self.dfs[i][self.dfs[i].columns[0]] * meV_to_cm
+                self.dfs[i][self.dfs[i].columns[0]] = self.dfs[i][self.dfs[i].columns[0]] * phys.meV_to_cm
             else:
                 raise ValueError(f"Unit conversion error between '{unit}' and '{units_in[i]}'")
         # Rename dataframe columns
@@ -499,15 +497,15 @@ class Material:
         '''Set the molar mass of the material.
         If `Material.grams` is provided, the number of moles will be
         calculated and overwritten. Isotopes can be used as 'element + A',
-        eg. `'He4'`. This gets splitted with `aton.elements.split_isotope`.
+        eg. `'He4'`. This gets splitted with `aton.phys.elements.split_isotope`.
         '''
         material_grams_per_mol = 0.0
         for key in self.elements:
             try:
-                material_grams_per_mol += self.elements[key] * aton.atoms[key].mass
+                material_grams_per_mol += self.elements[key] * phys.atoms[key].mass
             except KeyError: # Split the atomic flag as H2, etc
-                element, isotope = aton.elements.split_isotope(key)
-                material_grams_per_mol += self.elements[key] * aton.atoms[element].isotope[isotope].mass
+                element, isotope = phys.split_isotope(key)
+                material_grams_per_mol += self.elements[key] * phys.atoms[element].isotope[isotope].mass
         self.molar_mass = material_grams_per_mol
         if self.grams is not None:
             self._set_grams_error()
@@ -517,15 +515,15 @@ class Material:
     def _set_cross_section(self):
         '''
         Set the cross section of the material, based on the self.elements dict.
-        If an isotope is used, eg. `'He4'`, it splits the name with `aton.elements.split_isotope`.
+        If an isotope is used, eg. `'He4'`, it splits the name with `aton.phys.elements.split_isotope`.
         '''
         total_cross_section = 0.0
         for key in self.elements:
             try:
-                total_cross_section += self.elements[key] * aton.atoms[key].cross_section
+                total_cross_section += self.elements[key] * phys.atoms[key].cross_section
             except KeyError: # Split the atomic flag as H2, etc
-                element, isotope_index = aton.elements.split_isotope(key)
-                total_cross_section += self.elements[key] * aton.atoms[element].isotope[isotope_index].cross_section
+                element, isotope_index = phys.split_isotope(key)
+                total_cross_section += self.elements[key] * phys.atoms[element].isotope[isotope_index].cross_section
         self.cross_section = total_cross_section
 
     def set(self):

@@ -11,8 +11,7 @@ This module contains functions to normalize data and other variables.
 """
 
 
-import aton.alias as alias
-from aton.units import *
+import aton.st.alias as alias
 from .classes import *
 from .fit import *
 

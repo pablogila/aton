@@ -20,7 +20,7 @@ using Quantum ESPRESSO as calculator.
 ## CASTEP
 
 The submodule `aton.interface.castep` is used
-to read [CASTEP](http://www.castep.org/) output files.
+to read [CASTEP](https://castep-docs.github.io/castep-docs/) output files.
 
 """
 

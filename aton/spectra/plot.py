@@ -9,7 +9,7 @@ This module loads the `plot()` function, used to plot `aton.spectra.SpectraData`
 import matplotlib.pyplot as plt
 from .classes import *
 from . import normalize
-import aton.alias as alias
+import aton.st.alias as alias
 
 
 def plot(spectrum:Spectra):

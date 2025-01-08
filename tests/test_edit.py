@@ -1,5 +1,5 @@
 from aton.text import edit
-from aton import file
+from aton.st import file
 
 
 folder = 'tests/samples/'

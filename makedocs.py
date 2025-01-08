@@ -38,6 +38,6 @@ shutil.copytree('pics', 'docs/pics', dirs_exist_ok=True)
 # Fix the README
 aton.text.edit.from_template(readme, temp_readme, fix_dict)
 # Run Pdoc with the dark theme template from the ./css/ folder
-aton.call.bash(f"pdoc ./aton/ -o ./docs/ --mermaid --math --footer-text='Aton {__version__} documentation' -t ./css/")
-aton.file.remove(temp_readme)
+aton.st.call.bash(f"pdoc ./aton/ -o ./docs/ --mermaid --math --footer-text='Aton {__version__} documentation' -t ./css/")
+aton.st.file.remove(temp_readme)
 

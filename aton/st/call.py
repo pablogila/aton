@@ -15,7 +15,7 @@ import subprocess
 import datetime
 import sys
 import os
-from ._version import __version__ as version
+from aton._version import __version__
 
 
 def bash(
@@ -59,7 +59,7 @@ def git(
     bash("git add .", path, verbose)
     if not message:
         date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M")
-        message = f'Automatic push on {date} with Thoth {version}'
+        message = f'Automatic push on {date} with Thoth {__version__}'
     bash(f'git commit -m "{message}"', path, verbose)
     if tag:
         bash(f'git tag -a {tag} HEAD -m {message}', path, verbose)

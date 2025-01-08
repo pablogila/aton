@@ -18,7 +18,7 @@ Functions to manipulate the content of text files.
 
 import mmap
 from . import find
-import aton.file as file
+import aton.st.file as file
 
 
 def insert_at(

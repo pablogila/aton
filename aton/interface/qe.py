@@ -29,8 +29,8 @@ Dictionaries with the input data description:
 import pandas as pd
 import os
 from aton._version import __version__
-import aton.file as file
-import aton.atoms
+import aton.st.file as file
+import aton.phys.atoms
 import aton.text.find as find
 import aton.text.edit as edit
 import aton.text.extract as extract
@@ -567,7 +567,7 @@ def add_atom(filepath, position) -> None:
             is_atom_missing = False
             break
     if is_atom_missing:  # Update ATOMIC_SPECIES. ntyp should be updated automatically.
-        mass = aton.atoms[atom].mass
+        mass = aton.phys.atoms[atom].mass
         atomic_species.append(f'  {atom}   {mass}   {atom}.upf')
         set_value(filepath=filepath, key='ATOMIC_SPECIES', value=atomic_species)
     return None

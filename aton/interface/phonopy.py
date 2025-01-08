@@ -21,10 +21,10 @@ The following functions are available for more control:
 import os
 import re
 from aton._version import __version__
-import aton.file as file
+import aton.st.file as file
+import aton.st.call as call
 import aton.text.find as find
 import aton.text.edit as edit # text
-import aton.call as call
 import aton.text.extract as extract
 import aton.interface.qe as qe
 

@@ -11,8 +11,7 @@ This module contains methods to calculate deuteration levels from different spec
 
 
 from copy import deepcopy
-import aton.alias as alias
-from aton.units import *
+import aton.st.alias as alias
 from .classes import Spectra, Material
 from aton.spectra.fit import area_under_peak, ratio_areas, plateau
 
