@@ -16,7 +16,7 @@ He4_mass = phys.atoms['H'].isotope[4].mass  # 4.0026032497
 ---
 '''
 
-from .functions import Element, Isotope
+from .classes import Element, Isotope
 
 atoms = {
     'H': Element(

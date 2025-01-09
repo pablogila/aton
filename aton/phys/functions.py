@@ -2,8 +2,8 @@
 # Description
 
 This module contains functions to sort and analyse
-chemical data using the `aton.phys.atoms` megadictionary
- which contains the properties of all elements.
+chemical data using the `aton.phys.atoms` megadictionary,
+which contains the properties of all elements.
 It also contains the tools needed to
 automatically update said megadictionary.
 
@@ -19,22 +19,6 @@ phys.allowed_isotopes('Li')  # 6, 7
 - `export_atoms()`. Used to update and export the `aton.phys.atoms` megadictionary.
 - `split_isotope()`
 - `allowed_isotopes()`
-
-Additionally, the `aton.phys.atoms` megadictionary contains the `Element` and `Isotope` classes defined in this submodule.
-
-# References
-
-Atomic `mass` are in atomic mass units (amu), and come from:
-Pure Appl. Chem., Vol. 78, No. 11, pp. 2051-2066, 2006.
-The following masses are obtained from Wikipedia:
-Ac: 227, Np: 237, Pm: 145, Tc: 98
-
-Isotope `mass`, `mass_number` and `abundance` come from:
-J. R. de Laeter, J. K. Böhlke, P. De Bièvre, H. Hidaka, H. S. Peiser, K. J. R. Rosman
-and P. D. P. Taylor (2003). 'Atomic weights of the elements. Review 2000 (IUPAC Technical Report)'
-
-Total bound scattering `cross_section` $\\sigma_s$ are in barns (1 b = 100 fm$^2$).
-From Felix Fernandez-Alonso's book 'Neutron Scattering Fundamentals' (2013).
 
 ---
 '''
@@ -68,7 +52,7 @@ def export_atoms(
             "```\n\n"
             "---\n"
             "'''\n\n"
-            "from .functions import Element, Isotope\n\n"
+            "from .classes import Element, Isotope\n\n"
         )
         # Start the atom megadictionary
         f.write("atoms = {\n")
@@ -128,39 +112,4 @@ def allowed_isotopes(element) -> list:
             raise KeyError(f'Unrecognised element: {element}')
     isotopes = atoms[element].isotope.keys()
     return isotopes
-
-
-##################################################
-##########  Classes for the atoms dict  ##########
-##################################################
-
-
-class Element:
-    '''Used in the `aton.atoms` megadictionary to store element data.'''
-    def __init__(self=None, Z:int=None, symbol:str=None, name:str=None, mass:float=None, cross_section:float=None, isotope:dict=None):
-        self.Z: int = Z
-        '''Atomic number (Z). Corresponds to the number of protons / electrons.'''
-        self.symbol: str = symbol
-        '''Standard symbol of the element.'''
-        self.name: str = name
-        '''Full name.'''
-        self.mass: float = mass
-        '''Atomic mass, in atomic mass units (amu).'''
-        self.cross_section: float = cross_section
-        '''Total bound scattering cross section.'''
-        self.isotope: dict = isotope
-        '''Dictionary containing the different `Isotope` of the element. The keys are the mass number (A).'''
-
-
-class Isotope:
-    '''Used in the `aton.atoms` megadictionary to store isotope data.'''
-    def __init__(self, A:int=None, mass:float=None, abundance:float=None, cross_section:float=None):
-        self.A: int = A
-        '''Mass number (A) of the isotope. Corresponds to the total number of protons + neutrons in the core.'''
-        self.mass: float = mass
-        '''Atomic mass of the isotope, in atomic mass units (amu).'''
-        self.abundance: float = abundance
-        '''Relative abundance of the isotope.'''
-        self.cross_section: float = cross_section
-        '''Total bound scattering cross section of the isotope.'''
 

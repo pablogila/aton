@@ -29,6 +29,7 @@ fix_dict ={
     '[interface.phonopy](https://pablogila.github.io/Aton/aton/interface/phonopy.html)' : '`aton.interface.phonopy`',
     '[interface.castep](https://pablogila.github.io/Aton/aton/interface/castep.html)'   : '`aton.interface.castep`',
     '[spectra](https://pablogila.github.io/Aton/aton/spectra.html)'                     : '`aton.spectra`',
+    '[spectra.classes](https://pablogila.github.io/Aton/aton/spectra/classes.html)'     : '`aton.spectra.classes`',
     '[spectra.fit](https://pablogila.github.io/Aton/aton/spectra/fit.html)'             : '`aton.spectra.fit`',
     '[spectra.normalize](https://pablogila.github.io/Aton/aton/spectra/normalize.html)' : '`aton.spectra.normalize`',
     '[spectra.plot](https://pablogila.github.io/Aton/aton/spectra/plot.html)'           : '`aton.spectra.plot`',

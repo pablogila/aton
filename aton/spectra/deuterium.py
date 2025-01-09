@@ -29,7 +29,8 @@ def impulse_approx(
     https://www.tandfonline.com/doi/full/10.1080/00018732.2017.1317963.
 
     Protonated and deuterated materials must be specified
-    as `aton.spectra.Material` objects.
+    as `aton.spectra.classes.Material` objects.
+    Note that this approximation is very sensitive to the mass sample.
     The threshold controls the start of the plateau (in meV)
     to start considering Deep Inelastic Neutron Scattering (DINS).
     The protonated and deuterated dataframe indexes are specified
@@ -45,9 +46,6 @@ def impulse_approx(
     $$
     \\text{Deuteration} = \\frac{1-\\text{real_ratio}}{1-\\text{ideal_ratio}}
     $$
-
-    > [!WARNING]
-    > This approximation is very sensitive to the mass sample, specified by `aton.spectra.Material.grams`.
     """
     ins = deepcopy(ins)
     material_H = deepcopy(material_H)

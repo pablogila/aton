@@ -1,7 +1,7 @@
 <p align="center"><img width="40.0%" src="pics/aton.png"></p>
 
-Welcome to the **A**b-ini**T**i**O** and **N**eutron research toolbox, or [Aton](https://en.wikipedia.org/wiki/Aten).
-Just like its ancient Egyptian deity counterpart, this all-in-one Python package provides powerful and comprehensive tools for cutting-edge materials research, focused on (but not limited to) neutron science.  
+Welcome to the **A**b-ini**T**i**O** and **N**eutron research toolbox, or [Aton](https://github.com/pablogila/Aton/).
+Just like its ancient Egyptian [deity](https://en.wikipedia.org/wiki/Aten) counterpart, this all-in-one Python package provides powerful and comprehensive tools for cutting-edge materials research, focused on (but not limited to) neutron science.  
 
 Aton provides a range of spectral analysis tools, from spectra normalisation to deuteration estimation using the DINS impulse approximation.  
 A set of physico-chemical constants and definitions is also included.  
@@ -53,33 +53,43 @@ Code examples are included in the `examples/` folder.
 ## Physico-chemical constants
 
 ### [phys](https://pablogila.github.io/Aton/aton/phys.html)
+
 | | |
 | --- | --- |
 | [phys.units](https://pablogila.github.io/Aton/aton/phys/units.html) | Physical constants and conversion factors |
 | [phys.atoms](https://pablogila.github.io/Aton/aton/phys/atoms.html) | Megadictionary with data for all chemical elements |  
 | [phys.functions](https://pablogila.github.io/Aton/aton/phys/functions.html) | Functions to sort and analyse element data, and to update the atoms dictionary |  
 
-The [phys](https://pablogila.github.io/Aton/aton/phys.html) subpackage contains physico-chemical definitions. All values can be accessed directly as `phys.value` or `phys.function()`.
+The [phys](https://pablogila.github.io/Aton/aton/phys.html) module contains physico-chemical definitions. All values can be accessed directly as `phys.value` or `phys.function()`.
 
 ## Interfaces for ab-initio codes
+
 ### [interface](https://pablogila.github.io/Aton/aton/interface.html)
+
 | | |
 | --- | --- |
 | [interface.qe](https://pablogila.github.io/Aton/aton/interface/qe.html) | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
 | [interface.phonopy](https://pablogila.github.io/Aton/aton/interface/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
 | [interface.castep](https://pablogila.github.io/Aton/aton/interface/castep.html) | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
-The [interface](https://pablogila.github.io/Aton/aton/interface.html) module contains interfaces for several *ab-initio* codes. These are powered by the [text](https://pablogila.github.io/Aton/aton/text.html) subpackage and can be easily extended.  
+
+The [interface](https://pablogila.github.io/Aton/aton/interface.html) module contains interfaces for several *ab-initio* codes. These are powered by the [text](https://pablogila.github.io/Aton/aton/text.html) module and can be easily extended.  
 
 ## Spectral analysis tools
+
+> ⚠️ **WARNING:** The spectra module is not yet 100% ported, bugs are expected!
+
 ### [spectra](https://pablogila.github.io/Aton/aton/spectra.html)
+
 | | |
 | --- | --- |
-| [spectra.fit](https://pablogila.github.io/Aton/aton/spectra/fit.html) | text |
-| [spectra.normalize](https://pablogila.github.io/Aton/aton/spectra/normalize.html) | |
-| [spectra.plot](https://pablogila.github.io/Aton/aton/spectra/plot.html) | |
-| [spectra.deuterium](https://pablogila.github.io/Aton/aton/spectra/deuterium.html) | |
-| [spectra.samples](https://pablogila.github.io/Aton/aton/spectra/samples.html) | |
-The [spectra](https://pablogila.github.io/Aton/aton/spectra.html) module IS YET TO BE IMPLEMENTED.
+| [spectra.classes](https://pablogila.github.io/Aton/aton/spectra/classes.html) | Class definitions for the spectra module |
+| [spectra.fit](https://pablogila.github.io/Aton/aton/spectra/fit.html) | Spectra fitting functions |
+| [spectra.normalize](https://pablogila.github.io/Aton/aton/spectra/normalize.html) | Spectra normalization |
+| [spectra.plot](https://pablogila.github.io/Aton/aton/spectra/plot.html) | Plotting |
+| [spectra.deuterium](https://pablogila.github.io/Aton/aton/spectra/deuterium.html) | Deuteration estimations via INS |
+| [spectra.samples](https://pablogila.github.io/Aton/aton/spectra/samples.html) | Sample materials for testing |
+
+The [spectra](https://pablogila.github.io/Aton/aton/spectra.html) module includes tools to analyse spectral data, such as Inelastic Neutron Scattering, Raman, Infrared, etc.
 
 ## General text edition
 ### [text](https://pablogila.github.io/Aton/aton/text.html)
@@ -88,16 +98,20 @@ The [spectra](https://pablogila.github.io/Aton/aton/spectra.html) module IS YET 
 | [text.find](https://pablogila.github.io/Aton/aton/text/find.html) | Search for specific content in a text file.  | 
 | [text.edit](https://pablogila.github.io/Aton/aton/text/edit.html) | Manipulate text files.  |
 | [text.extract](https://pablogila.github.io/Aton/aton/text/extract.html) | Extract data from raw text strings.  |
-The [text](https://pablogila.github.io/Aton/aton/text.html) subpackage includes submodules for general text edition.
+
+The [text](https://pablogila.github.io/Aton/aton/text.html) module includes tools for general text edition.
 
 ## System tools
+
 ### [st](https://pablogila.github.io/Aton/aton/st.html)
+
 | | |
 | --- | --- |
 | [st.file](https://pablogila.github.io/Aton/aton/st/file.html) | Manipulate files |  
 | [st.call](https://pablogila.github.io/Aton/aton/st/call.html) | Run bash scripts and related |  
 | [st.alias](https://pablogila.github.io/Aton/aton/st/alias.html) | Useful dictionaries for user input correction |  
-The [st](https://pablogila.github.io/Aton/aton/st.html) module contains common System Tools.  
+
+The [st](https://pablogila.github.io/Aton/aton/st.html) module contains System Tools for common tasks across subpackages.  
 
 ---
 
@@ -111,10 +125,10 @@ For major changes, please get in touch first to discuss the details.
 Please try to follow some general guidelines:  
 - Use a code style consistent with the rest of the project.  
 - Include docstrings to document new additions.  
-- Include tests for new features or modifications.  
+- Include automated tests for new features or modifications, see [automated testing](#automated-testing).  
 - Arrange function arguments by order of relevance. Most implemented functions follow something similar to `function(file, key/s, value/s, optional)`.  
 
-## Testing with PyTest
+## Automated testing
 
 If you are modifying the source code, you should run the automated tests of the `tests/` folder to check that everything works as intended.
 To do so, first install PyTest in your environment,

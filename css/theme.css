@@ -5,22 +5,21 @@
 .pdoc {
     --text: #f7f7f7;
     --muted: #9d9d9d;
-    --link: #82bcff;
-    --link-hover: #2890e6;
-    --code: #111623;
-    --active: #212c3d;
+    --link: #be96ff;
+    --link-hover: #9b5cff;
+    --code: #1f1928;
+    --active: #322842;
 
-    --accent: #111623;
-    --accent2: #212c3d;
+    --accent: #1f1928;
+    --accent2: #000000;  /* Same as background to remove lines from tables */
 
     --nav-hover: rgba(0, 0, 0, 0.1);
-    --name: #2890e6;
+    --name: #be96ff;
     --def: #0cdd0c;
     --annotation: #00c037;
 }
 
-/* Remove table headers
+/* Hide table headers */
 th {
     display: none;
 }
-*/
