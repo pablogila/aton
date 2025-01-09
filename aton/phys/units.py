@@ -1,14 +1,27 @@
 '''
 # Description
+
 This module contains useful constants and conversion factors.
 
+
 # Index
+
 - [Energy conversion factors](#energy-conversion-factors)
 - [Distance conversion factors](#distance-conversion-factors)
 - [Mass conversion factors](#mass-conversion-factors)
 - [Pressure conversion factors](#pressure-conversion-factors)
 - [Time conversion factors](#time-conversion-factors)
 - [Universal constants](#universal-constants)
+
+
+# Examples
+
+```python
+from aton import phys
+energy_in_cm1 = 1000 * phys.meV_to_cm1       # 8065.5
+length_in_angstroms = 10.0 * phys.bohr_to_A  # 5.29177210544
+phys.hbar   # 1.0545718176461565e-34
+```
 
 ---
 
@@ -20,8 +33,8 @@ import numpy as np
 
 eV_to_meV   = 1000.0
 meV_to_eV   = 0.001
-meV_to_cm   = 8.0655
-cm_to_meV   = 1.0 / meV_to_cm
+meV_to_cm1  = 8.0655
+cm1_to_meV  = 1.0 / meV_to_cm1
 eV_to_J     = 1.602176634e-19
 J_to_eV     = 1.0 / eV_to_J
 meV_to_J    = meV_to_eV * eV_to_J

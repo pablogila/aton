@@ -7,18 +7,24 @@ which contains the properties of all elements.
 It also contains the tools needed to
 automatically update said megadictionary.
 
-All functions can be called from the phys subpackage directly, as:
-```python
-from aton import phys
-phys.split_isotope('He4')    # He, 4
-phys.allowed_isotopes('Li')  # 6, 7
-```
 
 # Index
 
-- `export_atoms()`. Used to update and export the `aton.phys.atoms` megadictionary.
-- `split_isotope()`
-- `allowed_isotopes()`
+| | |
+| --- | --- |
+| `export_atoms()`     | Used to update and export the `aton.phys.atoms` dict |
+| `split_isotope()`    | Splits element name and mass number |
+| `allowed_isotopes()` | Returns the available mass numbers for a given element |
+
+
+# Examples
+
+All functions can be called from the phys subpackage directly, as:
+```python
+from aton import phys
+phys.split_isotope('He4')    # (He, 4)
+phys.allowed_isotopes('Li')  # (6, 7)
+```
 
 ---
 '''
@@ -32,27 +38,63 @@ def export_atoms(
 
     This is used to build and update the `aton.atoms` megadictionary, that contains
     all the element data, such as masses, cross-sections, etc.
+    The `atoms.py` file must be modified here.
     '''
     with open(filename, 'w') as f:
         # Write the docstrings
         f.write(
             "'''\n"
-            "# Description\n"
+            "# Description\n\n"
             "This module contains the `atoms` megadictionary,\n"
             "which contains the properties of all elements.\n"
-            "It is managed and updated automatically with `aton.elements`,\n"
-            "which also contains the definition of the dictionary,\n"
-            "as well as the literature references for this data.\n\n"
-            "The `atoms` dictionary can be loaded directly as `aton.phys.atoms`.\n"
-            "Use example:\n"
+            "It is managed and updated automatically with `aton.phys.functions`.\n\n\n"
+            "# Index\n\n"
+            "| | |\n"
+            "| --- | --- |\n"
+            "| `Element` | Used as values in the `atoms` dict, stores element properties |\n"
+            "| `Isotope` | Used as values in `Element.isotope`, stores isotope properties |\n"
+            "| `atoms`   | The dict with data from all elements |\n\n\n"
+            "# Examples\n\n"
+            "The `atoms` dictionary can be loaded directly as `aton.phys.atoms`, as shown below:\n"
             "```python\n"
             "from aton import phys\n"
             "aluminium_cross_section = phys.atoms['Al'].cross_section\n"
-            "He4_mass = phys.atoms['H'].isotope[4].mass\n"
+            "He4_mass = phys.atoms['H'].isotope[4].mass\n\n"
             "```\n\n"
             "---\n"
-            "'''\n\n"
-            "from .classes import Element, Isotope\n\n"
+            "'''\n\n\n"
+            "class Element:\n"
+            "    '''Used in the `aton.atoms` megadictionary to store element data.'''\n"
+            "    def __init__(self=None, Z:int=None, symbol:str=None, name:str=None, mass:float=None, cross_section:float=None, isotope:dict=None):\n"
+            "        self.Z: int = Z\n"
+            "        '''Atomic number (Z). Corresponds to the number of protons / electrons.'''\n"
+            "        self.symbol: str = symbol\n"
+            "        '''Standard symbol of the element.'''\n"
+            "        self.name: str = name\n"
+            "        '''Full name.'''\n"
+            "        self.mass: float = mass\n"
+            "        '''Atomic mass, in atomic mass units (amu).'''\n"
+            "        self.cross_section: float = cross_section\n"
+            "        '''Total bound scattering cross section.'''\n"
+            "        self.isotope: dict = isotope\n"
+            "        '''\n"
+            "        Dictionary containing the different `Isotope` of the element.\n"
+            "        The keys are the mass number (A).\n"
+            "        '''\n\n\n"
+            "class Isotope:\n"
+            "    '''Used in the `aton.atoms` megadictionary to store isotope data.'''\n"
+            "    def __init__(self, A:int=None, mass:float=None, abundance:float=None, cross_section:float=None):\n"
+            "        self.A: int = A\n"
+            "        '''\n"
+            "        Mass number (A) of the isotope.\n"
+            "        Corresponds to the total number of protons + neutrons in the core.\n"
+            "        '''\n"
+            "        self.mass: float = mass\n"
+            "        '''Atomic mass of the isotope, in atomic mass units (amu).'''\n"
+            "        self.abundance: float = abundance\n"
+            "        '''Relative abundance of the isotope.'''\n"
+            "        self.cross_section: float = cross_section\n"
+            "        '''Total bound scattering cross section of the isotope.'''\n\n\n"
         )
         # Start the atom megadictionary
         f.write("atoms = {\n")

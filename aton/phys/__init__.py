@@ -1,28 +1,45 @@
 """
 # Physico-chemical constants
 
-This subpackage contains:
-- `units`
-- `atoms`
-- `elements`
+This subpackage contains universal physical constants,
+as well as chemical data from all known elements.
+It also includes functions to manage this data.
 
 
-Use example:
+# Index
+
+| | |
+| --- | --- |
+| `units`     | Universal constants and conversion factors |
+| `atoms`     | Data from all chemical elements |
+| `functions` | Functions to manage data from the `atoms` dict |
+
+
+# Examples
+
+All values and functions from **phys** submodules can be
+loaded directly as `phys.value` or `phys.function()`,
+as in the example below.
 
 ```python
 from aton import phys
-phys.eV_to_J  # 1.602176634e-19
+phys.eV_to_J                     # 1.602176634e-19
 phys.atoms['H'].isotope[2].mass  # 2.0141017779
+phys.split_isotope('He4')        # ('He', 4)
 ```
+
+See the API reference of the specific modules for more information.
+
 
 # References
 
-## `aton.units`
+## `aton.phys.units`
 
-These values come from the 2022 CODATA Internationally
+Constant values come from the 2022 CODATA Internationally
 recommended 2022 values of the Fundamental Physical Constants.
 
-## `aton.atoms`
+
+## `aton.phys.atoms`
 
 Atomic `mass` are in atomic mass units (amu), and come from:
 Pure Appl. Chem., Vol. 78, No. 11, pp. 2051-2066, 2006.
