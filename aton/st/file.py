@@ -1,16 +1,19 @@
 '''
 # Description
+
 Functions to move files around.
 
+
 # Index
-- `get()`
-- `get_list()`
-- `copy()`
-- `move()`
-- `remove()`
-- `rename_on_folder()`
-- `rename_on_folders()`
-- `copy_to_folders()`
+
+`get()`  
+`get_list()`  
+`copy()`  
+`move()`  
+`remove()`  
+`rename_on_folder()`  
+`rename_on_folders()`  
+`copy_to_folders()`  
 
 ---
 '''

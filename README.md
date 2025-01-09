@@ -1,15 +1,23 @@
 <p align="center"><img width="40.0%" src="pics/aton.png"></p>
 
-Welcome to the **A**b-ini**T**i**O** and **N**eutron research toolbox, or [Aton](https://pablogila.github.io/Aton/).
-Just like its ancient Egyptian [deity](https://en.wikipedia.org/wiki/Aten) counterpart, this all-in-one Python package provides powerful and comprehensive tools for cutting-edge materials research, focused on (but not limited to) neutron science. The source code is available on [GitHub](https://github.com/pablogila/Aton/).    
 
-Aton provides a range of spectral analysis tools, from spectra normalisation to deuteration estimation using the DINS impulse approximation.
-A set of physico-chemical constants and definitions is also included.  
+# Welcome to Aton
 
-Aton also allows you to easily create, edit and analyse all kinds of text files, with a special focus on *ab-initio* calculation files.
-In particular, it contains interfaces for [Quantum ESPRESSO](https://www.quantum-espresso.org/), [Phonopy](https://phonopy.github.io/phonopy/) and [CASTEP](https://castep-docs.github.io/castep-docs/).  
+The **A**b-ini**T**i**O** & **N**eutron research toolbox,
+or [Aton](https://pablogila.github.io/Aton/),
+provides powerful and comprehensive tools
+for cutting-edge materials research,
+focused on (but not limited to) neutron science.
 
+Just like its [ancient Egyptian deity](https://en.wikipedia.org/wiki/Aten) counterpart,
+this all-in-one Python package contains a range of tools from spectra normalisation to deuteration estimations.
+A set of physico-chemical constants and definitions is also included.
+Aton also allows you to easily create, edit and analyse all kinds of text files,
+with a special focus on *ab-initio* calculation files.
+In particular, it contains interfaces for [Quantum ESPRESSO](https://www.quantum-espresso.org/),
+[Phonopy](https://phonopy.github.io/phonopy/) and [CASTEP](https://castep-docs.github.io/castep-docs/).  
 
+The source code is available on [GitHub](https://github.com/pablogila/Aton/).   
 Check the [full documentation online](https://pablogila.github.io/Aton/).  
 
 

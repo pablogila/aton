@@ -1,13 +1,16 @@
 '''
 # Description
+
 Functions to extract data from raw text strings.
 
+
 # Index
-- `number()`
-- `string()`
-- `column()`
-- `coords()`
-- `element()`
+
+`number()`  
+`string()`  
+`column()`  
+`coords()`  
+`element()`  
 
 ---
 '''

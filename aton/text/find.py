@@ -1,20 +1,22 @@
 '''
 # Description
+
 Functions to search for specific content inside text files.
+
 
 # Index
 
-Functions to find and return specific text strings:
-- `lines()`
-- `between()`
+Find and return specific text strings from a file  
+`lines()`  
+`between()`  
 
-Functions to find the position in the file of specific text strings:
-- `pos()`
-- `pos_regex()`
-- `next_pos()`
-- `next_pos_regex()`
-- `line_pos()`
-- `between_pos()`
+Find the `(start, end)` position of specific strings in a file  
+`pos()`  
+`pos_regex()`  
+`next_pos()`  
+`next_pos_regex()`  
+`line_pos()`  
+`between_pos()`  
 
 ---
 '''

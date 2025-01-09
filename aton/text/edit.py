@@ -1,16 +1,19 @@
 """
 # Description
+
 Functions to manipulate the content of text files.
 
+
 # Index
-- `insert_at()`
-- `insert_under()`
-- `replace()`
-- `replace_line()`
-- `replace_between()`
-- `delete_under()`
-- `correct_with_dict()`
-- `from_template()`
+
+`insert_at()`  
+`insert_under()`  
+`replace()`  
+`replace_line()`  
+`replace_between()`  
+`delete_under()`  
+`correct_with_dict()`  
+`from_template()`  
 
 ---
 """

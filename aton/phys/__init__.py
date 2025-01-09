@@ -10,9 +10,9 @@ It also includes functions to manage this data.
 
 | | |
 | --- | --- |
-| `units`     | Universal constants and conversion factors |
-| `atoms`     | Data from all chemical elements |
-| `functions` | Functions to manage data from the `atoms` dict |
+| `aton.phys.units`     | Universal constants and conversion factors |
+| `aton.phys.atoms`     | Data from all chemical elements |
+| `aton.phys.functions` | Functions to manage data from the `aton.phys.atoms` dict |
 
 
 # Examples

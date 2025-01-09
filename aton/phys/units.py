@@ -6,12 +6,12 @@ This module contains useful constants and conversion factors.
 
 # Index
 
-- [Energy conversion factors](#energy-conversion-factors)
-- [Distance conversion factors](#distance-conversion-factors)
-- [Mass conversion factors](#mass-conversion-factors)
-- [Pressure conversion factors](#pressure-conversion-factors)
-- [Time conversion factors](#time-conversion-factors)
-- [Universal constants](#universal-constants)
+[Energy conversion factors](#energy-conversion-factors)  
+[Distance conversion factors](#distance-conversion-factors)  
+[Mass conversion factors](#mass-conversion-factors)  
+[Pressure conversion factors](#pressure-conversion-factors)  
+[Time conversion factors](#time-conversion-factors)  
+[Universal constants](#universal-constants)  
 
 
 # Examples
