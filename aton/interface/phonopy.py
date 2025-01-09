@@ -1,21 +1,23 @@
-'''
+"""
 # Description
+
 Functions to work with [Phonopy](https://phonopy.github.io/phonopy/) calculations,
-along with [Quantum ESPRESSO](https://www.quantum-espresso.org/).
+along with [Quantum ESPRESSO](https://www.quantum-espresso.org/).  
+
 
 # Index
 
-The two main functions that you might want to use to run phonon calculations are:  
-- `make()` Build the supercell inputs.
-- `sbatch()` Sbatch'es the supercell calculations.
+To create the supercell inputs and sbatch phonon calculation  
+`make()` Build the supercell inputs.  
+`sbatch()` Sbatch'es the supercell calculations.  
 
-The following functions are available for more control:  
-- `supercells_from_scf()`
-- `scf_header_to_supercells()`
-- `check_slurm_template()`
+For more control  
+`supercells_from_scf()`  
+`scf_header_to_supercells()`  
+`check_slurm_template()`  
 
 ---
-'''
+"""
 
 
 import os

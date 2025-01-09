@@ -1,26 +1,27 @@
 """
 # Description
 
-Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module from [Quantum ESPRESSO](https://www.quantum-espresso.org/).
+Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module from [Quantum ESPRESSO](https://www.quantum-espresso.org/).  
+
 
 # Index
 
-Functions to read inputs and outputs:  
-- `read_in()`
-- `read_out()`
-- `read_dir()`
-- `read_dirs()`
+Input and output reading  
+`read_in()`  
+`read_out()`  
+`read_dir()`  
+`read_dirs()`  
 
-Functions to manipulate and build custom input files:  
-- `set_value()`
-- `add_atom()`
-- `normalize_card()`
-- `count_elements()`
-- `scf_from_relax()`
+Input file manipulation  
+`set_value()`  
+`add_atom()`  
+`normalize_card()`  
+`count_elements()`  
+`scf_from_relax()`  
 
-Dictionaries with the input data description:  
-- `pw_namelists`
-- `pw_cards`
+Dicts with input file description  
+`pw_namelists`  
+`pw_cards`  
 
 ---
 """
@@ -311,13 +312,17 @@ def set_value(
         filepath,
         key:str,
         value,
+        indent:str='  ',
     ) -> None:
     """Replace the `value` of a `key` parameter in an input `filepath`.
     
     Delete parameters with `value=''`.
-    Remember to include the single quotes `'` on values that use them.\n
+    Remember to include the single quotes `'` on values that use them.
+
     Updating 'ATOMIC_POSITIONS' updates 'nat' automatically,
     and updating 'ATOMIC_SPECIES' updates 'ntyp'.
+
+    Optionally change indentation with `indent`, 2 spaces by default.
     """
     key = key.strip()
     file_path = file.get(filepath)
@@ -331,21 +336,21 @@ def set_value(
     for namelist_values in pw_namelists.values():
         pw_values.extend(namelist_values)
     # All cards
-    pw_cards_upper = ['ATOMIC_POSITIONS_OUT', 'CELL_PARAMETERS_OUT']  # Don't forget about these!
+    pw_cards_upper = []  # Don't forget about these!
     for card in pw_cards.keys():
         pw_cards_upper.append(card.upper())
     # Check if it's a namelist
     if key in pw_values:
         if key in input_old.keys():
-            _update_value(filepath, key, value)
+            _update_value(filepath, key, value, indent)
         else:  # Write the value from scratch
-            _add_value(filepath, key, value)
+            _add_value(filepath, key, value, indent)
     # Check if it's a card
     elif key.upper() in pw_cards_upper:
         if key.upper in present_keys_upper:
-            _update_card(filepath, key, value)
+            _update_card(filepath, key, value, indent)
         else:
-            _add_card(filepath, key, value)
+            _add_card(filepath, key, value, indent)
     else:
         raise ValueError(f'Unrecognised key: {key}')
     return None
@@ -355,8 +360,12 @@ def _update_value(
         filepath,
         key:str,
         value,
+        indent:str='  '
         ) -> None:
-    """Update the `value` of an existing `key` from a namelist. Called by `set_value()`."""
+    """Update the `value` of an existing `key` from a namelist. Called by `set_value()`.
+
+    Optionally change indentation with `indent`, 2 spaces by default.
+    """
     key = key.strip()
     key_uncommented = key
     key_uncommented = key_uncommented.replace('(', r'\(')
@@ -365,11 +374,11 @@ def _update_value(
     # Convert to int if necessary
     if key in _pw_int_values:
         value = int(value)
-    line = f'  {key} = {value}'
+    line = f'{indent}{key} = {value}'
     if value == '':
         line = ''
     edit.replace_line(filepath=filepath, key=key_uncommented, text=line, replacements=1, regex=True)
-    _update_other_values(filepath, key, value)
+    _update_other_values(filepath, key, value, indent)
     return None
 
 
@@ -377,8 +386,12 @@ def _add_value(
         filepath,
         key:str,
         value,
+        indent:str='  '
     ) -> None:
-    """Adds a `key` = `value` to a NAMELIST. Called by `set_value()`."""
+    """Adds a `key` = `value` to a NAMELIST. Called by `set_value()`.
+
+    Optionally change indentation with `indent`, 2 spaces by default.
+    """
     if value == '':  # No need to delete an unexisting value!
         return None
     if key in _pw_int_values:
@@ -398,11 +411,11 @@ def _add_value(
     # Convert to int if necessary
     if value in _pw_int_values:
         value = int(value)
-    line = f'  {key} = {value}'
+    line = f'{indent}{key} = {value}'
     parent_namelist_regex = rf'(?!\s*!\s*)({parent_namelist}|{parent_namelist.lower()})'
     edit.insert_under(filepath=filepath, key=parent_namelist_regex, text=line, insertions=1, regex=True)
     # Update other values if necessary
-    _update_other_values(filepath, key, value)
+    _update_other_values(filepath, key, value, indent)
     return None
 
 
@@ -438,11 +451,15 @@ def _update_card(
         filepath,
         key:str,
         value:list,
+        indent:str='  ',
     ) -> None:
-    """Updates the `value` of a `key` CARD, present in `filepath`. Called by `set_value()`."""
+    """Updates the `value` of a `key` CARD, present in `filepath`. Called by `set_value()`.
+
+    Optionally change indentation with `indent`, 2 spaces by default.
+    """
     if value == '':
         return None
-    value = normalize_card(value)
+    value = normalize_card(value, indent)
     # Replace the CARD value up to the next CARD found
     key = key.upper().strip()
     key_uncommented = rf'(?!\s*!\s*)({key}|{key.lower()})'
@@ -451,7 +468,7 @@ def _update_card(
     # We added the CARD below the previous CARD title, so we remove the previous CARD title
     edit.replace_line(filepath, key_uncommented, '', 1, 0, 0, True)
     # We might have to update other values, such as nat or ntyp
-    _update_other_values(filepath, key, value)
+    _update_other_values(filepath, key, value, indent)
     return None
 
 
@@ -459,16 +476,20 @@ def _add_card(
         filepath,
         key:str,
         value:list,
+        indent:str='  '
     ) -> None:
-    """Adds a non-present `key` CARD with a given `value` to the `filepath`. Called by `set_value()`."""
+    """Adds a non-present `key` CARD with a given `value` to the `filepath`. Called by `set_value()`.
+
+    Optionally change indentation with `indent`, 2 spaces by default.
+    """
     if value == '':
         return None
-    value = normalize_card(value)
+    value = normalize_card(value, indent)
     insert_value = value
     if isinstance(value, list):
         insert_value = '\n'.join(value)
     edit.insert_at(filepath, insert_value, -1)
-    _update_other_values(filepath, key, value)
+    _update_other_values(filepath, key, value, indent)
     return None
 
 
@@ -476,8 +497,12 @@ def _update_other_values(
         filepath,
         key:str,
         value,
+        indent:str='  '
     ) -> None:
-    """Updates values that depend on the input value, eg. updates 'nat' when updating ATOMIC_POSITIONS."""
+    """Updates values that depend on the input value, eg. updates 'nat' when updating ATOMIC_POSITIONS.
+
+    Optionally change indentation with `indent`, 2 spaces by default.
+    """
     file_path = file.get(filepath)
     old_values = read_in(file_path)
     # Key in upper cases for CARD values
@@ -505,13 +530,13 @@ def _update_other_values(
                     elements_found.append(element)
         new_ntyp = len(elements_found)
         if old_ntyp != new_ntyp:
-            set_value(filepath, 'ntyp', new_ntyp)
+            set_value(filepath, 'ntyp', new_ntyp, indent)
         return None
     # ATOMIC_POSITIONS ?
     elif key in ['ATOMIC_POSITIONS', 'ATOMIC_POSITIONS_OUT']:
         new_nat = len(value) - 1
         if old_values['nat'] != new_nat:
-            set_value(filepath, 'nat', new_nat)
+            set_value(filepath, 'nat', new_nat, indent)
         return None
     # Key in lower case for NAMELIST values
     key = key.lower()
@@ -529,12 +554,16 @@ def _update_other_values(
     return None
 
 
-def add_atom(filepath, position) -> None:
+def add_atom(filepath, position, indent='  ') -> None:
     """Adds an atom in a given `filepath` at a specified `position`.
 
-    Position must be a string or a list, as follows:\n
-    `"specie:str float float float"` or `[specie:str, float, float, float]`\n
-    This method updates automatically 'ntyp' and 'nat'.
+    Position must be a string or a list, as follows:
+    `"specie:str float float float"` or `[specie:str, float, float, float]`.
+
+    This method updates automatically other related values,
+    such as 'ntyp' when updating ATOMIC_SPECIES, etc.
+
+    Optionally change indentation with `indent`, 2 spaces by default.
     """
     new_atom = position
     if isinstance(position, list):
@@ -552,13 +581,13 @@ def add_atom(filepath, position) -> None:
         raise ValueError(f'Your position has len(coordinates) < 3, please check it.\nYour position was: {position}\nCoordinates detected: {coords}')
     if len(coords) > 3:
         coords = coords[:3]
-    new_atom = f'  {atom}   {coords[0]}   {coords[1]}   {coords[2]}'
+    new_atom = f'{atom}   {coords[0]}   {coords[1]}   {coords[2]}'
     # Get the values from the file
     values = read_in(filepath)
     atomic_positions = values['ATOMIC_POSITIONS']
     atomic_positions.append(new_atom)
     # Update ATOMIC_POSITIONS. nat should be updated automatically.
-    set_value(filepath, 'ATOMIC_POSITIONS', atomic_positions)
+    set_value(filepath=filepath, key='ATOMIC_POSITIONS', value=atomic_positions, indent=indent)
     # We might have to update ATOMIC_SPECIES!
     atomic_species = values['ATOMIC_SPECIES']
     is_atom_missing = True
@@ -568,13 +597,16 @@ def add_atom(filepath, position) -> None:
             break
     if is_atom_missing:  # Update ATOMIC_SPECIES. ntyp should be updated automatically.
         mass = aton.phys.atoms[atom].mass
-        atomic_species.append(f'  {atom}   {mass}   {atom}.upf')
-        set_value(filepath=filepath, key='ATOMIC_SPECIES', value=atomic_species)
+        atomic_species.append(f'{atom}   {mass}   {atom}.upf')
+        set_value(filepath=filepath, key='ATOMIC_SPECIES', value=atomic_species, indent=indent)
     return None
 
 
-def normalize_card(card:list) -> list:
-    """Take a matched card, and return it in a normalised format."""
+def normalize_card(card:list, indent='') -> list:
+    """Take a matched card, and return it in a normalised format.
+
+    Optionally change indentation with `indent`, 0 spaces by default.
+    """
     # Make sure it is a list!
     if isinstance(card, str):
         card = card.split('\n')
@@ -589,25 +621,28 @@ def normalize_card(card:list) -> list:
         elif any(key in line.upper() for key in pw_cards.keys()):
             break
         items = line.split()
-        cleaned_line = f'  {items[0].strip()}'  # Two spaces at the start of the line
+        cleaned_line = f'{indent}{items[0].strip()}'  # Add the specified intent at the start of the line
         for item in items[1:]:
             item = item.strip()
             cleaned_line = cleaned_line + '   ' + item  # Three spaces between elements
         cleaned_content.append(cleaned_line)
     # Perform extra normalization for some CARDs
     if any(key in cleaned_content[0] for key in ['cell_parameters', 'CELL_PARAMETERS']):
-        cleaned_content = _normalize_cell_parameters(cleaned_content)
+        cleaned_content = _normalize_cell_parameters(cleaned_content, indent)
     elif any(key in cleaned_content[0] for key in ['atomic_positions', 'ATOMIC_POSITIONS']):
-        cleaned_content = _normalize_atomic_positions(cleaned_content)
+        cleaned_content = _normalize_atomic_positions(cleaned_content, indent)
     elif any(key in cleaned_content[0] for key in ['atomic_species', 'ATOMIC_SPECIES']):
-        cleaned_content = _normalize_atomic_species(cleaned_content)
+        cleaned_content = _normalize_atomic_species(cleaned_content, indent)
     elif any(key in cleaned_content[0] for key in ['k_points', 'K_POINTS']):
         cleaned_content = _normalize_k_points(cleaned_content)
     return cleaned_content
 
 
-def _normalize_cell_parameters(card) -> list:
-    """Performs extra formatting to a previously cleaned CELL_PARAMETERS `card`."""
+def _normalize_cell_parameters(card, indent='') -> list:
+    """Performs extra formatting to a previously cleaned CELL_PARAMETERS `card`.
+
+    Optionally change indentation with `indent`, 0 spaces by default.
+    """
     if card == None:
         return None
     cell_parameters = [card[0].strip()]
@@ -617,7 +652,7 @@ def _normalize_cell_parameters(card) -> list:
             raise ValueError(f'Each CELL_PARAMETER must have three coordinates! Yours was:\n{card}\nDetected coordinates were:\n{coords}')
         if len(coords) > 3:  # This should never happen but who knows...
             coords = coords[:3]
-        new_line = f"  {coords[0]:.15f}   {coords[1]:.15f}   {coords[2]:.15f}"
+        new_line = f"{indent}{coords[0]:.15f}   {coords[1]:.15f}   {coords[2]:.15f}"
         cell_parameters.append(new_line)
     # Normalise the header
     if 'angstrom' in cell_parameters[0]:
@@ -635,8 +670,11 @@ def _normalize_cell_parameters(card) -> list:
     return cell_parameters
 
 
-def _normalize_atomic_positions(card) -> list:
-    """Performs extra formatting to a previously cleaned ATOMIC_POSITIONS `card`."""
+def _normalize_atomic_positions(card, indent='') -> list:
+    """Performs extra formatting to a previously cleaned ATOMIC_POSITIONS `card`.
+
+    Optionally change indentation with `indent`, 2 spaces by default.
+    """
     if card == None:
         return None
     atomic_positions = [card[0].strip()]
@@ -650,7 +688,7 @@ def _normalize_atomic_positions(card) -> list:
             raise ValueError(f'Each ATOMIC_POSITION must have at least three coordinates! Yours contained the line:\n{line}\nDetected coordinates were:\n{coords}')
         if len(coords) > 6:  # Including optional parameters
             coords = coords[:6]
-        new_line = f"  {atom}"
+        new_line = f"{indent}{atom}"
         for coord in coords:
             new_line = f"{new_line}   {coord:.15f}"
         atomic_positions.append(new_line)
@@ -669,8 +707,11 @@ def _normalize_atomic_positions(card) -> list:
     return atomic_positions
 
 
-def _normalize_atomic_species(card) -> list:
-    """Performs extra formatting to a previously cleaned ATOMIC_SPECIES `card`."""
+def _normalize_atomic_species(card, indent='') -> list:
+    """Performs extra formatting to a previously cleaned ATOMIC_SPECIES `card`.
+
+    Optionally change indentation with `indent`, 2 spaces by default.
+    """
     if card == None:
         return None
     atomic_species = [card[0].strip()]
@@ -689,18 +730,21 @@ def _normalize_atomic_species(card) -> list:
         if len(line_split) < 3:
             raise ValueError(f'Does the ATOMIC_SPECIES contain the pseudopotential? Your line was:\n{line}')
         pseudopotential = line_split[2]
-        full_line = f"  {atom}   {mass}   {pseudopotential}"
+        full_line = f"{indent}{atom}   {mass}   {pseudopotential}"
         atomic_species.append(full_line)
     return atomic_species
 
 
-def _normalize_k_points(card) -> list:
-    """Performs extra formatting to a previously cleaned K_POINTS `card`."""
+def _normalize_k_points(card, indent='') -> list:
+    """Performs extra formatting to a previously cleaned K_POINTS `card`.
+
+    Optionally change indentation with `indent`, 2 spaces by default.
+    """
     if card == None:
         return None
     k_points = [card[0].strip()]
     points = card[1].split()
-    line = f'  {points[0].strip()}'
+    line = f'{indent}{points[0].strip()}'
     for point in points[1:]:
         line = f'{line} {point.strip()}'
     k_points.append(line)
@@ -833,6 +877,10 @@ pw_cards = {
     'SOLVENTS' : ['X', 'Density', 'Molecule', 'X', 'Density_Left', 'Density_Right', 'Molecule'],
     #
     'HUBBARD' : ['label(1)-manifold(1)', 'u_val(1)', 'label(1)-manifold(1)', 'j0_val(1)', 'paramType(1)', 'label(1)-manifold(1)', 'paramValue(1)', 'label(I)-manifold(I)', 'u_val(I)', 'label(I)-manifold(I)', 'j0_val(I)', 'label(I)-manifold(I)', 'label(J)-manifold(J)', 'I', 'J', 'v_val(I,J)'],
+    # Extra card for output CELL_PARAMETERS
+    'CELL_PARAMETERS_out': ['v1', 'v2', 'v3'],
+    # Extra card for output ATOMIC_POSITIONS
+    'ATOMIC_POSITIONS_out' : ['X', 'x', 'y', 'z', 'if_pos(1)', 'if_pos(2)', 'if_pos(3)'],
 }
 """Dictionary with every possible CARDs as keys, and the corresponding variables as values."""
 

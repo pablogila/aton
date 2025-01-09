@@ -1,12 +1,15 @@
-'''
+"""
 # Description
+
 Functions to work with [CASTEP](https://castep-docs.github.io/castep-docs/) calculation files.
 
 # Index
-- `read_castep()`
+
+Output reading  
+`read_castep()`  
 
 ---
-'''
+"""
 
 
 import aton.st.file as file
@@ -15,7 +18,7 @@ import aton.text.extract as extract
 
 
 def read_castep(filename) -> dict:
-    '''
+    """
     Reads a CASTEP output file, specified in `filename`.
     Returns a dictionary with the following keys:
     `'Enthalpy'` (LBFGS: Final Enthalpy, in kJ/mol),
@@ -23,7 +26,7 @@ def read_castep(filename) -> dict:
     `'Space group'`, `'Volume'` (Angstrom^3), `'Density'` (amu/Angstrom^3), `'Density_g'` (g/cm^3),
     `'A'`, `'B'`, `'C'` (Angstroms), `'Alpha'`, `'Beta'`, `'Gamma'` (Degrees).\n
     Note that these output keys start with a **C**apital letter.
-    '''
+    """
     file_castep = file.get(filename)
     # Initial definitions
     enthalpy    = None

@@ -12,7 +12,9 @@ In particular, it contains interfaces for [Quantum ESPRESSO](https://www.quantum
 
 Check the [full documentation online](https://pablogila.github.io/Aton/).  
 
+
 ---
+
 
 # Installation
 
@@ -22,12 +24,14 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
+
 ## With pip
 
 The fastest way to install Aton is through pip:  
 ```bash
 pip install aton
 ```
+
 
 ## From source
 
@@ -43,7 +47,9 @@ Then clone the repository or download the [latest stable release](https://github
 pip install .
 ```
 
+
 ---
+
 
 # Documentation
 
@@ -51,75 +57,88 @@ The full Aton documentation is available [online](https://pablogila.github.io/At
 An offline version of the documentation is found at `docs/aton.html`.  
 Code examples are included in the `examples/` folder.    
 
-## Physico-chemical constants
-
-### [phys](https://pablogila.github.io/Aton/aton/phys.html)
-
-| | |
-| --- | --- |
-| [phys.units](https://pablogila.github.io/Aton/aton/phys/units.html) | Physical constants and conversion factors |
-| [phys.atoms](https://pablogila.github.io/Aton/aton/phys/atoms.html) | Megadictionary with data for all chemical elements |  
-| [phys.functions](https://pablogila.github.io/Aton/aton/phys/functions.html) | Functions to sort and analyse element data, and to update the atoms dictionary |  
-
-The [phys](https://pablogila.github.io/Aton/aton/phys.html) module contains physico-chemical definitions. All values can be accessed directly as `phys.value` or `phys.function()`.
 
 ## Interfaces for ab-initio codes
 
-### [interface](https://pablogila.github.io/Aton/aton/interface.html)
+The **interface** module contains interfaces for several *ab-initio* codes.  
+These are powered by the [text](https://pablogila.github.io/Aton/aton/text.html) module and can be easily extended.
 
-| | |
-| --- | --- |
+### [aton.interface](https://pablogila.github.io/Aton/aton/interface.html)
+
+| | |  
+| --- | --- |  
 | [interface.qe](https://pablogila.github.io/Aton/aton/interface/qe.html) | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
 | [interface.phonopy](https://pablogila.github.io/Aton/aton/interface/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
 | [interface.castep](https://pablogila.github.io/Aton/aton/interface/castep.html) | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
 
-The [interface](https://pablogila.github.io/Aton/aton/interface.html) module contains interfaces for several *ab-initio* codes. These are powered by the [text](https://pablogila.github.io/Aton/aton/text.html) module and can be easily extended.  
+
+## Physico-chemical constants
+
+The **phys** module contains physico-chemical definitions.
+All values can be accessed directly as `phys.value` or `phys.function()`.  
+
+### [aton.phys](https://pablogila.github.io/Aton/aton/phys.html)
+
+| | |  
+| --- | --- |  
+| [phys.units](https://pablogila.github.io/Aton/aton/phys/units.html) | Physical constants and conversion factors |  
+| [phys.atoms](https://pablogila.github.io/Aton/aton/phys/atoms.html) | Megadictionary with data for all chemical elements |  
+| [phys.functions](https://pablogila.github.io/Aton/aton/phys/functions.html) | Functions to sort and analyse element data, and to update the atoms dictionary |  
+
 
 ## Spectral analysis tools
 
-> ⚠️ **WARNING:** The spectra module is not yet 100% ported, bugs are expected!
+The **spectra** module includes tools to analyse spectral data,
+such as Inelastic Neutron Scattering, Raman, Infrared, etc.  
 
-### [spectra](https://pablogila.github.io/Aton/aton/spectra.html)
+> ⚠️ **WARNING:** The spectra module is not yet 100% ported, bugs are expected!  
 
-| | |
-| --- | --- |
-| [spectra.classes](https://pablogila.github.io/Aton/aton/spectra/classes.html) | Class definitions for the spectra module |
-| [spectra.fit](https://pablogila.github.io/Aton/aton/spectra/fit.html) | Spectra fitting functions |
-| [spectra.normalize](https://pablogila.github.io/Aton/aton/spectra/normalize.html) | Spectra normalization |
-| [spectra.plot](https://pablogila.github.io/Aton/aton/spectra/plot.html) | Plotting |
-| [spectra.deuterium](https://pablogila.github.io/Aton/aton/spectra/deuterium.html) | Deuteration estimations via INS |
-| [spectra.samples](https://pablogila.github.io/Aton/aton/spectra/samples.html) | Sample materials for testing |
+### [aton.spectra](https://pablogila.github.io/Aton/aton/spectra.html)
 
-The [spectra](https://pablogila.github.io/Aton/aton/spectra.html) module includes tools to analyse spectral data, such as Inelastic Neutron Scattering, Raman, Infrared, etc.
+| | |  
+| --- | --- |  
+| [spectra.classes](https://pablogila.github.io/Aton/aton/spectra/classes.html) | Class definitions for the spectra module |  
+| [spectra.fit](https://pablogila.github.io/Aton/aton/spectra/fit.html) | Spectra fitting functions |  
+| [spectra.normalize](https://pablogila.github.io/Aton/aton/spectra/normalize.html) | Spectra normalization |  
+| [spectra.plot](https://pablogila.github.io/Aton/aton/spectra/plot.html) | Plotting |  
+| [spectra.deuterium](https://pablogila.github.io/Aton/aton/spectra/deuterium.html) | Deuteration estimations via INS |  
+| [spectra.samples](https://pablogila.github.io/Aton/aton/spectra/samples.html) | Sample materials for testing |  
+
 
 ## General text edition
-### [text](https://pablogila.github.io/Aton/aton/text.html)
-| | |
-| --- | --- |
-| [text.find](https://pablogila.github.io/Aton/aton/text/find.html) | Search for specific content in a text file.  | 
-| [text.edit](https://pablogila.github.io/Aton/aton/text/edit.html) | Manipulate text files.  |
-| [text.extract](https://pablogila.github.io/Aton/aton/text/extract.html) | Extract data from raw text strings.  |
 
-The [text](https://pablogila.github.io/Aton/aton/text.html) module includes tools for general text edition.
+The **text** module includes tools for general text edition.  
+
+### [aton.text](https://pablogila.github.io/Aton/aton/text.html)
+
+| | |  
+| --- | --- |  
+| [text.find](https://pablogila.github.io/Aton/aton/text/find.html) | Search for specific content in text files |  
+| [text.edit](https://pablogila.github.io/Aton/aton/text/edit.html) | Manipulate text files |  
+| [text.extract](https://pablogila.github.io/Aton/aton/text/extract.html) | Extract data from raw text strings |  
+
 
 ## System tools
 
-### [st](https://pablogila.github.io/Aton/aton/st.html)
+The **st** module contains System Tools for common tasks across subpackages.  
 
-| | |
-| --- | --- |
-| [st.file](https://pablogila.github.io/Aton/aton/st/file.html) | Manipulate files |  
+### [aton.st](https://pablogila.github.io/Aton/aton/st.html)
+
+| | |  
+| --- | --- |  
+| [st.file](https://pablogila.github.io/Aton/aton/st/file.html) | File manipulation |  
 | [st.call](https://pablogila.github.io/Aton/aton/st/call.html) | Run bash scripts and related |  
 | [st.alias](https://pablogila.github.io/Aton/aton/st/alias.html) | Useful dictionaries for user input correction |  
 
-The [st](https://pablogila.github.io/Aton/aton/st.html) module contains System Tools for common tasks across subpackages.  
 
 ---
+
 
 # Contributing
 
 If you are interested in opening an issue or a pull request, please feel free to do so on [GitHub](https://github.com/pablogila/Aton/).  
 For major changes, please get in touch first to discuss the details.  
+
 
 ## Code style
 
@@ -128,6 +147,7 @@ Please try to follow some general guidelines:
 - Include docstrings to document new additions.  
 - Include automated tests for new features or modifications, see [automated testing](#automated-testing).  
 - Arrange function arguments by order of relevance. Most implemented functions follow something similar to `function(file, key/s, value/s, optional)`.  
+
 
 ## Automated testing
 
@@ -142,6 +162,7 @@ And then run PyTest inside the `Aton/` directory,
 pytest -vv
 ```
 
+
 ## Compiling the documentation
 
 The documentation can be compiled automatically to `docs/aton.html` with [Pdoc](https://pdoc.dev/) and Aton itself, by running:
@@ -149,9 +170,11 @@ The documentation can be compiled automatically to `docs/aton.html` with [Pdoc](
 python3 makedocs.py
 ```
 
-This runs Pdoc, updating links and pictures, and using the dark theme CSS template from the `css/` folder.
+This runs Pdoc, updating links and pictures, and using the custom theme CSS template from the `css/` folder.
+
 
 ---
+
 
 # License
 

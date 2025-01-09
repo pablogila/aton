@@ -8,9 +8,9 @@ def test_normalize_cell_params():
     cell_params = 'CELL_PARAMETERS (alat= 10.0000)\n    1.00000000000   0.000000000   0.000000000\n   0.000000000   1.000000000   0.000000000 \n 0.000000000   0.000000000   1.0000000 '
     ideal_params = [
         'CELL_PARAMETERS alat= 10.0',
-        '  1.000000000000000   0.000000000000000   0.000000000000000',
-        '  0.000000000000000   1.000000000000000   0.000000000000000',
-        '  0.000000000000000   0.000000000000000   1.000000000000000',]
+        '1.000000000000000   0.000000000000000   0.000000000000000',
+        '0.000000000000000   1.000000000000000   0.000000000000000',
+        '0.000000000000000   0.000000000000000   1.000000000000000',]
     normalized_params = aton.interface.qe.normalize_card(cell_params)
     assert normalized_params == ideal_params
     # Now check as a list
@@ -31,15 +31,15 @@ def test_normalize_atomic_positions():
     atomic_positions = " ATOMIC_POSITIONS {crystal} \n I   5.000000   0.0000000000000   0.000000000000000 \n C   0.000000000000000   5.000000000000000000   0.000000 "
     ideal_positions = [
         'ATOMIC_POSITIONS crystal',
-        '  I   5.000000000000000   0.000000000000000   0.000000000000000',
-        '  C   0.000000000000000   5.000000000000000   0.000000000000000']
+        'I   5.000000000000000   0.000000000000000   0.000000000000000',
+        'C   0.000000000000000   5.000000000000000   0.000000000000000']
     normalized_positions = aton.interface.qe.normalize_card(atomic_positions)
     assert normalized_positions == ideal_positions
 
 
 def test_normalize_atomic_species():
     atomic_species = " ATOMIC_SPECIES \n     I  126.90400   I.upf  \nHe4   4.0026032497   He.upf\n\n! C   12.01060   C.upf\n ATOMIC_POSITIONS\n '  I   5.000000000000000   0.000000000000000   0.000000000000000'"
-    ideal_species = ['ATOMIC_SPECIES', '  I   126.904   I.upf', '  He4   4.0026032497   He.upf']
+    ideal_species = ['ATOMIC_SPECIES', 'I   126.904   I.upf', 'He4   4.0026032497   He.upf']
     normalized_species = aton.interface.qe.normalize_card(atomic_species)
     assert normalized_species == ideal_species
 
@@ -70,7 +70,7 @@ def test_read():
         # relax.in
         'K_POINTS'             : [
             'K_POINTS automatic',
-            '  2 2 2 0 0 0'],
+            '2 2 2 0 0 0'],
         'ecutwfc'              : 60.0,
         'etot_conv_thr'        : 1.0e-12,
         'max_seconds'          : 1000,
@@ -93,7 +93,7 @@ def test_read():
     }
     result = aton.interface.qe.read_dir(folder=folder, in_str='relax.in', out_str='relax.out')
     for key in ideal:
-        if key in ['ATOMIC_SPECIES', 'CELL_PARAMETERS', 'CELL_PARAMETERS_out', 'ATOMIC_POSITIONS', 'ATOMIC_POSITIONS_out']:
+        if key in aton.interface.qe.pw_cards:
             ideal[key] = aton.interface.qe.normalize_card(ideal[key])
         assert result[key] == ideal[key]
 
