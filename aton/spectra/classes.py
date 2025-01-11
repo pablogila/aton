@@ -217,27 +217,27 @@ class Scaling:
 class Spectra:
     """Spectra object. Used to load and process spectral data.
 
-    Most functions present in the `atom.spectra` module receive this object as input.
+    Most functions present in the `aton.spectra` module receive this object as input.
 
-    **Use example:** to load two INS spectra CSV files from MANTID with cm$^{-1}$ as input units,
+    To load two INS spectra CSV files with cm$^{-1}$ as input units,
     and plot them in meV units, normalizing their heights over the range from 20 to 50 meV:
     ```python
-    import maatpy as mt
-    ins = mt.Spectra(
-        type='INS',
-        files=['example_1.csv', 'example_2.csv'],
-        units_in='cm-1',
-        units='meV',
-        plotting=mt.Plotting(
-            title='Calculated INS',
-            normalize=True,
+    from aton import spectra
+    ins = spectra.Spectra(
+        type     = 'INS',
+        files    = ['example_1.csv', 'example_2.csv'],
+        units_in = 'cm-1',
+        units    = 'meV',
+        plotting = spectra.Plotting(
+            title     = 'Calculated INS',
+            normalize = True,
             ),
-        scaling=mt.Scaling(
-            xmin=20,
-            xmax=50,
+        scaling = spectra.Scaling(
+            xmin = 20,
+            xmax = 50,
             ),
         )
-    mt.plot.spectra(ins)
+    aton.plot(ins)
     ```
 
     Check more use examples in the `/examples/` folder.

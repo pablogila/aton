@@ -6,9 +6,11 @@ This module contains tools for general text operations.
 
 # Index
 
-`aton.text.find`  
-`aton.text.edit`  
-`aton.text.extract`  
+| | |
+| --- | --- |
+| `aton.text.find`    | Search for specific content from a text file |
+| `aton.text.edit`    | Edit specific content from a text file |
+| `aton.text.extract` | Extract data from raw text strings |
 
 
 # Examples

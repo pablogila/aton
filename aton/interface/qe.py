@@ -607,50 +607,60 @@ def get_atom(
         filepath:str,
         position:list
     ) -> str:
-    """Takes the approximate `position` of an atom, and returns the full line from the `filepath`
-    
-    TODO: round the decimals instead of trimming them!
-    """
+    """Takes the approximate `position` of an atom, and returns the full line from the `filepath`"""
     if isinstance(position, str):
         coordinates = extract.coords(position)
     elif isinstance(position, list):
         coordinates = position
+        if len(position) == 1 and isinstance(position[0], str):  # In case someone like me introduces ['x, y, z']
+            coordinates = extract.coords(position[0])
     else:
-        raise ValueError(f'The atomic position must be a list or a string! Yours was:\n{position}')
+        raise ValueError(f'The atomic position must be a list or a string! Yours was:\n{position}\nDetected coordinates:\n{coordinates}')
     if len(coordinates) < 3:
-        raise ValueError(f'Atomic position has less that 3 coordinates! Yours was:\n{position}')
+        raise ValueError(f'Atomic position has less that 3 coordinates! Yours had len={len(coordinates)}:\n{position}\nDetected coordinates:\n{coordinates}')
     if len(coordinates) > 3:
         coordinates = coordinates[:3]
-    # Find the matching atomic position
+    # Get the max number of decimals, and make sure we have floats
+    decimals = 0
+    for i, coord in enumerate(coordinates):
+        i_decimals = len(str(coord).split('.')[1])
+        coordinates[i] = float(coordinates[i])
+        if i_decimals > decimals:
+            decimals = i_decimals
+    # Find the rounded coords
+    coordinates_str = []
+    for i, coord in enumerate(coordinates):
+        coordinates_str.append(f'{round(coord, decimals):.{decimals}f}')
     pattern = rf''
-    for coord in coordinates:
+    for coord in coordinates_str:
         pattern += rf'\s*{coord}\d+'
+    pattern = pattern.replace('.', r'\.')
     lines = find.lines(filepath=filepath, key=pattern, regex=True)
     if len(lines) == 1:
         return lines[0].strip()
     elif len(lines) > 1:
-        raise ValueError(f'More than one matching atomic position found! Please provide more precision, atoms found were:\n{lines}')
+        raise ValueError(f'More than one matching atomic position found! Please provide more precision, atoms found were:\n{lines}\nWith the regex:\n{pattern}')
     # No match found, try rounding the values
     pattern = rf''
-    for i in range(len(coordinates)):
-        coordinates[i] = str(coordinates[i])[:-1]  # remove last digit
-        pattern += rf'\s*{coordinates[i]}\d+'
+    for coord in coordinates_str:
+        pattern += rf'\s*{coord[:-1]}\d+'
+    pattern = pattern.replace('.', r'\.')
     lines = find.lines(filepath=filepath, key=pattern, regex=True)
     if len(lines) == 1:
         return lines[0].strip()
     elif len(lines) > 1:
-        raise ValueError(f'More than one matching atomic position found! Please provide more precision, atoms found were:\n{lines}\nWith the rounded coordinates:\n{coordinates}')
+        raise ValueError(f'More than one matching atomic position found! Please provide more precision, atoms found were:\n{lines}\nWith the rounded coordinates:\n{coordinates}\nWith the regex:\n{pattern}')
     # No match found, try rounding for a second and final try
     pattern = rf''
-    for i in range(len(coordinates)):
-        coordinates[i] = str(coordinates[i])[:-1]  # remove last digit
-        pattern += rf'\s*{coordinates[i]}\d+'
+    for coord in coordinates_str:
+        pattern += rf'\s*{coord[:-2]}\d+'
+    pattern = pattern.replace('.', r'\.')
     lines = find.lines(filepath=filepath, key=pattern, regex=True)
     if len(lines) == 1:
         return lines[0].strip()
     elif len(lines) > 1:
-        raise ValueError(f'More than one matching atomic position found! Please provide more precision, atoms found were:\n{lines}\nWith the rounded coordinates:\n{coordinates}')
-    raise ValueError(f'No matching atomic position found, please check your coordinates:\n{position}')
+        raise ValueError(f'More than one matching atomic position found! Please provide more precision, atoms found were:\n{lines}\nWith the rounded coordinates:\n{coordinates}\nWith the regex:\n{pattern}')
+    raise ValueError(f'No matching atomic position found, please check your coordinates:\n{position}\nWith the coordinates:\n{coordinates}\nWith the regex:\n{pattern}')
 
 
 def normalize_card(card:list, indent='') -> list:

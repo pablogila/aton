@@ -47,7 +47,7 @@ Optionally, you can install Aton from the [GitHub repository](https://github.com
 
 First install the dependencies:  
 ```bash
-pip install pandas numpy scipy
+pip install pandas numpy scipy matplotlib
 ```
 
 Then clone the repository or download the [latest stable release](https://github.com/pablogila/Aton/tags) as a ZIP, unzip it, and run inside the `Aton/` directory:  
@@ -68,7 +68,7 @@ Code examples are included in the `examples/` folder.
 
 ## Interfaces for ab-initio codes
 
-The **interface** module contains interfaces for several *ab-initio* codes.  
+The **interface** module contains interfaces for several *ab-initio* codes.
 These are powered by the [text](https://pablogila.github.io/Aton/aton/text.html) module and can be easily extended.
 
 ### [aton.interface](https://pablogila.github.io/Aton/aton/interface.html)
