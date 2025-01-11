@@ -621,7 +621,7 @@ def get_atom(
     if len(coordinates) > 3:
         coordinates = coordinates[:3]
     # Get the max number of decimals, and make sure we have floats
-    decimals = 0
+    decimals = 2
     for i, coord in enumerate(coordinates):
         i_decimals = len(str(coord).split('.')[1])
         coordinates[i] = float(coordinates[i])
