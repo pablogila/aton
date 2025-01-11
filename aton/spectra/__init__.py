@@ -8,12 +8,12 @@ This module contains spectral analysis tools.
 
 | | |
 | --- | --- |
-| `aton.spectra.classes` | Class definitions of the `Spectra`, `Plotting`, `Scaling` and `Material` objects |
+| `aton.spectra.classes` | Class definitions of the `Spectra`, `Plotting`, `Scaling` and `Material` objects, instantiated as `aton.spectra.Class()` |
 | `aton.spectra.fit` | Spectral fitting functions |
 | `aton.spectra.normalize` | Spectra normalisation |
 | `aton.spectra.deuterium` | Deuteration estimation functions |
 | `aton.spectra.samples` | Material definition examples |
-| `aton.spectra.plot` | Plotting operations |
+| `aton.spectra.plot` | Spectra plotting, as `spectra.plot(Spectra)` |
 
 
 # Examples
