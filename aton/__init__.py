@@ -8,5 +8,5 @@ from . import st
 from . import phys
 from . import text
 from . import interface
-from . import spectra
+from . import spx
 

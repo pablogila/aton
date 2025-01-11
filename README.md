@@ -75,9 +75,9 @@ These are powered by the [text](https://pablogila.github.io/Aton/aton/text.html)
 
 | | |  
 | --- | --- |  
-| [interface.qe](https://pablogila.github.io/Aton/aton/interface/qe.html) | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
+| [interface.qe](https://pablogila.github.io/Aton/aton/interface/qe.html)           | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
 | [interface.phonopy](https://pablogila.github.io/Aton/aton/interface/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
-| [interface.castep](https://pablogila.github.io/Aton/aton/interface/castep.html) | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
+| [interface.castep](https://pablogila.github.io/Aton/aton/interface/castep.html)   | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
 
 
 ## Physico-chemical constants
@@ -89,28 +89,28 @@ All values can be accessed directly as `phys.value` or `phys.function()`.
 
 | | |  
 | --- | --- |  
-| [phys.units](https://pablogila.github.io/Aton/aton/phys/units.html) | Physical constants and conversion factors |  
-| [phys.atoms](https://pablogila.github.io/Aton/aton/phys/atoms.html) | Megadictionary with data for all chemical elements |  
+| [phys.units](https://pablogila.github.io/Aton/aton/phys/units.html)         | Physical constants and conversion factors |  
+| [phys.atoms](https://pablogila.github.io/Aton/aton/phys/atoms.html)         | Megadictionary with data for all chemical elements |  
 | [phys.functions](https://pablogila.github.io/Aton/aton/phys/functions.html) | Functions to sort and analyse element data, and to update the atoms dictionary |  
 
 
-## Spectral analysis tools
+## Spectra analysis
 
-The **spectra** module includes tools to analyse spectral data,
+The **spx** module includes tools to analyse spectral data,
 such as Inelastic Neutron Scattering, Raman, Infrared, etc.  
 
-> ⚠️ **WARNING:** The spectra module is not yet 100% ported, bugs are expected!  
+> ⚠️ **WARNING:** The spx module is not yet 100% ported, bugs are expected!  
 
-### [aton.spectra](https://pablogila.github.io/Aton/aton/spectra.html)
+### [aton.spx](https://pablogila.github.io/Aton/aton/spx.html)
 
 | | |  
 | --- | --- |  
-| [spectra.classes](https://pablogila.github.io/Aton/aton/spectra/classes.html) | Class definitions for the spectra module |  
-| [spectra.fit](https://pablogila.github.io/Aton/aton/spectra/fit.html) | Spectra fitting functions |  
-| [spectra.normalize](https://pablogila.github.io/Aton/aton/spectra/normalize.html) | Spectra normalization |  
-| [spectra.plot](https://pablogila.github.io/Aton/aton/spectra/plot.html) | Plotting |  
-| [spectra.deuterium](https://pablogila.github.io/Aton/aton/spectra/deuterium.html) | Deuteration estimations via INS |  
-| [spectra.samples](https://pablogila.github.io/Aton/aton/spectra/samples.html) | Sample materials for testing |  
+| [spx.classes](https://pablogila.github.io/Aton/aton/spx/classes.html)     | Class definitions for the spectra module |  
+| [spx.fit](https://pablogila.github.io/Aton/aton/spx/fit.html)             | Spectra fitting functions |  
+| [spx.normalize](https://pablogila.github.io/Aton/aton/spx/normalize.html) | Spectra normalization |  
+| [spx.plot](https://pablogila.github.io/Aton/aton/spx/plot.html)           | Plotting |  
+| [spx.deuterium](https://pablogila.github.io/Aton/aton/spx/deuterium.html) | Deuteration estimations via INS |  
+| [spx.samples](https://pablogila.github.io/Aton/aton/spx/samples.html)     | Sample materials for testing |  
 
 
 ## General text edition
@@ -121,8 +121,8 @@ The **text** module includes tools for general text edition.
 
 | | |  
 | --- | --- |  
-| [text.find](https://pablogila.github.io/Aton/aton/text/find.html) | Search for specific content in text files |  
-| [text.edit](https://pablogila.github.io/Aton/aton/text/edit.html) | Manipulate text files |  
+| [text.find](https://pablogila.github.io/Aton/aton/text/find.html)       | Search for specific content in text files |  
+| [text.edit](https://pablogila.github.io/Aton/aton/text/edit.html)       | Manipulate text files |  
 | [text.extract](https://pablogila.github.io/Aton/aton/text/extract.html) | Extract data from raw text strings |  
 
 
@@ -134,8 +134,8 @@ The **st** module contains System Tools for common tasks across subpackages.
 
 | | |  
 | --- | --- |  
-| [st.file](https://pablogila.github.io/Aton/aton/st/file.html) | File manipulation |  
-| [st.call](https://pablogila.github.io/Aton/aton/st/call.html) | Run bash scripts and related |  
+| [st.file](https://pablogila.github.io/Aton/aton/st/file.html)   | File manipulation |  
+| [st.call](https://pablogila.github.io/Aton/aton/st/call.html)   | Run bash scripts and related |  
 | [st.alias](https://pablogila.github.io/Aton/aton/st/alias.html) | Useful dictionaries for user input correction |  
 
 

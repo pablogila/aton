@@ -13,7 +13,7 @@ This module contains methods to calculate deuteration levels from different spec
 from copy import deepcopy
 import aton.st.alias as alias
 from .classes import Spectra, Material
-from aton.spectra.fit import area_under_peak, ratio_areas, plateau
+from aton.spx.fit import area_under_peak, ratio_areas, plateau
 
 
 def impulse_approx(

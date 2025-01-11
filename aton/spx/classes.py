@@ -404,9 +404,9 @@ class Spectra:
             if unit == units_in[i]:
                 continue
             if unit == mev and units_in[i] == cm:
-                self.dfs[i][self.dfs[i].columns[0]] = self.dfs[i][self.dfs[i].columns[0]] * phys.cm_to_meV
+                self.dfs[i][self.dfs[i].columns[0]] = self.dfs[i][self.dfs[i].columns[0]] * phys.cm1_to_meV
             elif unit == cm and units_in[i] == mev:
-                self.dfs[i][self.dfs[i].columns[0]] = self.dfs[i][self.dfs[i].columns[0]] * phys.meV_to_cm
+                self.dfs[i][self.dfs[i].columns[0]] = self.dfs[i][self.dfs[i].columns[0]] * phys.meV_to_cm1
             else:
                 raise ValueError(f"Unit conversion error between '{unit}' and '{units_in[i]}'")
         # Rename dataframe columns
