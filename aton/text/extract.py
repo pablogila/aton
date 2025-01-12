@@ -12,6 +12,48 @@ Functions to extract data from raw text strings.
 `coords()`  
 `element()`  
 
+
+# Examples
+
+To extract a float value from a string,
+```python
+from aton import text
+line = 'energy =   500.0 Ry'
+text.extract.number(line, 'energy')
+>>> 500.0  # float output
+```
+
+To extract a text value, after and before specific strings,
+```python
+line = 'energy =   500.0 Ry were calculated'
+text.extract.string(line, 'energy', 'were')
+>>> '500.0 Ry'  # String output
+```
+
+To extract a float value from a specific column,
+```python
+# Name, Energy, Force, Error
+line = 'Testing    1.1    1.2    0.3'
+energy = text.extract.column(line, 1)
+>>> 1.1
+```
+
+To extract coordinates,
+```python
+line = ' He  0.10  0.20  0.30 '
+text.extract.coords(line)
+>>> [0.1, 0.2, 0.3]  # List of floats
+```
+
+To extract chemical elements,
+```python
+line = ' He4  0.10  Ag  0.20  Pb  0.30 '
+first_element = text.extract.element(line, 0)
+>>> 'He4'
+third_element = text.extract.element(line, 2)
+>>> 'Pb'
+```
+
 ---
 '''
 
@@ -24,15 +66,7 @@ def number(
         text:str,
         name:str=''
     ) -> float:
-    '''
-    Extracts the float value of a given `name` variable from a raw `text`.\n
-    Example:
-    ```python
-    >>> text = 'energy =   500.0 Ry'
-    >>> thotpy.extract.number(text, 'energy')
-    500.0  # float output
-    ```
-    '''
+    """Extracts the float value of a given `name` variable from a raw `text`."""
     if text == None:
         return None
     pattern = re.compile(rf"{name}\s*[:=]?\s*(-?\d+(?:\.\d+)?(?:[eEdD][+\-]?\d+)?)")
@@ -48,17 +82,10 @@ def string(
         stop:str='',
         strip:bool=True
     ) -> str:
-    '''
-    Extracts the `text` value of a given `name` variable from a raw string.
-    Stops before an optional `stop` string.
-    Removes leading and trailing commas by default, change this with `strip=False`.\n
-    Example:
-    ```python
-    >>> text = 'energy =   500.0 Ry were calculated'
-    >>> thotpy.extract.string(text, 'energy', 'were')
-    '500.0 Ry'  # String output
-    ```
-    '''
+    """Extracts the `text` value of a given `name` variable from a raw string. Stops before an optional `stop` string.
+
+    Removes leading and trailing commas by default, change this with `strip=False`.
+    """
     pattern = re.compile(rf"{name}\s*[:=]?\s*(.*)")
     if stop:
         pattern = re.compile(rf"{name}\s*[:=]?\s*(.*)(?={stop})")
@@ -78,9 +105,7 @@ def column(
         text:str,
         column:int=0
     ) -> float:
-    '''
-    Extracts the desired float `column` index of a given `string` (0 by default).
-    '''
+    """Extracts the desired float `column` index of a given `string` (0 by default)."""
     if text is None:
         return None
     columns = text.split()
@@ -93,9 +118,7 @@ def column(
 
 
 def coords(text:str) -> list:
-    '''
-    Returns a list with the float coordinates expressed in a given `text` string.
-    '''
+    """Returns a list with the float coordinates expressed in a given `text` string."""
     if text is None:
         return None
     columns = re.split(r'[,\s]+', text.strip())
@@ -109,11 +132,11 @@ def coords(text:str) -> list:
 
 
 def element(text:str, index:int=0) -> str:
-    '''Extract a chemical element from a raw `text` string.
+    """Extract a chemical element from a raw `text` string.
 
     If there are several elements, you can return a specific `index` match (positive, 0 by default).
     Allows for standard elements (H, He, Na...) and isotopes (H2, He4...).
-    '''
+    """
     if text is None:
         return None
     columns = re.split(r'[,\s]+', text.strip())

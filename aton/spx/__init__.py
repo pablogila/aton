@@ -13,7 +13,7 @@ This module contains spectral analysis tools.
 | `aton.spx.normalize` | Spectra normalisation |
 | `aton.spx.deuterium` | Deuteration estimation functions |
 | `aton.spx.samples`   | Material definition examples |
-| `aton.spx.plot`      | Spectra plotting, as `spectra.plot(Spectra)` |
+| `aton.spx.plot`      | Spectra plotting, as `aton.spx.plot(Spectra)` |
 
 
 # Examples

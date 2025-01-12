@@ -1,7 +1,7 @@
 """
 # Description
 
-This module contains premade examples of material compositions.
+This module contains premade examples of material compositions, for testing purposes.
 The `aton.spx.classes.Material.grams` is yet to be provided,
 before setting the material as `aton.spx.Material.set()`.
 

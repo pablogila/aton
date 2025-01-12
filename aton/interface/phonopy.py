@@ -7,9 +7,11 @@ along with [Quantum ESPRESSO](https://www.quantum-espresso.org/).
 
 # Index
 
-Create supercell inputs and sbatch phonon calculations  
-`make()` Build the supercell inputs.  
-`sbatch()` Sbatch'es the supercell calculations.  
+Create supercell inputs and sbatch phonon calculations
+| | |
+| --- | --- |
+| `make()`   | Build the supercell inputs |
+| `sbatch()` | Sbatch'es the supercell calculations |
 
 For more control  
 `supercells_from_scf()`  

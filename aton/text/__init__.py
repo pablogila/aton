@@ -1,7 +1,9 @@
 """
 # General text operations
 
-This module contains tools for general text operations.
+This subpackage contains tools for general text operations.
+It provides the basic functionality that powers more complex subpackages,
+such as `aton.interface`.
 
 
 # Index

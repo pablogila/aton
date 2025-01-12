@@ -51,10 +51,10 @@ units: dict = {
     's'    : ['s', 'second', 'seconds'],
     'H'    : ['h', 'hour', 'hours'],
 }
-"""Dict with unit names"""
+"""Dict with unit names."""
 
 
-spatial = {
+spatial: dict = {
     'height' : ['height', 'h'],
     'area'   : ['area', 'a'],
     'volume' : ['volume', 'vol'],
@@ -62,7 +62,7 @@ spatial = {
     'y'      : ['y', 'vertical', 'v'],
     'z'      : ['z'],
 }
-"""Dict with different spatial parameters"""
+"""Dict with different spatial parameters."""
 
 
 experiments: dict = {
@@ -74,17 +74,17 @@ experiments: dict = {
 """Dictionary with the available experiment types."""
 
 
-files = {
+files: dict = {
     'file'  : ['file', 'files', 'f', 'filepath', 'file path', 'filename', 'file name'],
     'dir'   : ['dir', 'directory', 'd', 'folder'],
     'error' : ['error', 'errors', 'e', 'err'],
     }
-"""Strings related to files"""
+"""Strings related to files."""
 
 
-boolean= {
+boolean: dict = {
     True  : ['yes', 'YES', 'Yes', 'Y', 'y', 'T', 'True', 'TRUE', 't', 'true', True, 'Si', 'SI', 'si', 'S', 's'],
     False : ['no', 'NO', 'No', 'N', 'n', 'F', 'False', 'FALSE', 'f', 'false', False],
 }
-"""Strings with booleans such as 'yes' / 'no'"""
+"""Strings with booleans such as 'yes' / 'no'."""
 

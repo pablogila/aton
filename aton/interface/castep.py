@@ -5,8 +5,9 @@ Functions to work with [CASTEP](https://castep-docs.github.io/castep-docs/) calc
 
 # Index
 
-Output reading  
-`read_castep()`  
+| | |
+| --- | --- |
+| `read_castep()` | Output reading |
 
 ---
 """
