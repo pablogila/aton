@@ -22,6 +22,7 @@ import scipy
 import numpy as np
 from copy import deepcopy
 from .classes import Spectra
+import aton.st.alias as alias
 
 
 def plateau(
@@ -30,11 +31,14 @@ def plateau(
         df_index:int=0
     ) -> tuple:
     """Fit the mean value and the error of a plateau in a `aton.spectra.Spectra` object.
-    
-    If `aton.spx.Spectra.dfs[df_index]` has an 'Error' column, those errors are also taken into account
+
+    Use as `aton.spx.fit.plateau(spectra, cuts=[low_cut, high_cut], df_index=0)`.
+
+    If `aton.spx.classes.Spectra.dfs[df_index]` has an 'Error' column, those errors are also taken into account
     along with the standard deviation of the mean, else only the standard deviation is considered.
-    The 'Error' column title can be any string in `maatpy.alias.file['Error']`.\n
-    Use as `maatpy.fit.plateau(spectra, cuts=[low_cut, high_cut], df_index=0)`.
+    This is the case if your dataset had a third column with the errors
+    when you imported the `aton.spx.classes.Spectra` object.
+
     Note that `cuts`, `low_cut` and/or `top_cut` can be set to None.
     """
     df = deepcopy(spectra.dfs[df_index])
@@ -58,7 +62,7 @@ def plateau(
         df = df[df[df.columns[0]] <= top_cut]
     mean = df[df.columns[1]].mean()
     std_mean = df[df.columns[1]].std()
-    error_column = next((col for col in alias.file['error'] if col in df.columns), None)  # Get the error column title
+    error_column = next((col for col in alias.files['error'] if col in df.columns), None)  # Get the error column title
     if error_column:
         errors = df[error_column].to_numpy()
         std_data = np.sqrt(np.sum(errors**2)) / len(errors)
@@ -104,7 +108,8 @@ def area_under_peak(
 
     area = scipy.integrate.simpson(y, x=x)
 
-    error_column = next((col for col in alias.file['Error'] if col in df_range.columns), None)  # Get the error column title
+    # Get the error column title
+    error_column = next((col for col in df.columns if col.lower() in alias.files['error']), None)  
     if error_column:
         point_errors = df_range[error_column].to_numpy()
     else: # Assume the error in each point is the same as the baseline error

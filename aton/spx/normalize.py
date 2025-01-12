@@ -9,8 +9,8 @@ This module contains functions to normalize data and other variables.
 | | |
 | --- | --- |
 | `height()`   | Normalize a `spectra` by height |
-| `area()`     | Normalize `spectra` by the area under the datasets |
-| `unit_str()` | Normalize `unit` string from user input |
+| `area()`     | Normalize a `spectra` by the area under the datasets |
+| `unit_str()` | Normalize a `unit` string from user input |
 
 ---
 """
@@ -27,7 +27,7 @@ def height(
         axis:str='x',
         df_index:int=0,
         ) -> Spectra:
-    """Normalize a `spectra` by height.
+    """Normalize a set of `spectra` by height.
 
     By default it normalises the spectra over the entire range.
     This can be modified by setting a specific range,
@@ -37,10 +37,11 @@ def height(
     This can be done by settingch `axis='y'`, and
     `range = [[y_min_1, y_max_1], ..., [y_min_N, y_max_N]]`.
 
-    The reference dataframe `df_index` is the first one by default.
+    Heights are normalised with respect to the
+    reference dataframe `df_index`, the first one by default.
     """
     sdata = deepcopy(spectra)
-    if axis.lower() in alias.axis['y']:
+    if axis.lower() in alias.spatial['y']:
         return _height_y(sdata, range, df_index)
     df0 = sdata.dfs[df_index]
     if range:
@@ -48,8 +49,9 @@ def height(
             raise ValueError("range must be a list")
         if len(range) != 2:
             raise ValueError(f"With axis='x', range must be [xmin, xmax]. Yours was:\n{range}")
-        range = range.sort()
-        xmin, xmax = range
+        range.sort()
+        xmin = range[0]
+        xmax = range[1]
     else:
         xmin = min(df0[df0.columns[0]])
         xmax = max(df0[df0.columns[0]])
@@ -67,10 +69,12 @@ def height(
 
 def _height_y(
         sdata:Spectra,
-        range:list=None,
+        range:list,
         df_index:int=0,
         ) -> Spectra:
     """Private function to handle normalisation in the y-axis"""
+    if not range:
+        raise ValueError(f"A range must be specified to normalise the Y axis, as in range=[[y_min_1,y_max_1],...,[y_min_N,y_max_N]]\nYours was:\n{range}")
     if not len(range) == len(sdata.dfs):
         raise ValueError("len(range) must match len(Spectra.dfs) for axis='y'")
     ymax = []
@@ -81,7 +85,8 @@ def _height_y(
         if len(values) != 2:
             raise ValueError(f"2 values needed to normalise the y-axis, ymin and ymax,\nas in range=[[y_min_1,y_max_1],...,[y_min_N,y_max_N]].\nYours was:\n{range}")
         values.sort()
-        i_ymin, i_ymax = values
+        i_ymin = values[0]
+        i_ymax = values[1]
         ymin.append(i_ymin)
         ymax.append(i_ymax)
     reference_height = ymax[df_index] - ymin[df_index]
@@ -106,7 +111,8 @@ def area(
         if len(range) != 2:
             raise ValueError(f"The range must be a list of 2 elements, as in [xmin, xmax]. Yours was:\n{range}")
         range.sort()
-        xmin, xmax = range
+        xmin = range[0]
+        xmax = range[1]
     else:
         xmin = min(df0[df0.columns[0]])
         xmax = max(df0[df0.columns[0]])

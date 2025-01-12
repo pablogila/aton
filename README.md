@@ -63,13 +63,13 @@ pip install .
 
 The full Aton documentation is available [online](https://pablogila.github.io/Aton/).  
 An offline version of the documentation is found at `docs/aton.html`.  
-Code examples are included in the `examples/` folder.    
+Code examples are included in the [`Aton/examples/`](https://github.com/pablogila/Aton/tree/main/examples) folder.    
 
 
 ## Interfaces for ab-initio codes
 
 The **interface** module contains interfaces for several *ab-initio* codes.
-These are powered by the [text](https://pablogila.github.io/Aton/aton/text.html) module and can be easily extended.
+These are powered by the `aton.text` module and can be easily extended.
 
 ### [aton.interface](https://pablogila.github.io/Aton/aton/interface.html)
 
@@ -83,7 +83,7 @@ These are powered by the [text](https://pablogila.github.io/Aton/aton/text.html)
 ## Physico-chemical constants
 
 The **phys** module contains physico-chemical definitions.
-All values can be accessed directly as `phys.value` or `phys.function()`.  
+Values are accessed directly as `phys.value` or `phys.function()`.  
 
 ### [aton.phys](https://pablogila.github.io/Aton/aton/phys.html)
 
@@ -96,10 +96,8 @@ All values can be accessed directly as `phys.value` or `phys.function()`.
 
 ## Spectra analysis
 
-The **spx** module includes tools to analyse spectral data,
-such as Inelastic Neutron Scattering, Raman, Infrared, etc.  
-
-> ⚠️ **WARNING:** The spx module is not yet 100% ported, bugs are expected!  
+The **spx** module includes tools for spectral analysis from
+Inelastic Neutron Scattering, Raman, Infrared, etc.  
 
 ### [aton.spx](https://pablogila.github.io/Aton/aton/spx.html)
 
@@ -159,7 +157,7 @@ Please try to follow some general guidelines:
 
 ## Automated testing
 
-If you are modifying the source code, you should run the automated tests of the `tests/` folder to check that everything works as intended.
+If you are modifying the source code, you should run the automated tests of the [`Aton/tests/`](https://github.com/pablogila/Aton/tree/main/tests) folder to check that everything works as intended.
 To do so, first install PyTest in your environment,
 ```bash
 pip install pytest

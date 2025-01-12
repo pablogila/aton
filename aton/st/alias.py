@@ -77,7 +77,7 @@ experiments: dict = {
 files = {
     'file'  : ['file', 'files', 'f', 'filepath', 'file path', 'filename', 'file name'],
     'dir'   : ['dir', 'directory', 'd', 'folder'],
-    'error' : ['Error', 'error', 'ERROR', 'Errors', 'errors', 'ERRORS'],
+    'error' : ['error', 'errors', 'e', 'err'],
     }
 """Strings related to files"""
 

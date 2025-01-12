@@ -95,7 +95,7 @@
             </ul>
 
 
-            <footer>Aton v0.0.1b10 documentation</footer>
+            <footer>Aton v0.0.1rc1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -174,12 +174,12 @@ In particular, it contains interfaces for <a href="https://www.quantum-espresso.
 
 <p>The full Aton documentation is available <a href="https://pablogila.github.io/Aton/">online</a>.<br />
 An offline version of the documentation is found at <code>docs/aton.html</code>.<br />
-Code examples are included in the <code>examples/</code> folder.    </p>
+Code examples are included in the <a href="https://github.com/pablogila/Aton/tree/main/examples"><code>Aton/examples/</code></a> folder.    </p>
 
 <h2 id="interfaces-for-ab-initio-codes">Interfaces for ab-initio codes</h2>
 
 <p>The <strong>interface</strong> module contains interfaces for several <em>ab-initio</em> codes.
-These are powered by the <a href="https://pablogila.github.io/Aton/aton/text.html">text</a> module and can be easily extended.</p>
+These are powered by the <code><a href="aton/text.html">aton.text</a></code> module and can be easily extended.</p>
 
 <h3 id="atoninterface"><code><a href="aton/interface.html">aton.interface</a></code></h3>
 
@@ -209,7 +209,7 @@ These are powered by the <a href="https://pablogila.github.io/Aton/aton/text.htm
 <h2 id="physico-chemical-constants">Physico-chemical constants</h2>
 
 <p>The <strong>phys</strong> module contains physico-chemical definitions.
-All values can be accessed directly as <code>phys.value</code> or <code>phys.function()</code>.  </p>
+Values are accessed directly as <code>phys.value</code> or <code>phys.function()</code>.  </p>
 
 <h3 id="atonphys"><code><a href="aton/phys.html">aton.phys</a></code></h3>
 
@@ -238,12 +238,8 @@ All values can be accessed directly as <code>phys.value</code> or <code>phys.fun
 
 <h2 id="spectra-analysis">Spectra analysis</h2>
 
-<p>The <strong>spx</strong> module includes tools to analyse spectral data,
-such as Inelastic Neutron Scattering, Raman, Infrared, etc.  </p>
-
-<blockquote>
-  <p>⚠️ <strong>WARNING:</strong> The spx module is not yet 100% ported, bugs are expected!  </p>
-</blockquote>
+<p>The <strong>spx</strong> module includes tools for spectral analysis from
+Inelastic Neutron Scattering, Raman, Infrared, etc.  </p>
 
 <h3 id="atonspx"><code><a href="aton/spx.html">aton.spx</a></code></h3>
 
@@ -360,7 +356,7 @@ For major changes, please get in touch first to discuss the details.  </p>
 
 <h2 id="automated-testing">Automated testing</h2>
 
-<p>If you are modifying the source code, you should run the automated tests of the <code>tests/</code> folder to check that everything works as intended.
+<p>If you are modifying the source code, you should run the automated tests of the <a href="https://github.com/pablogila/Aton/tree/main/tests"><code>Aton/tests/</code></a> folder to check that everything works as intended.
 To do so, first install PyTest in your environment,</p>
 
 <div class="pdoc-code codehilite">

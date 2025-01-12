@@ -11,24 +11,26 @@ as `aton.spx.Class()`.
 | | |
 | --- | --- |
 | `Spectra`  | Used to load and process spectral data |
-| `Plotting` | Stores plotting options, used by `Spectra.plotting` |
+| `Plotting` | Stores plotting options, used in `Spectra.plotting` |
 | `Material` | Used to store and calculate material parameters, such as molar masses and neutron cross sections |
 
 
 # Examples
 
-To create a new `Spectra` class for your data,
-you just need to call `aton.spx.Spectra(options)`:
+To load two INS spectra CSV files with cm$^{-1}$ as input units,
+converting them to meV units, and finally plotting them:
 ```python
-import aton
-ins = aton.spx.Spectra(
-    # Options here
+from aton import spx
+ins = spx.Spectra(
+    type     = 'ins',
+    files    = ['example_1.csv', 'example_2.csv'],
+    units_in = 'cm-1',
+    units    = 'meV',
     )
+spx.plot(ins)
 ```
 
-You can include some
-
-
+Check more use examples in the [`Aton/examples/`](https://github.com/pablogila/Aton/tree/main/examples) folder.
 
 ---
 """
@@ -49,8 +51,9 @@ class Plotting:
             title:str=None,
             xlim=None,
             ylim=None,
-            margins=None,
+            margins:list=[0,0],
             offset=True,
+            scaling:float=1.0,
             vline:list=None,
             vline_error:list=None,
             figsize:tuple=None,
@@ -78,6 +81,8 @@ class Plotting:
 
         It can be set to a float, to equally offset the plots by a given value.
         """
+        self.scaling = scaling
+        "Scaling factor"
         if vline is not None and not isinstance(vline, list):
             vline = [vline]
         self.vline = vline
@@ -151,24 +156,6 @@ class Spectra:
     """Spectra object. Used to load and process spectral data.
 
     Most functions in the `aton.spx` module receive this object as input.
-
-    Example: to load two INS spectra CSV files with cm$^{-1}$ as input units,
-    and plot them in meV units:
-    ```python
-    from aton import spx
-    ins = spx.Spectra(
-        type     = 'INS',
-        comment  = 'Calculated INS',
-        files    = ['example_1.csv', 'example_2.csv'],
-        units_in = 'cm-1',
-        units    = 'meV',
-        )
-    aton.plot(ins)
-    ```
-
-    Check more use examples in the [`Aton/examples/`](https://github.com/pablogila/Aton/tree/main/examples) folder.
-
-    Below is a list of the available parameters for the Spectra object, along with their descriptions.
     """
     def __init__(
             self,
@@ -345,15 +332,21 @@ class Spectra:
                 E_units = 'cm-1'
             else:
                 E_units = self.units[i]
-            if self.type == 'INS':
+            if self.type == 'ins':
                 if self.dfs[i].shape[1] == 3:
                     self.dfs[i].columns = [f'Energy transfer / {E_units}', 'S(Q,E)', 'Error']
                 else:
                     self.dfs[i].columns = [f'Energy transfer / {E_units}', 'S(Q,E)']
-            elif self.type == 'ATR':
-                self.dfs[i].columns = [f'Wavenumber / {E_units}', 'Absorbance']
-            elif self.type == 'RAMAN':
-                self.dfs[i].columns = [f'Raman shift / {E_units}', 'Counts']
+            elif self.type == 'atr':
+                if self.dfs[i].shape[1] == 3:
+                    self.dfs[i].columns = [f'Wavenumber / {E_units}', 'Absorbance', 'Error']
+                else:
+                    self.dfs[i].columns = [f'Wavenumber / {E_units}', 'Absorbance']
+            elif self.type == 'raman':
+                if self.dfs[i].shape[1] == 3:
+                    self.dfs[i].columns = [f'Raman shift / {E_units}', 'Counts', 'Error']
+                else:
+                    self.dfs[i].columns = [f'Raman shift / {E_units}', 'Counts']
         return self
 
 

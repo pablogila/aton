@@ -40,6 +40,8 @@ spx.height(spectra=ins, range=[20, 50])
 spx.plot(ins)
 ```
 
+More examples in the [`Aton/examples/`](https://github.com/pablogila/Aton/tree/main/examples) folder.
+
 """
 
 from .classes import Spectra, Plotting, Material

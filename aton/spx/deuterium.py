@@ -68,7 +68,7 @@ def impulse_approx(
 
     # Make sure units are in meV
     units_in = ins.units
-    if units_in not in alias.unit['meV']:
+    if units_in not in alias.units['meV']:
         ins.set_units('meV', units_in)
 
     # Divide the y values of the dataframes by the mols of the material.
