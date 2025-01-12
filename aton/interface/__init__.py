@@ -21,7 +21,7 @@ These interfaces can be easily expanded with the `aton.text` module.
 To read the output from a Quantum ESPRESSO pw.x calculation,  
 ```python
 from aton.interface import qe
-calculaltion = qe.read_out('relax.out')  # Read to a dictionary
+calculation = qe.read_out('relax.out')  # Read to a dictionary
 calculation.keys()                       # See the available values
 energy = calculation['Energy']           # Final energy from the calculation
 ```
@@ -59,9 +59,10 @@ output = castep.read_castep('calculation.castep')  # Read the output
 energy = output['Energy']                          # Get the final energy
 ```
 
-Check the full `aton.interface.phonopy` API reference for more details.
+Check the full `aton.interface.castep` API reference for more details.
 
 """
+
 
 from . import qe
 from . import phonopy

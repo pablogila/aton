@@ -137,7 +137,7 @@ These interfaces can be easily expanded with the <code><a href="text.html">aton.
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn"><a href="">aton.interface</a></span><span class="w"> </span><span class="kn">import</span> <span class="n">qe</span>
-<span class="n">calculaltion</span> <span class="o">=</span> <span class="n">qe</span><span class="o">.</span><span class="n">read_out</span><span class="p">(</span><span class="s1">&#39;relax.out&#39;</span><span class="p">)</span>  <span class="c1"># Read to a dictionary</span>
+<span class="n">calculation</span> <span class="o">=</span> <span class="n">qe</span><span class="o">.</span><span class="n">read_out</span><span class="p">(</span><span class="s1">&#39;relax.out&#39;</span><span class="p">)</span>  <span class="c1"># Read to a dictionary</span>
 <span class="n">calculation</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>                       <span class="c1"># See the available values</span>
 <span class="n">energy</span> <span class="o">=</span> <span class="n">calculation</span><span class="p">[</span><span class="s1">&#39;Energy&#39;</span><span class="p">]</span>           <span class="c1"># Final energy from the calculation</span>
 </code></pre>
@@ -180,7 +180,7 @@ These interfaces can be easily expanded with the <code><a href="text.html">aton.
 </code></pre>
 </div>
 
-<p>Check the full <code><a href="interface/phonopy.html">aton.interface.phonopy</a></code> API reference for more details.</p>
+<p>Check the full <code><a href="interface/castep.html">aton.interface.castep</a></code> API reference for more details.</p>
 </div>
 
                         <input id="mod-interface-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -210,7 +210,7 @@ These interfaces can be easily expanded with the <code><a href="text.html">aton.
 </span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">To read the output from a Quantum ESPRESSO pw.x calculation,  </span>
 </span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">```python</span>
 </span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">from aton.interface import qe</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">calculaltion = qe.read_out(&#39;relax.out&#39;)  # Read to a dictionary</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">calculation = qe.read_out(&#39;relax.out&#39;)  # Read to a dictionary</span>
 </span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">calculation.keys()                       # See the available values</span>
 </span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">energy = calculation[&#39;Energy&#39;]           # Final energy from the calculation</span>
 </span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="sd">```</span>
@@ -248,13 +248,14 @@ These interfaces can be easily expanded with the <code><a href="text.html">aton.
 </span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">energy = output[&#39;Energy&#39;]                          # Get the final energy</span>
 </span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="sd">```</span>
 </span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a><span class="sd">Check the full `aton.interface.phonopy` API reference for more details.</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a><span class="sd">Check the full `aton.interface.castep` API reference for more details.</span>
 </span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>
 </span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">qe</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">phonopy</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">castep</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">qe</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">phonopy</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">castep</span>
 </span></pre></div>
 
 
