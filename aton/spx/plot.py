@@ -1,46 +1,45 @@
-'''
+"""
 # Description
-This module loads the `plot()` function, used to plot `aton.spectra.SpectraData` data.
 
---- 
-'''
+This module loads the `plot()` function, used to plot `aton.spx.classes.Spectra` data.
+
+
+---
+"""
 
 
 import matplotlib.pyplot as plt
 from .classes import *
-from . import normalize
-import aton.st.alias as alias
 
 
-def plot(spectrum:Spectra):
+def plot(spectra:Spectra):
     """Plots a `spectra`.
 
-    Optional `aton.spectra.classes.Plotting` and
-    `aton.spectra.classes.Scaling` attributes can be used.
+    Optional `aton.spectra.classes.Plotting` attributes can be used.
     """
-
+    # To clean the filename
     strings_to_delete_from_name = ['.csv', '.dat', '.txt', '_INS', '_ATR', '_FTIR', '_temp', '_RAMAN', '_Raman', '/data/', 'data/', '/csv/', 'csv/', '/INS/', 'INS/', '/FTIR/', 'FTIR/', '/ATR/', 'ATR/', '_smooth', '_smoothed', '_subtracted', '_cellsubtracted']
-    normalize_area_keys = alias.parameters['area']
-    normalize_height_keys = alias.parameters['height']
-    normalize_height_keys.extend(alias.boolean[True])
-
-    sdata = deepcopy(spectrum)
-
+    # Avoid modifying the original Spectra object
+    sdata = deepcopy(spectra)
+    # Matplotlib stuff
     if hasattr(sdata, 'plotting') and sdata.plotting.figsize:
         fig, ax = plt.subplots(figsize=sdata.plotting.figsize)
     else:
         fig, ax = plt.subplots()
-
-    if sdata.plotting.normalize in normalize_height_keys:
-        sdata = normalize.height(sdata)
-    elif sdata.plotting.normalize in normalize_area_keys:
-        sdata = normalize.area(sdata)
-
-    calculated_low_ylim, calculated_top_ylim = _get_ylimits(sdata)
-
+    # Calculate Y limits
+    all_y_values = []
+    for df in spectra.dfs:
+        df_trim = df
+        if hasattr(spectra, 'plotting') and spectra.plotting.xlim[0] is not None:
+            df_trim = df_trim[(df_trim[df_trim.columns[0]] >= spectra.plotting.xlim[0])]
+        if hasattr(spectra, 'plotting') and spectra.plotting.xlim[1] is not None:
+            df_trim = df_trim[(df_trim[df_trim.columns[0]] <= spectra.plotting.xlim[1])]
+        all_y_values.extend(df_trim[df_trim.columns[1]].tolist())
+    calculated_low_ylim = min(all_y_values)
+    calculated_top_ylim = max(all_y_values)
     low_ylim = calculated_low_ylim if not hasattr(sdata, 'plotting') or sdata.plotting.ylim[0] is None else sdata.plotting.ylim[0]
     top_ylim = calculated_top_ylim if not hasattr(sdata, 'plotting') or sdata.plotting.ylim[1] is None else sdata.plotting.ylim[1]
-    
+    # Get some plotting parameters
     low_xlim = None
     top_xlim = None
     if getattr(sdata, 'plotting', None) is not None:
@@ -51,7 +50,7 @@ def plot(spectrum:Spectra):
         ylabel = sdata.plotting.ylabel if sdata.plotting.ylabel is not None else sdata.dfs[0].columns[1]
     else:
         title = sdata.comment
-
+    # Set plot offset
     number_of_plots = len(sdata.dfs)
     height = top_ylim - low_ylim
     if hasattr(sdata, 'plotting') and sdata.plotting.offset is True:
@@ -65,7 +64,7 @@ def plot(spectrum:Spectra):
             df[df.columns[1]] = df[df.columns[1]] + (reverse_i * offset)
     _, calculated_top_ylim = _get_ylimits(sdata)
     top_ylim = calculated_top_ylim if not hasattr(sdata, 'plotting') or sdata.plotting.ylim[1] is None else sdata.plotting.ylim[1]
-
+    # Set legend
     if hasattr(sdata, 'plotting') and hasattr(sdata.plotting, 'legend'):
         if sdata.plotting.legend == False:
             for df in sdata.dfs:
@@ -88,11 +87,10 @@ def plot(spectrum:Spectra):
                     clean_name = clean_name.replace(string, '')
                 clean_name = clean_name.replace('_', ' ')
                 df.plot(x=df.columns[0], y=df.columns[1], label=clean_name, ax=ax)
-
+    # Matplotlib title and axis, additional margins
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
-
     add_top = 0
     add_low = 0
     if hasattr(sdata, 'plotting'):
@@ -106,15 +104,13 @@ def plot(spectrum:Spectra):
             ax.legend(title=sdata.plotting.legend_title, fontsize=sdata.plotting.legend_size, loc=sdata.plotting.legend_loc)
         else:
             ax.legend().set_visible(False)
-    
     low_ylim = low_ylim - add_low
     top_ylim = top_ylim + add_top
-
     ax.set_ylim(bottom=low_ylim)
     ax.set_ylim(top=top_ylim)
     ax.set_xlim(left=low_xlim)
     ax.set_xlim(right=top_xlim)
-
+    # Include optional lines
     if hasattr(sdata, 'plotting') and sdata.plotting.vline is not None and sdata.plotting.vline_error is not None:
         for vline, vline_error in zip(sdata.plotting.vline, sdata.plotting.vline_error):
             lower_bound = vline - vline_error
@@ -123,39 +119,11 @@ def plot(spectrum:Spectra):
     elif hasattr(sdata, 'plotting') and sdata.plotting.vline is not None:
         for vline in sdata.plotting.vline:
             ax.axvline(x=vline, color='gray', alpha=0.5, linestyle='--')
-
+    # Save the file
     if hasattr(sdata, 'plotting') and sdata.plotting.save_as:
         root = os.getcwd()
         save_name = os.path.join(root, sdata.plotting.save_as)
         plt.savefig(save_name)
-    
+    # Show the file
     plt.show()
-
-
-def _get_ylimits(spectrum:Spectra) -> tuple[float, float]:
-    """Private function to obtain the ylimits to plot."""
-    all_y_values = []
-    for df in spectrum.dfs:
-        df_trim = df
-        if hasattr(spectrum, 'plotting') and spectrum.plotting.xlim[0] is not None:
-            df_trim = df_trim[(df_trim[df_trim.columns[0]] >= spectrum.plotting.xlim[0])]
-        if hasattr(spectrum, 'plotting') and spectrum.plotting.xlim[1] is not None:
-            df_trim = df_trim[(df_trim[df_trim.columns[0]] <= spectrum.plotting.xlim[1])]
-        all_y_values.extend(df_trim[df_trim.columns[1]].tolist())
-    calculated_low_ylim = min(all_y_values)
-    calculated_top_ylim = max(all_y_values)
-
-    ymax_on_range = None
-    if hasattr(spectrum, 'scaling') and spectrum.scaling is not None:
-        df_index = spectrum.scaling.index if spectrum.scaling.index else 0
-        df0 = spectrum.dfs[df_index]
-        if spectrum.scaling.xmin:
-            df0 = df0[(df0[df0.columns[0]] >= spectrum.scaling.xmin)]
-        if spectrum.scaling.xmax:
-            df0 = df0[(df0[df0.columns[0]] <= spectrum.scaling.xmax)]
-        ymax_on_range = df0[df0.columns[1]].max()
-        if spectrum.scaling.zoom and ymax_on_range is not None:
-            calculated_top_ylim = ymax_on_range
-
-    return calculated_low_ylim, calculated_top_ylim
 

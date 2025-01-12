@@ -8,7 +8,7 @@ This module contains spectral analysis tools.
 
 | | |
 | --- | --- |
-| `aton.spx.classes`   | Definition of the `Spectra`, `Plotting`, `Scaling` and `Material` classes, instantiated as `aton.spx.Class()` |
+| `aton.spx.classes`   | Definition of the `Spectra`, `Plotting` and `Material` classes, instantiated as `aton.spx.Class()` |
 | `aton.spx.fit`       | Spectral fitting functions |
 | `aton.spx.normalize` | Spectra normalisation |
 | `aton.spx.deuterium` | Deuteration estimation functions |
@@ -22,28 +22,27 @@ To load two INS spectra CSV files with cm$^{-1}$ as input units,
 and plot them in meV units, normalizing their heights over the range from 20 to 50 meV:
 ```python
 from aton import spx
+# Set plotting parameters
 plotting_options = spx.Plotting(
     title     = 'Calculated INS',
-    normalize = True,
-)
-scaling_options = spx.Scaling(
-    xmin = 20,
-    xmax = 50,
-)
+    )
+# Load the spectral data
 ins = spx.Spectra(
     type     = 'INS',
     files    = ['example_1.csv', 'example_2.csv'],
     units_in = 'cm-1',
     units    = 'meV',
-    plotting = plotting_options
-    scaling  = scaling_options
+    plotting = plotting_options,
     )
-aton.plot(ins)
+# Normalize the spectra
+spx.height(spectra=ins, range=[20, 50])
+# Plot the spectra
+spx.plot(ins)
 ```
 
 """
 
-from .classes import Spectra, Plotting, Scaling, Material
+from .classes import Spectra, Plotting, Material
 from . import fit
 from . import normalize
 from . import deuterium

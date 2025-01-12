@@ -1,11 +1,16 @@
 """
 # Description
+
 This module contains functions to normalize data and other variables.
 
+
 # Index
-- `unit_str()`
-- `spectra()`
-- `area()`
+
+| | |
+| --- | --- |
+| `height()`   | Normalize a `spectra` by height |
+| `area()`     | Normalize `spectra` by the area under the datasets |
+| `unit_str()` | Normalize `unit` string from user input |
 
 ---
 """
@@ -16,41 +21,38 @@ from .classes import *
 from .fit import *
 
 
-def unit_str(unit:str):
-    """Normalize `unit` string from user input."""
-    for key, value in alias.units.items():
-        if unit in value:
-            return key
-    print(f"WARNING: Unknown unit '{unit}'")
-    return unit
+def height(
+        spectra:Spectra,
+        range:list=None,
+        axis:str='x',
+        df_index:int=0,
+        ) -> Spectra:
+    """Normalize a `spectra` by height.
 
+    By default it normalises the spectra over the entire range.
+    This can be modified by setting a specific range,
+    as in `range = [x_min, x_max]` with `axis = 'x'`.
+    It can also normalise over manual y-positions,
+    for example for peaks with different baselines.
+    This can be done by settingch `axis='y'`, and
+    `range = [[y_min_1, y_max_1], ..., [y_min_N, y_max_N]]`.
 
-def height(spectra:Spectra):
-    """Normalize a `spectra` by height
-
-    Optional `aton.spectra.classes.Scaling` attributes can be used.
+    The reference dataframe `df_index` is the first one by default.
     """
     sdata = deepcopy(spectra)
-    if hasattr(sdata, 'scaling') and sdata.scaling is not None:
-        scaling = sdata.scaling
-        if scaling.ymax:
-            return _height_y(sdata)
-    else:
-        scaling = Scaling()
-
-    df_index = scaling.index if scaling.index else 0
+    if axis.lower() in alias.axis['y']:
+        return _height_y(sdata, range, df_index)
     df0 = sdata.dfs[df_index]
-
-    if scaling.xmin is None:
-        scaling.xmin = min(df0[df0.columns[0]])
-    if scaling.xmax is None:
-        scaling.xmax = max(df0[df0.columns[0]])
-
-    sdata.scaling = scaling
-
-    xmin = scaling.xmin
-    xmax = scaling.xmax
-
+    if range:
+        if not isinstance(range, list):
+            raise ValueError("range must be a list")
+        if len(range) != 2:
+            raise ValueError(f"With axis='x', range must be [xmin, xmax]. Yours was:\n{range}")
+        range = range.sort()
+        xmin, xmax = range
+    else:
+        xmin = min(df0[df0.columns[0]])
+        xmax = max(df0[df0.columns[0]])
     df0 = df0[(df0[df0.columns[0]] >= xmin) & (df0[df0.columns[0]] <= xmax)]
     ymax_on_range = df0[df0.columns[1]].max()
     normalized_dataframes = []
@@ -63,17 +65,26 @@ def height(spectra:Spectra):
     return sdata
 
 
-def _height_y(sdata:Spectra):
-    """Private function to handle ``"""
-    if not len(sdata.scaling.ymax) == len(sdata.dfs):
-        raise ValueError("normalize: len(ymax) does not match len(dataframe)")
-    scaling = sdata.scaling
-    ymax = scaling.ymax
-    ymin = scaling.ymin if scaling.ymin else [0.0]
-    if len(ymin) == 1:
-        ymin = ymin * len(sdata.dfs)
-    index = scaling.index if scaling.index else 0
-    reference_height = ymax[index] - ymin[index]
+def _height_y(
+        sdata:Spectra,
+        range:list=None,
+        df_index:int=0,
+        ) -> Spectra:
+    """Private function to handle normalisation in the y-axis"""
+    if not len(range) == len(sdata.dfs):
+        raise ValueError("len(range) must match len(Spectra.dfs) for axis='y'")
+    ymax = []
+    ymin = []
+    for values in range:
+        if not isinstance(values, list):
+            raise ValueError(f"The range for axis='y' must be a list of lists,\nas in range=[[y_min_1,y_max_1],...,[y_min_N,y_max_N]].\nYours was:\n{range}")
+        if len(values) != 2:
+            raise ValueError(f"2 values needed to normalise the y-axis, ymin and ymax,\nas in range=[[y_min_1,y_max_1],...,[y_min_N,y_max_N]].\nYours was:\n{range}")
+        values.sort()
+        i_ymin, i_ymax = values
+        ymin.append(i_ymin)
+        ymax.append(i_ymax)
+    reference_height = ymax[df_index] - ymin[df_index]
     normalized_dataframes = []
     for i, df in enumerate(sdata.dfs):
         height = ymax[i] - ymin[i]
@@ -83,32 +94,22 @@ def _height_y(sdata:Spectra):
     return sdata
 
 
-def area(spectra:Spectra):
-    """Normalize `spectra` by the area under the datasets.
- 
-    Optional `aton.spectra.classes.Scaling` attributes can be used.
-    """
+def area(
+        spectra:Spectra,
+        range:list=None,
+        df_index:int=0
+        ) -> Spectra:
+    """Normalize `spectra` by the area under the datasets."""
     sdata = deepcopy(spectra)
-    if hasattr(sdata, 'scaling') and sdata.scaling is not None:
-        scaling = sdata.scaling
-        if scaling.ymax:
-            return _normalize_y(sdata)
-    else:
-        scaling = Scaling()
-
-    df_index = scaling.index if scaling.index else 0
     df0 = sdata.dfs[df_index]
-
-    if scaling.xmin is None:
-        scaling.xmin = min(df0[df0.columns[0]])
-    if scaling.xmax is None:
-        scaling.xmax = max(df0[df0.columns[0]])
-
-    sdata.scaling = scaling
-
-    xmin = scaling.xmin
-    xmax = scaling.xmax
-
+    if range:
+        if len(range) != 2:
+            raise ValueError(f"The range must be a list of 2 elements, as in [xmin, xmax]. Yours was:\n{range}")
+        range.sort()
+        xmin, xmax = range
+    else:
+        xmin = min(df0[df0.columns[0]])
+        xmax = max(df0[df0.columns[0]])
     df0 = df0[(df0[df0.columns[0]] >= xmin) & (df0[df0.columns[0]] <= xmax)]
     area_df0, _ = area_under_peak(sdata, peak=[xmin,xmax], df_index=df_index, min_as_baseline=True)
     normalized_dataframes = []
@@ -119,4 +120,13 @@ def area(spectra:Spectra):
         normalized_dataframes.append(df)
     sdata.dfs = normalized_dataframes
     return sdata
+
+
+def unit_str(unit:str):
+    """Normalize `unit` string from user input."""
+    for key, value in alias.units.items():
+        if unit in value:
+            return key
+    print(f"WARNING: Unknown unit '{unit}'")
+    return unit
 

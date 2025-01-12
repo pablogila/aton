@@ -2,21 +2,33 @@
 # Description
 
 This module contains common classes used to load and manipulate spectral data.
-Any class can be instantiated directly from the `aton.spectra` module;
-for example, to create a new `Spectra` class for your data,
-you just need to call `aton.spectra.Spectra(options)` as described below:
+Any class can be instantiated directly from the `aton.spx` module,
+as `aton.spx.Class()`.
+
+
+# Index
+
+| | |
+| --- | --- |
+| `Spectra`  | Used to load and process spectral data |
+| `Plotting` | Stores plotting options, used by `Spectra.plotting` |
+| `Material` | Used to store and calculate material parameters, such as molar masses and neutron cross sections |
+
+
+# Examples
+
+To create a new `Spectra` class for your data,
+you just need to call `aton.spx.Spectra(options)`:
 ```python
 import aton
-ins = aton.spectra.Spectra(
+ins = aton.spx.Spectra(
     # Options here
     )
 ```
 
-# Index
-- `Spectra`. Used to load and process spectral data.
-- `Plotting`. Stores plotting options. Used inside `Spectra.plotting`.
-- `Scaling`. Handles data normalization inside the specified range of values. Used inside `Spectra.scaling`.
-- `Material`. Used to store and calculate material parameters, such as molar masses and cross sections.
+You can include some
+
+
 
 ---
 """
@@ -31,10 +43,7 @@ import aton.phys as phys
 
 
 class Plotting:
-    '''
-    Stores plotting options.
-    Read by `aton.spectra.plot`.
-    '''
+    """Stores plotting options, read by `aton.spx.plot`"""
     def __init__(
             self,
             title:str=None,
@@ -42,7 +51,6 @@ class Plotting:
             ylim=None,
             margins=None,
             offset=True,
-            normalize:bool=False,
             vline:list=None,
             vline_error:list=None,
             figsize:tuple=None,
@@ -56,72 +64,70 @@ class Plotting:
             legend_loc='best',
             save_as:str=None,
         ):
-        '''Default values can be overwritten when initializing the Plotting object.'''
+        """Default values can be overwritten when initializing the Plotting object."""
         self.title = title
-        '''Title of the plot. Set it to an empty string to remove the title.'''
+        """Title of the plot. Set it to an empty string to remove the title."""
         self.xlim = self._set_limits(xlim)
-        '''List with the x-limits of the plot, as in `[xlim_low, xlim_top]`.'''
+        """List with the x-limits of the plot, as in `[xlim_low, xlim_top]`."""
         self.ylim = self._set_limits(ylim)
-        '''List with the y-limits of the plot, as in `[ylim_low, ylim_top]`.'''
+        """List with the y-limits of the plot, as in `[ylim_low, ylim_top]`."""
         self.margins = self._set_limits(margins)
-        '''List with additional margins at the bottom and top of the plot, as in `[low_margin, top_margin]`.'''
+        """List with additional margins at the bottom and top of the plot, as in `[low_margin, top_margin]`."""
         self.offset = offset
-        '''
-        If `True`, the plots will be separated automatically.
+        """If `True`, the plots will be separated automatically.
+
         It can be set to a float, to equally offset the plots by a given value.
-        '''
-        self.normalize = normalize
-        '''
-        Normalize or not the plotted spectra.
-        `True` or `'y'` or `'Y'` to normalize the heights, `'area'` or `'a'` or `'A'` to normalize the areas.
-        '''
+        """
         if vline is not None and not isinstance(vline, list):
             vline = [vline]
         self.vline = vline
-        '''Vertical line/s to plot. Can be an int or float with the x-position, or a list with several ones.'''
+        """Vertical line/s to plot. Can be an int or float with the x-position, or a list with several ones."""
         if vline_error is not None and not isinstance(vline_error, list):
             vline_error = [vline_error]
         self.vline_error = vline_error
-        '''
-        If not `None`, it will plot a shaded area of the specified width around the vertical lines specified at `vline`.
+        """Plot a shaded area of the specified width around the vertical lines specified at `vline`.
+
         It can be an array of the same length as `vline`, or a single value to be applied to all.
-        '''
+        """
         self.figsize = figsize
-        '''Tuple with the figure size, as in matplotlib.'''
+        """Tuple with the figure size, as in matplotlib."""
         self.log_xscale = log_xscale
-        '''If true, plot the x-axis in logarithmic scale.'''
+        """If true, plot the x-axis in logarithmic scale."""
         self.show_yticks = show_yticks
-        '''Show or not the yticks on the plot.'''
+        """Show or not the yticks on the plot."""
         self.xlabel = xlabel
-        '''
-        Custom label of the x-axis. If `None`, the default label will be used.
+        """Custom label of the x-axis.
+
+        If `None`, the default label will be used.
         Set to `''` to remove the label of the horizontal axis.
-        '''
+        """
         self.ylabel = ylabel
-        '''
-        Label of the y-axis. If `None`, the default label will be used.
+        """Custom label of the y-axis.
+        
+        If `None`, the default label will be used.
         Set to `''` to remove the label of the vertical axis.
-        '''
+        """
         if not isinstance(legend, list) and legend is not None and legend != False:
             legend = [legend]
         self.legend = legend
-        '''
-        If `None`, the files will be used as legend.
+        """Legend of the plot.
+
+        If `None`, the filenames will be used as legend.
         Can be a bool to show or hide the plot legend.
         It can also be an array containing the strings to display;
         in that case, elements set to `False` will not be displayed.
-        '''
+        """
         self.legend_title = legend_title
-        '''Title of the legend. Defaults to `None`.'''
+        """Title of the legend, defaults to `None`."""
         self.legend_size = legend_size
-        '''Size of the legend, as in matplotlib. Defaults to `'medium'`.'''
+        """Size of the legend, as in matplotlib. Defaults to `'medium'`."""
         self.legend_loc = legend_loc
-        '''Location of the legend, as in matplotlib. Defaults to `'best'`.'''
+        """Location of the legend, as in matplotlib. Defaults to `'best'`."""
         self.save_as = save_as
-        '''Filename to save the plot. None by default.'''
+        """Filename to save the plot. None by default."""
 
     def _set_limits(self, limits) -> list:
-        '''Set the x and y limits of the plot.'''
+        """Set the x and y limits of the plot."""
         if limits is None:
             return [None, None]
         if isinstance(limits, tuple):
@@ -141,106 +147,26 @@ class Plotting:
             raise ValueError(f"Unknown plotting limits: Must be specified as a list of two elements, as [low_limit, high_limit]. Got: {limits}")
 
 
-class Scaling:
-    '''
-    The Scaling object is used to handle the normalization
-    of the data inside the specified x-range,
-    to the same heigth as in the specified `index` dataset
-    (the first one by default).
-
-    Custom heights can be normalized with `ymin` and `ymax`,
-    overriding the x-values.
-    For example, you may want to normalize two spectra datasets
-    with respect to the height of a given peak that overlaps with another.
-    Those peaks may have ymin values of 2 and 3, and ymax values
-    of 50 and 60 respectively. In that case:
-    ```python
-    spectra.scaling = Scaling(index=0, ymin=[2, 3], ymax=[50, 60])
-    ```
-
-    To normalize when plotting with `aton.spectra.plot(Spectra)`,
-    remember to set `Plotting.normalize=True`.
-
-    When normalizing the plot, all datasets are fitted inside the
-    plotting window, scaling over the entire data range into view.
-    To override this behaviour and expand over the given range
-    to fill the plot window, you can set `Scaling.zoom=True`.
-    This zoom setting can also be enabled without normalizing the plot,
-    resulting in a zoom over the given range so that the `index` dataset
-    fits the full plotting window, scaling the rest of the set accordingly.
-    '''
-    def __init__(
-            self,
-            index:int=0,
-            xmin:float=None,
-            xmax:float=None,
-            ymin:list=None,
-            ymax:list=None,
-            zoom:bool=False,
-        ):
-        '''All values can be set when initializing the Scaling object.'''
-        self.index: int = index
-        '''Index of the dataframe to use as reference.'''
-        self.xmin: float = xmin
-        '''Minimum x-value to start normalizing the plots.'''
-        self.xmax: float = xmax
-        '''Maximum x-value to normalize the plots.'''
-        self.ymin: list = ymin
-        '''List with minimum y-values to normalize the plots.'''
-        self.ymax: list = ymax
-        '''List with minimum y-values to normalize the plots.
-        If `Plotting.normalize=True`, the plots are normalized according to the y-values provided.
-        '''
-        self.zoom: bool = zoom
-        '''
-        Used when plotting with `maatpy.plot.spectra()`.
-        If true, the data inside the range is scaled up to fit the entire plotting window.
-        '''
-
-    def set_x(self, xmin:float=None, xmax:float=None):
-        '''Override with an horizontal range.'''
-        self.xmin = xmin
-        self.xmax = xmax
-        self.ymin = None
-        self.ymax = None
-        return self
-
-    def set_y(self, ymin:list=None, ymax:list=None):
-        '''Override with a vertical range.'''
-        self.xmin = None
-        self.xmax = None
-        self.ymin = ymin
-        self.ymax = ymax
-        return self
-
-
 class Spectra:
     """Spectra object. Used to load and process spectral data.
 
-    Most functions present in the `aton.spectra` module receive this object as input.
+    Most functions in the `aton.spx` module receive this object as input.
 
-    To load two INS spectra CSV files with cm$^{-1}$ as input units,
-    and plot them in meV units, normalizing their heights over the range from 20 to 50 meV:
+    Example: to load two INS spectra CSV files with cm$^{-1}$ as input units,
+    and plot them in meV units:
     ```python
-    from aton import spectra
-    ins = spectra.Spectra(
+    from aton import spx
+    ins = spx.Spectra(
         type     = 'INS',
+        comment  = 'Calculated INS',
         files    = ['example_1.csv', 'example_2.csv'],
         units_in = 'cm-1',
         units    = 'meV',
-        plotting = spectra.Plotting(
-            title     = 'Calculated INS',
-            normalize = True,
-            ),
-        scaling = spectra.Scaling(
-            xmin = 20,
-            xmax = 50,
-            ),
         )
     aton.plot(ins)
     ```
 
-    Check more use examples in the `/examples/` folder.
+    Check more use examples in the [`Aton/examples/`](https://github.com/pablogila/Aton/tree/main/examples) folder.
 
     Below is a list of the available parameters for the Spectra object, along with their descriptions.
     """
@@ -253,53 +179,56 @@ class Spectra:
             units=None,
             units_in=None,
             plotting:Plotting=Plotting(),
-            scaling:Scaling=Scaling(),
         ):
-        '''All values can be set when initializing the Spectra object.'''
+        """All values can be set when initializing the Spectra object."""
         self.type = None
-        '''Type of the spectra: `'INS'`, `'ATR'`, or `'RAMAN'`.'''
+        """Type of the spectra: `'INS'`, `'ATR'`, or `'RAMAN'`."""
         self.comment = comment
-        '''Custom comment. If `Plotting.title` is None,  it will be the title of the plot.'''
+        """Custom comment. If `Plotting.title` is None,  it will be the title of the plot."""
         self.files = None
-        '''
-        List containing the files with the spectral data.
-        Loaded automatically with Pandas at initialization.
+        """List containing the files with the spectral data.
+
+        Loaded automatically to `dfs` with Pandas at initialization.
         In order for Pandas to read the files properly, note that the column lines must start by `#`.
         Any additional line that is not data must be removed or commented with `#`.
         CSV files must be formatted with the first column as the energy or energy transfer,
-        and the second column with the intensity or absorbance, depending on the case. An additional third `'Error'` column can be used.
-        '''
+        and the second column with the intensity or absorbance, depending on the case.
+        An additional third `'Error'` column can be used.
+        """
         self.dfs = None
-        '''
-        List containing the pandas dataframes with the spectral data.
-        Loaded automatically from the files at initialization.
-        '''
+        """List containing the pandas dataframes with the spectral data.
+        
+        Loaded automatically from `files` at initialization.
+        """
         self.units = None
-        '''Target units of the spectral data. Can be `'meV'` or `'cm-1'`, written as any of the variants listed in `aton.alias.units[unit]`.'''
+        """Target units of the spectral data.
+        
+        Can be `'meV'` or `'cm-1'`."""
         self.units_in = None
-        '''
-        Input units of the spectral data, used in the input CSV files. Can be `'meV'` or `'cm-1'`, written as any of the variants listed in `aton.alias.units[unit]`.
-        If the input CSV files have different units, it can also be set as a list of the same length of the number of input files, eg. `['meV', 'cm-1', 'cm-1']`.
-        '''
+        """Input units of the spectral data, used in the input CSV files.
+        
+        Can be `'meV'` or `'cm-1'`.
+        If the input CSV files have different units,
+        it can also be set as a list of the same length of the number of input files,
+        eg. `['meV', 'cm-1', 'cm-1']`.
+        """
         self.plotting = plotting
-        '''`Plotting` object, used to set the plotting options.'''
-        self.scaling = scaling
-        '''`Scaling` object, used to set the normalization parameters.'''
+        """`Plotting` object, used to set the plotting options."""
 
         self = self._set_type(type)
         self = self._set_dataframes(files, dfs)
         self = self.set_units(units, units_in)
 
     def _set_type(self, type):
-        '''Set and normalize the type of the spectra: `INS`, `ATR`, or `RAMAN`.'''
-        if type in alias.experiments['INS']:
-            self.type = 'INS'
-        elif type in alias.experiments['ATR']:
-            self.type = 'ATR'
-        elif type in alias.experiments['RAMAN']:
-            self.type = 'RAMAN'
+        """Set and normalize the type of the spectra: `INS`, `ATR`, or `RAMAN`."""
+        if type.lower() in alias.experiments['ins']:
+            self.type = 'ins'
+        elif type.lower() in alias.experiments['atr']:
+            self.type = 'atr'
+        elif type.lower() in alias.experiments['raman']:
+            self.type = 'raman'
         else:
-            self.type = type
+            self.type = type.lower()
         return self
 
     def _set_dataframes(self, files, dfs):
@@ -320,7 +249,7 @@ class Spectra:
         return self
 
     def _read_dataframe(self, filename):
-        '''Read a dataframe from a file.'''
+        """Read a dataframe from a file."""
         root = os.getcwd()
         file_path = os.path.join(root, filename)
         df = pd.read_csv(file_path, comment='#')
@@ -336,15 +265,13 @@ class Spectra:
             units_in=None,
             default_unit='cm-1',
             ):
-        '''
-        Method to change between spectral units. ALWAYS use this method to do that.
+        """Method to change between spectral units. ALWAYS use this method to do that.
 
-        For example, to change from cm-1 to meV:
+        For example, to change to meV from cm-1:
         ```python
-        # Spectra.set_units(desired_units, units_input)
         Spectra.set_units('meV', 'cm-1')
         ```
-        '''
+        """
         mev = 'meV'
         cm = 'cm-1'
         unit_format={
@@ -431,11 +358,12 @@ class Spectra:
 
 
 class Material:
-    '''Material class.
+    """Material class.
+
     Used to calculate molar masses and cross sections,
     and to pass data to different analysis functions
     such as `aton.spectra.deuterium.impulse_approx().`
-    '''
+    """
     def __init__(
             self,
             elements:dict,
@@ -448,45 +376,50 @@ class Material:
             cross_section:float=None,
             peaks:dict=None,
         ):
-        '''
+        """
         All values can be set when initializing the Material object.
         However, it is recommended to only set the elements and the grams,
         and optionally the name, and calculate the rest with `Material.set()`.
-        '''
+        """
         self.elements = elements
-        '''
-        Dict of atoms in the material, as in `{'H': 6, 'C':1, 'N':1}`.
+        """Dict of atoms in the material, as in `{'H': 6, 'C':1, 'N':1}`.
+
         Isotopes can be expressed as 'H2', 'He4', etc. with the atom symbol + isotope mass number.
-        '''
+        """
         self.name = name
-        '''String with the name of the material.'''
+        """String with the name of the material."""
         self.grams = grams
-        '''Mass, in grams.'''
+        """Mass, in grams."""
         self.grams_error = grams_error
-        '''Error of the measured mass in grams.
+        """Error of the measured mass in grams.
+
         Set automatically with `Material.set()`.
-        '''
+        """
         self.mols = mols
-        '''Number of moles.
+        """Number of moles.
+
         Set automatically with `Material.set()`.
-        '''
+        """
         self.mols_error = mols_error
-        '''Error of the number of moles.
+        """Error of the number of moles.
+
         Set automatically with `Material.set()`.
-        '''
+        """
         self.molar_mass = molar_mass
-        '''Molar mass of the material, in mol/g.
+        """Molar mass of the material, in mol/g.
+
         Calculated automatically with `Material.set()`.
-        '''
+        """
         self.cross_section = cross_section
-        '''Neutron total bound scattering cross section, in barns.
+        """Neutron total bound scattering cross section, in barns.
+
         Calculated automatically with `Material.set()`.
-        '''
+        """
         self.peaks = peaks
-        '''Dict with interesting peaks that you might want to store for later use.'''
+        """Dict with interesting peaks that you might want to store for later use."""
 
     def _set_grams_error(self):
-        '''Set the error in grams, based on the number of decimal places.'''
+        """Set the error in grams, based on the number of decimal places."""
         if self.grams is None:
             return
         decimal_accuracy = len(str(self.grams).split('.')[1])
@@ -494,11 +427,12 @@ class Material:
         self.grams_error = 10**(-decimal_accuracy)
 
     def _set_mass(self):
-        '''Set the molar mass of the material.
+        """Set the molar mass of the material.
+
         If `Material.grams` is provided, the number of moles will be
         calculated and overwritten. Isotopes can be used as 'element + A',
         eg. `'He4'`. This gets splitted with `aton.phys.elements.split_isotope`.
-        '''
+        """
         material_grams_per_mol = 0.0
         for key in self.elements:
             try:
@@ -513,10 +447,10 @@ class Material:
             self.mols_error = self.mols * np.sqrt((self.grams_error / self.grams)**2)
     
     def _set_cross_section(self):
-        '''
-        Set the cross section of the material, based on the self.elements dict.
-        If an isotope is used, eg. `'He4'`, it splits the name with `aton.phys.elements.split_isotope`.
-        '''
+        """Set the cross section of the material, based on the `elements` dict.
+
+        If an isotope is used, eg. `'He4'`, it splits the name with `aton.phys.functions.split_isotope`.
+        """
         total_cross_section = 0.0
         for key in self.elements:
             try:
@@ -527,12 +461,12 @@ class Material:
         self.cross_section = total_cross_section
 
     def set(self):
-        '''Set the molar mass, cross section and errors of the material.'''
+        """Set the molar mass, cross section and errors of the material."""
         self._set_mass()
         self._set_cross_section()
 
     def print(self):
-        '''Print a summary with the material information.'''
+        """Print a summary with the material information."""
         print('\nMATERIAL')
         if self.name is not None:
             print(f'Name: {self.name}')

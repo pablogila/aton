@@ -1,12 +1,17 @@
 """
 # Description
+
 This module contains functions for fitting and analyzing spectral data.
 
+
 # Index
-- `plateau()`
-- `area_under_peak()`
-- `ratio_areas()`
-- `mean()`
+
+| | |
+| --- | --- |
+| `plateau()`         | Fit the mean value and the error of a plateau |
+| `area_under_peak()` | Calculate the area under a given peak |
+| `ratio_areas()`     | Check the ratio between two areas |
+| `mean()`            | Get the mean and standard deviation of a list of values |
 
 ---
 """
@@ -26,7 +31,7 @@ def plateau(
     ) -> tuple:
     """Fit the mean value and the error of a plateau in a `aton.spectra.Spectra` object.
     
-    If `aton.spectra.Spectra.dfs[df_index]` has an 'Error' column, those errors are also taken into account
+    If `aton.spx.Spectra.dfs[df_index]` has an 'Error' column, those errors are also taken into account
     along with the standard deviation of the mean, else only the standard deviation is considered.
     The 'Error' column title can be any string in `maatpy.alias.file['Error']`.\n
     Use as `maatpy.fit.plateau(spectra, cuts=[low_cut, high_cut], df_index=0)`.
@@ -70,8 +75,7 @@ def area_under_peak(
         errors_as_in_baseline:bool=True,
         min_as_baseline:bool=False
     ) -> tuple:
-    """
-    Calculate the area under a given peak.
+    """Calculate the area under a given peak.
 
     Peaks must be defined as `peak:list=[xmin, xmax, baseline=0, baseline_error=0]`.
     If the dataset has no `Error` column, the error for each point is assumed to be the same

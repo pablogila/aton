@@ -8,7 +8,7 @@ All values are in lowercase to allow comparison with the `string.lower()` method
 # Index
 
 `units`  
-`parameters`  
+`spatial`  
 `experiments`  
 `files`  
 `boolean`  
@@ -54,11 +54,15 @@ units: dict = {
 """Dict with unit names"""
 
 
-parameters = {
-    'height': ['height', 'h'],
-    'area'  : ['area', 'a'],
+spatial = {
+    'height' : ['height', 'h'],
+    'area'   : ['area', 'a'],
+    'volume' : ['volume', 'vol'],
+    'x'      : ['x', 'horizontal', 'h'],
+    'y'      : ['y', 'vertical', 'v'],
+    'z'      : ['z'],
 }
-"""Dict with different parameters"""
+"""Dict with different spatial parameters"""
 
 
 experiments: dict = {

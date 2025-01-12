@@ -1,10 +1,15 @@
 """
 # Description
+
 This module contains methods to calculate deuteration levels from different spectra.
 
+
 # Index
-- `impulse_approx()`
-- `peaks_mapbi3()`
+
+| | |
+| --- | --- |
+| `impulse_approx()` | Calculate the deuteration levels from INS spectra with the Impulse Approximation |
+| `peaks_mapbi3()`   | Estimates CH$_3$NH$_3$PbI$_3$ deuteration by integrating the INS disrotatory peaks |
 
 ---
 """
@@ -13,7 +18,8 @@ This module contains methods to calculate deuteration levels from different spec
 from copy import deepcopy
 import aton.st.alias as alias
 from .classes import Spectra, Material
-from aton.spx.fit import area_under_peak, ratio_areas, plateau
+from .fit import area_under_peak, ratio_areas, plateau
+import numpy as np
 
 
 def impulse_approx(
