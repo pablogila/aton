@@ -348,7 +348,7 @@ def set_value(
             _add_value(filepath, key, value, indent)
     # Check if it's a card
     elif key.upper() in pw_cards_upper:
-        if key.upper in present_keys_upper:
+        if key.upper() in present_keys_upper:
             _update_card(filepath, key, value, indent)
         else:
             _add_card(filepath, key, value, indent)
