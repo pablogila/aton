@@ -44,7 +44,7 @@ def bash(
         print(result.stdout)
     elif result.returncode != 0:
         error_message = (
-            f"thoth.call.bash: Command failed with exit code {result.returncode}.\n"
+            f"aton.st.call.bash: Command failed with exit code {result.returncode}.\n"
             f"{result.stderr.strip()}"
         )
         if not return_anyway:
@@ -65,7 +65,7 @@ def git(
     bash("git add .", path, verbose)
     if not message:
         date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M")
-        message = f'Automatic push on {date} with Thoth {__version__}'
+        message = f'Automatic push on {date} with Aton {__version__}'
     bash(f'git commit -m "{message}"', path, verbose)
     if tag:
         bash(f'git tag -a {tag} HEAD -m {message}', path, verbose)
