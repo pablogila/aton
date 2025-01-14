@@ -21,16 +21,20 @@ These interfaces can be easily expanded with the `aton.text` module.
 To read the output from a Quantum ESPRESSO pw.x calculation,  
 ```python
 from aton.interface import qe
-calculation = qe.read_out('relax.out')  # Read to a dictionary
-calculation.keys()                       # See the available values
-energy = calculation['Energy']           # Final energy from the calculation
+# Read to a dictionary
+calculation = qe.read_out('relax.out')
+calculation.keys()  # See the available values
+# Final energy from the calculation
+energy = calculation['Energy']
 ```
 
 To modify values from an input file,  
 ```python
 from aton.interface import qe
-qe.add_atom('H  0.10  0.20  0.30')         # Add a hydrogen atom to a specific position
-qe.set_value('relax.in', 'ecutwfc', 60.0)  # Set the input ecutwfc value
+# Add a hydrogen atom to a specific position
+qe.add_atom('H  0.10  0.20  0.30')
+# Set the input ecutwfc value
+qe.set_value('relax.in', 'ecutwfc', 60.0)
 ```
 
 Check the full `aton.interface.qe` API reference for more details.
@@ -55,8 +59,10 @@ Check the full `aton.interface.phonopy` API reference for more details.
 To read output values from a CASTEP calculation,  
 ```python
 from aton.interface import castep
-output = castep.read_castep('calculation.castep')  # Read the output
-energy = output['Energy']                          # Get the final energy
+# Read the output
+output = castep.read_castep('calculation.castep')
+# Get the final energy
+energy = output['Energy']
 ```
 
 Check the full `aton.interface.castep` API reference for more details.

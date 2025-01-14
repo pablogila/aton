@@ -40,6 +40,11 @@ The fastest way to install Aton is through pip:
 pip install aton
 ```
 
+To upgrade to a newer version,
+```bash
+pip install aton --upgrade
+```
+
 
 ## From source
 

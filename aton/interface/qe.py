@@ -15,10 +15,14 @@ Input and output reading
 Input file manipulation  
 `set_value()`  
 `add_atom()`  
-`get_atom()`  
 `normalize_card()`  
-`count_elements()`  
 `scf_from_relax()`  
+
+Data extraction  
+`get_atom()`  
+`count_elements()`  
+`to_cartesian()`  
+`from_cartesian()`  
 
 Dicts with input file description  
 `pw_namelists`  
@@ -29,6 +33,7 @@ Dicts with input file description
 
 
 import pandas as pd
+import numpy as np
 import os
 from aton._version import __version__
 import aton.st.file as file
@@ -891,6 +896,68 @@ def scf_from_relax(
     print(f'Created input SCF file at:'
           f'{scf_in}\n')
     return None
+
+
+def to_cartesian(filepath, coordinates) -> str:
+    """Converts a given `cordinates` from crystal lattice vectors to cartesian.
+
+    Only for `ibrav=0`. Uses the cell parameters.
+    Note that the result is not multiplied by `A` nor `celldm(1)`.
+    """
+    cell_base = _get_base_change_matrix(filepath)
+    coords = _clean_coords(coordinates)
+    coords = np.matrix(coords).T
+    converted_coords = np.matmul(cell_base, coords)
+    converted_coords = converted_coords.T  # To a row
+    final_coords = converted_coords.tolist()[0]
+    return final_coords
+
+
+def from_cartesian(filepath, coordinates:list) -> str:
+    """Converts a given `cordinates` from cartesian to the base of lattice vectors.
+
+    Only for `ibrav=0`. Uses the cell parameters.
+    Note that the result is not divided by `A` nor `celldm(1)`.
+    """
+    cell_base = _get_base_change_matrix(filepath)
+    cell_base_inverse = cell_base.I
+    coords = _clean_coords(coordinates)
+    coords = np.matrix(coords).T
+    converted_coords = np.matmul(cell_base_inverse, coords)
+    converted_coords = converted_coords.T  # To a row
+    final_coords = converted_coords.tolist()[0]
+    return final_coords
+
+
+def _get_base_change_matrix(filepath):
+    """Get the base change matrix, based on the cell parameters. Only for `ibrav=0`."""
+    content = read_in(filepath)
+    # Get the base change matrix
+    cell_parameters = content['CELL_PARAMETERS']
+    cell_parameters = cell_parameters[1:]  # Remove header
+    cell_coords = []
+    for parameter in cell_parameters:
+        coords = extract.coords(parameter)
+        cell_coords.append(coords)
+    cell_matrix = np.matrix(cell_coords)
+    cell_base = cell_matrix.T
+    return cell_base
+
+
+def _clean_coords(coordinates) -> list:
+    """Make sure that `coordinates` is a list with 3 floats. Removes extra values if present."""
+    if isinstance(coordinates, str):
+        coordinates = extract.coords(coordinates)
+    if not isinstance(coordinates, list):
+        raise ValueError("The coordinates must be a list of three floats, or a string as in 'Element x1 x2 x3'")
+    if len(coordinates) < 3:
+        raise ValueError("The coordinates must be a list of three floats, or a string as in 'Element x1 x2 x3'")
+    if len(coordinates) > 3:
+        coordinates = coordinates [:3]
+    cleaned_coords = []
+    for coord in coordinates:
+        cleaned_coords.append(float(coord))
+    return cleaned_coords
 
 
 ############################################################
