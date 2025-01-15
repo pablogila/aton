@@ -189,9 +189,15 @@ This runs Pdoc, updating links and pictures, and using the custom theme CSS temp
 ---
 
 
+# Citation
+
+ATON development started for the following paper, please cite if you use ATON in your work:  
+[*Cryst. Growth Des.* 2024, 24, 391−404](https://doi.org/10.1021/acs.cgd.3c01112)  
+
+
 # License
 
-Copyright (C) 2024  Pablo Gila-Herranz  
+Copyright (C) 2025 Pablo Gila-Herranz  
 This program is free software: you can redistribute it and/or modify
 it under the terms of the **GNU Affero General Public License** as published
 by the Free Software Foundation, either version **3** of the License, or
