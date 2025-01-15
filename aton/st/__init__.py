@@ -1,7 +1,7 @@
 """
 # System Tools
 
-Common system tools across all Aton subpackages.
+Common system tools across all ATON subpackages.
 
 
 # Index

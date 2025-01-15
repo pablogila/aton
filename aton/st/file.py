@@ -103,7 +103,7 @@ def copy(
         new:str
     ) -> None:
     """Copies `old` file to `new` file"""
-    # Yes, I know, why use Aton for this right? copy() and move() functions are here just for consistancy.
+    # Yes, I know, why use ATON for this right? copy() and move() functions are here just for consistancy.
     file = shutil.copy(old, new)
     return None
 

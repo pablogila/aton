@@ -1,10 +1,10 @@
 <p align="center"><img width="40.0%" src="pics/aton.png"></p>
 
 
-# Welcome to Aton
+# Welcome to ATON
 
 The **A**b-ini**T**i**O** & **N**eutron research toolbox,
-or [Aton](https://pablogila.github.io/Aton/),
+or [ATON](https://pablogila.github.io/ATON/),
 provides powerful and comprehensive tools
 for cutting-edge materials research,
 focused on (but not limited to) neutron science.
@@ -12,13 +12,13 @@ focused on (but not limited to) neutron science.
 Just like its [ancient Egyptian deity](https://en.wikipedia.org/wiki/Aten) counterpart,
 this all-in-one Python package contains a range of tools from spectra normalisation to deuteration estimations.
 A set of physico-chemical constants and definitions is also included.
-Aton also allows you to easily create, edit and analyse all kinds of text files,
+ATON also allows you to easily create, edit and analyse all kinds of text files,
 with a special focus on *ab-initio* calculation files.
 In particular, it contains interfaces for [Quantum ESPRESSO](https://www.quantum-espresso.org/),
 [Phonopy](https://phonopy.github.io/phonopy/) and [CASTEP](https://castep-docs.github.io/castep-docs/).  
 
-The source code is available on [GitHub](https://github.com/pablogila/Aton/).   
-Check the [full documentation online](https://pablogila.github.io/Aton/).  
+The source code is available on [GitHub](https://github.com/pablogila/ATON/).   
+Check the [full documentation online](https://pablogila.github.io/ATON/).  
 
 
 ---
@@ -35,20 +35,20 @@ source .venv/bin/activate
 
 ## With pip
 
-The fastest way to install Aton is through pip:  
+The fastest way to install ATON is through pip:  
 ```bash
 pip install aton
 ```
 
 To upgrade to a newer version,
 ```bash
-pip install aton --upgrade
+pip install aton -U
 ```
 
 
 ## From source
 
-Optionally, you can install Aton from the [GitHub repository](https://github.com/pablogila/Aton/).  
+Optionally, you can install ATON from the [GitHub repository](https://github.com/pablogila/ATON/).  
 
 First install the dependencies:  
 ```bash
@@ -66,9 +66,9 @@ pip install .
 
 # Documentation
 
-The full Aton documentation is available [online](https://pablogila.github.io/Aton/).  
+The full ATON documentation is available [online](https://pablogila.github.io/ATON/).  
 An offline version of the documentation is found at `docs/aton.html`.  
-Code examples are included in the [`Aton/examples/`](https://github.com/pablogila/Aton/tree/main/examples) folder.    
+Code examples are included in the [`ATON/examples/`](https://github.com/pablogila/ATON/tree/main/examples) folder.    
 
 
 ## Interfaces for ab-initio codes
@@ -76,13 +76,13 @@ Code examples are included in the [`Aton/examples/`](https://github.com/pablogil
 The **interface** module contains interfaces for several *ab-initio* codes.
 These are powered by the `aton.text` module and can be easily extended.
 
-### [aton.interface](https://pablogila.github.io/Aton/aton/interface.html)
+### [aton.interface](https://pablogila.github.io/ATON/aton/interface.html)
 
 | | |  
 | --- | --- |  
-| [interface.qe](https://pablogila.github.io/Aton/aton/interface/qe.html)           | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
-| [interface.phonopy](https://pablogila.github.io/Aton/aton/interface/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
-| [interface.castep](https://pablogila.github.io/Aton/aton/interface/castep.html)   | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
+| [interface.qe](https://pablogila.github.io/ATON/aton/interface/qe.html)           | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
+| [interface.phonopy](https://pablogila.github.io/ATON/aton/interface/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
+| [interface.castep](https://pablogila.github.io/ATON/aton/interface/castep.html)   | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
 
 
 ## Physico-chemical constants
@@ -90,13 +90,13 @@ These are powered by the `aton.text` module and can be easily extended.
 The **phys** module contains physico-chemical definitions.
 Values are accessed directly as `phys.value` or `phys.function()`.  
 
-### [aton.phys](https://pablogila.github.io/Aton/aton/phys.html)
+### [aton.phys](https://pablogila.github.io/ATON/aton/phys.html)
 
 | | |  
 | --- | --- |  
-| [phys.units](https://pablogila.github.io/Aton/aton/phys/units.html)         | Physical constants and conversion factors |  
-| [phys.atoms](https://pablogila.github.io/Aton/aton/phys/atoms.html)         | Megadictionary with data for all chemical elements |  
-| [phys.functions](https://pablogila.github.io/Aton/aton/phys/functions.html) | Functions to sort and analyse element data, and to update the atoms dictionary |  
+| [phys.units](https://pablogila.github.io/ATON/aton/phys/units.html)         | Physical constants and conversion factors |  
+| [phys.atoms](https://pablogila.github.io/ATON/aton/phys/atoms.html)         | Megadictionary with data for all chemical elements |  
+| [phys.functions](https://pablogila.github.io/ATON/aton/phys/functions.html) | Functions to sort and analyse element data, and to update the atoms dictionary |  
 
 
 ## Spectra analysis
@@ -104,42 +104,42 @@ Values are accessed directly as `phys.value` or `phys.function()`.
 The **spx** module includes tools for spectral analysis from
 Inelastic Neutron Scattering, Raman, Infrared, etc.  
 
-### [aton.spx](https://pablogila.github.io/Aton/aton/spx.html)
+### [aton.spx](https://pablogila.github.io/ATON/aton/spx.html)
 
 | | |  
 | --- | --- |  
-| [spx.classes](https://pablogila.github.io/Aton/aton/spx/classes.html)     | Class definitions for the spectra module |  
-| [spx.fit](https://pablogila.github.io/Aton/aton/spx/fit.html)             | Spectra fitting functions |  
-| [spx.normalize](https://pablogila.github.io/Aton/aton/spx/normalize.html) | Spectra normalization |  
-| [spx.plot](https://pablogila.github.io/Aton/aton/spx/plot.html)           | Plotting |  
-| [spx.deuterium](https://pablogila.github.io/Aton/aton/spx/deuterium.html) | Deuteration estimations via INS |  
-| [spx.samples](https://pablogila.github.io/Aton/aton/spx/samples.html)     | Sample materials for testing |  
+| [spx.classes](https://pablogila.github.io/ATON/aton/spx/classes.html)     | Class definitions for the spectra module |  
+| [spx.fit](https://pablogila.github.io/ATON/aton/spx/fit.html)             | Spectra fitting functions |  
+| [spx.normalize](https://pablogila.github.io/ATON/aton/spx/normalize.html) | Spectra normalization |  
+| [spx.plot](https://pablogila.github.io/ATON/aton/spx/plot.html)           | Plotting |  
+| [spx.deuterium](https://pablogila.github.io/ATON/aton/spx/deuterium.html) | Deuteration estimations via INS |  
+| [spx.samples](https://pablogila.github.io/ATON/aton/spx/samples.html)     | Sample materials for testing |  
 
 
 ## General text edition
 
 The **text** module includes tools for general text edition.  
 
-### [aton.text](https://pablogila.github.io/Aton/aton/text.html)
+### [aton.text](https://pablogila.github.io/ATON/aton/text.html)
 
 | | |  
 | --- | --- |  
-| [text.find](https://pablogila.github.io/Aton/aton/text/find.html)       | Search for specific content in text files |  
-| [text.edit](https://pablogila.github.io/Aton/aton/text/edit.html)       | Manipulate text files |  
-| [text.extract](https://pablogila.github.io/Aton/aton/text/extract.html) | Extract data from raw text strings |  
+| [text.find](https://pablogila.github.io/ATON/aton/text/find.html)       | Search for specific content in text files |  
+| [text.edit](https://pablogila.github.io/ATON/aton/text/edit.html)       | Manipulate text files |  
+| [text.extract](https://pablogila.github.io/ATON/aton/text/extract.html) | Extract data from raw text strings |  
 
 
 ## System tools
 
 The **st** module contains System Tools for common tasks across subpackages.  
 
-### [aton.st](https://pablogila.github.io/Aton/aton/st.html)
+### [aton.st](https://pablogila.github.io/ATON/aton/st.html)
 
 | | |  
 | --- | --- |  
-| [st.file](https://pablogila.github.io/Aton/aton/st/file.html)   | File manipulation |  
-| [st.call](https://pablogila.github.io/Aton/aton/st/call.html)   | Run bash scripts and related |  
-| [st.alias](https://pablogila.github.io/Aton/aton/st/alias.html) | Useful dictionaries for user input correction |  
+| [st.file](https://pablogila.github.io/ATON/aton/st/file.html)   | File manipulation |  
+| [st.call](https://pablogila.github.io/ATON/aton/st/call.html)   | Run bash scripts and related |  
+| [st.alias](https://pablogila.github.io/ATON/aton/st/alias.html) | Useful dictionaries for user input correction |  
 
 
 ---
@@ -147,7 +147,7 @@ The **st** module contains System Tools for common tasks across subpackages.
 
 # Contributing
 
-If you are interested in opening an issue or a pull request, please feel free to do so on [GitHub](https://github.com/pablogila/Aton/).  
+If you are interested in opening an issue or a pull request, please feel free to do so on [GitHub](https://github.com/pablogila/ATON/).  
 For major changes, please get in touch first to discuss the details.  
 
 
@@ -162,13 +162,13 @@ Please try to follow some general guidelines:
 
 ## Automated testing
 
-If you are modifying the source code, you should run the automated tests of the [`Aton/tests/`](https://github.com/pablogila/Aton/tree/main/tests) folder to check that everything works as intended.
+If you are modifying the source code, you should run the automated tests of the [`ATON/tests/`](https://github.com/pablogila/ATON/tree/main/tests) folder to check that everything works as intended.
 To do so, first install PyTest in your environment,
 ```bash
 pip install pytest
 ```
 
-And then run PyTest inside the `Aton/` directory,
+And then run PyTest inside the `ATON/` directory,
 ```bash
 pytest -vv
 ```
@@ -176,7 +176,7 @@ pytest -vv
 
 ## Compiling the documentation
 
-The documentation can be compiled automatically to `docs/aton.html` with [Pdoc](https://pdoc.dev/) and Aton itself, by running:
+The documentation can be compiled automatically to `docs/aton.html` with [Pdoc](https://pdoc.dev/) and ATON itself, by running:
 ```shell
 python3 makedocs.py
 ```

@@ -30,7 +30,7 @@ ins = spx.Spectra(
 spx.plot(ins)
 ```
 
-Check more use examples in the [`Aton/examples/`](https://github.com/pablogila/Aton/tree/main/examples) folder.
+Check more use examples in the [`ATON/examples/`](https://github.com/pablogila/ATON/tree/main/examples) folder.
 
 ---
 """

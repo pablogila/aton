@@ -65,7 +65,7 @@ def git(
     bash("git add .", path, verbose)
     if not message:
         date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M")
-        message = f'Automatic push on {date} with Aton {__version__}'
+        message = f'Automatic push on {date} with ATON {__version__}'
     bash(f'git commit -m "{message}"', path, verbose)
     if tag:
         bash(f'git tag -a {tag} HEAD -m {message}', path, verbose)

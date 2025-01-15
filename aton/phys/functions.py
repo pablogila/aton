@@ -1,4 +1,4 @@
-'''
+"""
 # Description
 
 This module contains functions to sort and analyse
@@ -27,19 +27,19 @@ phys.allowed_isotopes('Li')  # (6, 7)
 ```
 
 ---
-'''
+"""
 
 
 def export_atoms(
         atoms:dict,
         filename='exported_atoms.py'
     ) -> None:
-    '''Export a dictionary of chemical elements to a python file.
+    """Export a dictionary of chemical elements to a python file.
 
     This is used to build and update the `aton.atoms` megadictionary, that contains
     all the element data, such as masses, cross-sections, etc.
     The `atoms.py` file must be modified here.
-    '''
+    """
     with open(filename, 'w') as f:
         # Write the docstrings
         f.write(
@@ -142,10 +142,10 @@ def split_isotope(name:str) -> tuple:
 
 
 def allowed_isotopes(element) -> list:
-    '''Return a list with the allowed mass numbers (A) of a given `element`.
+    """Return a list with the allowed mass numbers (A) of a given `element`.
 
     These mass numbers are used as isotope keys in the `aton.atoms` megadictionary.
-    '''
+    """
     from .atoms import atoms
     if not element in atoms.keys():
         try:
