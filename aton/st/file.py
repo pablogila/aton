@@ -34,7 +34,7 @@ def get(
         filters=None,
         return_anyway:bool=False
         ) -> str:
-    """Check if `filepath` exists in the CWD or in the full path, and returns its full path.
+    """Check if `filepath` exists, and returns its full path.
 
     Raises an error if the file is not found,
     unless `return_anyway = True`, in which case it returns None.
@@ -61,7 +61,7 @@ def get(
     elif len(files) == 0:
         raise FileNotFoundError('The following directory is empty (maybe due to the filters):\n' + filepath)
     else:
-        raise FileExistsError(f'More than one file found, please apply a more strict filter. Found:\n{files}')
+        raise FileExistsError(f'More than one file found, please apply a more strict filter. Found:\n{files}')    
 
 
 def get_list(

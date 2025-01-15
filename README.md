@@ -71,10 +71,10 @@ An offline version of the documentation is found at `docs/aton.html`.
 Code examples are included in the [`ATON/examples/`](https://github.com/pablogila/ATON/tree/main/examples) folder.    
 
 
-## Interfaces for ab-initio codes
+## Interfaces for *ab-initio* codes
 
 The **interface** module contains interfaces for several *ab-initio* codes.
-These are powered by the `aton.text` module and can be easily extended.
+These are powered by the [aton.text](#general-text-edition) module and can be easily extended.
 
 ### [aton.interface](https://pablogila.github.io/ATON/aton/interface.html)
 
@@ -88,7 +88,7 @@ These are powered by the `aton.text` module and can be easily extended.
 ## Physico-chemical constants
 
 The **phys** module contains physico-chemical definitions.
-Values are accessed directly as `phys.value` or `phys.function()`.  
+Values are accessed directly as `phys.value` or `phys.function()`.
 
 ### [aton.phys](https://pablogila.github.io/ATON/aton/phys.html)
 
@@ -102,7 +102,7 @@ Values are accessed directly as `phys.value` or `phys.function()`.
 ## Spectra analysis
 
 The **spx** module includes tools for spectral analysis from
-Inelastic Neutron Scattering, Raman, Infrared, etc.  
+Inelastic Neutron Scattering, Raman, Infrared, etc.
 
 ### [aton.spx](https://pablogila.github.io/ATON/aton/spx.html)
 
@@ -118,7 +118,9 @@ Inelastic Neutron Scattering, Raman, Infrared, etc.
 
 ## General text edition
 
-The **text** module includes tools for general text edition.  
+The **text** module handles text files.
+It powers more complex subpackages,
+such as [aton.interface](#interfaces-for-ab-initio-codes).
 
 ### [aton.text](https://pablogila.github.io/ATON/aton/text.html)
 
@@ -131,7 +133,7 @@ The **text** module includes tools for general text edition.
 
 ## System tools
 
-The **st** module contains System Tools for common tasks across subpackages.  
+The **st** module contains System Tools for common system tasks across subpackages.
 
 ### [aton.st](https://pablogila.github.io/ATON/aton/st.html)
 

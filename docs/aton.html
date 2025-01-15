@@ -69,7 +69,7 @@
   </ul></li>
   <li><a href="#documentation">Documentation</a>
   <ul>
-    <li><a href="#interfaces-for-ab-initio-codes">Interfaces for ab-initio codes</a></li>
+    <li><a href="#interfaces-for-ab-initio-codes">Interfaces for <em>ab-initio</em> codes</a></li>
     <li><a href="#physico-chemical-constants">Physico-chemical constants</a></li>
     <li><a href="#spectra-analysis">Spectra analysis</a></li>
     <li><a href="#general-text-edition">General text edition</a></li>
@@ -183,10 +183,10 @@ In particular, it contains interfaces for <a href="https://www.quantum-espresso.
 An offline version of the documentation is found at <code>docs/aton.html</code>.<br />
 Code examples are included in the <a href="https://github.com/pablogila/ATON/tree/main/examples"><code>ATON/examples/</code></a> folder.    </p>
 
-<h2 id="interfaces-for-ab-initio-codes">Interfaces for ab-initio codes</h2>
+<h2 id="interfaces-for-ab-initio-codes">Interfaces for <em>ab-initio</em> codes</h2>
 
 <p>The <strong>interface</strong> module contains interfaces for several <em>ab-initio</em> codes.
-These are powered by the <code><a href="aton/text.html">aton.text</a></code> module and can be easily extended.</p>
+These are powered by the <a href="#general-text-edition">aton.text</a> module and can be easily extended.</p>
 
 <h3 id="atoninterface"><code><a href="aton/interface.html">aton.interface</a></code></h3>
 
@@ -216,7 +216,7 @@ These are powered by the <code><a href="aton/text.html">aton.text</a></code> mod
 <h2 id="physico-chemical-constants">Physico-chemical constants</h2>
 
 <p>The <strong>phys</strong> module contains physico-chemical definitions.
-Values are accessed directly as <code>phys.value</code> or <code>phys.function()</code>.  </p>
+Values are accessed directly as <code>phys.value</code> or <code>phys.function()</code>.</p>
 
 <h3 id="atonphys"><code><a href="aton/phys.html">aton.phys</a></code></h3>
 
@@ -246,7 +246,7 @@ Values are accessed directly as <code>phys.value</code> or <code>phys.function()
 <h2 id="spectra-analysis">Spectra analysis</h2>
 
 <p>The <strong>spx</strong> module includes tools for spectral analysis from
-Inelastic Neutron Scattering, Raman, Infrared, etc.  </p>
+Inelastic Neutron Scattering, Raman, Infrared, etc.</p>
 
 <h3 id="atonspx"><code><a href="aton/spx.html">aton.spx</a></code></h3>
 
@@ -287,7 +287,9 @@ Inelastic Neutron Scattering, Raman, Infrared, etc.  </p>
 
 <h2 id="general-text-edition">General text edition</h2>
 
-<p>The <strong>text</strong> module includes tools for general text edition.  </p>
+<p>The <strong>text</strong> module handles text files.
+It powers more complex subpackages,
+such as <a href="#interfaces-for-ab-initio-codes">aton.interface</a>.</p>
 
 <h3 id="atontext"><code><a href="aton/text.html">aton.text</a></code></h3>
 
@@ -316,7 +318,7 @@ Inelastic Neutron Scattering, Raman, Infrared, etc.  </p>
 
 <h2 id="system-tools">System tools</h2>
 
-<p>The <strong>st</strong> module contains System Tools for common tasks across subpackages.  </p>
+<p>The <strong>st</strong> module contains System Tools for common system tasks across subpackages.</p>
 
 <h3 id="atonst"><code><a href="aton/st.html">aton.st</a></code></h3>
 
