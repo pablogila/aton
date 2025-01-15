@@ -34,16 +34,17 @@ def get(
         filters=None,
         return_anyway:bool=False
         ) -> str:
-    '''
-    Check if the given `filepath` exists in the currrent working directory
-    or in the full path, and returns its full path as a string.\n
-    Raises an error if the file is not found, unless `return_anyway=True`,
-    in which case it returns None. This can be used to personalize errors.\n
+    """Check if `filepath` exists in the CWD or in the full path, and returns its full path.
+
+    Raises an error if the file is not found,
+    unless `return_anyway = True`, in which case it returns None.
+    This can be used to personalize errors.
+
     If the provided string is a directory, it checks the files inside it.
     if there is only one file inside, it returns said file;
     if there are more files, it tries to filter them with the `filters` keyword(s) to return a single file.
     If this fails, try using more strict filers to return a single file.
-    '''
+    """
     if os.path.isfile(filepath):
         return os.path.abspath(filepath)
     elif os.path.isdir(filepath):
@@ -68,10 +69,10 @@ def get_list(
         filters=None,
         abspath:bool=True
     ) -> list:
-    '''
-    Takes a `folder`, filters the content with the `filters` keyword(s) if provided, and returns a list with the matches.
-    The full paths are returned by default; to get only the base names, set `abspath=False`.
-    '''
+    """Return the files inside a `folder`, applying optional `filters`.
+
+    The full paths are returned by default; to get only the base names, set `abspath = False`.
+    """
     if os.path.isfile(folder):
         folder = os.path.dirname(folder)
     if not os.path.isdir(folder):
@@ -101,7 +102,8 @@ def copy(
         old:str,
         new:str
     ) -> None:
-    """Copies the content of `old` file to `new` file with shutil"""
+    """Copies `old` file to `new` file"""
+    # Yes, I know, why use Aton for this right? copy() and move() functions are here just for consistancy.
     file = shutil.copy(old, new)
     return None
 
@@ -116,10 +118,10 @@ def move(
 
 
 def remove(filepath:str) -> None:
-    '''
-    Removes the given file or folder at `filepath`.
+    """Removes the given file or folder at `filepath`.
+
     > WARNING: Removing stuff is always dangerous, be careful!
-    '''
+    """
     if filepath is None:
         return None  # It did not exist in the first place
     elif os.path.isfile(filepath):
@@ -197,8 +199,7 @@ def copy_to_folders(
         extension:str=None,
         strings_to_delete:list=[],
     ) -> None:
-    """
-    Copies the files from the parent `folder` with the given `extension` to individual subfolders.
+    """Copies the files from the parent `folder` with the given `extension` to individual subfolders.
 
     The subfolders are named as the original files,
     removing the strings from the `strings_to_delete` list.
