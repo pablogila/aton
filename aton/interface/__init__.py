@@ -12,6 +12,7 @@ These interfaces can be easily expanded with the `aton.text` module.
 | `aton.interface.qe`      | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
 | `aton.interface.phonopy` | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
 | `aton.interface.castep`  | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
+| `aton.interface.slurm` | Batch jobs via [Slurm](https://slurm.schedmd.com/) |
 
 
 # Examples
@@ -46,9 +47,9 @@ To perform a phonon calculation from a relaxed structure via Quantum ESPRESSO,
 ```python
 from aton import interface
 # Create the supercell inputs
-interface.phonopy.make(dimension='2 2 2', folder='./calculation')
+interface.phonopy.make_supercells(dimension='2 2 2')
 # Sbatch to a cluster
-interface.phonopy.sbatch('./calculation')
+interface.slurm.sbatch('supercell-', 'template.slurm')
 ```
 
 Check the full `aton.interface.phonopy` API reference for more details.

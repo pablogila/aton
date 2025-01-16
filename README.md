@@ -83,6 +83,7 @@ These are powered by the [aton.text](#general-text-edition) module and can be ea
 | [interface.qe](https://pablogila.github.io/ATON/aton/interface/qe.html)           | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
 | [interface.phonopy](https://pablogila.github.io/ATON/aton/interface/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
 | [interface.castep](https://pablogila.github.io/ATON/aton/interface/castep.html)   | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
+| [interface.slurm](https://pablogila.github.io/ATON/aton/interface/slurm.html) | Batch jobs via [Slurm](https://slurm.schedmd.com/) |
 
 
 ## Physico-chemical constants

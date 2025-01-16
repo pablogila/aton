@@ -15,12 +15,12 @@ Input and output reading
 Input file manipulation  
 `set_value()`  
 `add_atom()`  
-`normalize_card()`  
 `scf_from_relax()`  
 
 Data extraction  
 `get_atom()`  
 `count_elements()`  
+`normalize_card()`  
 `to_cartesian()`  
 `from_cartesian()`  
 
