@@ -30,8 +30,11 @@ phys.allowed_isotopes('Li')  # (6, 7)
 """
 
 
+from .atoms import atoms as atoms_megadict
+
+
 def export_atoms(
-        atoms:dict,
+        atoms:dict=atoms_megadict,
         filename='exported_atoms.py'
     ) -> None:
     """Export a dictionary of chemical elements to a python file.
@@ -77,16 +80,14 @@ def export_atoms(
             "        self.cross_section: float = cross_section\n"
             "        '''Total bound scattering cross section.'''\n"
             "        self.isotope: dict = isotope\n"
-            "        '''\n"
-            "        Dictionary containing the different `Isotope` of the element.\n"
+            "        '''Dictionary containing the different `Isotope` of the element.\n"
             "        The keys are the mass number (A).\n"
             "        '''\n\n\n"
             "class Isotope:\n"
             "    '''Used in the `aton.atoms` megadictionary to store isotope data.'''\n"
             "    def __init__(self, A:int=None, mass:float=None, abundance:float=None, cross_section:float=None):\n"
             "        self.A: int = A\n"
-            "        '''\n"
-            "        Mass number (A) of the isotope.\n"
+            "        '''Mass number (A) of the isotope.\n"
             "        Corresponds to the total number of protons + neutrons in the core.\n"
             "        '''\n"
             "        self.mass: float = mass\n"
@@ -110,8 +111,8 @@ def export_atoms(
             if element.isotope:
                 f.write("        isotope       = {\n")
                 for iso in element.isotope.values():
-                    f.write(f"            {iso.mass_number} : Isotope(\n")
-                    if iso.mass_number:
+                    f.write(f"            {iso.A} : Isotope(\n")
+                    if iso.A:
                         f.write(f"                A             = {iso.A},\n")
                     if iso.mass:
                         f.write(f"                mass          = {iso.mass},\n")
