@@ -1,7 +1,7 @@
 """
 # Description
 
-Functions to handle SLURM calls, to run calculations in clusters.  
+Functions to handle Slurm calls, to run calculations in clusters.  
 
 
 # Index
@@ -24,14 +24,15 @@ from aton._version import __version__
 
 
 def sbatch(
-        prefix:str,
+        prefix:str='',
         template:str='template.slurm',
         in_ext:str='.in',
         out_ext:str='.out',
         folder=None,
+        files:list=[],
         testing:bool=False,
     ) -> None:
-    """Launch all your calculations to a cluster using the SLURM manager.
+    """Sbatch all the calculations at once.
 
     Calculation names should follow `prefix_ID.ext`,
     with `prefix` as the common name across calculations,
@@ -48,6 +49,8 @@ def sbatch(
 
     Runs from the specified `folder`, current working directory if empty.
 
+    If more control is required, a custom list of `files` can be specified for sbatching.
+
     If `testing = True` it skips the final sbatching,
     just printing the commands on the screen.
     """
@@ -59,13 +62,17 @@ def sbatch(
     slurm_folder = 'slurms'
     folder = call.here(folder)
     # Get input files and abort if not found
-    inputs_raw = file.get_list(folder=folder, filters=prefix, abspath=False)
+    if not files:
+        inputs_raw = file.get_list(folder=folder, filters=prefix, abspath=False)
+    else:
+        inputs_raw = files
     inputs = []
     for filename in inputs_raw:
         if filename.endswith(in_ext):
             inputs.append(filename)
     if len(inputs) == 0:
-        raise FileNotFoundError(f"Input files were not found! Expected {prefix}-ID.{in_ext} (ID separator can be '_', '-' or '.')")
+        raise FileNotFoundError(f"Input files were not found! Expected {prefix}ID.{in_ext}")
+    # Make the folder for the sbatch'ed slurm files
     call.bash(f"mkdir {slurm_folder}", folder, True, True)
     # Get the template
     slurm_file = check_template(template, folder)
@@ -95,7 +102,7 @@ def sbatch(
         else:
             call.bash(f"sbatch {slurm_id}", folder, True, False)
         call.bash(f"mv {slurm_id} {slurm_folder}", folder, False, True)  # Do not raise error if we can't move the file
-    print(f'\nDone! Temporary slurm files were moved to /{slurm_folder}/\n')
+    print(f'\nDone! Temporary slurm files were moved to ./{slurm_folder}/\n')
 
 
 def check_template(

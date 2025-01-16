@@ -139,7 +139,7 @@
 <p>To find the lines containing the word 'key', plus an additional line below,</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">from</span> <span class="nn">aton</span> <span class="kn">import</span> <span class="n">text</span>
+<pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">aton</span><span class="w"> </span><span class="kn">import</span> <span class="n">text</span>
 <span class="c1"># with split = False</span>
 <span class="n">text</span><span class="o">.</span><span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">file</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="n">additional</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="c1"># [&#39;line with key 1\nline below first match&#39;,</span>
@@ -156,7 +156,7 @@
 <p>To find the text between the lines containing the words 'first' and 'second',</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">from</span> <span class="nn">aton</span> <span class="kn">import</span> <span class="n">text</span>
+<pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">aton</span><span class="w"> </span><span class="kn">import</span> <span class="n">text</span>
 <span class="n">text</span><span class="o">.</span><span class="n">find</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">file</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="n">key2</span><span class="o">=</span><span class="s1">&#39;second&#39;</span><span class="p">)</span>
     <span class="c1"># &#39;first line\nadditional\nlines\nin\nbetween\nsecond line&#39;</span>
 </code></pre>
@@ -218,12 +218,12 @@
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>
 </span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>
-</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="kn">import</span> <span class="nn">mmap</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="kn">import</span> <span class="nn">re</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="kn">import</span> <span class="nn">aton.st.file</span> <span class="k">as</span> <span class="nn">file</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">mmap</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.st.file</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">file</span>
 </span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>
 </span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>
-</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="k">def</span> <span class="nf">lines</span><span class="p">(</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="k">def</span><span class="w"> </span><span class="nf">lines</span><span class="p">(</span>
 </span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>        <span class="n">matches</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -294,7 +294,7 @@
 </span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>    <span class="k">return</span> <span class="n">matches_found</span>
 </span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>
 </span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>
-</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a><span class="k">def</span> <span class="nf">between</span><span class="p">(</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a><span class="k">def</span><span class="w"> </span><span class="nf">between</span><span class="p">(</span>
 </span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>        <span class="n">key1</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>        <span class="n">key2</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
@@ -326,7 +326,7 @@
 </span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">mm</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>
 </span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>
-</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a><span class="k">def</span> <span class="nf">pos</span><span class="p">(</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a><span class="k">def</span><span class="w"> </span><span class="nf">pos</span><span class="p">(</span>
 </span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>        <span class="n">matches</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span>
@@ -376,7 +376,7 @@
 </span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>    <span class="k">return</span> <span class="n">positions</span>
 </span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>
 </span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>
-</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="k">def</span> <span class="nf">pos_regex</span><span class="p">(</span>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="k">def</span><span class="w"> </span><span class="nf">pos_regex</span><span class="p">(</span>
 </span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>        <span class="n">matches</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span>
@@ -412,7 +412,7 @@
 </span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a>    <span class="k">return</span> <span class="n">positions</span>
 </span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a>
 </span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a>
-</span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a><span class="k">def</span> <span class="nf">next_pos</span><span class="p">(</span>
+</span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a><span class="k">def</span><span class="w"> </span><span class="nf">next_pos</span><span class="p">(</span>
 </span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>        <span class="n">position</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span>
 </span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
@@ -457,7 +457,7 @@
 </span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a>    <span class="k">return</span> <span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                     <span class="c1">#####  should return empty if not found?</span>
 </span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a>
 </span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a>
-</span><span id="L-289"><a href="#L-289"><span class="linenos">289</span></a><span class="k">def</span> <span class="nf">next_pos_regex</span><span class="p">(</span>
+</span><span id="L-289"><a href="#L-289"><span class="linenos">289</span></a><span class="k">def</span><span class="w"> </span><span class="nf">next_pos_regex</span><span class="p">(</span>
 </span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a>        <span class="n">position</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span>
 </span><span id="L-292"><a href="#L-292"><span class="linenos">292</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
@@ -503,7 +503,7 @@
 </span><span id="L-332"><a href="#L-332"><span class="linenos">332</span></a>    <span class="k">return</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span>
 </span><span id="L-333"><a href="#L-333"><span class="linenos">333</span></a>
 </span><span id="L-334"><a href="#L-334"><span class="linenos">334</span></a>
-</span><span id="L-335"><a href="#L-335"><span class="linenos">335</span></a><span class="k">def</span> <span class="nf">line_pos</span><span class="p">(</span>
+</span><span id="L-335"><a href="#L-335"><span class="linenos">335</span></a><span class="k">def</span><span class="w"> </span><span class="nf">line_pos</span><span class="p">(</span>
 </span><span id="L-336"><a href="#L-336"><span class="linenos">336</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-337"><a href="#L-337"><span class="linenos">337</span></a>        <span class="n">position</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span>
 </span><span id="L-338"><a href="#L-338"><span class="linenos">338</span></a>        <span class="n">skips</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span>
@@ -551,7 +551,7 @@
 </span><span id="L-380"><a href="#L-380"><span class="linenos">380</span></a>    <span class="k">return</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span>
 </span><span id="L-381"><a href="#L-381"><span class="linenos">381</span></a>
 </span><span id="L-382"><a href="#L-382"><span class="linenos">382</span></a>
-</span><span id="L-383"><a href="#L-383"><span class="linenos">383</span></a><span class="k">def</span> <span class="nf">between_pos</span><span class="p">(</span>
+</span><span id="L-383"><a href="#L-383"><span class="linenos">383</span></a><span class="k">def</span><span class="w"> </span><span class="nf">between_pos</span><span class="p">(</span>
 </span><span id="L-384"><a href="#L-384"><span class="linenos">384</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-385"><a href="#L-385"><span class="linenos">385</span></a>        <span class="n">key1</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-386"><a href="#L-386"><span class="linenos">386</span></a>        <span class="n">key2</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
@@ -619,7 +619,7 @@
 
     </div>
     <a class="headerlink" href="#lines"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="lines-56"><a href="#lines-56"><span class="linenos"> 56</span></a><span class="k">def</span> <span class="nf">lines</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="lines-56"><a href="#lines-56"><span class="linenos"> 56</span></a><span class="k">def</span><span class="w"> </span><span class="nf">lines</span><span class="p">(</span>
 </span><span id="lines-57"><a href="#lines-57"><span class="linenos"> 57</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="lines-58"><a href="#lines-58"><span class="linenos"> 58</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="lines-59"><a href="#lines-59"><span class="linenos"> 59</span></a>        <span class="n">matches</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -727,7 +727,7 @@ are splitted and added as additional items in the list.</p>
 
     </div>
     <a class="headerlink" href="#between"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="between-127"><a href="#between-127"><span class="linenos">127</span></a><span class="k">def</span> <span class="nf">between</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="between-127"><a href="#between-127"><span class="linenos">127</span></a><span class="k">def</span><span class="w"> </span><span class="nf">between</span><span class="p">(</span>
 </span><span id="between-128"><a href="#between-128"><span class="linenos">128</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="between-129"><a href="#between-129"><span class="linenos">129</span></a>        <span class="n">key1</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="between-130"><a href="#between-130"><span class="linenos">130</span></a>        <span class="n">key2</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
@@ -789,7 +789,7 @@ Use negative numbers to start from the end of the file.</p>
 
     </div>
     <a class="headerlink" href="#pos"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="pos-159"><a href="#pos-159"><span class="linenos">159</span></a><span class="k">def</span> <span class="nf">pos</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="pos-159"><a href="#pos-159"><span class="linenos">159</span></a><span class="k">def</span><span class="w"> </span><span class="nf">pos</span><span class="p">(</span>
 </span><span id="pos-160"><a href="#pos-160"><span class="linenos">160</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="pos-161"><a href="#pos-161"><span class="linenos">161</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="pos-162"><a href="#pos-162"><span class="linenos">162</span></a>        <span class="n">matches</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span>
@@ -870,7 +870,7 @@ but does not search for regular expressions.</p>
 
     </div>
     <a class="headerlink" href="#pos_regex"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="pos_regex-209"><a href="#pos_regex-209"><span class="linenos">209</span></a><span class="k">def</span> <span class="nf">pos_regex</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="pos_regex-209"><a href="#pos_regex-209"><span class="linenos">209</span></a><span class="k">def</span><span class="w"> </span><span class="nf">pos_regex</span><span class="p">(</span>
 </span><span id="pos_regex-210"><a href="#pos_regex-210"><span class="linenos">210</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="pos_regex-211"><a href="#pos_regex-211"><span class="linenos">211</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="pos_regex-212"><a href="#pos_regex-212"><span class="linenos">212</span></a>        <span class="n">matches</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span>
@@ -929,7 +929,7 @@ or to negative integers to start searching from the end of the file upwards.</p>
 
     </div>
     <a class="headerlink" href="#next_pos"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="next_pos-245"><a href="#next_pos-245"><span class="linenos">245</span></a><span class="k">def</span> <span class="nf">next_pos</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="next_pos-245"><a href="#next_pos-245"><span class="linenos">245</span></a><span class="k">def</span><span class="w"> </span><span class="nf">next_pos</span><span class="p">(</span>
 </span><span id="next_pos-246"><a href="#next_pos-246"><span class="linenos">246</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="next_pos-247"><a href="#next_pos-247"><span class="linenos">247</span></a>        <span class="n">position</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span>
 </span><span id="next_pos-248"><a href="#next_pos-248"><span class="linenos">248</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
@@ -998,7 +998,7 @@ To use regular expressions, check <code><a href="#next_pos_regex">next_pos_regex
 
     </div>
     <a class="headerlink" href="#next_pos_regex"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="next_pos_regex-290"><a href="#next_pos_regex-290"><span class="linenos">290</span></a><span class="k">def</span> <span class="nf">next_pos_regex</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="next_pos_regex-290"><a href="#next_pos_regex-290"><span class="linenos">290</span></a><span class="k">def</span><span class="w"> </span><span class="nf">next_pos_regex</span><span class="p">(</span>
 </span><span id="next_pos_regex-291"><a href="#next_pos_regex-291"><span class="linenos">291</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="next_pos_regex-292"><a href="#next_pos_regex-292"><span class="linenos">292</span></a>        <span class="n">position</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span>
 </span><span id="next_pos_regex-293"><a href="#next_pos_regex-293"><span class="linenos">293</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
@@ -1067,7 +1067,7 @@ This method is specific for regular expressions.</p>
 
     </div>
     <a class="headerlink" href="#line_pos"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="line_pos-336"><a href="#line_pos-336"><span class="linenos">336</span></a><span class="k">def</span> <span class="nf">line_pos</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="line_pos-336"><a href="#line_pos-336"><span class="linenos">336</span></a><span class="k">def</span><span class="w"> </span><span class="nf">line_pos</span><span class="p">(</span>
 </span><span id="line_pos-337"><a href="#line_pos-337"><span class="linenos">337</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="line_pos-338"><a href="#line_pos-338"><span class="linenos">338</span></a>        <span class="n">position</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span>
 </span><span id="line_pos-339"><a href="#line_pos-339"><span class="linenos">339</span></a>        <span class="n">skips</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span>
@@ -1135,7 +1135,7 @@ or previous lines with negative values.</p>
 
     </div>
     <a class="headerlink" href="#between_pos"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="between_pos-384"><a href="#between_pos-384"><span class="linenos">384</span></a><span class="k">def</span> <span class="nf">between_pos</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="between_pos-384"><a href="#between_pos-384"><span class="linenos">384</span></a><span class="k">def</span><span class="w"> </span><span class="nf">between_pos</span><span class="p">(</span>
 </span><span id="between_pos-385"><a href="#between_pos-385"><span class="linenos">385</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="between_pos-386"><a href="#between_pos-386"><span class="linenos">386</span></a>        <span class="n">key1</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="between_pos-387"><a href="#between_pos-387"><span class="linenos">387</span></a>        <span class="n">key2</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
