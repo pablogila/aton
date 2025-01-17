@@ -14,8 +14,8 @@ Functions to work with [CASTEP](https://castep-docs.github.io/castep-docs/) calc
 
 
 import aton.st.file as file
-import aton.text.find as find
-import aton.text.extract as extract
+import aton.txt.find as find
+import aton.txt.extract as extract
 
 
 def read_castep(filename) -> dict:

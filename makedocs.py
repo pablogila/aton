@@ -21,10 +21,10 @@ fix_dict ={
     '[phys.units](https://pablogila.github.io/ATON/aton/phys/units.html)'               : '`aton.phys.units`',
     '[phys.atoms](https://pablogila.github.io/ATON/aton/phys/atoms.html)'               : '`aton.phys.atoms`',
     '[phys.functions](https://pablogila.github.io/ATON/aton/phys/functions.html)'       : '`aton.phys.functions`',
-    '[aton.text](https://pablogila.github.io/ATON/aton/text.html)'                      : '`aton.text`',
-    '[text.find](https://pablogila.github.io/ATON/aton/text/find.html)'                 : '`aton.text.find`',
-    '[text.extract](https://pablogila.github.io/ATON/aton/text/extract.html)'           : '`aton.text.extract`',
-    '[text.edit](https://pablogila.github.io/ATON/aton/text/edit.html)'                 : '`aton.text.edit`',
+    '[aton.txt](https://pablogila.github.io/ATON/aton/txt.html)'                        : '`aton.txt`',
+    '[txt.find](https://pablogila.github.io/ATON/aton/txt/find.html)'                   : '`aton.txt.find`',
+    '[txt.extract](https://pablogila.github.io/ATON/aton/txt/extract.html)'             : '`aton.txt.extract`',
+    '[txt.edit](https://pablogila.github.io/ATON/aton/txt/edit.html)'                   : '`aton.txt.edit`',
     '[aton.interface](https://pablogila.github.io/ATON/aton/interface.html)'            : '`aton.interface`',
     '[interface.qe](https://pablogila.github.io/ATON/aton/interface/qe.html)'           : '`aton.interface.qe`',
     '[interface.phonopy](https://pablogila.github.io/ATON/aton/interface/phonopy.html)' : '`aton.interface.phonopy`',
@@ -46,7 +46,7 @@ print(f'Updating docs to {__version__}...')
 # Copy the pics folder
 shutil.copytree('pics', 'docs/pics', dirs_exist_ok=True)
 # Fix the README
-aton.text.edit.from_template(readme, temp_readme, fix_dict)
+aton.txt.edit.from_template(readme, temp_readme, fix_dict)
 # Run Pdoc with the dark theme template from the ./css/ folder
 aton.st.call.bash(f"pdoc ./aton/ -o ./docs/ --mermaid --math --footer-text='ATON {__version__} documentation' -t ./css/")
 aton.st.file.remove(temp_readme)

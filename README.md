@@ -74,7 +74,7 @@ Code examples are included in the [`ATON/examples/`](https://github.com/pablogil
 ## Interfaces for *ab-initio* codes
 
 The **interface** module contains interfaces for several *ab-initio* codes.
-These are powered by the [aton.text](#general-text-edition) module and can be easily extended.
+These are powered by the [aton.txt](#general-text-edition) module and can be easily extended.
 
 ### [aton.interface](https://pablogila.github.io/ATON/aton/interface.html)
 
@@ -123,13 +123,13 @@ The **text** module handles text files.
 It powers more complex subpackages,
 such as [aton.interface](#interfaces-for-ab-initio-codes).
 
-### [aton.text](https://pablogila.github.io/ATON/aton/text.html)
+### [aton.txt](https://pablogila.github.io/ATON/aton/txt.html)
 
 | | |  
 | --- | --- |  
-| [text.find](https://pablogila.github.io/ATON/aton/text/find.html)       | Search for specific content in text files |  
-| [text.edit](https://pablogila.github.io/ATON/aton/text/edit.html)       | Manipulate text files |  
-| [text.extract](https://pablogila.github.io/ATON/aton/text/extract.html) | Extract data from raw text strings |  
+| [txt.find](https://pablogila.github.io/ATON/aton/txt/find.html)       | Search for specific content in text files |  
+| [txt.edit](https://pablogila.github.io/ATON/aton/txt/edit.html)       | Manipulate text files |  
+| [txt.extract](https://pablogila.github.io/ATON/aton/txt/extract.html) | Extract data from raw text strings |  
 
 
 ## System tools

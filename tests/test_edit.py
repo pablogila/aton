@@ -1,4 +1,4 @@
-from aton.text import edit
+from aton.txt import edit
 from aton.st import file
 
 

@@ -1,4 +1,4 @@
-from aton.text import extract
+from aton.txt import extract
 
 
 def test_extract_number():

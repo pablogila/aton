@@ -35,12 +35,13 @@ Dicts with input file description
 import pandas as pd
 import numpy as np
 import os
+from sympy import Matrix
 from aton._version import __version__
 import aton.st.file as file
 import aton.phys.atoms
-import aton.text.find as find
-import aton.text.edit as edit
-import aton.text.extract as extract
+import aton.txt.find as find
+import aton.txt.edit as edit
+import aton.txt.extract as extract
 
 
 def read_in(filepath) -> dict:
@@ -610,9 +611,16 @@ def add_atom(filepath, position, indent='  ') -> None:
 
 def get_atom(
         filepath:str,
-        position:list
+        position:list,
+        precision:int=3,
+        return_anyway:bool=False,
     ) -> str:
-    """Takes the approximate `position` of an atom, and returns the full line from the `filepath`"""
+    """Takes the approximate `position` of an atom, and returns the full line from the `filepath`.
+
+    It rounds the searched values up to the specified `precision` decimals.
+    If `return_anyway = True`, ignores errors and returns an empty string.
+    """
+    # Check that the coordinates are valid
     if isinstance(position, str):
         coordinates = extract.coords(position)
     elif isinstance(position, list):
@@ -620,52 +628,43 @@ def get_atom(
         if len(position) == 1 and isinstance(position[0], str):  # In case someone like me introduces ['x, y, z']
             coordinates = extract.coords(position[0])
     else:
+        if return_anyway:
+            return ''
         raise ValueError(f'The atomic position must be a list or a string! Yours was:\n{position}\nDetected coordinates:\n{coordinates}')
     if len(coordinates) < 3:
+        if return_anyway:
+            return ''
         raise ValueError(f'Atomic position has less that 3 coordinates! Yours had len={len(coordinates)}:\n{position}\nDetected coordinates:\n{coordinates}')
     if len(coordinates) > 3:
         coordinates = coordinates[:3]
-    # Get the max number of decimals, and make sure we have floats
-    decimals = 2
-    for i, coord in enumerate(coordinates):
-        i_decimals = len(str(coord).split('.')[1])
-        coordinates[i] = float(coordinates[i])
-        if i_decimals > decimals:
-            decimals = i_decimals
-    # Find the rounded coords
-    coordinates_str = []
-    for i, coord in enumerate(coordinates):
-        coordinates_str.append(f'{round(coord, decimals):.{decimals}f}')
-    pattern = rf''
-    for coord in coordinates_str:
-        pattern += rf'\s*{coord}\d+'
-    pattern = pattern.replace('.', r'\.')
-    lines = find.lines(filepath=filepath, key=pattern, regex=True)
-    if len(lines) == 1:
-        return lines[0].strip()
-    elif len(lines) > 1:
-        raise ValueError(f'More than one matching atomic position found! Please provide more precision, atoms found were:\n{lines}\nWith the regex:\n{pattern}')
-    # No match found, try rounding the values
-    pattern = rf''
-    for coord in coordinates_str:
-        pattern += rf'\s*{coord[:-1]}\d+'
-    pattern = pattern.replace('.', r'\.')
-    lines = find.lines(filepath=filepath, key=pattern, regex=True)
-    if len(lines) == 1:
-        return lines[0].strip()
-    elif len(lines) > 1:
-        raise ValueError(f'More than one matching atomic position found! Please provide more precision, atoms found were:\n{lines}\nWith the rounded coordinates:\n{coordinates}\nWith the regex:\n{pattern}')
-    # No match found, try rounding for a second and final try
-    pattern = rf''
-    for coord in coordinates_str:
-        pattern += rf'\s*{coord[:-2]}\d+'
-    pattern = pattern.replace('.', r'\.')
-    lines = find.lines(filepath=filepath, key=pattern, regex=True)
-    if len(lines) == 1:
-        return lines[0].strip()
-    elif len(lines) > 1:
-        raise ValueError(f'More than one matching atomic position found! Please provide more precision, atoms found were:\n{lines}\nWith the rounded coordinates:\n{coordinates}\nWith the regex:\n{pattern}')
-    raise ValueError(f'No matching atomic position found, please check your coordinates:\n{position}\nWith the coordinates:\n{coordinates}\nWith the regex:\n{pattern}')
+    # Round the input position up to the specified precision
+    coordinates_rounded = []
+    for coordinate in coordinates:
+        coordinates_rounded.append(round(coordinate, precision))
+    # Compare the rounded coordinates with the atomic positions
+    content = read_in(filepath)
+    if not 'ATOMIC_POSITIONS' in content.keys():
+        if return_anyway:
+            return ''
+        raise ValueError(f'ATOMIC_POSITIONS missing in {filepath}')
+    atomic_positions = content['ATOMIC_POSITIONS'][1:]  # Remove header
+    matched_line = None
+    for atomic_position in atomic_positions:
+        coords =  extract.coords(atomic_position)
+        coords_rounded = []
+        for pos in coords:
+            coords_rounded.append(round(pos, precision))
+        if coordinates_rounded == coords_rounded:
+            if matched_line: # There was a previous match!
+                if return_anyway:
+                    return ''
+                raise ValueError(f'More than one matching position found! Try again with more precision.\nSearched coordinates: {coordinates_rounded}')
+            matched_line = atomic_position
+    if not matched_line:
+        if return_anyway:
+            return ''
+        raise ValueError(f'No matching position found! Try again with a less tight precision parameter.\nSearched coordinates: {coordinates_rounded}')
+    return matched_line
 
 
 def normalize_card(card:list, indent='') -> list:
@@ -906,10 +905,13 @@ def to_cartesian(filepath, coordinates) -> str:
     """
     cell_base = _get_base_change_matrix(filepath)
     coords = _clean_coords(coordinates)
-    coords = np.matrix(coords).T
-    converted_coords = np.matmul(cell_base, coords)
+    coords = Matrix(coords)
+    converted_coords = cell_base * coords
     converted_coords = converted_coords.T  # To a row
-    final_coords = converted_coords.tolist()[0]
+    final_coords_raw = converted_coords.tolist()[0]
+    final_coords = []
+    for coordinate in final_coords_raw:
+        final_coords.append(float(coordinate))
     return final_coords
 
 
@@ -920,12 +922,15 @@ def from_cartesian(filepath, coordinates:list) -> str:
     Note that the result is not divided by `A` nor `celldm(1)`.
     """
     cell_base = _get_base_change_matrix(filepath)
-    cell_base_inverse = cell_base.I
+    cell_base_inverse = cell_base**-1  # Inverse
     coords = _clean_coords(coordinates)
-    coords = np.matrix(coords).T
-    converted_coords = np.matmul(cell_base_inverse, coords)
+    coords = Matrix(coords)  # Transpose
+    converted_coords = cell_base_inverse * coords
     converted_coords = converted_coords.T  # To a row
-    final_coords = converted_coords.tolist()[0]
+    final_coords_raw = converted_coords.tolist()[0]
+    final_coords = []
+    for coordinate in final_coords_raw:
+        final_coords.append(float(coordinate))
     return final_coords
 
 
@@ -939,8 +944,8 @@ def _get_base_change_matrix(filepath):
     for parameter in cell_parameters:
         coords = extract.coords(parameter)
         cell_coords.append(coords)
-    cell_matrix = np.matrix(cell_coords)
-    cell_base = cell_matrix.T
+    cell_matrix = Matrix(cell_coords)
+    cell_base = cell_matrix.T  # Transpose
     return cell_base
 
 

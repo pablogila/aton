@@ -90,13 +90,14 @@
             <ul>
                     <li><a href="aton/interface.html">interface</a></li>
                     <li><a href="aton/phys.html">phys</a></li>
+                    <li><a href="aton/qrotor.html">qrotor</a></li>
                     <li><a href="aton/spx.html">spx</a></li>
                     <li><a href="aton/st.html">st</a></li>
-                    <li><a href="aton/text.html">text</a></li>
+                    <li><a href="aton/txt.html">txt</a></li>
             </ul>
 
 
-            <footer>ATON v0.0.1rc8 documentation</footer>
+            <footer>ATON v0.0.1rc10 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -187,7 +188,7 @@ Code examples are included in the <a href="https://github.com/pablogila/ATON/tre
 <h2 id="interfaces-for-ab-initio-codes">Interfaces for <em>ab-initio</em> codes</h2>
 
 <p>The <strong>interface</strong> module contains interfaces for several <em>ab-initio</em> codes.
-These are powered by the <a href="#general-text-edition">aton.text</a> module and can be easily extended.</p>
+These are powered by the <a href="#general-text-edition">aton.txt</a> module and can be easily extended.</p>
 
 <h3 id="atoninterface"><code><a href="aton/interface.html">aton.interface</a></code></h3>
 
@@ -296,7 +297,7 @@ Inelastic Neutron Scattering, Raman, Infrared, etc.</p>
 It powers more complex subpackages,
 such as <a href="#interfaces-for-ab-initio-codes">aton.interface</a>.</p>
 
-<h3 id="atontext"><code><a href="aton/text.html">aton.text</a></code></h3>
+<h3 id="atontxt"><code><a href="aton/txt.html">aton.txt</a></code></h3>
 
 <table>
 <thead>
@@ -307,15 +308,15 @@ such as <a href="#interfaces-for-ab-initio-codes">aton.interface</a>.</p>
 </thead>
 <tbody>
 <tr>
-  <td><code><a href="aton/text/find.html">aton.text.find</a></code></td>
+  <td><code><a href="aton/txt/find.html">aton.txt.find</a></code></td>
   <td>Search for specific content in text files</td>
 </tr>
 <tr>
-  <td><code><a href="aton/text/edit.html">aton.text.edit</a></code></td>
+  <td><code><a href="aton/txt/edit.html">aton.txt.edit</a></code></td>
   <td>Manipulate text files</td>
 </tr>
 <tr>
-  <td><code><a href="aton/text/extract.html">aton.text.extract</a></code></td>
+  <td><code><a href="aton/txt/extract.html">aton.txt.extract</a></code></td>
   <td>Extract data from raw text strings</td>
 </tr>
 </tbody>
@@ -425,12 +426,13 @@ See the attached GNU Affero General Public License for more details.  </p>
 </span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">._version</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">version</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">st</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">phys</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">text</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">interface</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">spx</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="kn">from</span> <span class="nn">._version</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">version</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">st</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">phys</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">txt</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">interface</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spx</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">qrotor</span>
 </span></pre></div>
 
 

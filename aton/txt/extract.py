@@ -17,16 +17,16 @@ Functions to extract data from raw text strings.
 
 To extract a float value from a string,
 ```python
-from aton import text
+from aton import txt
 line = 'energy =   500.0 Ry'
-text.extract.number(line, 'energy')
+txt.extract.number(line, 'energy')
 # 500.0  (float output)
 ```
 
 To extract a text value, after and before specific strings,
 ```python
 line = 'energy =   500.0 Ry were calculated'
-text.extract.string(line, 'energy', 'were')
+txt.extract.string(line, 'energy', 'were')
 # '500.0 Ry'  (String output)
 ```
 
@@ -34,23 +34,23 @@ To extract a float value from a specific column,
 ```python
 # Name, Energy, Force, Error
 line = 'Testing    1.1    1.2    0.3'
-energy = text.extract.column(line, 1)
+energy = txt.extract.column(line, 1)
 # 1.1
 ```
 
 To extract coordinates,
 ```python
 line = ' He  0.10  0.20  0.30 '
-text.extract.coords(line)
+txt.extract.coords(line)
 # [0.1, 0.2, 0.3]  (List of floats)
 ```
 
 To extract chemical elements,
 ```python
 line = ' He4  0.10  Ag  0.20  Pb  0.30 '
-first_element = text.extract.element(line, 0)
+first_element = txt.extract.element(line, 0)
 # 'He4'
-third_element = text.extract.element(line, 2)
+third_element = txt.extract.element(line, 2)
 # 'Pb'
 ```
 

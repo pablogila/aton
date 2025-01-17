@@ -32,9 +32,9 @@ import re
 from aton._version import __version__
 import aton.st.file as file
 import aton.st.call as call
-import aton.text.find as find
-import aton.text.edit as edit # text
-import aton.text.extract as extract
+import aton.txt.find as find
+import aton.txt.edit as edit # text
+import aton.txt.extract as extract
 import aton.interface.qe as qe
 import aton.interface.slurm as slurm
 

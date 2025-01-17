@@ -23,13 +23,13 @@ Find the `(start, end)` position of specific strings in a file
 
 To find the lines containing the word 'key', plus an additional line below,
 ```python
-from aton import text
+from aton import txt
 # with split = False
-text.find.lines(filepath=file, key='key', additional=1)
+txt.find.lines(filepath=file, key='key', additional=1)
     # ['line with key 1\\nline below first match',
     #  'line with key 2\\nline below second match]
 # with split = True
-text.find.lines(filepath=file, key='key', additional=1, split=True)
+txt.find.lines(filepath=file, key='key', additional=1, split=True)
     # ['line with key 1',
     # 'line below first match',
     # 'line with key 2',
@@ -38,8 +38,8 @@ text.find.lines(filepath=file, key='key', additional=1, split=True)
 
 To find the text between the lines containing the words 'first' and 'second',
 ```python
-from aton import text
-text.find.between(filepath=file, key1='first', key2='second')
+from aton import txt
+txt.find.between(filepath=file, key1='first', key2='second')
     # 'first line\\nadditional\\nlines\\nin\\nbetween\\nsecond line'
 ```
 

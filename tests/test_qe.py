@@ -226,12 +226,10 @@ def test_add_atom():
 def test_get_atom():
     relax = folder + 'relax.in'
     ideal = 'N   0.000000000000000   0.000000000000000   5.000000000000000'
-    approx_list_1 = [0.00, 0.00, 5.01]
-    approx_list_2 = [0.0, 0.0, 5.1]
-    approx_list_3 = [0.0, 0.00, 5.09]
-    approx_str = '0.00, 0.00, 5.01'
-    assert aton.interface.qe.get_atom(relax, approx_list_1) == ideal
-    assert aton.interface.qe.get_atom(relax, approx_list_2) == ideal
-    assert aton.interface.qe.get_atom(relax, approx_list_3) == ideal
-    assert aton.interface.qe.get_atom(relax, approx_str) == ideal
+    approx_list_1 = [0.00, 0.00, 5.0001]
+    approx_list_2 = [0.0, 0.0, 4.9999]
+    approx_str = '0.0000, 0.0000, 5.0001'
+    assert aton.interface.qe.get_atom(filepath=relax, position=approx_list_1, precision=3) == ideal
+    assert aton.interface.qe.get_atom(filepath=relax, position=approx_list_2, precision=3) == ideal
+    assert aton.interface.qe.get_atom(filepath=relax, position=approx_str, precision=3) == ideal
 

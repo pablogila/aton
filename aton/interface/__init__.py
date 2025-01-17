@@ -2,7 +2,7 @@
 # *Ab-initio* interfaces
 
 This module contains interfaces for several *ab-initio* calculation softwares.
-These interfaces can be easily expanded with the `aton.text` module.
+These interfaces can be easily expanded with the `aton.txt` module.
 
 
 # Index
@@ -74,4 +74,5 @@ Check the full `aton.interface.castep` API reference for more details.
 from . import qe
 from . import phonopy
 from . import castep
+from . import slurm
 

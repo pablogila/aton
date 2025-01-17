@@ -1,5 +1,5 @@
 """
-# Description
+# Spectra analysis
 
 This module contains spectral analysis tools.
 

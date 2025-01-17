@@ -1,4 +1,4 @@
-from aton.text import find
+from aton.txt import find
 
 
 sample = 'tests/samples/sample.txt'
