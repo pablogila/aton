@@ -225,7 +225,7 @@ def pos_regex(
     if matches > 0:
         start = 0
         while len(positions) < matches:
-            match = re.search(key, content[start:], flags=re.MULTILINE)
+            match = re.search(key, content[start:], flags=re.MULTILINE)  # MULTILINE for ^ regex
             if not match:
                 break
             match_start = start + match.start()

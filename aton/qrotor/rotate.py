@@ -47,6 +47,7 @@ def qe(
 
     To debug, `show_axis = True` adds two additional helium atoms as the rotation vector.
     """
+    print('Rotating a Quantum ESPRESSO input structure with QRotor...')
     if len(positions) < 3:
         raise ValueError("At least three positions are required to define the rotation axis.")
     lines = []
@@ -64,8 +65,7 @@ def qe(
         # Convert to cartesian
         pos_cartesian = interface.qe.to_cartesian(filepath, pos)
         full_positions.append(pos_cartesian)
-        print(f'Found {element} at position {pos}, at line: "{line}"')
-    print(f'FOUND LINES: {lines}')
+        print(f'Found atom: "{line}"')
     # Set the angles to rotate
     if not repeat:
         angles = [angle]
@@ -149,9 +149,9 @@ def _save_qe(
     for i, line in enumerate(lines):
         strings = line.split()
         atom = strings[0]
-        new_line = f"  {atom}   {positions[i][0]:.15f}   {positions[i][1]:.15f}   {positions[i][2]:.15f}  ! ROTATED"       ##### TODO DEBUG
-        print(f'OLD LINE: {line}')  # DEBUG
-        print(f'NEW_LINE: {new_line}')  # DEBUG
+        new_line = f"  {atom}   {positions[i][0]:.15f}   {positions[i][1]:.15f}   {positions[i][2]:.15f}"
+        #print(f'OLD LINE: {line}')  # DEBUG
+        #print(f'NEW_LINE: {new_line}')  # DEBUG
         edit.replace_line(output, line, new_line, raise_errors=True)
     if len(lines) == len(positions):
         return output

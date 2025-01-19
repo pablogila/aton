@@ -616,7 +616,7 @@ def get_atom(
     ) -> str:
     """Takes the approximate `position` of an atom, and returns the full line from the `filepath`.
 
-    It rounds the searched values up to the specified `precision` decimals.
+    It compares the atomic positions rounded up to the specified `precision` decimals.
     If `return_anyway = True`, ignores errors and returns an empty string.
     """
     # Check that the coordinates are valid
@@ -639,38 +639,44 @@ def get_atom(
     # Round the input position up to the specified precision
     coordinates_rounded = []
     for coordinate in coordinates:
-        coord_rounded = str(round(coordinate, precision))
-        coord_rounded_regex = coord_rounded.replace('.', '\.')
-        coord_rounded_regex += '\d*'
-        coordinates_rounded.append(coord_rounded_regex)
-    # Find the line with a regex
-    pattern = rf'^\s*[A-Z][a-z]*\s+{coordinates_rounded[0]}\s+{coordinates_rounded[1]}\s+{coordinates_rounded[2]}'
-    line = find.lines(filepath=filepath, key=pattern, additional=0, split=True, regex=True)
-    # If there was no match, try trimming instead of rounding
-    if len(line) != 1:  # Try again, but trimming instead of rounding
-        coordinates_trimmed = []
-        for coordinate in coordinates:
-            coord_trimmed = f'{coordinate:.{precision}f}'
-            coord_trimmed_regex = coord_trimmed.replace('.', '\.')
-            coord_trimmed_regex += '\d*'
-            coordinates_trimmed.append(coord_trimmed_regex)
-        # Find the line with a regex
-        pattern_trim = rf'^\s*[A-Z][a-z]*\s+{coordinates_trimmed[0]}\s+{coordinates_trimmed[1]}\s+{coordinates_trimmed[2]}'
-        line_trim = find.lines(filepath=filepath, key=pattern_trim, additional=0, split=True, regex=True)
-        old_line = line
-        old_pattern = pattern
-        pattern = pattern_trim
-        line = line_trim
-    # Check errors
-    if len(line) == 0:
+        coordinates_rounded.append(round(coordinate, precision))
+    # Compare the rounded coordinates with the atomic positions
+    content = read_in(filepath)
+    if not 'ATOMIC_POSITIONS' in content.keys():
         if return_anyway:
             return ''
-        raise ValueError(f'The atom was not found! Hint: try again with less decimal precision.\nThe rounded search regex was:\n{old_pattern}\nThe trimmed search regex was:\n{pattern_trim}')
-    if len(line) > 1:
+        raise ValueError(f'ATOMIC_POSITIONS missing in {filepath}')
+    atomic_positions = content['ATOMIC_POSITIONS'][1:]  # Remove header
+    matched_pos = None
+    matched_index = None
+    for i, atomic_position in enumerate(atomic_positions):
+        coords =  extract.coords(atomic_position)
+        coords_rounded = []
+        for pos in coords:
+            coords_rounded.append(round(pos, precision))
+        if coordinates_rounded == coords_rounded:
+            if matched_pos: # There was a previous match!
+                if return_anyway:
+                    return ''
+                raise ValueError(f'More than one matching position found! Try again with more precision.\nSearched coordinates: {coordinates_rounded}')
+            matched_pos = atomic_position
+            matched_index = i
+    if not matched_pos:
         if return_anyway:
             return ''
-        raise ValueError(f'More than one atom was found! Hint: try again with more decimal precision. Atoms found for rounded regex were:\n{old_line}\nWith the rounded regex:\n{pattern}\nAnd the lines with the trimmed regex:{line_trim}\nWith the trimmed regex:\n{pattern_trim}')
-    return line[0]
+        raise ValueError(f'No matching position found! Try again with a less tight precision parameter.\nSearched coordinates: {coordinates_rounded}')
+    # We must get the literal line, not the normalized one!
+    atomic_positions_uncommented = rf'(?!\s*!\s*)(ATOMIC_POSITIONS|atomic_positions)'
+    atomic_positions_lines = find.between(filepath=filepath, key1=atomic_positions_uncommented, key2=_all_cards_regex, include_keys=False, match=-1, regex=True)
+    # Remove commented or empty lines
+    atomic_positions_lines = atomic_positions_lines.splitlines()
+    atomic_positions_cleaned = []
+    for line in atomic_positions_lines:
+        if line == '' or line.startswith('!') or line.startswith('#'):
+            continue
+        atomic_positions_cleaned.append(line)
+    matched_line = atomic_positions_cleaned[matched_index]
+    return matched_line.strip()
 
 
 def normalize_card(card:list, indent='') -> list:
