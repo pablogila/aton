@@ -271,7 +271,10 @@ def next_pos(
     if not isinstance(filepath, mmap.mmap):
         file_path = file.get(filepath)
         with open(file_path, 'r+b') as f:
-            mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+            try:
+                mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+            except ValueError:                ###########  TODO  what should this return?? 
+                return (-1, -1)
     start, end = position
     keyword_bytes = key.encode()
     if match == 0:
@@ -357,7 +360,10 @@ def line_pos(
     if not isinstance(filepath, mmap.mmap):
         file_path = file.get(filepath)
         with open(file_path, 'r+b') as f:
-            mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+            try:
+                mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+            except ValueError:
+                return (-1, -1)
     if position == (-1, -1):  # No match
         return (-1, -1)
     start, end = position
@@ -437,7 +443,10 @@ def between_pos(
         skip_line_1 = 1
         skip_line_2 = -1
     with open(file_path, 'r+b') as f:
-        mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+        try:
+            mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+        except ValueError:
+            return (-1, -1)
     start, _ = line_pos(mm, position_1, skip_line_1)
     if position_2 != (-1, -1):
         _, end = line_pos(mm, position_2, skip_line_2)

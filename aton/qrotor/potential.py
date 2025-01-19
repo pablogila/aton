@@ -92,6 +92,7 @@ def from_qe(
     folder = file.get_dir(folder)
     files = file.get_list(folder=folder, filters=filters, abspath=True)
     potential_data = '# Angle / deg, Potential / eV\n'
+    potential_data_list = []
     for filepath in files:
         filepath = file.get(filepath=filepath, filters='.out', return_anyway=True)
         if not filepath:  # Not an output file, skip it
@@ -102,10 +103,17 @@ def from_qe(
         energy = content['Energy'] * phys.Ry_to_eV
         filename = os.path.basename(filepath)
         splits = filename.split('_')
-        angle = splits[-1]
+        angle = splits[-1].replace('.out', '')
+        angle = float(angle)
+        potential_data_list.append((angle, energy))
+    # Sort by angle
+    potential_data_list_sorted = sorted(potential_data_list, key=lambda x: x[0])
+    # Append the sorted values as a string
+    for angle, energy in potential_data_list_sorted:
         potential_data += f'{angle}, {energy}\n'
     with open(output, 'w') as f:
         f.write(potential_data)
+    print(f'Saved angles and potential values at {output}')
     return None
 
 
@@ -131,8 +139,6 @@ def solve(system:QSys):
         return zero(system)
     elif system.potential_name.lower() == 'sine':
         return sine(system)
-    elif system.potential_name.lower() == 'test':
-        return test(system)
     elif system.potential_values:  # Re
         return system.potential_values
     else:

@@ -7,6 +7,7 @@ This module provides straightforward functions to plot QRotor data.
 # Index
 
 `reduced_energies()`  
+`potential()`
 `energies_DEV()`      NOT IMPLEMENTED  
 `energy_DEV()`        NOT IMPLEMENTED  
 `convergence_DEV()`   NOT IMPLEMENTED  
@@ -35,6 +36,11 @@ def reduced_energies(data:QExp):
     plt.ylabel('E / B')
     plt.title(data.comment)
     plt.show()
+
+
+def potential(data:QExp):                     #############   TODO IMPLEMENT
+    """Plot the potential values of the system"""
+    pass
 
 
 def energies_DEV(data:QExp):
