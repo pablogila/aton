@@ -55,10 +55,6 @@ def qe(
     for position in positions:
         line = interface.qe.get_atom(filepath, position, precision)
         lines.append(line)
-        try:
-            element = extract.element(line)
-        except:
-            element = 'atom'
         pos = extract.coords(line)
         if len(pos) > 3:  # Keep only the first three coordinates
             pos = pos[:3]
@@ -98,7 +94,7 @@ def rotate_coords(
     ) -> list:
     """Rotates geometrical coordinates.
 
-    Takes a list of atomic `positions` as
+    Takes a list of atomic `positions` in cartesian coordinates, as
     `[[x1,y1,z1], [x2,y2,z2], [x3,y3,z3]], [etc]`.
     Then rotates said coordinates by a given `angle` (degrees),
     taking the perpendicular axis that passes through the

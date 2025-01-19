@@ -8,7 +8,8 @@ Functions to handle Slurm calls, to run calculations in clusters.
 
 | | |
 | --- | --- |
-| `sbatch()`         | Sbatch'es calculations |
+| `sbatch()`         | Sbatch all calculations |
+| `scancel()`        | Scancel all calculations |
 | `check_template()` | Checks that the slurm template is OK, and provides an example if not |
 
 ---
@@ -103,6 +104,30 @@ def sbatch(
             call.bash(f"sbatch {slurm_id}", folder, True, False)
         call.bash(f"mv {slurm_id} {slurm_folder}", folder, False, True)  # Do not raise error if we can't move the file
     print(f'\nDone! Temporary slurm files were moved to ./{slurm_folder}/\n')
+
+
+def scancel(jobs=None, folder=None, prefix:str='slurm-', sufix:str='.out') -> None:
+    """Cancel all running `jobs`.
+    
+    If no job is provided, all jobs detected in the current folder will be cancelled.
+    The jobs will be detected from the `<prefix>JOBID<sufix>` files, `slurm-JOBID.out` by default.
+    """
+    if jobs == None:  # Get the list of jobs
+        filenames = file.get_list(folder=folder, filters=prefix, abspath=False)
+        if not filenames:
+            raise FileNotFoundError(f'To scancel all calculations, {prefix}JOBID{sufix} files are needed!\nConfigure the folder, as well as the prefix and sufix if necessary.')
+        jobs = []
+        for filename in filenames:
+            filename = filename.replace(prefix, '')
+            filename = filename.replace(sufix, '')
+            jobs.append(filename)
+    if isinstance(jobs, str):
+        jobs = [jobs]
+    if not isinstance(jobs, list):
+        raise ValueError(f'Input jobs must be a string or a list of strings! Yours was: {type(jobs)}')
+    for job in jobs:
+        call.bash(f'scancel {job}', folder)
+    return None
 
 
 def check_template(
