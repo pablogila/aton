@@ -16,7 +16,7 @@ setup(
     long_description = LONG_DESCRIPTION,
     long_description_content_type = 'text/markdown',
     packages = find_packages(),
-    install_requires = ['numpy', 'pandas', 'scipy', 'matplotlib', 'sympy'],
+    install_requires = ['numpy', 'pandas', 'scipy', 'matplotlib'],
     extras_requires = {
         'dev': ['pytest', 'twine', 'build']
     },
