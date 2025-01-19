@@ -47,7 +47,7 @@ def qe(
 
     To debug, `show_axis = True` adds two additional helium atoms as the rotation vector.
     """
-    print('Rotating a Quantum ESPRESSO input structure with QRotor...')
+    print('Rotating Quantum ESPRESSO input structure with QRotor...')
     if len(positions) < 3:
         raise ValueError("At least three positions are required to define the rotation axis.")
     lines = []
