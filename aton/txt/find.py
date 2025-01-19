@@ -89,7 +89,10 @@ def lines(
     else:
         positions = pos(file_path, key, matches)
     with open(file_path, 'r+b') as f:
-        mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+        try:
+            mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+        except ValueError:
+            return []
     for start, end in positions:
         # Get the positions of the full line containing the match
         line_start = mm.rfind(b'\n', 0, start) + 1
@@ -151,14 +154,17 @@ def between(
     if (start, end) == (-1, -1):
         return ''
     with open(file_path, 'r+b') as f:
-        mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+        try:
+            mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+        except ValueError:
+            return ''
     return (mm[start:end].decode())
 
 
 def pos(
         filepath,
         key:str,
-        matches:int=0
+        matches:int=0,
         ) -> list:
     """Returns a list with the positions of the `key` in `filepath`.
 
@@ -173,6 +179,8 @@ def pos(
     You can also set it to negative integers to start
     searching from the end of the file upwards.
 
+
+
     This method is faster than `pos_regex()`,
     but does not search for regular expressions.
     """
@@ -181,7 +189,10 @@ def pos(
     if not isinstance(filepath, mmap.mmap):
         file_path = file.get(filepath)
         with open(file_path, 'r+b') as f:
-            mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+            try:
+                mm = mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ)
+            except ValueError:
+                return [(-1, -1)]        ######################   TODO Should it return this if the file is empty?
     keyword_bytes = key.encode()
     if matches >= 0:
         start = 0

@@ -96,14 +96,14 @@ def from_qe(
         filepath = file.get(filepath=filepath, filters='.out', return_anyway=True)
         if not filepath:  # Not an output file, skip it
             continue
-        content = qe.read_in[filepath]
+        content = qe.read_out(filepath)
         if not content['Success']:  # Ignore unsuccessful calculations
             continue
         energy = content['Energy'] * phys.Ry_to_eV
         filename = os.path.basename(filepath)
         splits = filename.split('_')
         angle = splits[-1]
-        potential_data.append(f'{angle}, {energy}\n')
+        potential_data += f'{angle}, {energy}\n'
     with open(output, 'w') as f:
         f.write(potential_data)
     return None

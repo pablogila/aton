@@ -110,7 +110,7 @@ def get_dir(folder=None) -> str:
             path = os.path.dirname(folder)
             path = os.path.realpath(path)
         else:
-            raise FileNotFoundError(f'Missing folder at {fodler}')
+            raise FileNotFoundError(f'Missing folder at {folder}')
     return path
 
 
