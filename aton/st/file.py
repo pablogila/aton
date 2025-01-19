@@ -10,6 +10,7 @@ Functions to move files around.
 | --- | --- |
 | `get()`               | Check that a file exists, and return the full path |
 | `get_list()`          | Get a list of the files inside a folder, applying optional filters |
+| `get_dir()`           | Get the full path of a folder or the cwd |
 | `copy()`              | Copy file |
 | `move()`              | Move file |
 | `remove()`            | Remove file or folder |
@@ -96,6 +97,21 @@ def get_list(
             filepaths.append(os.path.join(folder, f))
         files = filepaths
     return files
+
+
+def get_dir(folder=None) -> str:
+    """Returns the full path of `folder` or the parent folder if it's a file. If none is provided, the current working directory is returned."""
+    if folder == None:
+        path = os.getcwd()
+    elif os.path.isdir(folder):
+        path = os.path.realpath(folder)
+    elif not os.path.isdir(folder):
+        if os.path.isfile:
+            path = os.path.dirname(folder)
+            path = os.path.realpath(path)
+        else:
+            raise FileNotFoundError(f'Missing folder at {fodler}')
+    return path
 
 
 def copy(

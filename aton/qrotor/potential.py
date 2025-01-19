@@ -76,7 +76,7 @@ def load(
 
 
 def from_qe(
-        folder,
+        folder=None,
         filters:str=None,
         output:str='potential.dat',
         ) -> None:
@@ -85,10 +85,11 @@ def from_qe(
     The angle in degrees is extracted from the output filenames,
     which must follow `whatever_ANGLE.out`.
 
-    Outputs from SCF calculations must be located in the provided `folder`,
+    Outputs from SCF calculations must be located in the provided `folder` (CWD if None),
     and can be filtered with `filters`.
     The `output` name is `potential.dat` by default.
     """
+    folder = file.get_dir(folder)
     files = file.get_list(folder=folder, filters=filters, abspath=True)
     potential_data = '# Angle / deg, Potential / eV\n'
     for filepath in files:

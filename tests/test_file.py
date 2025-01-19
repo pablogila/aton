@@ -105,7 +105,8 @@ def test_folders():
     # Check that the folder is deleted
     file.remove(folder+'sample')
     try:
-        file.get_list(folder+'sample')
+        x = file.get_list(folder+'sample')
+        print(x)
         assert False
     except FileNotFoundError:
         assert True
