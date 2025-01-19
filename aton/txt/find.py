@@ -225,7 +225,7 @@ def pos_regex(
     if matches > 0:
         start = 0
         while len(positions) < matches:
-            match = re.search(key, content[start:])
+            match = re.search(key, content[start:], flags=re.MULTILINE)
             if not match:
                 break
             match_start = start + match.start()
@@ -233,7 +233,7 @@ def pos_regex(
             positions.append((match_start, match_end))
             start = match_end
     else:
-        all_matches = list(re.finditer(key, content))
+        all_matches = list(re.finditer(key, content, flags=re.MULTILINE))
         if matches == 0:
             positions = [(match.start(), match.end()) for match in all_matches]
         else:

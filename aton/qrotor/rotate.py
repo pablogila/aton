@@ -64,7 +64,8 @@ def qe(
         # Convert to cartesian
         pos_cartesian = interface.qe.to_cartesian(filepath, pos)
         full_positions.append(pos_cartesian)
-        print(f'Found {element} at position {pos}')
+        print(f'Found {element} at position {pos}, at line: "{line}"')
+    print(f'FOUND LINES: {lines}')
     # Set the angles to rotate
     if not repeat:
         angles = [angle]
@@ -108,13 +109,12 @@ def rotate_coords(
     If `show_axis = True` it returns two additional coordinates at the end of the list,
     with the centroid and the rotation vector.
     """
-    print(f'Rotating positions: {positions}')
     if len(positions) < 3:
         raise ValueError("At least three coordinates are required to define the rotation axis.")
     if not isinstance(positions[0], list):
-        raise ValueError("Atomic positions must have the form: [[x1,y1,z1], [x2,y2,z2], [x3,y3,z3], etc]")
+        raise ValueError(f"Atomic positions must have the form: [[x1,y1,z1], [x2,y2,z2], [x3,y3,z3], etc]. Yours were:\n{positions}")
     positions = np.array(positions)
-    print(f'POSITIONS: {positions}') ##############   TODO   debug
+    #print(f'POSITIONS: {positions}')  # DEBUG
     # Define the geometrical center of the first three points
     center = np.mean(positions[:3], axis=0)
     # Ensure the axis passes through the geometrical center
@@ -131,7 +131,7 @@ def rotate_coords(
     # Rotate all coordinates around the geometrical center
     rotated_centered_positions = rotation.apply(centered_positions)
     rotated_positions = (rotated_centered_positions + center).tolist()
-    print(f'ROTATED_POSITIONS: {rotated_positions}') ##############   TODO   debug
+    #print(f'ROTATED_POSITIONS: {rotated_positions}')  # DEBUG
     if show_axis:
         rotated_positions.append(center.tolist())
         rotated_positions.append((center + axis).tolist())
@@ -149,8 +149,10 @@ def _save_qe(
     for i, line in enumerate(lines):
         strings = line.split()
         atom = strings[0]
-        new_line = f"  {atom}   {positions[i][0]:.15f}   {positions[i][1]:.15f}   {positions[i][2]:.15f}"
-        edit.replace_line(output, line, new_line)
+        new_line = f"  {atom}   {positions[i][0]:.15f}   {positions[i][1]:.15f}   {positions[i][2]:.15f}  ! ROTATED"       ##### TODO DEBUG
+        print(f'OLD LINE: {line}')  # DEBUG
+        print(f'NEW_LINE: {new_line}')  # DEBUG
+        edit.replace_line(output, line, new_line, raise_errors=True)
     if len(lines) == len(positions):
         return output
     elif len(lines) + 2 != len(positions):

@@ -135,7 +135,8 @@ def replace_line(
         replacements:int=0,
         skips:int=0,
         additional:int=0,
-        regex:bool=False
+        regex:bool=False,
+        raise_errors:bool=False,
     ) -> None:
     """Replaces the entire line(s) containing the `key` with the `text` in `filepath`.
 
@@ -162,6 +163,8 @@ def replace_line(
     else:
         positions = find.pos(file_path, key, replacements)
     positions.reverse()  # Must start replacing from the end, otherwise the atual positions may change!
+    if positions == [] and raise_errors:
+        raise ValueError(f'The line could not be replaced because the following key was not found:\n{key}')
     # Open the file in read-write mode
     with open(file_path, 'r+b') as f:
         with mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_WRITE) as mm:

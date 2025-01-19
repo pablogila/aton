@@ -148,7 +148,7 @@ def sine(system:QSys):
     """Sine potential.
 
     If potential_constants are provided, returns:
-    $C_0 + C_1 \cdot \sin(3x + C_2)$.
+    $C_0 + C_1 sin(3x + C_2)$.
     """
     x = system.grid
     C = system.potential_constants

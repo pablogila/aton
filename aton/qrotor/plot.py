@@ -7,9 +7,10 @@ This module provides straightforward functions to plot QRotor data.
 # Index
 
 `reduced_energies()`  
-`energies_DEV()`     NOT IMPLEMENTED  
-`energy_DEV()`       NOT IMPLEMENTED  
-`convergence_DEV()`  NOT IMPLEMENTED  
+`energies_DEV()`      NOT IMPLEMENTED  
+`energy_DEV()`        NOT IMPLEMENTED  
+`convergence_DEV()`   NOT IMPLEMENTED  
+`eigenvectors_DEV()`  NOT IMPLEMENTED  
 
 ---
 """
@@ -40,7 +41,7 @@ def energies_DEV(data:QExp):
     '''Plots the energy in separated plots. NOT YET IMPLEMENTED'''
     if data.separate_plots:
         for variables, solutions in zip(data.variables, data.solutions):
-            new_data = Experiment()
+            new_data = QExp()
             new_data.comment = variables.comment
             new_data.variables.append(variables)
             new_data.solutions.append(solutions)
@@ -235,21 +236,7 @@ def convergence_DEV(data:QExp):
 
 
 
-
-
-
-'''
-###################################################
-############  TO FIX:
-
-
-
-
-
-
-
-
-def eigenvectors(data:Experiment, levels=None, squared=False, scaling_factor=1):
+def eigenvectors_DEV(data:QExp, levels=None, squared=False, scaling_factor=1):
 
     xlabel = 'Angle / radians'
     ylabel = 'Energy / meV'
@@ -308,5 +295,3 @@ def eigenvectors(data:Experiment, levels=None, squared=False, scaling_factor=1):
 
 
 
-
-'''
