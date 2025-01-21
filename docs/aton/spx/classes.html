@@ -216,7 +216,7 @@
     </ul>
 
 
-            <footer>ATON v0.0.1rc25 documentation</footer>
+            <footer>ATON v0.0.1rc27 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -267,7 +267,7 @@ as <code>aton.spx.Class()</code>.</p>
 converting them to meV units, and finally plotting them:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">aton</span><span class="w"> </span><span class="kn">import</span> <span class="n">spx</span>
+<pre><span></span><code><span class="kn">from</span> <span class="nn">aton</span> <span class="kn">import</span> <span class="n">spx</span>
 <span class="n">ins</span> <span class="o">=</span> <span class="n">spx</span><span class="o">.</span><span class="n">Spectra</span><span class="p">(</span>
     <span class="nb">type</span>     <span class="o">=</span> <span class="s1">&#39;ins&#39;</span><span class="p">,</span>
     <span class="n">files</span>    <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;example_1.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;example_2.csv&#39;</span><span class="p">],</span>
@@ -325,17 +325,17 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>
 </span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>
-</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.st.alias</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">alias</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.phys</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">phys</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="kn">import</span> <span class="nn">os</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="kn">import</span> <span class="nn">aton.st.alias</span> <span class="k">as</span> <span class="nn">alias</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="kn">import</span> <span class="nn">aton.phys</span> <span class="k">as</span> <span class="nn">phys</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>
-</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Plotting</span><span class="p">:</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="k">class</span> <span class="nc">Plotting</span><span class="p">:</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Stores plotting options, read by `aton.spx.plot`&quot;&quot;&quot;</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
 </span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>            <span class="n">title</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>            <span class="n">xlim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -420,7 +420,7 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">save_as</span> <span class="o">=</span> <span class="n">save_as</span>
 </span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Filename to save the plot. None by default.&quot;&quot;&quot;</span>
 </span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limits</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>    <span class="k">def</span> <span class="nf">_set_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limits</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 </span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the x and y limits of the plot.&quot;&quot;&quot;</span>
 </span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>        <span class="k">if</span> <span class="n">limits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>            <span class="k">return</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
@@ -441,12 +441,12 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown plotting limits: Must be specified as a list of two elements, as [low_limit, high_limit]. Got: </span><span class="si">{</span><span class="n">limits</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>
 </span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>
-</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Spectra</span><span class="p">:</span>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="k">class</span> <span class="nc">Spectra</span><span class="p">:</span>
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Spectra object. Used to load and process spectral data.</span>
 </span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>
 </span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a><span class="sd">    Most functions in the `aton.spx` module receive this object as input.</span>
 </span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
 </span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>            <span class="nb">type</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>            <span class="n">comment</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -495,7 +495,7 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>        <span class="bp">self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_dataframes</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">dfs</span><span class="p">)</span>
 </span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>        <span class="bp">self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_units</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="n">units_in</span><span class="p">)</span>
 </span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>
-</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>    <span class="k">def</span> <span class="nf">_set_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
 </span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set and normalize the type of the spectra: `INS`, `ATR`, or `RAMAN`.&quot;&quot;&quot;</span>
 </span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>        <span class="k">if</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">alias</span><span class="o">.</span><span class="n">experiments</span><span class="p">[</span><span class="s1">&#39;ins&#39;</span><span class="p">]:</span>
 </span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;ins&#39;</span>
@@ -507,7 +507,7 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 </span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>
-</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_dataframes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">dfs</span><span class="p">):</span>
+</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>    <span class="k">def</span> <span class="nf">_set_dataframes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">dfs</span><span class="p">):</span>
 </span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;Set the dfs list of dataframes, from the given files or dfs.&#39;&#39;&#39;</span>
 </span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
 </span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">files</span>
@@ -524,7 +524,7 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_dataframe</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">]</span>
 </span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>
-</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_read_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>    <span class="k">def</span> <span class="nf">_read_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 </span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Read a dataframe from a file.&quot;&quot;&quot;</span>
 </span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a>        <span class="n">root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
 </span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a>        <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
@@ -535,7 +535,7 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(),</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>        <span class="k">return</span> <span class="n">df</span>
 </span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>
-</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_units</span><span class="p">(</span>
+</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>    <span class="k">def</span> <span class="nf">set_units</span><span class="p">(</span>
 </span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a>            <span class="n">units</span><span class="p">,</span>
 </span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a>            <span class="n">units_in</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -639,14 +639,14 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-350"><a href="#L-350"><span class="linenos">350</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="L-351"><a href="#L-351"><span class="linenos">351</span></a>
 </span><span id="L-352"><a href="#L-352"><span class="linenos">352</span></a>
-</span><span id="L-353"><a href="#L-353"><span class="linenos">353</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Material</span><span class="p">:</span>
+</span><span id="L-353"><a href="#L-353"><span class="linenos">353</span></a><span class="k">class</span> <span class="nc">Material</span><span class="p">:</span>
 </span><span id="L-354"><a href="#L-354"><span class="linenos">354</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Material class.</span>
 </span><span id="L-355"><a href="#L-355"><span class="linenos">355</span></a>
 </span><span id="L-356"><a href="#L-356"><span class="linenos">356</span></a><span class="sd">    Used to calculate molar masses and cross sections,</span>
 </span><span id="L-357"><a href="#L-357"><span class="linenos">357</span></a><span class="sd">    and to pass data to different analysis functions</span>
 </span><span id="L-358"><a href="#L-358"><span class="linenos">358</span></a><span class="sd">    such as `aton.spectra.deuterium.impulse_approx().`</span>
 </span><span id="L-359"><a href="#L-359"><span class="linenos">359</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-360"><a href="#L-360"><span class="linenos">360</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="L-360"><a href="#L-360"><span class="linenos">360</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
 </span><span id="L-361"><a href="#L-361"><span class="linenos">361</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-362"><a href="#L-362"><span class="linenos">362</span></a>            <span class="n">elements</span><span class="p">:</span><span class="nb">dict</span><span class="p">,</span>
 </span><span id="L-363"><a href="#L-363"><span class="linenos">363</span></a>            <span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -700,7 +700,7 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-411"><a href="#L-411"><span class="linenos">411</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="n">peaks</span>
 </span><span id="L-412"><a href="#L-412"><span class="linenos">412</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Dict with interesting peaks that you might want to store for later use.&quot;&quot;&quot;</span>
 </span><span id="L-413"><a href="#L-413"><span class="linenos">413</span></a>
-</span><span id="L-414"><a href="#L-414"><span class="linenos">414</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_grams_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-414"><a href="#L-414"><span class="linenos">414</span></a>    <span class="k">def</span> <span class="nf">_set_grams_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="L-415"><a href="#L-415"><span class="linenos">415</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the error in grams, based on the number of decimal places.&quot;&quot;&quot;</span>
 </span><span id="L-416"><a href="#L-416"><span class="linenos">416</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grams</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-417"><a href="#L-417"><span class="linenos">417</span></a>            <span class="k">return</span>
@@ -708,7 +708,7 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-419"><a href="#L-419"><span class="linenos">419</span></a>        <span class="c1"># Calculate the error in grams</span>
 </span><span id="L-420"><a href="#L-420"><span class="linenos">420</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">grams_error</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">decimal_accuracy</span><span class="p">)</span>
 </span><span id="L-421"><a href="#L-421"><span class="linenos">421</span></a>
-</span><span id="L-422"><a href="#L-422"><span class="linenos">422</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-422"><a href="#L-422"><span class="linenos">422</span></a>    <span class="k">def</span> <span class="nf">_set_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="L-423"><a href="#L-423"><span class="linenos">423</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the molar mass of the material.</span>
 </span><span id="L-424"><a href="#L-424"><span class="linenos">424</span></a>
 </span><span id="L-425"><a href="#L-425"><span class="linenos">425</span></a><span class="sd">        If `Material.grams` is provided, the number of moles will be</span>
@@ -728,7 +728,7 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-439"><a href="#L-439"><span class="linenos">439</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">mols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grams</span> <span class="o">/</span> <span class="n">material_grams_per_mol</span>
 </span><span id="L-440"><a href="#L-440"><span class="linenos">440</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">mols_error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">grams_error</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grams</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 </span><span id="L-441"><a href="#L-441"><span class="linenos">441</span></a>    
-</span><span id="L-442"><a href="#L-442"><span class="linenos">442</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_cross_section</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-442"><a href="#L-442"><span class="linenos">442</span></a>    <span class="k">def</span> <span class="nf">_set_cross_section</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="L-443"><a href="#L-443"><span class="linenos">443</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the cross section of the material, based on the `elements` dict.</span>
 </span><span id="L-444"><a href="#L-444"><span class="linenos">444</span></a>
 </span><span id="L-445"><a href="#L-445"><span class="linenos">445</span></a><span class="sd">        If an isotope is used, eg. `&#39;He4&#39;`, it splits the name with `aton.phys.functions.split_isotope`.</span>
@@ -742,12 +742,12 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="L-453"><a href="#L-453"><span class="linenos">453</span></a>                <span class="n">total_cross_section</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="n">element</span><span class="p">]</span><span class="o">.</span><span class="n">isotope</span><span class="p">[</span><span class="n">isotope_index</span><span class="p">]</span><span class="o">.</span><span class="n">cross_section</span>
 </span><span id="L-454"><a href="#L-454"><span class="linenos">454</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cross_section</span> <span class="o">=</span> <span class="n">total_cross_section</span>
 </span><span id="L-455"><a href="#L-455"><span class="linenos">455</span></a>
-</span><span id="L-456"><a href="#L-456"><span class="linenos">456</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-456"><a href="#L-456"><span class="linenos">456</span></a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="L-457"><a href="#L-457"><span class="linenos">457</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the molar mass, cross section and errors of the material.&quot;&quot;&quot;</span>
 </span><span id="L-458"><a href="#L-458"><span class="linenos">458</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_set_mass</span><span class="p">()</span>
 </span><span id="L-459"><a href="#L-459"><span class="linenos">459</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_set_cross_section</span><span class="p">()</span>
 </span><span id="L-460"><a href="#L-460"><span class="linenos">460</span></a>
-</span><span id="L-461"><a href="#L-461"><span class="linenos">461</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-461"><a href="#L-461"><span class="linenos">461</span></a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="L-462"><a href="#L-462"><span class="linenos">462</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Print a summary with the material information.&quot;&quot;&quot;</span>
 </span><span id="L-463"><a href="#L-463"><span class="linenos">463</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">MATERIAL&#39;</span><span class="p">)</span>
 </span><span id="L-464"><a href="#L-464"><span class="linenos">464</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -782,9 +782,9 @@ converting them to meV units, and finally plotting them:</p>
 
     </div>
     <a class="headerlink" href="#Plotting"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Plotting-48"><a href="#Plotting-48"><span class="linenos"> 48</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Plotting</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Plotting-48"><a href="#Plotting-48"><span class="linenos"> 48</span></a><span class="k">class</span> <span class="nc">Plotting</span><span class="p">:</span>
 </span><span id="Plotting-49"><a href="#Plotting-49"><span class="linenos"> 49</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Stores plotting options, read by `aton.spx.plot`&quot;&quot;&quot;</span>
-</span><span id="Plotting-50"><a href="#Plotting-50"><span class="linenos"> 50</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="Plotting-50"><a href="#Plotting-50"><span class="linenos"> 50</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
 </span><span id="Plotting-51"><a href="#Plotting-51"><span class="linenos"> 51</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="Plotting-52"><a href="#Plotting-52"><span class="linenos"> 52</span></a>            <span class="n">title</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="Plotting-53"><a href="#Plotting-53"><span class="linenos"> 53</span></a>            <span class="n">xlim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -869,7 +869,7 @@ converting them to meV units, and finally plotting them:</p>
 </span><span id="Plotting-132"><a href="#Plotting-132"><span class="linenos">132</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">save_as</span> <span class="o">=</span> <span class="n">save_as</span>
 </span><span id="Plotting-133"><a href="#Plotting-133"><span class="linenos">133</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Filename to save the plot. None by default.&quot;&quot;&quot;</span>
 </span><span id="Plotting-134"><a href="#Plotting-134"><span class="linenos">134</span></a>
-</span><span id="Plotting-135"><a href="#Plotting-135"><span class="linenos">135</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limits</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="Plotting-135"><a href="#Plotting-135"><span class="linenos">135</span></a>    <span class="k">def</span> <span class="nf">_set_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limits</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 </span><span id="Plotting-136"><a href="#Plotting-136"><span class="linenos">136</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the x and y limits of the plot.&quot;&quot;&quot;</span>
 </span><span id="Plotting-137"><a href="#Plotting-137"><span class="linenos">137</span></a>        <span class="k">if</span> <span class="n">limits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="Plotting-138"><a href="#Plotting-138"><span class="linenos">138</span></a>            <span class="k">return</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
@@ -905,7 +905,7 @@ converting them to meV units, and finally plotting them:</p>
 
     </div>
     <a class="headerlink" href="#Plotting.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Plotting.__init__-50"><a href="#Plotting.__init__-50"><span class="linenos"> 50</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Plotting.__init__-50"><a href="#Plotting.__init__-50"><span class="linenos"> 50</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
 </span><span id="Plotting.__init__-51"><a href="#Plotting.__init__-51"><span class="linenos"> 51</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="Plotting.__init__-52"><a href="#Plotting.__init__-52"><span class="linenos"> 52</span></a>            <span class="n">title</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="Plotting.__init__-53"><a href="#Plotting.__init__-53"><span class="linenos"> 53</span></a>            <span class="n">xlim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1258,12 +1258,12 @@ in that case, elements set to <code>False</code> will not be displayed.</p>
 
     </div>
     <a class="headerlink" href="#Spectra"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Spectra-156"><a href="#Spectra-156"><span class="linenos">156</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Spectra</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Spectra-156"><a href="#Spectra-156"><span class="linenos">156</span></a><span class="k">class</span> <span class="nc">Spectra</span><span class="p">:</span>
 </span><span id="Spectra-157"><a href="#Spectra-157"><span class="linenos">157</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Spectra object. Used to load and process spectral data.</span>
 </span><span id="Spectra-158"><a href="#Spectra-158"><span class="linenos">158</span></a>
 </span><span id="Spectra-159"><a href="#Spectra-159"><span class="linenos">159</span></a><span class="sd">    Most functions in the `aton.spx` module receive this object as input.</span>
 </span><span id="Spectra-160"><a href="#Spectra-160"><span class="linenos">160</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Spectra-161"><a href="#Spectra-161"><span class="linenos">161</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="Spectra-161"><a href="#Spectra-161"><span class="linenos">161</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
 </span><span id="Spectra-162"><a href="#Spectra-162"><span class="linenos">162</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="Spectra-163"><a href="#Spectra-163"><span class="linenos">163</span></a>            <span class="nb">type</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="Spectra-164"><a href="#Spectra-164"><span class="linenos">164</span></a>            <span class="n">comment</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1312,7 +1312,7 @@ in that case, elements set to <code>False</code> will not be displayed.</p>
 </span><span id="Spectra-207"><a href="#Spectra-207"><span class="linenos">207</span></a>        <span class="bp">self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_dataframes</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">dfs</span><span class="p">)</span>
 </span><span id="Spectra-208"><a href="#Spectra-208"><span class="linenos">208</span></a>        <span class="bp">self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_units</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="n">units_in</span><span class="p">)</span>
 </span><span id="Spectra-209"><a href="#Spectra-209"><span class="linenos">209</span></a>
-</span><span id="Spectra-210"><a href="#Spectra-210"><span class="linenos">210</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+</span><span id="Spectra-210"><a href="#Spectra-210"><span class="linenos">210</span></a>    <span class="k">def</span> <span class="nf">_set_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
 </span><span id="Spectra-211"><a href="#Spectra-211"><span class="linenos">211</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set and normalize the type of the spectra: `INS`, `ATR`, or `RAMAN`.&quot;&quot;&quot;</span>
 </span><span id="Spectra-212"><a href="#Spectra-212"><span class="linenos">212</span></a>        <span class="k">if</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">alias</span><span class="o">.</span><span class="n">experiments</span><span class="p">[</span><span class="s1">&#39;ins&#39;</span><span class="p">]:</span>
 </span><span id="Spectra-213"><a href="#Spectra-213"><span class="linenos">213</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;ins&#39;</span>
@@ -1324,7 +1324,7 @@ in that case, elements set to <code>False</code> will not be displayed.</p>
 </span><span id="Spectra-219"><a href="#Spectra-219"><span class="linenos">219</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 </span><span id="Spectra-220"><a href="#Spectra-220"><span class="linenos">220</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="Spectra-221"><a href="#Spectra-221"><span class="linenos">221</span></a>
-</span><span id="Spectra-222"><a href="#Spectra-222"><span class="linenos">222</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_dataframes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">dfs</span><span class="p">):</span>
+</span><span id="Spectra-222"><a href="#Spectra-222"><span class="linenos">222</span></a>    <span class="k">def</span> <span class="nf">_set_dataframes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">dfs</span><span class="p">):</span>
 </span><span id="Spectra-223"><a href="#Spectra-223"><span class="linenos">223</span></a><span class="w">        </span><span class="sd">&#39;&#39;&#39;Set the dfs list of dataframes, from the given files or dfs.&#39;&#39;&#39;</span>
 </span><span id="Spectra-224"><a href="#Spectra-224"><span class="linenos">224</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
 </span><span id="Spectra-225"><a href="#Spectra-225"><span class="linenos">225</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">files</span>
@@ -1341,7 +1341,7 @@ in that case, elements set to <code>False</code> will not be displayed.</p>
 </span><span id="Spectra-236"><a href="#Spectra-236"><span class="linenos">236</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_dataframe</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">]</span>
 </span><span id="Spectra-237"><a href="#Spectra-237"><span class="linenos">237</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="Spectra-238"><a href="#Spectra-238"><span class="linenos">238</span></a>
-</span><span id="Spectra-239"><a href="#Spectra-239"><span class="linenos">239</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_read_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+</span><span id="Spectra-239"><a href="#Spectra-239"><span class="linenos">239</span></a>    <span class="k">def</span> <span class="nf">_read_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 </span><span id="Spectra-240"><a href="#Spectra-240"><span class="linenos">240</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Read a dataframe from a file.&quot;&quot;&quot;</span>
 </span><span id="Spectra-241"><a href="#Spectra-241"><span class="linenos">241</span></a>        <span class="n">root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
 </span><span id="Spectra-242"><a href="#Spectra-242"><span class="linenos">242</span></a>        <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
@@ -1352,7 +1352,7 @@ in that case, elements set to <code>False</code> will not be displayed.</p>
 </span><span id="Spectra-247"><a href="#Spectra-247"><span class="linenos">247</span></a>        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(),</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </span><span id="Spectra-248"><a href="#Spectra-248"><span class="linenos">248</span></a>        <span class="k">return</span> <span class="n">df</span>
 </span><span id="Spectra-249"><a href="#Spectra-249"><span class="linenos">249</span></a>
-</span><span id="Spectra-250"><a href="#Spectra-250"><span class="linenos">250</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_units</span><span class="p">(</span>
+</span><span id="Spectra-250"><a href="#Spectra-250"><span class="linenos">250</span></a>    <span class="k">def</span> <span class="nf">set_units</span><span class="p">(</span>
 </span><span id="Spectra-251"><a href="#Spectra-251"><span class="linenos">251</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="Spectra-252"><a href="#Spectra-252"><span class="linenos">252</span></a>            <span class="n">units</span><span class="p">,</span>
 </span><span id="Spectra-253"><a href="#Spectra-253"><span class="linenos">253</span></a>            <span class="n">units_in</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1473,7 +1473,7 @@ in that case, elements set to <code>False</code> will not be displayed.</p>
 
     </div>
     <a class="headerlink" href="#Spectra.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Spectra.__init__-161"><a href="#Spectra.__init__-161"><span class="linenos">161</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Spectra.__init__-161"><a href="#Spectra.__init__-161"><span class="linenos">161</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
 </span><span id="Spectra.__init__-162"><a href="#Spectra.__init__-162"><span class="linenos">162</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="Spectra.__init__-163"><a href="#Spectra.__init__-163"><span class="linenos">163</span></a>            <span class="nb">type</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="Spectra.__init__-164"><a href="#Spectra.__init__-164"><span class="linenos">164</span></a>            <span class="n">comment</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1647,7 +1647,7 @@ eg. <code>['meV', 'cm-1', 'cm-1']</code>.</p>
 
     </div>
     <a class="headerlink" href="#Spectra.set_units"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Spectra.set_units-250"><a href="#Spectra.set_units-250"><span class="linenos">250</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_units</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Spectra.set_units-250"><a href="#Spectra.set_units-250"><span class="linenos">250</span></a>    <span class="k">def</span> <span class="nf">set_units</span><span class="p">(</span>
 </span><span id="Spectra.set_units-251"><a href="#Spectra.set_units-251"><span class="linenos">251</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="Spectra.set_units-252"><a href="#Spectra.set_units-252"><span class="linenos">252</span></a>            <span class="n">units</span><span class="p">,</span>
 </span><span id="Spectra.set_units-253"><a href="#Spectra.set_units-253"><span class="linenos">253</span></a>            <span class="n">units_in</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1776,14 +1776,14 @@ eg. <code>['meV', 'cm-1', 'cm-1']</code>.</p>
 
     </div>
     <a class="headerlink" href="#Material"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Material-354"><a href="#Material-354"><span class="linenos">354</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Material</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Material-354"><a href="#Material-354"><span class="linenos">354</span></a><span class="k">class</span> <span class="nc">Material</span><span class="p">:</span>
 </span><span id="Material-355"><a href="#Material-355"><span class="linenos">355</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Material class.</span>
 </span><span id="Material-356"><a href="#Material-356"><span class="linenos">356</span></a>
 </span><span id="Material-357"><a href="#Material-357"><span class="linenos">357</span></a><span class="sd">    Used to calculate molar masses and cross sections,</span>
 </span><span id="Material-358"><a href="#Material-358"><span class="linenos">358</span></a><span class="sd">    and to pass data to different analysis functions</span>
 </span><span id="Material-359"><a href="#Material-359"><span class="linenos">359</span></a><span class="sd">    such as `aton.spectra.deuterium.impulse_approx().`</span>
 </span><span id="Material-360"><a href="#Material-360"><span class="linenos">360</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Material-361"><a href="#Material-361"><span class="linenos">361</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="Material-361"><a href="#Material-361"><span class="linenos">361</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
 </span><span id="Material-362"><a href="#Material-362"><span class="linenos">362</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="Material-363"><a href="#Material-363"><span class="linenos">363</span></a>            <span class="n">elements</span><span class="p">:</span><span class="nb">dict</span><span class="p">,</span>
 </span><span id="Material-364"><a href="#Material-364"><span class="linenos">364</span></a>            <span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1837,7 +1837,7 @@ eg. <code>['meV', 'cm-1', 'cm-1']</code>.</p>
 </span><span id="Material-412"><a href="#Material-412"><span class="linenos">412</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">peaks</span> <span class="o">=</span> <span class="n">peaks</span>
 </span><span id="Material-413"><a href="#Material-413"><span class="linenos">413</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Dict with interesting peaks that you might want to store for later use.&quot;&quot;&quot;</span>
 </span><span id="Material-414"><a href="#Material-414"><span class="linenos">414</span></a>
-</span><span id="Material-415"><a href="#Material-415"><span class="linenos">415</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_grams_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Material-415"><a href="#Material-415"><span class="linenos">415</span></a>    <span class="k">def</span> <span class="nf">_set_grams_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="Material-416"><a href="#Material-416"><span class="linenos">416</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the error in grams, based on the number of decimal places.&quot;&quot;&quot;</span>
 </span><span id="Material-417"><a href="#Material-417"><span class="linenos">417</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grams</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="Material-418"><a href="#Material-418"><span class="linenos">418</span></a>            <span class="k">return</span>
@@ -1845,7 +1845,7 @@ eg. <code>['meV', 'cm-1', 'cm-1']</code>.</p>
 </span><span id="Material-420"><a href="#Material-420"><span class="linenos">420</span></a>        <span class="c1"># Calculate the error in grams</span>
 </span><span id="Material-421"><a href="#Material-421"><span class="linenos">421</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">grams_error</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">decimal_accuracy</span><span class="p">)</span>
 </span><span id="Material-422"><a href="#Material-422"><span class="linenos">422</span></a>
-</span><span id="Material-423"><a href="#Material-423"><span class="linenos">423</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Material-423"><a href="#Material-423"><span class="linenos">423</span></a>    <span class="k">def</span> <span class="nf">_set_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="Material-424"><a href="#Material-424"><span class="linenos">424</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the molar mass of the material.</span>
 </span><span id="Material-425"><a href="#Material-425"><span class="linenos">425</span></a>
 </span><span id="Material-426"><a href="#Material-426"><span class="linenos">426</span></a><span class="sd">        If `Material.grams` is provided, the number of moles will be</span>
@@ -1865,7 +1865,7 @@ eg. <code>['meV', 'cm-1', 'cm-1']</code>.</p>
 </span><span id="Material-440"><a href="#Material-440"><span class="linenos">440</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">mols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grams</span> <span class="o">/</span> <span class="n">material_grams_per_mol</span>
 </span><span id="Material-441"><a href="#Material-441"><span class="linenos">441</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">mols_error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">grams_error</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grams</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 </span><span id="Material-442"><a href="#Material-442"><span class="linenos">442</span></a>    
-</span><span id="Material-443"><a href="#Material-443"><span class="linenos">443</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_set_cross_section</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Material-443"><a href="#Material-443"><span class="linenos">443</span></a>    <span class="k">def</span> <span class="nf">_set_cross_section</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="Material-444"><a href="#Material-444"><span class="linenos">444</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the cross section of the material, based on the `elements` dict.</span>
 </span><span id="Material-445"><a href="#Material-445"><span class="linenos">445</span></a>
 </span><span id="Material-446"><a href="#Material-446"><span class="linenos">446</span></a><span class="sd">        If an isotope is used, eg. `&#39;He4&#39;`, it splits the name with `aton.phys.functions.split_isotope`.</span>
@@ -1879,12 +1879,12 @@ eg. <code>['meV', 'cm-1', 'cm-1']</code>.</p>
 </span><span id="Material-454"><a href="#Material-454"><span class="linenos">454</span></a>                <span class="n">total_cross_section</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="n">element</span><span class="p">]</span><span class="o">.</span><span class="n">isotope</span><span class="p">[</span><span class="n">isotope_index</span><span class="p">]</span><span class="o">.</span><span class="n">cross_section</span>
 </span><span id="Material-455"><a href="#Material-455"><span class="linenos">455</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cross_section</span> <span class="o">=</span> <span class="n">total_cross_section</span>
 </span><span id="Material-456"><a href="#Material-456"><span class="linenos">456</span></a>
-</span><span id="Material-457"><a href="#Material-457"><span class="linenos">457</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Material-457"><a href="#Material-457"><span class="linenos">457</span></a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="Material-458"><a href="#Material-458"><span class="linenos">458</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the molar mass, cross section and errors of the material.&quot;&quot;&quot;</span>
 </span><span id="Material-459"><a href="#Material-459"><span class="linenos">459</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_set_mass</span><span class="p">()</span>
 </span><span id="Material-460"><a href="#Material-460"><span class="linenos">460</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_set_cross_section</span><span class="p">()</span>
 </span><span id="Material-461"><a href="#Material-461"><span class="linenos">461</span></a>
-</span><span id="Material-462"><a href="#Material-462"><span class="linenos">462</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Material-462"><a href="#Material-462"><span class="linenos">462</span></a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="Material-463"><a href="#Material-463"><span class="linenos">463</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Print a summary with the material information.&quot;&quot;&quot;</span>
 </span><span id="Material-464"><a href="#Material-464"><span class="linenos">464</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">MATERIAL&#39;</span><span class="p">)</span>
 </span><span id="Material-465"><a href="#Material-465"><span class="linenos">465</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1925,7 +1925,7 @@ such as <code>aton.spectra.deuterium.impulse_approx().</code></p>
 
     </div>
     <a class="headerlink" href="#Material.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Material.__init__-361"><a href="#Material.__init__-361"><span class="linenos">361</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Material.__init__-361"><a href="#Material.__init__-361"><span class="linenos">361</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
 </span><span id="Material.__init__-362"><a href="#Material.__init__-362"><span class="linenos">362</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="Material.__init__-363"><a href="#Material.__init__-363"><span class="linenos">363</span></a>            <span class="n">elements</span><span class="p">:</span><span class="nb">dict</span><span class="p">,</span>
 </span><span id="Material.__init__-364"><a href="#Material.__init__-364"><span class="linenos">364</span></a>            <span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -2128,7 +2128,7 @@ and optionally the name, and calculate the rest with <code><a href="#Material.se
 
     </div>
     <a class="headerlink" href="#Material.set"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Material.set-457"><a href="#Material.set-457"><span class="linenos">457</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Material.set-457"><a href="#Material.set-457"><span class="linenos">457</span></a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="Material.set-458"><a href="#Material.set-458"><span class="linenos">458</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the molar mass, cross section and errors of the material.&quot;&quot;&quot;</span>
 </span><span id="Material.set-459"><a href="#Material.set-459"><span class="linenos">459</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_set_mass</span><span class="p">()</span>
 </span><span id="Material.set-460"><a href="#Material.set-460"><span class="linenos">460</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_set_cross_section</span><span class="p">()</span>
@@ -2151,7 +2151,7 @@ and optionally the name, and calculate the rest with <code><a href="#Material.se
 
     </div>
     <a class="headerlink" href="#Material.print"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Material.print-462"><a href="#Material.print-462"><span class="linenos">462</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Material.print-462"><a href="#Material.print-462"><span class="linenos">462</span></a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="Material.print-463"><a href="#Material.print-463"><span class="linenos">463</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Print a summary with the material information.&quot;&quot;&quot;</span>
 </span><span id="Material.print-464"><a href="#Material.print-464"><span class="linenos">464</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">MATERIAL&#39;</span><span class="p">)</span>
 </span><span id="Material.print-465"><a href="#Material.print-465"><span class="linenos">465</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

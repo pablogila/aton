@@ -110,7 +110,7 @@
     </ul>
 
 
-            <footer>ATON v0.0.1rc25 documentation</footer>
+            <footer>ATON v0.0.1rc27 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -218,13 +218,13 @@
 </span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>
 </span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>
-</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="kn">import</span> <span class="nn">os</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a><span class="kn">import</span> <span class="nn">shutil</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a><span class="kn">import</span> <span class="nn">pickle</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="kn">import</span> <span class="nn">gzip</span>
 </span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>
 </span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="k">def</span> <span class="nf">get</span><span class="p">(</span>
 </span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>        <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>        <span class="n">return_anyway</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span>
@@ -259,7 +259,7 @@
 </span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>        <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;More than one file found, please apply a more strict filter. Found:</span><span class="se">\n</span><span class="si">{</span><span class="n">files</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>    
 </span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>
 </span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>
-</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get_list</span><span class="p">(</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="k">def</span> <span class="nf">get_list</span><span class="p">(</span>
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>        <span class="n">folder</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>        <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>        <span class="n">abspath</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span>
@@ -293,7 +293,7 @@
 </span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>    <span class="k">return</span> <span class="n">files</span>
 </span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>
 </span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get_dir</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="k">def</span> <span class="nf">get_dir</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the full path of `folder` or the parent folder if it&#39;s a file. If none is provided, the current working directory is returned.&quot;&quot;&quot;</span>
 </span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="k">if</span> <span class="n">folder</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
@@ -308,7 +308,7 @@
 </span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="k">return</span> <span class="n">path</span>
 </span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="k">def</span> <span class="nf">copy</span><span class="p">(</span>
 </span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="n">old</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="n">new</span><span class="p">:</span><span class="nb">str</span>
 </span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -318,7 +318,7 @@
 </span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>
 </span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>
-</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a><span class="k">def</span><span class="w"> </span><span class="nf">move</span><span class="p">(</span>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a><span class="k">def</span> <span class="nf">move</span><span class="p">(</span>
 </span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>        <span class="n">old</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>        <span class="n">new</span><span class="p">:</span><span class="nb">str</span>
 </span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -327,7 +327,7 @@
 </span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>
 </span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>
-</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Removes the given file or folder at `filepath`.</span>
 </span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>
 </span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a><span class="sd">    &gt; WARNING: Removing stuff is always dangerous, be careful!</span>
@@ -343,7 +343,7 @@
 </span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>
 </span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>
-</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a><span class="k">def</span><span class="w"> </span><span class="nf">rename_on_folder</span><span class="p">(</span>
+</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a><span class="k">def</span> <span class="nf">rename_on_folder</span><span class="p">(</span>
 </span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>        <span class="n">old</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>        <span class="n">new</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>        <span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -376,7 +376,7 @@
 </span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a>
 </span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a>
-</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a><span class="k">def</span><span class="w"> </span><span class="nf">rename_on_folders</span><span class="p">(</span>
+</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a><span class="k">def</span> <span class="nf">rename_on_folders</span><span class="p">(</span>
 </span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>        <span class="n">old</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>        <span class="n">new</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a>        <span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -404,7 +404,7 @@
 </span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>
 </span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>
-</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a><span class="k">def</span><span class="w"> </span><span class="nf">copy_to_folders</span><span class="p">(</span>
+</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a><span class="k">def</span> <span class="nf">copy_to_folders</span><span class="p">(</span>
 </span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a>        <span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a>        <span class="n">extension</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a>        <span class="n">strings_to_delete</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="p">[],</span>
@@ -431,7 +431,7 @@
 </span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>
 </span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a>
-</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a><span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a><span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Save a Python object in the current working directory as a binary `*.aton` file.&quot;&quot;&quot;</span>
 </span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a>    <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;data&#39;</span> <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">filename</span>
 </span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.aton&#39;</span><span class="p">):</span>
@@ -442,7 +442,7 @@
 </span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data saved and compressed to </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>
 </span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>
-</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a><span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;data.aton&#39;</span><span class="p">):</span>
+</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;data.aton&#39;</span><span class="p">):</span>
 </span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a Python object from a binary `*.aton` file.</span>
 </span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a><span class="sd">    </span>
 </span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a><span class="sd">    Use only if you trust the person who sent you the file!</span>
@@ -466,7 +466,7 @@
 
     </div>
     <a class="headerlink" href="#get"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="get-34"><a href="#get-34"><span class="linenos">34</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="get-34"><a href="#get-34"><span class="linenos">34</span></a><span class="k">def</span> <span class="nf">get</span><span class="p">(</span>
 </span><span id="get-35"><a href="#get-35"><span class="linenos">35</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="get-36"><a href="#get-36"><span class="linenos">36</span></a>        <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="get-37"><a href="#get-37"><span class="linenos">37</span></a>        <span class="n">return_anyway</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span>
@@ -527,7 +527,7 @@ If this fails, try using more strict filers to return a single file.</p>
 
     </div>
     <a class="headerlink" href="#get_list"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="get_list-69"><a href="#get_list-69"><span class="linenos"> 69</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get_list</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="get_list-69"><a href="#get_list-69"><span class="linenos"> 69</span></a><span class="k">def</span> <span class="nf">get_list</span><span class="p">(</span>
 </span><span id="get_list-70"><a href="#get_list-70"><span class="linenos"> 70</span></a>        <span class="n">folder</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="get_list-71"><a href="#get_list-71"><span class="linenos"> 71</span></a>        <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="get_list-72"><a href="#get_list-72"><span class="linenos"> 72</span></a>        <span class="n">abspath</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span>
@@ -580,7 +580,7 @@ If this fails, try using more strict filers to return a single file.</p>
 
     </div>
     <a class="headerlink" href="#get_dir"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="get_dir-103"><a href="#get_dir-103"><span class="linenos">103</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get_dir</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="get_dir-103"><a href="#get_dir-103"><span class="linenos">103</span></a><span class="k">def</span> <span class="nf">get_dir</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="get_dir-104"><a href="#get_dir-104"><span class="linenos">104</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the full path of `folder` or the parent folder if it&#39;s a file. If none is provided, the current working directory is returned.&quot;&quot;&quot;</span>
 </span><span id="get_dir-105"><a href="#get_dir-105"><span class="linenos">105</span></a>    <span class="k">if</span> <span class="n">folder</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="get_dir-106"><a href="#get_dir-106"><span class="linenos">106</span></a>        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
@@ -612,7 +612,7 @@ If this fails, try using more strict filers to return a single file.</p>
 
     </div>
     <a class="headerlink" href="#copy"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="copy-118"><a href="#copy-118"><span class="linenos">118</span></a><span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="copy-118"><a href="#copy-118"><span class="linenos">118</span></a><span class="k">def</span> <span class="nf">copy</span><span class="p">(</span>
 </span><span id="copy-119"><a href="#copy-119"><span class="linenos">119</span></a>        <span class="n">old</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="copy-120"><a href="#copy-120"><span class="linenos">120</span></a>        <span class="n">new</span><span class="p">:</span><span class="nb">str</span>
 </span><span id="copy-121"><a href="#copy-121"><span class="linenos">121</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -639,7 +639,7 @@ If this fails, try using more strict filers to return a single file.</p>
 
     </div>
     <a class="headerlink" href="#move"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="move-128"><a href="#move-128"><span class="linenos">128</span></a><span class="k">def</span><span class="w"> </span><span class="nf">move</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="move-128"><a href="#move-128"><span class="linenos">128</span></a><span class="k">def</span> <span class="nf">move</span><span class="p">(</span>
 </span><span id="move-129"><a href="#move-129"><span class="linenos">129</span></a>        <span class="n">old</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="move-130"><a href="#move-130"><span class="linenos">130</span></a>        <span class="n">new</span><span class="p">:</span><span class="nb">str</span>
 </span><span id="move-131"><a href="#move-131"><span class="linenos">131</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -665,7 +665,7 @@ If this fails, try using more strict filers to return a single file.</p>
 
     </div>
     <a class="headerlink" href="#remove"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="remove-137"><a href="#remove-137"><span class="linenos">137</span></a><span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="remove-137"><a href="#remove-137"><span class="linenos">137</span></a><span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="remove-138"><a href="#remove-138"><span class="linenos">138</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Removes the given file or folder at `filepath`.</span>
 </span><span id="remove-139"><a href="#remove-139"><span class="linenos">139</span></a>
 </span><span id="remove-140"><a href="#remove-140"><span class="linenos">140</span></a><span class="sd">    &gt; WARNING: Removing stuff is always dangerous, be careful!</span>
@@ -702,7 +702,7 @@ If this fails, try using more strict filers to return a single file.</p>
 
     </div>
     <a class="headerlink" href="#rename_on_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="rename_on_folder-153"><a href="#rename_on_folder-153"><span class="linenos">153</span></a><span class="k">def</span><span class="w"> </span><span class="nf">rename_on_folder</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="rename_on_folder-153"><a href="#rename_on_folder-153"><span class="linenos">153</span></a><span class="k">def</span> <span class="nf">rename_on_folder</span><span class="p">(</span>
 </span><span id="rename_on_folder-154"><a href="#rename_on_folder-154"><span class="linenos">154</span></a>        <span class="n">old</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="rename_on_folder-155"><a href="#rename_on_folder-155"><span class="linenos">155</span></a>        <span class="n">new</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="rename_on_folder-156"><a href="#rename_on_folder-156"><span class="linenos">156</span></a>        <span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -755,7 +755,7 @@ If no folder is provided, the current working directory is used.</p>
 
     </div>
     <a class="headerlink" href="#rename_on_folders"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="rename_on_folders-186"><a href="#rename_on_folders-186"><span class="linenos">186</span></a><span class="k">def</span><span class="w"> </span><span class="nf">rename_on_folders</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="rename_on_folders-186"><a href="#rename_on_folders-186"><span class="linenos">186</span></a><span class="k">def</span> <span class="nf">rename_on_folders</span><span class="p">(</span>
 </span><span id="rename_on_folders-187"><a href="#rename_on_folders-187"><span class="linenos">187</span></a>        <span class="n">old</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="rename_on_folders-188"><a href="#rename_on_folders-188"><span class="linenos">188</span></a>        <span class="n">new</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="rename_on_folders-189"><a href="#rename_on_folders-189"><span class="linenos">189</span></a>        <span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -803,7 +803,7 @@ If no <code>folder</code> is provided, the current working directory is used.</p
 
     </div>
     <a class="headerlink" href="#copy_to_folders"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="copy_to_folders-214"><a href="#copy_to_folders-214"><span class="linenos">214</span></a><span class="k">def</span><span class="w"> </span><span class="nf">copy_to_folders</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="copy_to_folders-214"><a href="#copy_to_folders-214"><span class="linenos">214</span></a><span class="k">def</span> <span class="nf">copy_to_folders</span><span class="p">(</span>
 </span><span id="copy_to_folders-215"><a href="#copy_to_folders-215"><span class="linenos">215</span></a>        <span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="copy_to_folders-216"><a href="#copy_to_folders-216"><span class="linenos">216</span></a>        <span class="n">extension</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="copy_to_folders-217"><a href="#copy_to_folders-217"><span class="linenos">217</span></a>        <span class="n">strings_to_delete</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="p">[],</span>
@@ -851,7 +851,7 @@ If no <code>folder</code> is provided, it runs in the current working directory.
 
     </div>
     <a class="headerlink" href="#save"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="save-241"><a href="#save-241"><span class="linenos">241</span></a><span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="save-241"><a href="#save-241"><span class="linenos">241</span></a><span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="save-242"><a href="#save-242"><span class="linenos">242</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Save a Python object in the current working directory as a binary `*.aton` file.&quot;&quot;&quot;</span>
 </span><span id="save-243"><a href="#save-243"><span class="linenos">243</span></a>    <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;data&#39;</span> <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">filename</span>
 </span><span id="save-244"><a href="#save-244"><span class="linenos">244</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.aton&#39;</span><span class="p">):</span>
@@ -879,7 +879,7 @@ If no <code>folder</code> is provided, it runs in the current working directory.
 
     </div>
     <a class="headerlink" href="#load"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="load-252"><a href="#load-252"><span class="linenos">252</span></a><span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;data.aton&#39;</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="load-252"><a href="#load-252"><span class="linenos">252</span></a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;data.aton&#39;</span><span class="p">):</span>
 </span><span id="load-253"><a href="#load-253"><span class="linenos">253</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a Python object from a binary `*.aton` file.</span>
 </span><span id="load-254"><a href="#load-254"><span class="linenos">254</span></a><span class="sd">    </span>
 </span><span id="load-255"><a href="#load-255"><span class="linenos">255</span></a><span class="sd">    Use only if you trust the person who sent you the file!</span>

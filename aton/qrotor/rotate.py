@@ -140,7 +140,10 @@ def _save_qe(
         lines:list,
         positions:list
     ) -> str:
-    """Copies `filename` to `output`, updating the old `lines` with the new `positions`."""
+    """Copies `filename` to `output`, updating the old `lines` with the new `positions`.
+    
+    The angle will be appended at the end of the input prefix to avoid overlapping calculations.
+    """
     shutil.copy(filename, output)
     for i, line in enumerate(lines):
         strings = line.split()
@@ -149,14 +152,24 @@ def _save_qe(
         #print(f'OLD LINE: {line}')  # DEBUG
         #print(f'NEW_LINE: {new_line}')  # DEBUG
         edit.replace_line(output, line, new_line, raise_errors=True)
-    if len(lines) == len(positions):
-        return output
-    elif len(lines) + 2 != len(positions):
+    if len(lines) + 2 == len(positions):  # In case show_axis=True
+        additional_positions = positions[-2:]
+        for pos in additional_positions:
+            pos.insert(0, 'He')
+            interface.qe.add_atom(output, pos)
+    elif len(lines) != len(positions):
         raise ValueError(f"What?!  len(lines)={len(lines)} and len(positions)={len(positions)}")
-    # This is only for the show_axis=True case
-    additional_positions = positions[-2:]
-    for pos in additional_positions:
-        pos.insert(0, 'He')
-        interface.qe.add_atom(output, pos)
+    # Add angle to calculation prefix
+    output_name = os.path.basename(output)
+    splits = output_name.split('_')
+    angle_str = splits[-1].replace('.in', '')
+    prefix = ''
+    content = interface.qe.read_in(output)
+    if 'prefix' in content.keys():
+        prefix_value = content['prefix']
+        prefix_value = prefix_value.strip("'")
+        prefix = prefix_value + '_'
+    prefix = "'" + prefix + angle_str + "'"
+    interface.qe.set_value(output, 'prefix', prefix)
     return output
 

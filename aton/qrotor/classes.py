@@ -49,7 +49,7 @@ class QSys:
         self.E_levels: int = E_levels
         """Number of energy levels to be studied."""
         self.units = units
-        """List containing the units in use, e.g. ['meV']."""     #############  TODO remove the need for a list
+        """List containing the energy units in use, e.g. ['meV']."""     #############  TODO remove the need for a list
         self.correct_potential_offset: bool = correct_potential_offset
         """Correct the potential offset as `V - min(V)` or not."""
         self.save_eigenvectors: bool = save_eigenvectors
