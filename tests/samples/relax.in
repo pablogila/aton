@@ -30,10 +30,6 @@
   upscale      = 100
 /
 
-&CELL
-  cell_dynamics = 'bfgs'
-/
-
 K_POINTS (automatic)
   2 2 2 0 0 0
 

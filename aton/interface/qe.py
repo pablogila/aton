@@ -115,6 +115,7 @@ def read_out(filepath) -> dict:
     bfgs_failed_key      = 'bfgs failed'
     maxiter_reached_key  = 'Maximum number of iterations reached'
     error_key            = 'Error in routine'
+    error_failed_line    = 'pw.x: Failed'
     cell_parameters_key  = 'CELL_PARAMETERS'
     atomic_positions_key = 'ATOMIC_POSITIONS'
 
@@ -126,6 +127,7 @@ def read_out(filepath) -> dict:
     bfgs_failed_line     = find.lines(file_path, bfgs_failed_key, -1)
     maxiter_reached_line = find.lines(file_path, maxiter_reached_key, -1)
     error_line           = find.lines(file_path, error_key, -1, 1, True)
+    error_failed_line    = find.lines(file_path, error_failed_line, -1)
 
     energy: float = None
     force: float = None
@@ -155,6 +157,10 @@ def read_out(filepath) -> dict:
         maxiter_reached = True
     if error_line:
         error = error_line[1].strip()
+    elif error_failed_line:
+        error = error_failed_line[0].strip()
+    
+    # Was the calculation successful?
     if job_done and not bfgs_failed and not maxiter_reached and not error:
         success = True
 
@@ -429,8 +435,8 @@ def _add_namelist(
         filepath,
         namelist:str,
     ) -> None:
-    """Adds a `namelist` namelist to the `filepath` if not present. Called by `add_value()`."""
-    namelists = pw_namelists.keys()
+    """Adds a `namelist` to the `filepath` if not present. Called by `add_value()` if needed."""
+    namelists = list(pw_namelists.keys())
     namelist = namelist.upper().strip()
     if not namelist in namelists:
         raise ValueError(f'{namelist} is not a valid namelist! Valid namelists are:\n{namelists}')
@@ -442,14 +448,20 @@ def _add_namelist(
     # Find where to insert the namelist, from last to first.
     # We might have to insert it on top of the first CARD found.
     next_namelist =  _all_cards_regex
-    namelists_reversed = namelists.reverse()
-    for section in namelists_reversed:
+    namelists.reverse()
+    # Get the present namelists, plus the target one
+    present_namelists = []
+    for section in namelists:
+        is_section_present = find.lines(filepath=filepath, key=rf'(?!\s*!\s*)({section})', regex=True)
+        if is_section_present or section.upper() == namelist.upper():
+            present_namelists.append(section)
+    # Get the very next section after the desired one
+    for section in present_namelists:
         if section == namelist:
             break
-        next_namelist = section
-    next_namelist = rf'(?!\s*!\s*)({next_namelist})'
+        next_namelist = rf'(?!\s*!\s*)({section})(?!\s*=)'
     # Insert the target namelist on top of it!
-    edit.insert_under(filepath, next_namelist, f'{namelist}\n/', 1, -1, True)
+    edit.insert_under(filepath, next_namelist, f'{namelist}\n/\n', 1, -1, True)
     return None
 
 
@@ -1041,5 +1053,5 @@ for _upper_card in _upper_cards:
 _all_cards.extend(_upper_cards)
 _all_cards_regex = '|'.join(_all_cards)
 """Regex string that matches all CARDS present in the file."""
-_all_cards_regex = rf'(?!\s*!\s*)({_all_cards_regex})'
+_all_cards_regex = rf'(?!\s*!\s*)({_all_cards_regex})(?!\s*=)'
 

@@ -167,6 +167,15 @@ def test_set_value():
     aton.st.file.remove(tempfile)
 
 
+def test_add_namelist():
+    tempfile = folder + 'temp_namelist.in'
+    aton.st.file.copy(folder + 'relax.in', tempfile)
+    aton.interface.qe.set_value(tempfile, 'cell_dynamics', "'bfgs'")
+    modified = aton.interface.qe.read_in(tempfile)
+    assert modified['cell_dynamics'] == "'bfgs'"
+    aton.st.file.remove(tempfile)
+
+
 def test_count_elements():
     atomic_positions = [
         'ATOMIC_POSITIONS crystal',
