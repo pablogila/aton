@@ -166,9 +166,8 @@ def _save_qe(
     prefix = ''
     content = interface.qe.read_in(output)
     if 'prefix' in content.keys():
-        prefix_value = content['prefix']
-        prefix_value = prefix_value.strip("'")
-        prefix = prefix_value + '_'
+        prefix = content['prefix']
+        prefix = prefix.strip("'")
     prefix = "'" + prefix + angle_str + "'"
     interface.qe.set_value(output, 'prefix', prefix)
     return output
