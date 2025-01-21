@@ -9,7 +9,9 @@ Functions to handle Slurm calls, to run calculations in clusters.
 | | |
 | --- | --- |
 | `sbatch()`         | Sbatch all calculations |
-| `scancel()`        | Scancel all calculations |
+| `squeue()`         | Get a Pandas DataFrame with info about the submitted calculations |
+| `scancel()`        | Scancel all calculations, or applying some filters |
+| `scancel_here()`   | Scancel all calculations running from a specific folder |
 | `check_template()` | Checks that the slurm template is OK, and provides an example if not |
 
 ---
@@ -17,6 +19,7 @@ Functions to handle Slurm calls, to run calculations in clusters.
 
 
 import os
+import pandas as pd
 import aton.st.call as call
 import aton.st.file as file
 import aton.txt.find as find
@@ -106,9 +109,64 @@ def sbatch(
     print(f'\nDone! Temporary slurm files were moved to ./{slurm_folder}/\n')
 
 
-def scancel(jobs=None, folder=None, prefix:str='slurm-', sufix:str='.out') -> None:
-    """Cancel all running `jobs`.
+def squeue(user) -> pd.DataFrame:
+    result = call.bash(command=f'squeue -u {user}', verbose=False)
+    data = result.stdout
+    lines = data.strip().split('\n')
+    data_rows = [line.split() for line in lines[1:]]
+    df = pd.DataFrame(data_rows, columns=lines[0].split())
+    return df
+
+
+def scancel(
+        user:str,
+        status:str='',
+        text:str='',
+        testing:bool=False,
+        key_jobid:str='JOBID',
+        key_name:str='NAME',
+        key_status:str='ST',
+        ) -> None:
+    """Cancel all `user` jobs.
     
+    If a particular `status` string is provided,
+    only the calculations with said status will be cancelled.
+
+    If a particular `text` string is provided,
+    only the calculations containing said text in the name will be deleted.
+
+    If `testing = True`, it shows the calculations that would be deleted.
+
+    if the slurm squeue titles are different in your cluster,
+    you can specify them with `key_jobid`, `key_status` and `key_name`.
+    """
+    df = squeue(user)
+    if testing:
+        print('aton.interface.slurm.scancel(testing=True):')
+        print(f'The following calculations would be deleted for the user {user}')
+        print(f'{key_jobid}   {key_status}   {key_name}')
+    jobid_list = df[key_jobid].tolist()
+    name_list = df[key_name].tolist()
+    status_list = df[key_status].tolist()
+    for i, jobid in enumerate(jobid_list):
+        name = name_list[i]
+        st = status_list[i]
+        # Should we delete this process?
+        bool_1: bool = status == '' and text == ''
+        bool_2: bool = status == st and text == ''
+        bool_3: bool = status == '' and text in name
+        bool_4: bool = status == st and text in name
+        will_delete: bool = bool_1 or bool_2 or bool_3 or bool_4
+        if will_delete:
+            if testing:
+                print(f'{jobid}   {st}   {name}')
+            else:
+                call.bash(f'scancel {jobid}')
+
+
+def scancel_here(jobs=None, folder=None, prefix:str='slurm-', sufix:str='.out') -> None:
+    """Cancel all running `jobs` in a given `folder`.
+
     If no job is provided, all jobs detected in the current folder will be cancelled.
     The jobs will be detected from the `<prefix>JOBID<sufix>` files, `slurm-JOBID.out` by default.
     """

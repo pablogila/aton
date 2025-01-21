@@ -30,12 +30,12 @@ txt.extract.string(line, 'energy', 'were')
 # '500.0 Ry'  (String output)
 ```
 
-To extract a float value from a specific column,
+To extract a value from a specific column,
 ```python
 # Name, Energy, Force, Error
 line = 'Testing    1.1    1.2    0.3'
 energy = txt.extract.column(line, 1)
-# 1.1
+# '1.1'  (String output)
 ```
 
 To extract coordinates,
@@ -104,8 +104,8 @@ def string(
 def column(
         text:str,
         column:int=0
-    ) -> float:
-    """Extracts the desired float `column` index of a given `string` (0 by default)."""
+    ) -> str:
+    """Extracts the desired `column` index of a given `string` (0 by default)."""
     if text is None:
         return None
     columns = text.split()
@@ -113,7 +113,7 @@ def column(
     if column < len(columns):
         match = re.match(pattern, columns[column])
         if match:
-            return float(match.group(1))
+            return match.group(1)
     return None
 
 

@@ -14,7 +14,7 @@ def test_extract_string():
 
 
 def test_extract_column():
-    assert extract.column(' 123 456.5 789  ', 2) == 789
+    assert extract.column(' 123 456.5 789  ', 2) == '789'
 
 
 def test_extract_coords():
