@@ -35,13 +35,13 @@ import aton.phys as phys
 def load(
         filepath:str='potential.dat',
         system:QSys=None,
-        angle:str='deg',
-        energy:str='eV',
+        angle_unit:str='deg',
+        energy_unit:str='eV',
         ) -> QSys:
     """Read a potential rotational energy dataset.
 
-    The file in `filepath` should contain two columns with `angle` and `potential` values.
-    Degrees and eV are assumed as default units unless stated in `angle` and `energy`.
+    The file in `filepath` should contain two columns with angle and potential energy values.
+    Degrees and eV are assumed as default units unless stated in `angle_unit` and `energy_unit`.
     Units will be converted automatically to radians and eV.
     """
     file_path = file.get(filepath)
@@ -57,21 +57,21 @@ def load(
         positions.append(float(position.strip()))
         potentials.append(float(potential.strip()))
     # Save angles to numpy arrays
-    if angle.lower() in alias.units['deg']:
+    if angle_unit.lower() in alias.units['deg']:
         positions = np.radians(positions)
-    elif angle.lower() in alias.units['rad']:
+    elif angle_unit.lower() in alias.units['rad']:
         positions = np.array(positions)
     else:
-        raise ValueError(f"Angle unit '{angle}' not recognized.")
+        raise ValueError(f"Angle unit '{angle_unit}' not recognized.")
     # Save energies to numpy arrays
-    if energy.lower() in alias.units['meV']:
+    if energy_unit.lower() in alias.units['meV']:
         potentials = np.array(potentials) * 1000
-    elif energy.lower() in alias.units['eV']:
+    elif energy_unit.lower() in alias.units['eV']:
         potentials = np.array(potentials)
-    elif energy.lower() in alias.units['Ry']:
+    elif energy_unit.lower() in alias.units['Ry']:
         potentials = np.array(potentials) * phys.Ry_to_eV
     else:
-        raise ValueError(f"Energy unit '{energy}' not recognized.")
+        raise ValueError(f"Energy unit '{energy_unit}' not recognized.")
     # Set the system
     system.grid = np.array(positions)
     system.gridsize = len(positions)
@@ -81,23 +81,28 @@ def load(
 
 def from_qe(
         folder=None,
-        filters:str=None,
         output:str='potential.dat',
+        include:list=['.out'],
+        ignore:list=['slurm-'],
         ) -> None:
     """Creates a potential data file from Quantum ESPRESSO outputs.
 
     The angle in degrees is extracted from the output filenames,
     which must follow `whatever_ANGLE.out`.
 
-    Outputs from SCF calculations must be located in the provided `folder` (CWD if None),
-    and can be filtered with `filters`.
+    Outputs from SCF calculations must be located in the provided `folder` (CWD if None).
+    Files can be filtered by those containing the specified `filters`,
+    excluding those containing any string from the `ignore` list. 
     The `output` name is `potential.dat` by default.
     """
     folder = file.get_dir(folder)
-    files = file.get_list(folder=folder, filters=filters, abspath=True)
+    files = file.get_list(folder=folder, include=include, ignore=ignore, abspath=True)
     potential_data = '# Angle/deg    Potential/eV\n'
     potential_data_list = []
     print('Extracting the potential as a function of the angle...')
+    print('----------------------------------')
+    counter_success = 0
+    counter_errors = 0
     for filepath in files:
         filename = os.path.basename(filepath)
         filepath = file.get(filepath=filepath, filters='.out', return_anyway=True)
@@ -105,14 +110,16 @@ def from_qe(
             continue
         content = qe.read_out(filepath)
         if not content['Success']:  # Ignore unsuccessful calculations
-            print(f'{filename} was unsuccessful :(')
+            print(f'x   {filename}')
+            counter_errors += 1
             continue
         energy = content['Energy'] * phys.Ry_to_eV
         splits = filename.split('_')
         angle = splits[-1].replace('.out', '')
         angle = float(angle)
         potential_data_list.append((angle, energy))
-        print(f'{filename} added')
+        print(f'OK  {filename}')
+        counter_success += 1
     # Sort by angle
     potential_data_list_sorted = sorted(potential_data_list, key=lambda x: x[0])
     # Append the sorted values as a string
@@ -120,6 +127,10 @@ def from_qe(
         potential_data += f'{angle}    {energy}\n'
     with open(output, 'w') as f:
         f.write(potential_data)
+    print('----------------------------------')
+    print(f'Succesful calculations (OK): {counter_success}')
+    print(f'Faulty calculations     (x): {counter_errors}')
+    print('----------------------------------')
     print(f'Saved angles and potential values at {output}')
     return None
 
@@ -153,7 +164,7 @@ def solve(system:QSys):
     data = deepcopy(system)
     # Is there a potential_name?
     if not data.potential_name:
-        if not data.potential_values.any():
+        if not any(data.potential_values):
             raise ValueError(f'No potential_name and no potential_values found in the system!')
     elif data.potential_name.lower() == 'titov2023':
         data.potential_values = titov2023(data)
@@ -162,7 +173,7 @@ def solve(system:QSys):
     elif data.potential_name.lower() == 'sine':
         data.potential_values = sine(data)
     # At least there should be potential_values
-    elif not data.potential_values.any():
+    elif not any(data.potential_values):
         raise ValueError("Unrecognised potential_name '{data.potential_name}' and no potential_values found")
     return data.potential_values
 

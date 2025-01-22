@@ -49,7 +49,7 @@ def get(
     if os.path.isfile(filepath):
         return os.path.abspath(filepath)
     elif os.path.isdir(filepath):
-        files = get_list(filepath, filters, abspath=True)
+        files = get_list(folder=filepath, include=filters, abspath=True)
     elif return_anyway:
         return None
     else:
@@ -66,36 +66,55 @@ def get(
 
 
 def get_list(
-        folder:str,
-        filters=None,
-        abspath:bool=True
+        folder:str=None,
+        include=None,
+        ignore=None,
+        abspath:bool=True,
+        also_folders:bool=False,
     ) -> list:
-    """Return the files inside a `folder`, applying optional `filters`.
+    """Return the files inside a `folder`, applying optional filters.
+
+    Only filenames containing all strings in the `include` list will be returned.
+    Filenames containing any string from the `ignore` list will be ignored.
 
     The full paths are returned by default; to get only the base names, set `abspath = False`.
+    The CWD folder is used by default if no `folder` is provided.
+    It also returns folders if `also_folders = True`.
     """
+    if not folder:
+        folder = os.getcwd()
     if os.path.isfile(folder):
         folder = os.path.dirname(folder)
     if not os.path.isdir(folder):
         raise FileNotFoundError('Directory not found: ' + folder)
     folder = os.path.abspath(folder)
     files = os.listdir(folder)
-    # Apply filters or not
-    if filters is not None:
-        target_files = []
-        if not isinstance(filters, list):
-            filters = [str(filters)]
-        for filter_i in filters:
-            filter_i = os.path.basename(filter_i)
-            for f in files:
-                if filter_i in f:
-                    target_files.append(f)
-        files = target_files
+    if not files:
+        return []
+    # Absolute paths?
     if abspath:
-        filepaths = []
-        for f in files:
-            filepaths.append(os.path.join(folder, f))
-        files = filepaths
+        files = [os.path.join(folder, f) for f in files]
+    # Should we keep only files?
+    if not also_folders:
+        files = [f for f in files if not os.path.isdir(f if abspath else os.path.join(folder, f))]
+    # Apply filters if provided
+    if include is not None:
+        # Ensure include filters is always a list
+        if not isinstance(include, list):
+            include = [str(include)]
+        # Normalize filter names
+        include = [os.path.basename(i) for i in include]
+        # Only keep files that contain all filters
+        files = [f for f in files if all(filter_str in os.path.basename(f) for filter_str in include)]
+    # Remove files containing any string from the ignore list
+    if ignore is not None:
+        # Ensure ignore filters is always a list
+        if not isinstance(ignore, list):
+            ignore = [str(ignore)]
+        # Normalize ignoring filter names
+        ignore = [os.path.basename(i) for i in ignore]
+        # Exclude the corresponding files
+        files = [f for f in files if not any(filter_str in os.path.basename(f) for filter_str in ignore)]
     return files
 
 
@@ -223,7 +242,7 @@ def copy_to_folders(
     """
     if folder is None:
         folder = os.getcwd()
-    old_files = get_list(folder, extension)
+    old_files = get_list(folder=folder, include=extension)
     if old_files is None:
         raise ValueError('No ' + extension + ' files found in path!')
     for old_file in old_files:

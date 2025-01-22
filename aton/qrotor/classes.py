@@ -30,7 +30,7 @@ class QSys:
             comment: str = None,
             group: str = 'CH3',
             E_levels: int = 5,
-            units = None,               ################ TODO CHECK THAT THIS WORKS. previously = []
+            units = None,            ################ TODO CHECK THAT THIS WORKS. previously = []
             correct_potential_offset: bool = True,
             save_eigenvectors: bool = False,
             gridsize: int = None,
@@ -122,7 +122,11 @@ class QSys:
         }
 
     def set_grid(self, gridsize:int=None):
-        """Sets the `QSys.grid` to the specified `gridsize`."""
+        """Sets the `QSys.grid` to the specified `gridsize`.
+
+        It removes the previous grid,
+        do **not** use this method if the potential was loaded externally!
+        """
         if gridsize is not None:
             self.gridsize = gridsize
         if self.gridsize is None:

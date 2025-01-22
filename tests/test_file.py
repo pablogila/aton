@@ -16,11 +16,7 @@ def test_get():
     except:
         pass
     # Finds an existing file
-    try:
-        assert file.get(sample) != None
-        assert True
-    except FileNotFoundError:
-        assert False
+    assert file.get(sample) != None
     # Does not find a non-existing file
     try:
         file.get(sample_copy)
@@ -28,10 +24,11 @@ def test_get():
     except FileNotFoundError:
         assert True
     # get_list, 'tests/sample.txt' in 'fullpath/tests/sample.txt'
-    try:
-        assert sample in file.get_list(folder, filters='sample')[0]
-    except:
-        assert False
+    file_list = file.get_list(folder, include='sample.txt')
+    assert len(file_list) == 1
+    assert sample in file_list[0]
+    empty_file_list = file.get_list(folder, include='sample.txt', ignore='txt')
+    assert len(empty_file_list) == 0
 
 
 def test_copy():
@@ -41,27 +38,18 @@ def test_copy():
     except:
         pass
     # Copy files
-    try:
-        file.copy(sample, sample_copy)
-        assert file.get(sample_copy) != None
-    except FileNotFoundError:
-        assert False
+    file.copy(sample, sample_copy)
+    assert file.get(sample_copy) != None
     # Move files
-    try:
-        file.move(sample_copy, sample_copy_2)
-        assert file.get(sample_copy_2) != None
-    except:
-        assert False
+    file.move(sample_copy, sample_copy_2)
+    assert file.get(sample_copy_2) != None
     try:
         file.get(sample_copy)
         assert False
     except FileNotFoundError:
         assert True
     # Remove
-    try:
-        file.remove(sample_copy_2)
-    except:
-        assert False
+    file.remove(sample_copy_2)
     try:
         file.get(sample_copy_2)
         assert False

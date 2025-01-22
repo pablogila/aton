@@ -9,11 +9,11 @@ Sparse matrices are used to achieve optimal performance.
 
 | | |
 | --- | --- |
-| `laplacian_matrix()`      | Calculate the second derivative matrix for a given grid |
-| `hamiltonian_matrix()`    | Calculate the hamiltonian matrix of the system |
+| `energies()`              | Solve the system(s) for the `QSys` or `QExp` object |
 | `potential()`             | Solve the potential values of the system |
 | `schrodinger()`           | Solve the Schrödiger equation for the system |
-| `energies()`              | Solve the system(s) for the `QSys` or `QExp` object |
+| `hamiltonian_matrix()`    | Calculate the hamiltonian matrix of the system |
+| `laplacian_matrix()`      | Calculate the second derivative matrix for a given grid |
 
 ---
 """
@@ -29,27 +29,21 @@ from scipy import sparse
 import aton
 
 
-def laplacian_matrix(grid):
-    """Calculates the Laplacian (second derivative) matrix for a given `grid`."""
-    x = grid
-    diagonals = [-2*np.ones(len(x)), np.ones(len(x)), np.ones(len(x))]
-    laplacian_matrix = sparse.spdiags(diagonals, [0, -1, 1], format='lil')
-    # Periodic boundary conditions
-    laplacian_matrix[0, -1] = 1
-    laplacian_matrix[-1, 0] = 1
-    dx = x[1] - x[0]
-    laplacian_matrix /= dx**2
-    return laplacian_matrix
-
-
-def hamiltonian_matrix(system:QSys):
-    """Calculates the Hamiltonian matrix for a given `aton.qrotor.classes.QSys` object."""
-    V = system.potential_values.tolist()
-    potential = sparse.diags(V, format='lil')
-    B = system.B
-    x = system.grid
-    H = -B * laplacian_matrix(x) + potential
-    return H
+def energies(var, filename:str=None) -> QExp:
+    """Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` or `aton.qrotor.classes.QExp` object."""
+    if isinstance(var, QSys):
+        data = QExp()
+        data.systems = [deepcopy(var)]
+    elif isinstance(var, QExp):
+        data = deepcopy(var)
+    else:
+        raise TypeError('Input must be a QSys or QExp object.')
+    for system in data.systems:
+        system = potential(system)
+        system = schrodinger(system)
+    if filename:
+        aton.st.file.save(data, filename)
+    return data
 
 
 def potential(system:QSys) -> QSys:
@@ -97,19 +91,25 @@ def schrodinger(system:QSys) -> QSys:
     return system
 
 
-def energies(var, filename:str=None) -> QExp:
-    """Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` or `aton.qrotor.classes.QExp` object."""
-    if isinstance(var, QSys):
-        data = QExp()
-        data.systems = [deepcopy(var)]
-    elif isinstance(var, QExp):
-        data = deepcopy(var)
-    else:
-        raise TypeError('Input must be a QSys or QExp object.')
-    for system in data.systems:
-        system = potential(system)
-        system = schrodinger(system)
-    if filename:
-        aton.st.file.save(data, filename)
-    return data
+def hamiltonian_matrix(system:QSys):
+    """Calculates the Hamiltonian matrix for a given `aton.qrotor.classes.QSys` object."""
+    V = system.potential_values.tolist()
+    potential = sparse.diags(V, format='lil')
+    B = system.B
+    x = system.grid
+    H = -B * laplacian_matrix(x) + potential
+    return H
+
+
+def laplacian_matrix(grid):
+    """Calculates the Laplacian (second derivative) matrix for a given `grid`."""
+    x = grid
+    diagonals = [-2*np.ones(len(x)), np.ones(len(x)), np.ones(len(x))]
+    laplacian_matrix = sparse.spdiags(diagonals, [0, -1, 1], format='lil')
+    # Periodic boundary conditions
+    laplacian_matrix[0, -1] = 1
+    laplacian_matrix[-1, 0] = 1
+    dx = x[1] - x[0]
+    laplacian_matrix /= dx**2
+    return laplacian_matrix
 

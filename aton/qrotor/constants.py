@@ -37,17 +37,17 @@ r_NH = distance_NH * np.sin(np.deg2rad(angle_NH)) * phys.A_to_m
 """Rotation radius of the amine group, in meters."""
 
 # Inertia, SI units
-I_CH = 3 * (phys.atoms['H'].mass * r_CH**2)
+I_CH = 3 * (phys.atoms['H'].mass * phys.amu_to_kg * r_CH**2)
 """Inertia of CH3, in uma·m^2."""
-I_CD = 3 * (phys.atoms['H'].isotope[2].mass * r_CH**2)
+I_CD = 3 * (phys.atoms['H'].isotope[2].mass * phys.amu_to_kg * r_CH**2)
 """Inertia of CD3, in uma·m^2."""
-I_NH = 3 * (phys.atoms['H'].mass * r_NH**2)
+I_NH = 3 * (phys.atoms['H'].mass * phys.amu_to_kg * r_NH**2)
 """Inertia of NH3, in uma·m^2."""
-I_ND = 3 * (phys.atoms['H'].isotope[2].mass * r_NH**2)
+I_ND = 3 * (phys.atoms['H'].isotope[2].mass * phys.amu_to_kg * r_NH**2)
 """Inertia of ND3, in uma·m^2."""
 
 # Rotational energy.
-B_CH = ((phys.hbar_eV**2) / (2 * I_CH)) * phys.J_to_eV
+B_CH = ((phys.hbar**2) / (2 * I_CH)) * phys.J_to_eV
 """Rotational energy of CH3, in eV·s/uma·m^2."""
 B_CD = ((phys.hbar**2) / (2 * I_CD)) * phys.J_to_eV
 """Rotational energy of CD3, in eV·s/uma·m^2."""

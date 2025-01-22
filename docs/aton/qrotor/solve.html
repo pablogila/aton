@@ -75,10 +75,7 @@
             <h2>API Documentation</h2>
                 <ul class="memberlist">
             <li>
-                    <a class="function" href="#laplacian_matrix">laplacian_matrix</a>
-            </li>
-            <li>
-                    <a class="function" href="#hamiltonian_matrix">hamiltonian_matrix</a>
+                    <a class="function" href="#energies">energies</a>
             </li>
             <li>
                     <a class="function" href="#potential">potential</a>
@@ -87,12 +84,15 @@
                     <a class="function" href="#schrodinger">schrodinger</a>
             </li>
             <li>
-                    <a class="function" href="#energies">energies</a>
+                    <a class="function" href="#hamiltonian_matrix">hamiltonian_matrix</a>
+            </li>
+            <li>
+                    <a class="function" href="#laplacian_matrix">laplacian_matrix</a>
             </li>
     </ul>
 
 
-            <footer>ATON v0.0.1rc34 documentation</footer>
+            <footer>ATON v0.0.1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -122,12 +122,8 @@ Sparse matrices are used to achieve optimal performance.</p>
 </thead>
 <tbody>
 <tr>
-  <td><code><a href="#laplacian_matrix">laplacian_matrix()</a></code></td>
-  <td>Calculate the second derivative matrix for a given grid</td>
-</tr>
-<tr>
-  <td><code><a href="#hamiltonian_matrix">hamiltonian_matrix()</a></code></td>
-  <td>Calculate the hamiltonian matrix of the system</td>
+  <td><code><a href="#energies">energies()</a></code></td>
+  <td>Solve the system(s) for the <code>QSys</code> or <code>QExp</code> object</td>
 </tr>
 <tr>
   <td><code><a href="#potential">potential()</a></code></td>
@@ -138,8 +134,12 @@ Sparse matrices are used to achieve optimal performance.</p>
   <td>Solve the Schrödiger equation for the system</td>
 </tr>
 <tr>
-  <td><code><a href="#energies">energies()</a></code></td>
-  <td>Solve the system(s) for the <code>QSys</code> or <code>QExp</code> object</td>
+  <td><code><a href="#hamiltonian_matrix">hamiltonian_matrix()</a></code></td>
+  <td>Calculate the hamiltonian matrix of the system</td>
+</tr>
+<tr>
+  <td><code><a href="#laplacian_matrix">laplacian_matrix()</a></code></td>
+  <td>Calculate the second derivative matrix for a given grid</td>
 </tr>
 </tbody>
 </table>
@@ -162,11 +162,11 @@ Sparse matrices are used to achieve optimal performance.</p>
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a>
 </span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="sd">| | |</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="sd">| --- | --- |</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="sd">| `laplacian_matrix()`      | Calculate the second derivative matrix for a given grid |</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="sd">| `hamiltonian_matrix()`    | Calculate the hamiltonian matrix of the system |</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="sd">| `potential()`             | Solve the potential values of the system |</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="sd">| `schrodinger()`           | Solve the Schrödiger equation for the system |</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="sd">| `energies()`              | Solve the system(s) for the `QSys` or `QExp` object |</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="sd">| `energies()`              | Solve the system(s) for the `QSys` or `QExp` object |</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="sd">| `potential()`             | Solve the potential values of the system |</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="sd">| `schrodinger()`           | Solve the Schrödiger equation for the system |</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="sd">| `hamiltonian_matrix()`    | Calculate the hamiltonian matrix of the system |</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="sd">| `laplacian_matrix()`      | Calculate the second derivative matrix for a given grid |</span>
 </span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>
 </span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="sd">---</span>
 </span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="sd">&quot;&quot;&quot;</span>
@@ -182,146 +182,123 @@ Sparse matrices are used to achieve optimal performance.</p>
 </span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a><span class="kn">import</span> <span class="nn">aton</span>
 </span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a>
 </span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>
-</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a><span class="k">def</span> <span class="nf">laplacian_matrix</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Laplacian (second derivative) matrix for a given `grid`.&quot;&quot;&quot;</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">grid</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>    <span class="n">diagonals</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))]</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>    <span class="n">laplacian_matrix</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">spdiags</span><span class="p">(</span><span class="n">diagonals</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;lil&#39;</span><span class="p">)</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>    <span class="c1"># Periodic boundary conditions</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>    <span class="n">laplacian_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>    <span class="n">laplacian_matrix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>    <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>    <span class="n">laplacian_matrix</span> <span class="o">/=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>    <span class="k">return</span> <span class="n">laplacian_matrix</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>
-</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a><span class="k">def</span> <span class="nf">hamiltonian_matrix</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Hamiltonian matrix for a given `aton.qrotor.classes.QSys` object.&quot;&quot;&quot;</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>    <span class="n">potential</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;lil&#39;</span><span class="p">)</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>    <span class="n">B</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>    <span class="n">H</span> <span class="o">=</span> <span class="o">-</span><span class="n">B</span> <span class="o">*</span> <span class="n">laplacian_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">potential</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>    <span class="k">return</span> <span class="n">H</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>
-</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>
-</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="k">def</span> <span class="nf">potential</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QSys</span><span class="p">:</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the potential_values of the system.</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>
-</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a><span class="sd">    It uses the potential name, by calling `aton.qrotor.potential.solve`.</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd">    Then it applies extra operations, such as removing the potential offset</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a><span class="sd">    if `aton.qrotor.classes.QSys.correct_potential_offset = True`.</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">grid</span><span class="p">):</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">solve_potential</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">correct_potential_offset</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>        <span class="n">offset</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>        <span class="n">V</span> <span class="o">=</span> <span class="n">V</span> <span class="o">-</span> <span class="n">offset</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>        <span class="n">system</span><span class="o">.</span><span class="n">corrected_potential_offset</span> <span class="o">=</span> <span class="n">offset</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">V</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>    <span class="k">return</span> <span class="n">system</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="k">def</span> <span class="nf">schrodinger</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QSys</span><span class="p">:</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` object.</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd">    </span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="sd">    Uses ARPACK in shift-inverse mode to solve the hamiltonian sparse matrix.</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>    <span class="n">time_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>    <span class="n">H</span> <span class="o">=</span> <span class="n">hamiltonian_matrix</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Solving Hamiltonian matrix of size </span><span class="si">{</span><span class="n">system</span><span class="o">.</span><span class="n">gridsize</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">)</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>    <span class="c1"># Solve eigenvalues with ARPACK in shift-inverse mode, with a sparse matrix</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>    <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigsh</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">E_levels</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING:  Not all eigenvalues were found.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>    <span class="k">else</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">runtime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">time_start</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">eigenvalues</span> <span class="o">=</span> <span class="n">eigenvalues</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">energy_barrier</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">first_transition</span> <span class="o">=</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">save_eigenvectors</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="n">system</span><span class="o">.</span><span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">eigenvectors</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">eigenvalues_B</span> <span class="o">=</span> <span class="n">eigenvalues</span> <span class="o">/</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_max_B</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_max</span> <span class="o">/</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>    <span class="k">return</span> <span class="n">system</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="k">def</span> <span class="nf">energies</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QExp</span><span class="p">:</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` or `aton.qrotor.classes.QExp` object.&quot;&quot;&quot;</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">QSys</span><span class="p">):</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">QExp</span><span class="p">()</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">systems</span> <span class="o">=</span> <span class="p">[</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">var</span><span class="p">)]</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">QExp</span><span class="p">):</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Input must be a QSys or QExp object.&#39;</span><span class="p">)</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">systems</span><span class="p">:</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">potential</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">schrodinger</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>    <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>        <span class="n">aton</span><span class="o">.</span><span class="n">st</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="k">return</span> <span class="n">data</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a><span class="k">def</span> <span class="nf">energies</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QExp</span><span class="p">:</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` or `aton.qrotor.classes.QExp` object.&quot;&quot;&quot;</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">QSys</span><span class="p">):</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">QExp</span><span class="p">()</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">systems</span> <span class="o">=</span> <span class="p">[</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">var</span><span class="p">)]</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">QExp</span><span class="p">):</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Input must be a QSys or QExp object.&#39;</span><span class="p">)</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">systems</span><span class="p">:</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">potential</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">schrodinger</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>    <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>        <span class="n">aton</span><span class="o">.</span><span class="n">st</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>    <span class="k">return</span> <span class="n">data</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a><span class="k">def</span> <span class="nf">potential</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QSys</span><span class="p">:</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the potential_values of the system.</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="sd">    It uses the potential name, by calling `aton.qrotor.potential.solve`.</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a><span class="sd">    Then it applies extra operations, such as removing the potential offset</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="sd">    if `aton.qrotor.classes.QSys.correct_potential_offset = True`.</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">grid</span><span class="p">):</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">solve_potential</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">correct_potential_offset</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>        <span class="n">offset</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>        <span class="n">V</span> <span class="o">=</span> <span class="n">V</span> <span class="o">-</span> <span class="n">offset</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>        <span class="n">system</span><span class="o">.</span><span class="n">corrected_potential_offset</span> <span class="o">=</span> <span class="n">offset</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">V</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>    <span class="k">return</span> <span class="n">system</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a><span class="k">def</span> <span class="nf">schrodinger</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QSys</span><span class="p">:</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` object.</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="sd">    </span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="sd">    Uses ARPACK in shift-inverse mode to solve the hamiltonian sparse matrix.</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>    <span class="n">time_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>    <span class="n">H</span> <span class="o">=</span> <span class="n">hamiltonian_matrix</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Solving Hamiltonian matrix of size </span><span class="si">{</span><span class="n">system</span><span class="o">.</span><span class="n">gridsize</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">)</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>    <span class="c1"># Solve eigenvalues with ARPACK in shift-inverse mode, with a sparse matrix</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>    <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigsh</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">E_levels</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING:  Not all eigenvalues were found.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>    <span class="k">else</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">runtime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">time_start</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">eigenvalues</span> <span class="o">=</span> <span class="n">eigenvalues</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">energy_barrier</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">first_transition</span> <span class="o">=</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">save_eigenvectors</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>        <span class="n">system</span><span class="o">.</span><span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">eigenvectors</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">eigenvalues_B</span> <span class="o">=</span> <span class="n">eigenvalues</span> <span class="o">/</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_max_B</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_max</span> <span class="o">/</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>    <span class="k">return</span> <span class="n">system</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="k">def</span> <span class="nf">hamiltonian_matrix</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Hamiltonian matrix for a given `aton.qrotor.classes.QSys` object.&quot;&quot;&quot;</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>    <span class="n">potential</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;lil&#39;</span><span class="p">)</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>    <span class="n">B</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>    <span class="n">H</span> <span class="o">=</span> <span class="o">-</span><span class="n">B</span> <span class="o">*</span> <span class="n">laplacian_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">potential</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>    <span class="k">return</span> <span class="n">H</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="k">def</span> <span class="nf">laplacian_matrix</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Laplacian (second derivative) matrix for a given `grid`.&quot;&quot;&quot;</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">grid</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>    <span class="n">diagonals</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))]</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>    <span class="n">laplacian_matrix</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">spdiags</span><span class="p">(</span><span class="n">diagonals</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;lil&#39;</span><span class="p">)</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>    <span class="c1"># Periodic boundary conditions</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>    <span class="n">laplacian_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>    <span class="n">laplacian_matrix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>    <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>    <span class="n">laplacian_matrix</span> <span class="o">/=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="k">return</span> <span class="n">laplacian_matrix</span>
 </span></pre></div>
 
 
             </section>
-                <section id="laplacian_matrix">
-                            <input id="laplacian_matrix-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                <section id="energies">
+                            <input id="energies-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">laplacian_matrix</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">grid</span></span><span class="return-annotation">):</span></span>
+        <span class="name">energies</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">var</span>, </span><span class="param"><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="n"><a href="classes.html#QExp">aton.qrotor.classes.QExp</a></span>:</span></span>
 
-                <label class="view-source-button" for="laplacian_matrix-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="energies-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#laplacian_matrix"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="laplacian_matrix-33"><a href="#laplacian_matrix-33"><span class="linenos">33</span></a><span class="k">def</span> <span class="nf">laplacian_matrix</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
-</span><span id="laplacian_matrix-34"><a href="#laplacian_matrix-34"><span class="linenos">34</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Laplacian (second derivative) matrix for a given `grid`.&quot;&quot;&quot;</span>
-</span><span id="laplacian_matrix-35"><a href="#laplacian_matrix-35"><span class="linenos">35</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">grid</span>
-</span><span id="laplacian_matrix-36"><a href="#laplacian_matrix-36"><span class="linenos">36</span></a>    <span class="n">diagonals</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))]</span>
-</span><span id="laplacian_matrix-37"><a href="#laplacian_matrix-37"><span class="linenos">37</span></a>    <span class="n">laplacian_matrix</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">spdiags</span><span class="p">(</span><span class="n">diagonals</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;lil&#39;</span><span class="p">)</span>
-</span><span id="laplacian_matrix-38"><a href="#laplacian_matrix-38"><span class="linenos">38</span></a>    <span class="c1"># Periodic boundary conditions</span>
-</span><span id="laplacian_matrix-39"><a href="#laplacian_matrix-39"><span class="linenos">39</span></a>    <span class="n">laplacian_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="laplacian_matrix-40"><a href="#laplacian_matrix-40"><span class="linenos">40</span></a>    <span class="n">laplacian_matrix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="laplacian_matrix-41"><a href="#laplacian_matrix-41"><span class="linenos">41</span></a>    <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="laplacian_matrix-42"><a href="#laplacian_matrix-42"><span class="linenos">42</span></a>    <span class="n">laplacian_matrix</span> <span class="o">/=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span>
-</span><span id="laplacian_matrix-43"><a href="#laplacian_matrix-43"><span class="linenos">43</span></a>    <span class="k">return</span> <span class="n">laplacian_matrix</span>
+    <a class="headerlink" href="#energies"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="energies-33"><a href="#energies-33"><span class="linenos">33</span></a><span class="k">def</span> <span class="nf">energies</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QExp</span><span class="p">:</span>
+</span><span id="energies-34"><a href="#energies-34"><span class="linenos">34</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` or `aton.qrotor.classes.QExp` object.&quot;&quot;&quot;</span>
+</span><span id="energies-35"><a href="#energies-35"><span class="linenos">35</span></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">QSys</span><span class="p">):</span>
+</span><span id="energies-36"><a href="#energies-36"><span class="linenos">36</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">QExp</span><span class="p">()</span>
+</span><span id="energies-37"><a href="#energies-37"><span class="linenos">37</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">systems</span> <span class="o">=</span> <span class="p">[</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">var</span><span class="p">)]</span>
+</span><span id="energies-38"><a href="#energies-38"><span class="linenos">38</span></a>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">QExp</span><span class="p">):</span>
+</span><span id="energies-39"><a href="#energies-39"><span class="linenos">39</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+</span><span id="energies-40"><a href="#energies-40"><span class="linenos">40</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="energies-41"><a href="#energies-41"><span class="linenos">41</span></a>        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Input must be a QSys or QExp object.&#39;</span><span class="p">)</span>
+</span><span id="energies-42"><a href="#energies-42"><span class="linenos">42</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">systems</span><span class="p">:</span>
+</span><span id="energies-43"><a href="#energies-43"><span class="linenos">43</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">potential</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="energies-44"><a href="#energies-44"><span class="linenos">44</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">schrodinger</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="energies-45"><a href="#energies-45"><span class="linenos">45</span></a>    <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
+</span><span id="energies-46"><a href="#energies-46"><span class="linenos">46</span></a>        <span class="n">aton</span><span class="o">.</span><span class="n">st</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</span><span id="energies-47"><a href="#energies-47"><span class="linenos">47</span></a>    <span class="k">return</span> <span class="n">data</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Calculates the Laplacian (second derivative) matrix for a given <code>grid</code>.</p>
-</div>
-
-
-                </section>
-                <section id="hamiltonian_matrix">
-                            <input id="hamiltonian_matrix-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr function">
-            
-        <span class="def">def</span>
-        <span class="name">hamiltonian_matrix</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">system</span><span class="p">:</span> <span class="n"><a href="classes.html#QSys">aton.qrotor.classes.QSys</a></span></span><span class="return-annotation">):</span></span>
-
-                <label class="view-source-button" for="hamiltonian_matrix-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#hamiltonian_matrix"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="hamiltonian_matrix-46"><a href="#hamiltonian_matrix-46"><span class="linenos">46</span></a><span class="k">def</span> <span class="nf">hamiltonian_matrix</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
-</span><span id="hamiltonian_matrix-47"><a href="#hamiltonian_matrix-47"><span class="linenos">47</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Hamiltonian matrix for a given `aton.qrotor.classes.QSys` object.&quot;&quot;&quot;</span>
-</span><span id="hamiltonian_matrix-48"><a href="#hamiltonian_matrix-48"><span class="linenos">48</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-</span><span id="hamiltonian_matrix-49"><a href="#hamiltonian_matrix-49"><span class="linenos">49</span></a>    <span class="n">potential</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;lil&#39;</span><span class="p">)</span>
-</span><span id="hamiltonian_matrix-50"><a href="#hamiltonian_matrix-50"><span class="linenos">50</span></a>    <span class="n">B</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
-</span><span id="hamiltonian_matrix-51"><a href="#hamiltonian_matrix-51"><span class="linenos">51</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
-</span><span id="hamiltonian_matrix-52"><a href="#hamiltonian_matrix-52"><span class="linenos">52</span></a>    <span class="n">H</span> <span class="o">=</span> <span class="o">-</span><span class="n">B</span> <span class="o">*</span> <span class="n">laplacian_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">potential</span>
-</span><span id="hamiltonian_matrix-53"><a href="#hamiltonian_matrix-53"><span class="linenos">53</span></a>    <span class="k">return</span> <span class="n">H</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>Calculates the Hamiltonian matrix for a given <code><a href="classes.html#QSys">aton.qrotor.classes.QSys</a></code> object.</p>
+            <div class="docstring"><p>Solves the Schrödinger equation for a given <code><a href="classes.html#QSys">aton.qrotor.classes.QSys</a></code> or <code><a href="classes.html#QExp">aton.qrotor.classes.QExp</a></code> object.</p>
 </div>
 
 
@@ -337,22 +314,22 @@ Sparse matrices are used to achieve optimal performance.</p>
 
     </div>
     <a class="headerlink" href="#potential"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="potential-56"><a href="#potential-56"><span class="linenos">56</span></a><span class="k">def</span> <span class="nf">potential</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QSys</span><span class="p">:</span>
-</span><span id="potential-57"><a href="#potential-57"><span class="linenos">57</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the potential_values of the system.</span>
-</span><span id="potential-58"><a href="#potential-58"><span class="linenos">58</span></a>
-</span><span id="potential-59"><a href="#potential-59"><span class="linenos">59</span></a><span class="sd">    It uses the potential name, by calling `aton.qrotor.potential.solve`.</span>
-</span><span id="potential-60"><a href="#potential-60"><span class="linenos">60</span></a><span class="sd">    Then it applies extra operations, such as removing the potential offset</span>
-</span><span id="potential-61"><a href="#potential-61"><span class="linenos">61</span></a><span class="sd">    if `aton.qrotor.classes.QSys.correct_potential_offset = True`.</span>
-</span><span id="potential-62"><a href="#potential-62"><span class="linenos">62</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="potential-63"><a href="#potential-63"><span class="linenos">63</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">grid</span><span class="p">):</span>
-</span><span id="potential-64"><a href="#potential-64"><span class="linenos">64</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="potential-65"><a href="#potential-65"><span class="linenos">65</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">solve_potential</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="potential-66"><a href="#potential-66"><span class="linenos">66</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">correct_potential_offset</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="potential-67"><a href="#potential-67"><span class="linenos">67</span></a>        <span class="n">offset</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-</span><span id="potential-68"><a href="#potential-68"><span class="linenos">68</span></a>        <span class="n">V</span> <span class="o">=</span> <span class="n">V</span> <span class="o">-</span> <span class="n">offset</span>
-</span><span id="potential-69"><a href="#potential-69"><span class="linenos">69</span></a>        <span class="n">system</span><span class="o">.</span><span class="n">corrected_potential_offset</span> <span class="o">=</span> <span class="n">offset</span>
-</span><span id="potential-70"><a href="#potential-70"><span class="linenos">70</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">V</span>
-</span><span id="potential-71"><a href="#potential-71"><span class="linenos">71</span></a>    <span class="k">return</span> <span class="n">system</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="potential-50"><a href="#potential-50"><span class="linenos">50</span></a><span class="k">def</span> <span class="nf">potential</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QSys</span><span class="p">:</span>
+</span><span id="potential-51"><a href="#potential-51"><span class="linenos">51</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the potential_values of the system.</span>
+</span><span id="potential-52"><a href="#potential-52"><span class="linenos">52</span></a>
+</span><span id="potential-53"><a href="#potential-53"><span class="linenos">53</span></a><span class="sd">    It uses the potential name, by calling `aton.qrotor.potential.solve`.</span>
+</span><span id="potential-54"><a href="#potential-54"><span class="linenos">54</span></a><span class="sd">    Then it applies extra operations, such as removing the potential offset</span>
+</span><span id="potential-55"><a href="#potential-55"><span class="linenos">55</span></a><span class="sd">    if `aton.qrotor.classes.QSys.correct_potential_offset = True`.</span>
+</span><span id="potential-56"><a href="#potential-56"><span class="linenos">56</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="potential-57"><a href="#potential-57"><span class="linenos">57</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">grid</span><span class="p">):</span>
+</span><span id="potential-58"><a href="#potential-58"><span class="linenos">58</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="potential-59"><a href="#potential-59"><span class="linenos">59</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">solve_potential</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="potential-60"><a href="#potential-60"><span class="linenos">60</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">correct_potential_offset</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="potential-61"><a href="#potential-61"><span class="linenos">61</span></a>        <span class="n">offset</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+</span><span id="potential-62"><a href="#potential-62"><span class="linenos">62</span></a>        <span class="n">V</span> <span class="o">=</span> <span class="n">V</span> <span class="o">-</span> <span class="n">offset</span>
+</span><span id="potential-63"><a href="#potential-63"><span class="linenos">63</span></a>        <span class="n">system</span><span class="o">.</span><span class="n">corrected_potential_offset</span> <span class="o">=</span> <span class="n">offset</span>
+</span><span id="potential-64"><a href="#potential-64"><span class="linenos">64</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">V</span>
+</span><span id="potential-65"><a href="#potential-65"><span class="linenos">65</span></a>    <span class="k">return</span> <span class="n">system</span>
 </span></pre></div>
 
 
@@ -376,31 +353,31 @@ if <code><a href="classes.html#QSys.correct_potential_offset">aton.qrotor.classe
 
     </div>
     <a class="headerlink" href="#schrodinger"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="schrodinger-74"><a href="#schrodinger-74"><span class="linenos">74</span></a><span class="k">def</span> <span class="nf">schrodinger</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QSys</span><span class="p">:</span>
-</span><span id="schrodinger-75"><a href="#schrodinger-75"><span class="linenos">75</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` object.</span>
-</span><span id="schrodinger-76"><a href="#schrodinger-76"><span class="linenos">76</span></a><span class="sd">    </span>
-</span><span id="schrodinger-77"><a href="#schrodinger-77"><span class="linenos">77</span></a><span class="sd">    Uses ARPACK in shift-inverse mode to solve the hamiltonian sparse matrix.</span>
-</span><span id="schrodinger-78"><a href="#schrodinger-78"><span class="linenos">78</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="schrodinger-79"><a href="#schrodinger-79"><span class="linenos">79</span></a>    <span class="n">time_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-</span><span id="schrodinger-80"><a href="#schrodinger-80"><span class="linenos">80</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span>
-</span><span id="schrodinger-81"><a href="#schrodinger-81"><span class="linenos">81</span></a>    <span class="n">H</span> <span class="o">=</span> <span class="n">hamiltonian_matrix</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="schrodinger-82"><a href="#schrodinger-82"><span class="linenos">82</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Solving Hamiltonian matrix of size </span><span class="si">{</span><span class="n">system</span><span class="o">.</span><span class="n">gridsize</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">)</span>
-</span><span id="schrodinger-83"><a href="#schrodinger-83"><span class="linenos">83</span></a>    <span class="c1"># Solve eigenvalues with ARPACK in shift-inverse mode, with a sparse matrix</span>
-</span><span id="schrodinger-84"><a href="#schrodinger-84"><span class="linenos">84</span></a>    <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigsh</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">E_levels</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
-</span><span id="schrodinger-85"><a href="#schrodinger-85"><span class="linenos">85</span></a>    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="schrodinger-86"><a href="#schrodinger-86"><span class="linenos">86</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING:  Not all eigenvalues were found.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="schrodinger-87"><a href="#schrodinger-87"><span class="linenos">87</span></a>    <span class="k">else</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="schrodinger-88"><a href="#schrodinger-88"><span class="linenos">88</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">runtime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">time_start</span>
-</span><span id="schrodinger-89"><a href="#schrodinger-89"><span class="linenos">89</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">eigenvalues</span> <span class="o">=</span> <span class="n">eigenvalues</span>
-</span><span id="schrodinger-90"><a href="#schrodinger-90"><span class="linenos">90</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-</span><span id="schrodinger-91"><a href="#schrodinger-91"><span class="linenos">91</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-</span><span id="schrodinger-92"><a href="#schrodinger-92"><span class="linenos">92</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">energy_barrier</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span>
-</span><span id="schrodinger-93"><a href="#schrodinger-93"><span class="linenos">93</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">first_transition</span> <span class="o">=</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="schrodinger-94"><a href="#schrodinger-94"><span class="linenos">94</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">save_eigenvectors</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="schrodinger-95"><a href="#schrodinger-95"><span class="linenos">95</span></a>        <span class="n">system</span><span class="o">.</span><span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">eigenvectors</span>
-</span><span id="schrodinger-96"><a href="#schrodinger-96"><span class="linenos">96</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">eigenvalues_B</span> <span class="o">=</span> <span class="n">eigenvalues</span> <span class="o">/</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
-</span><span id="schrodinger-97"><a href="#schrodinger-97"><span class="linenos">97</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_max_B</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_max</span> <span class="o">/</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
-</span><span id="schrodinger-98"><a href="#schrodinger-98"><span class="linenos">98</span></a>    <span class="k">return</span> <span class="n">system</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="schrodinger-68"><a href="#schrodinger-68"><span class="linenos">68</span></a><span class="k">def</span> <span class="nf">schrodinger</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QSys</span><span class="p">:</span>
+</span><span id="schrodinger-69"><a href="#schrodinger-69"><span class="linenos">69</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` object.</span>
+</span><span id="schrodinger-70"><a href="#schrodinger-70"><span class="linenos">70</span></a><span class="sd">    </span>
+</span><span id="schrodinger-71"><a href="#schrodinger-71"><span class="linenos">71</span></a><span class="sd">    Uses ARPACK in shift-inverse mode to solve the hamiltonian sparse matrix.</span>
+</span><span id="schrodinger-72"><a href="#schrodinger-72"><span class="linenos">72</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="schrodinger-73"><a href="#schrodinger-73"><span class="linenos">73</span></a>    <span class="n">time_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</span><span id="schrodinger-74"><a href="#schrodinger-74"><span class="linenos">74</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span>
+</span><span id="schrodinger-75"><a href="#schrodinger-75"><span class="linenos">75</span></a>    <span class="n">H</span> <span class="o">=</span> <span class="n">hamiltonian_matrix</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="schrodinger-76"><a href="#schrodinger-76"><span class="linenos">76</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Solving Hamiltonian matrix of size </span><span class="si">{</span><span class="n">system</span><span class="o">.</span><span class="n">gridsize</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">)</span>
+</span><span id="schrodinger-77"><a href="#schrodinger-77"><span class="linenos">77</span></a>    <span class="c1"># Solve eigenvalues with ARPACK in shift-inverse mode, with a sparse matrix</span>
+</span><span id="schrodinger-78"><a href="#schrodinger-78"><span class="linenos">78</span></a>    <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigsh</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">E_levels</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</span><span id="schrodinger-79"><a href="#schrodinger-79"><span class="linenos">79</span></a>    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="schrodinger-80"><a href="#schrodinger-80"><span class="linenos">80</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING:  Not all eigenvalues were found.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="schrodinger-81"><a href="#schrodinger-81"><span class="linenos">81</span></a>    <span class="k">else</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="schrodinger-82"><a href="#schrodinger-82"><span class="linenos">82</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">runtime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">time_start</span>
+</span><span id="schrodinger-83"><a href="#schrodinger-83"><span class="linenos">83</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">eigenvalues</span> <span class="o">=</span> <span class="n">eigenvalues</span>
+</span><span id="schrodinger-84"><a href="#schrodinger-84"><span class="linenos">84</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+</span><span id="schrodinger-85"><a href="#schrodinger-85"><span class="linenos">85</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+</span><span id="schrodinger-86"><a href="#schrodinger-86"><span class="linenos">86</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">energy_barrier</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span>
+</span><span id="schrodinger-87"><a href="#schrodinger-87"><span class="linenos">87</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">first_transition</span> <span class="o">=</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="schrodinger-88"><a href="#schrodinger-88"><span class="linenos">88</span></a>    <span class="k">if</span> <span class="n">system</span><span class="o">.</span><span class="n">save_eigenvectors</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="schrodinger-89"><a href="#schrodinger-89"><span class="linenos">89</span></a>        <span class="n">system</span><span class="o">.</span><span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">eigenvectors</span>
+</span><span id="schrodinger-90"><a href="#schrodinger-90"><span class="linenos">90</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">eigenvalues_B</span> <span class="o">=</span> <span class="n">eigenvalues</span> <span class="o">/</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
+</span><span id="schrodinger-91"><a href="#schrodinger-91"><span class="linenos">91</span></a>    <span class="n">system</span><span class="o">.</span><span class="n">potential_max_B</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_max</span> <span class="o">/</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
+</span><span id="schrodinger-92"><a href="#schrodinger-92"><span class="linenos">92</span></a>    <span class="k">return</span> <span class="n">system</span>
 </span></pre></div>
 
 
@@ -411,36 +388,59 @@ if <code><a href="classes.html#QSys.correct_potential_offset">aton.qrotor.classe
 
 
                 </section>
-                <section id="energies">
-                            <input id="energies-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                <section id="hamiltonian_matrix">
+                            <input id="hamiltonian_matrix-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">energies</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">var</span>, </span><span class="param"><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="n"><a href="classes.html#QExp">aton.qrotor.classes.QExp</a></span>:</span></span>
+        <span class="name">hamiltonian_matrix</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">system</span><span class="p">:</span> <span class="n"><a href="classes.html#QSys">aton.qrotor.classes.QSys</a></span></span><span class="return-annotation">):</span></span>
 
-                <label class="view-source-button" for="energies-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="hamiltonian_matrix-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#energies"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="energies-101"><a href="#energies-101"><span class="linenos">101</span></a><span class="k">def</span> <span class="nf">energies</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QExp</span><span class="p">:</span>
-</span><span id="energies-102"><a href="#energies-102"><span class="linenos">102</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` or `aton.qrotor.classes.QExp` object.&quot;&quot;&quot;</span>
-</span><span id="energies-103"><a href="#energies-103"><span class="linenos">103</span></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">QSys</span><span class="p">):</span>
-</span><span id="energies-104"><a href="#energies-104"><span class="linenos">104</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">QExp</span><span class="p">()</span>
-</span><span id="energies-105"><a href="#energies-105"><span class="linenos">105</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">systems</span> <span class="o">=</span> <span class="p">[</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">var</span><span class="p">)]</span>
-</span><span id="energies-106"><a href="#energies-106"><span class="linenos">106</span></a>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">QExp</span><span class="p">):</span>
-</span><span id="energies-107"><a href="#energies-107"><span class="linenos">107</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-</span><span id="energies-108"><a href="#energies-108"><span class="linenos">108</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="energies-109"><a href="#energies-109"><span class="linenos">109</span></a>        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Input must be a QSys or QExp object.&#39;</span><span class="p">)</span>
-</span><span id="energies-110"><a href="#energies-110"><span class="linenos">110</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">systems</span><span class="p">:</span>
-</span><span id="energies-111"><a href="#energies-111"><span class="linenos">111</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">potential</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="energies-112"><a href="#energies-112"><span class="linenos">112</span></a>        <span class="n">system</span> <span class="o">=</span> <span class="n">schrodinger</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="energies-113"><a href="#energies-113"><span class="linenos">113</span></a>    <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
-</span><span id="energies-114"><a href="#energies-114"><span class="linenos">114</span></a>        <span class="n">aton</span><span class="o">.</span><span class="n">st</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-</span><span id="energies-115"><a href="#energies-115"><span class="linenos">115</span></a>    <span class="k">return</span> <span class="n">data</span>
+    <a class="headerlink" href="#hamiltonian_matrix"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="hamiltonian_matrix-95"><a href="#hamiltonian_matrix-95"><span class="linenos"> 95</span></a><span class="k">def</span> <span class="nf">hamiltonian_matrix</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
+</span><span id="hamiltonian_matrix-96"><a href="#hamiltonian_matrix-96"><span class="linenos"> 96</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Hamiltonian matrix for a given `aton.qrotor.classes.QSys` object.&quot;&quot;&quot;</span>
+</span><span id="hamiltonian_matrix-97"><a href="#hamiltonian_matrix-97"><span class="linenos"> 97</span></a>    <span class="n">V</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</span><span id="hamiltonian_matrix-98"><a href="#hamiltonian_matrix-98"><span class="linenos"> 98</span></a>    <span class="n">potential</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;lil&#39;</span><span class="p">)</span>
+</span><span id="hamiltonian_matrix-99"><a href="#hamiltonian_matrix-99"><span class="linenos"> 99</span></a>    <span class="n">B</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">B</span>
+</span><span id="hamiltonian_matrix-100"><a href="#hamiltonian_matrix-100"><span class="linenos">100</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
+</span><span id="hamiltonian_matrix-101"><a href="#hamiltonian_matrix-101"><span class="linenos">101</span></a>    <span class="n">H</span> <span class="o">=</span> <span class="o">-</span><span class="n">B</span> <span class="o">*</span> <span class="n">laplacian_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">potential</span>
+</span><span id="hamiltonian_matrix-102"><a href="#hamiltonian_matrix-102"><span class="linenos">102</span></a>    <span class="k">return</span> <span class="n">H</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Solves the Schrödinger equation for a given <code><a href="classes.html#QSys">aton.qrotor.classes.QSys</a></code> or <code><a href="classes.html#QExp">aton.qrotor.classes.QExp</a></code> object.</p>
+            <div class="docstring"><p>Calculates the Hamiltonian matrix for a given <code><a href="classes.html#QSys">aton.qrotor.classes.QSys</a></code> object.</p>
+</div>
+
+
+                </section>
+                <section id="laplacian_matrix">
+                            <input id="laplacian_matrix-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">laplacian_matrix</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">grid</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="laplacian_matrix-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#laplacian_matrix"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="laplacian_matrix-105"><a href="#laplacian_matrix-105"><span class="linenos">105</span></a><span class="k">def</span> <span class="nf">laplacian_matrix</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
+</span><span id="laplacian_matrix-106"><a href="#laplacian_matrix-106"><span class="linenos">106</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the Laplacian (second derivative) matrix for a given `grid`.&quot;&quot;&quot;</span>
+</span><span id="laplacian_matrix-107"><a href="#laplacian_matrix-107"><span class="linenos">107</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">grid</span>
+</span><span id="laplacian_matrix-108"><a href="#laplacian_matrix-108"><span class="linenos">108</span></a>    <span class="n">diagonals</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))]</span>
+</span><span id="laplacian_matrix-109"><a href="#laplacian_matrix-109"><span class="linenos">109</span></a>    <span class="n">laplacian_matrix</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">spdiags</span><span class="p">(</span><span class="n">diagonals</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;lil&#39;</span><span class="p">)</span>
+</span><span id="laplacian_matrix-110"><a href="#laplacian_matrix-110"><span class="linenos">110</span></a>    <span class="c1"># Periodic boundary conditions</span>
+</span><span id="laplacian_matrix-111"><a href="#laplacian_matrix-111"><span class="linenos">111</span></a>    <span class="n">laplacian_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="laplacian_matrix-112"><a href="#laplacian_matrix-112"><span class="linenos">112</span></a>    <span class="n">laplacian_matrix</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="laplacian_matrix-113"><a href="#laplacian_matrix-113"><span class="linenos">113</span></a>    <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="laplacian_matrix-114"><a href="#laplacian_matrix-114"><span class="linenos">114</span></a>    <span class="n">laplacian_matrix</span> <span class="o">/=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span>
+</span><span id="laplacian_matrix-115"><a href="#laplacian_matrix-115"><span class="linenos">115</span></a>    <span class="k">return</span> <span class="n">laplacian_matrix</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Calculates the Laplacian (second derivative) matrix for a given <code>grid</code>.</p>
 </div>
 
 
