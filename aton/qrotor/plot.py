@@ -6,12 +6,14 @@ This module provides straightforward functions to plot QRotor data.
 
 # Index
 
-`reduced_energies()`  
-`potential()`
-`energies_DEV()`      NOT IMPLEMENTED  
-`energy_DEV()`        NOT IMPLEMENTED  
-`convergence_DEV()`   NOT IMPLEMENTED  
-`eigenvectors_DEV()`  NOT IMPLEMENTED  
+| | |
+| --- | --- |
+| `reduced_energies()` | Reduced energies E/B as a function of the reduced potential V/B |
+| `potential()`        | Potential values as a function of the angle |
+| `energies_DEV()`     | NOT IMPLEMENTED |
+| `energy_DEV()`       | NOT IMPLEMENTED |
+| `convergence_DEV()`  | NOT IMPLEMENTED |
+| `eigenvectors_DEV()` | NOT IMPLEMENTED |
 
 ---
 """
@@ -19,6 +21,7 @@ This module provides straightforward functions to plot QRotor data.
 
 from .classes import *
 import matplotlib.pyplot as plt
+from copy import deepcopy
 
 
 def reduced_energies(data:QExp):
@@ -38,9 +41,23 @@ def reduced_energies(data:QExp):
     plt.show()
 
 
-def potential(data:QExp):                     #############   TODO IMPLEMENT
-    """Plot the potential values of the system"""
-    pass
+def potential(data):
+    """Plot the potential values of the system.
+
+    Input `data` can be a `QSys` or `QExp` object.
+    """
+    dataset = deepcopy(data)
+    if isinstance(dataset, QSys):
+        dataset = QExp(systems=[dataset], comment=data.comment)
+    if not isinstance(dataset, QExp):
+        raise TypeError(f'aton.qrotor.plot.potential requires a QExp or QSys object as input!')
+    for system in dataset.systems:
+        plt.plot(system.grid, system.potential_values, marker='', linestyle='-')
+    plt.xlabel('Angle / rad')
+    plt.ylabel('Potential energy / eV')
+    plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
+    plt.title(dataset.comment)
+    plt.show()
 
 
 def energies_DEV(data:QExp):
@@ -87,8 +104,7 @@ def energy_DEV(data:QExp):
     if not data.comment or (len(data.variables) == 1 and data.variables[0].comment):
         plt.title(f'{data.variables[0].comment}')
 
-    plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi],
-                ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
+    plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
 
     unique_potentials = []
     unique_elements = []

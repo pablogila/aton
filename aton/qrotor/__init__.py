@@ -1,11 +1,7 @@
 """
-# ⚠️ UNDER DEVELOPMENT
-
-THIS PACKAGE IS STILL UNDER HEAVY DEVELOPMENT, DON'T USE IT
-
 # QRotor
  
-The QRotor subpackage is used to study the energy levels of quantum rotations, such as methyl and amine groups.
+The QRotor module is used to study the energy levels of quantum rotations, such as methyl and amine groups.
 
 # Index
 

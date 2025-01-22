@@ -17,7 +17,6 @@ These classes can be loaded directly as `aton.qrotor.Class()`.
 
 
 import numpy as np
-from copy import deepcopy
 from .constants import *
 from aton.st import alias
 from aton.spx import Plotting
@@ -36,7 +35,8 @@ class QSys:
             save_eigenvectors: bool = False,
             gridsize: int = None,
             grid = None,
-            potential_name: str = None,
+            B: float = None,
+            potential_name: str = '',
             potential_constants: list = None,
             potential_values = None,
             ):
@@ -58,7 +58,11 @@ class QSys:
         self.gridsize: int = gridsize
         """Number of points in the grid."""
         self.grid = grid
-        """The grid with the points to be used in the calculation. Can be set automatically over $2 \\Pi$ with `QSys.set_grid()`."""
+        """The grid with the points to be used in the calculation.
+
+        Can be set automatically over $2 \\Pi$ with `QSys.set_grid()`.
+        Units should be in radians.
+        """
         if not B:
             B = self.B
         self.B: float = B
@@ -71,8 +75,10 @@ class QSys:
         """List of constants to be used in the calculation of the potential energy, in the `aton.qrotor.potential` module."""
         self.potential_values = potential_values
         """Numpy array with the potential values for each point in the grid.
+
         Can be calculated with a function available in the `qrotor.potential` module,
         or loaded externally with the `qrotor.potential.load()` function.
+        Units should be in eV.
         """
         self.potential_offset: float = None
         """`min(V)` before offset correction when `QSys.correct_potential_offset = True`"""

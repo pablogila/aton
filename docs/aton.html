@@ -71,6 +71,7 @@
   <ul>
     <li><a href="#interfaces-for-ab-initio-codes">Interfaces for <em>ab-initio</em> codes</a></li>
     <li><a href="#physico-chemical-constants">Physico-chemical constants</a></li>
+    <li><a href="#quantum-rotations">Quantum rotations</a></li>
     <li><a href="#spectra-analysis">Spectra analysis</a></li>
     <li><a href="#general-text-edition">General text edition</a></li>
     <li><a href="#system-tools">System tools</a></li>
@@ -97,7 +98,7 @@
             </ul>
 
 
-            <footer>ATON v0.0.1rc32 documentation</footer>
+            <footer>ATON v0.0.1rc34 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -245,6 +246,48 @@ Values are accessed directly as <code>phys.value</code> or <code>phys.function()
 <tr>
   <td><code><a href="aton/phys/functions.html">aton.phys.functions</a></code></td>
   <td>Functions to sort and analyse element data, and to update the atoms dictionary</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="quantum-rotations">Quantum rotations</h2>
+
+<p>The <strong>QRotor</strong> module is used to study the energy levels of quantum rotations,
+such as methyl and amine groups.</p>
+
+<h3 id="atonqrotor"><code><a href="aton/qrotor.html">aton.qrotor</a></code></h3>
+
+<table>
+<thead>
+<tr>
+  <th></th>
+  <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code><a href="aton/qrotor/classes.html">aton.qrotor.classes</a></code></td>
+  <td>Definition of the <code>QSys</code> and <code>QExp</code> classes</td>
+</tr>
+<tr>
+  <td><code><a href="aton/qrotor/constants.html">aton.qrotor.constants</a></code></td>
+  <td>Bond lengths and inertias</td>
+</tr>
+<tr>
+  <td><code><a href="aton/qrotor/rotate.html">aton.qrotor.rotate</a></code></td>
+  <td>Rotate specific atoms from structural files</td>
+</tr>
+<tr>
+  <td><code><a href="aton/qrotor/potential.html">aton.qrotor.potential</a></code></td>
+  <td>Potential definitions and loading functions</td>
+</tr>
+<tr>
+  <td><code><a href="aton/qrotor/solve.html">aton.qrotor.solve</a></code></td>
+  <td>Solve rotation eigenvalues and eigenvectors</td>
+</tr>
+<tr>
+  <td><code><a href="aton/qrotor/plot.html">aton.qrotor.plot</a></code></td>
+  <td>Plotting functions</td>
 </tr>
 </tbody>
 </table>

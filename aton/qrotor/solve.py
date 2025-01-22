@@ -21,6 +21,7 @@ Sparse matrices are used to achieve optimal performance.
 
 from .classes import *
 from .potential import solve as solve_potential
+from .potential import interpolate
 from copy import deepcopy
 import time
 import numpy as np
@@ -58,6 +59,8 @@ def potential(system:QSys) -> QSys:
     Then it applies extra operations, such as removing the potential offset
     if `aton.qrotor.classes.QSys.correct_potential_offset = True`.
     """
+    if system.gridsize > len(system.grid):
+        system = interpolate(system)
     V = solve_potential(system)
     if system.correct_potential_offset is True:
         offset = min(V)
@@ -102,7 +105,7 @@ def energies(var, filename:str=None) -> QExp:
     elif isinstance(var, QExp):
         data = deepcopy(var)
     else:
-        raise ValueError('Input must be a QSys or QExp object.')
+        raise TypeError('Input must be a QSys or QExp object.')
     for system in data.systems:
         system = potential(system)
         system = schrodinger(system)

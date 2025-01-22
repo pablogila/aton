@@ -37,6 +37,13 @@ fix_dict ={
     '[spx.plot](https://pablogila.github.io/ATON/aton/spx/plot.html)'                   : '`aton.spx.plot`',
     '[spx.deuterium](https://pablogila.github.io/ATON/aton/spx/deuterium.html)'         : '`aton.spx.deuterium`',
     '[spx.samples](https://pablogila.github.io/ATON/aton/spx/samples.html)'             : '`aton.spx.samples`',
+    '[aton.qrotor](https://pablogila.github.io/ATON/aton/qrotor.html)'                  : '`aton.qrotor`',
+    '[qrotor.classes](https://pablogila.github.io/ATON/aton/qrotor/classes.html)'       : '`aton.qrotor.classes`',
+    '[qrotor.constants](https://pablogila.github.io/ATON/aton/qrotor/constants.html)'   : '`aton.qrotor.constants`',
+    '[qrotor.rotate](https://pablogila.github.io/ATON/aton/qrotor/rotate.html)'         : '`aton.qrotor.rotate`',
+    '[qrotor.potential](https://pablogila.github.io/ATON/aton/qrotor/potential.html)'   : '`aton.qrotor.potential`',
+    '[qrotor.solve](https://pablogila.github.io/ATON/aton/qrotor/solve.html)'           : '`aton.qrotor.solve`',
+    '[qrotor.plot](https://pablogila.github.io/ATON/aton/qrotor/plot.html)'             : '`aton.qrotor.plot`',
     'Check the [full documentation online](https://pablogila.github.io/ATON/).'         : '',
 }
 

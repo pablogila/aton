@@ -100,6 +100,23 @@ Values are accessed directly as `phys.value` or `phys.function()`.
 | [phys.functions](https://pablogila.github.io/ATON/aton/phys/functions.html) | Functions to sort and analyse element data, and to update the atoms dictionary |  
 
 
+## Quantum rotations
+ 
+The **QRotor** module is used to study the energy levels of quantum rotations,
+such as methyl and amine groups.
+
+### [aton.qrotor](https://pablogila.github.io/ATON/aton/qrotor.html)
+
+| | |
+| --- | --- |
+| [qrotor.classes](https://pablogila.github.io/ATON/aton/qrotor/classes.html)     | Definition of the `QSys` and `QExp` classes |
+| [qrotor.constants](https://pablogila.github.io/ATON/aton/qrotor/constants.html) | Bond lengths and inertias |
+| [qrotor.rotate](https://pablogila.github.io/ATON/aton/qrotor/rotate.html)       | Rotate specific atoms from structural files |
+| [qrotor.potential](https://pablogila.github.io/ATON/aton/qrotor/potential.html) | Potential definitions and loading functions |
+| [qrotor.solve](https://pablogila.github.io/ATON/aton/qrotor/solve.html)         | Solve rotation eigenvalues and eigenvectors |
+| [qrotor.plot](https://pablogila.github.io/ATON/aton/qrotor/plot.html)           | Plotting functions |
+
+
 ## Spectra analysis
 
 The **spx** module includes tools for spectral analysis from

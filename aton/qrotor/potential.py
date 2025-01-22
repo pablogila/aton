@@ -24,6 +24,7 @@ from .classes import *
 from . import constants
 import numpy as np
 import os
+from copy import deepcopy
 from scipy.interpolate import CubicSpline
 import aton.st.alias as alias
 import aton.st.file as file
@@ -32,15 +33,16 @@ import aton.phys as phys
 
 
 def load(
-        filepath,
+        filepath:str='potential.dat',
         system:QSys=None,
         angle:str='deg',
         energy:str='eV',
         ) -> QSys:
     """Read a potential rotational energy dataset.
 
-    The file should contain two columns with `angle` and `potential` values.
+    The file in `filepath` should contain two columns with `angle` and `potential` values.
     Degrees and eV are assumed as default units unless stated in `angle` and `energy`.
+    Units will be converted automatically to radians and eV.
     """
     file_path = file.get(filepath)
     system = QSys() if system is None else system
@@ -52,8 +54,8 @@ def load(
         if line.startswith('#'):
             continue
         position, potential = line.split()
-        positions.append(float(position))
-        potentials.append(float(potential))
+        positions.append(float(position.strip()))
+        potentials.append(float(potential.strip()))
     # Save angles to numpy arrays
     if angle.lower() in alias.units['deg']:
         positions = np.radians(positions)
@@ -64,8 +66,10 @@ def load(
     # Save energies to numpy arrays
     if energy.lower() in alias.units['meV']:
         potentials = np.array(potentials) * 1000
-    elif energy.lower() in alias.units['ev']:
+    elif energy.lower() in alias.units['eV']:
         potentials = np.array(potentials)
+    elif energy.lower() in alias.units['Ry']:
+        potentials = np.array(potentials) * phys.Ry_to_eV
     else:
         raise ValueError(f"Energy unit '{energy}' not recognized.")
     # Set the system
@@ -91,26 +95,29 @@ def from_qe(
     """
     folder = file.get_dir(folder)
     files = file.get_list(folder=folder, filters=filters, abspath=True)
-    potential_data = '# Angle / deg, Potential / eV\n'
+    potential_data = '# Angle/deg    Potential/eV\n'
     potential_data_list = []
+    print('Extracting the potential as a function of the angle...')
     for filepath in files:
+        filename = os.path.basename(filepath)
         filepath = file.get(filepath=filepath, filters='.out', return_anyway=True)
         if not filepath:  # Not an output file, skip it
             continue
         content = qe.read_out(filepath)
         if not content['Success']:  # Ignore unsuccessful calculations
+            print(f'{filename} was unsuccessful :(')
             continue
         energy = content['Energy'] * phys.Ry_to_eV
-        filename = os.path.basename(filepath)
         splits = filename.split('_')
         angle = splits[-1].replace('.out', '')
         angle = float(angle)
         potential_data_list.append((angle, energy))
+        print(f'{filename} added')
     # Sort by angle
     potential_data_list_sorted = sorted(potential_data_list, key=lambda x: x[0])
     # Append the sorted values as a string
     for angle, energy in potential_data_list_sorted:
-        potential_data += f'{angle}, {energy}\n'
+        potential_data += f'{angle}    {energy}\n'
     with open(output, 'w') as f:
         f.write(potential_data)
     print(f'Saved angles and potential values at {output}')
@@ -127,22 +134,37 @@ def interpolate(system:QSys) -> QSys:
     new_V = cubic_spline(new_grid)
     system.grid = new_grid
     system.potential_values = new_V
+    print(f"Interpolated potential to a grid of size {gridsize}")
     return system
 
 
 # Redirect to the desired potential energy function
 def solve(system:QSys):
-    """Solves `aton.qrotor.classes.QSys.potential_values`, according to the `aton.qrotor.classes.QSys.potential_name`."""
-    if system.potential_name.lower() == 'titov2023':
-        return titov2023(system)
-    elif system.potential_name.lower() == 'zero':
-        return zero(system)
-    elif system.potential_name.lower() == 'sine':
-        return sine(system)
-    elif system.potential_values:  # Re
-        return system.potential_values
-    else:
-        raise ValueError(f'Unrecognised potential_name ({system.potential_name}) and no potential_values found in system!')
+    """Solves `aton.qrotor.classes.QSys.potential_values`,
+    according to the `aton.qrotor.classes.QSys.potential_name`.
+    Returns the new `potential_values`.
+
+    If `QSys.potential_name` is not present or not recognised,
+    the current `QSys.potential_values` are used.
+
+    If a bigger `QSys.gridsize` is provided,
+    the potential is also interpolated to the new gridsize.
+    """
+    data = deepcopy(system)
+    # Is there a potential_name?
+    if not data.potential_name:
+        if not data.potential_values.any():
+            raise ValueError(f'No potential_name and no potential_values found in the system!')
+    elif data.potential_name.lower() == 'titov2023':
+        data.potential_values = titov2023(data)
+    elif data.potential_name.lower() == 'zero':
+        data.potential_values = zero(data)
+    elif data.potential_name.lower() == 'sine':
+        data.potential_values = sine(data)
+    # At least there should be potential_values
+    elif not data.potential_values.any():
+        raise ValueError("Unrecognised potential_name '{data.potential_name}' and no potential_values found")
+    return data.potential_values
 
 
 def zero(system:QSys):
