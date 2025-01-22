@@ -105,7 +105,7 @@ def _copy_scf_header_to_supercells(
     if scf_file is None:
         raise ValueError('No header file found in path!')
     # Check if the supercells exist
-    supercells = file.get_list(folder, 'supercell-')
+    supercells = file.get_list(folder, include='supercell-')
     if supercells is None:
         raise ValueError('No supercells found in path!')
     # Check if the supercells contains '&CONTROL' and abort if so

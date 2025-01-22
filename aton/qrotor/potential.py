@@ -105,7 +105,7 @@ def from_qe(
     counter_errors = 0
     for filepath in files:
         filename = os.path.basename(filepath)
-        filepath = file.get(filepath=filepath, filters='.out', return_anyway=True)
+        filepath = file.get(filepath=filepath, include='.out', return_anyway=True)
         if not filepath:  # Not an output file, skip it
             continue
         content = qe.read_out(filepath)

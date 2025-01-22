@@ -67,7 +67,7 @@ def sbatch(
     folder = call.here(folder)
     # Get input files and abort if not found
     if not files:
-        inputs_raw = file.get_list(folder=folder, filters=prefix, abspath=False)
+        inputs_raw = file.get_list(folder=folder, include=prefix, abspath=False)
     else:
         inputs_raw = files
     inputs = []
@@ -171,7 +171,7 @@ def scancel_here(jobs=None, folder=None, prefix:str='slurm-', sufix:str='.out') 
     The jobs will be detected from the `<prefix>JOBID<sufix>` files, `slurm-JOBID.out` by default.
     """
     if jobs == None:  # Get the list of jobs
-        filenames = file.get_list(folder=folder, filters=prefix, abspath=False)
+        filenames = file.get_list(folder=folder, include=prefix, abspath=False)
         if not filenames:
             raise FileNotFoundError(f'To scancel all calculations, {prefix}JOBID{sufix} files are needed!\nConfigure the folder, as well as the prefix and sufix if necessary.')
         jobs = []

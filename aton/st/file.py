@@ -32,7 +32,7 @@ import gzip
 
 def get(
         filepath,
-        filters=None,
+        include=None,
         return_anyway:bool=False
         ) -> str:
     """Check if `filepath` exists, and returns its full path.
@@ -43,13 +43,14 @@ def get(
 
     If the provided string is a directory, it checks the files inside it.
     if there is only one file inside, it returns said file;
-    if there are more files, it tries to filter them with the `filters` keyword(s) to return a single file.
-    If this fails, try using more strict filers to return a single file.
+    if there are more files, it tries to filter them with the `include` filters
+    (string or list of strings) to return a single file.
+    If this fails, try using more strict filters to return a single file.
     """
     if os.path.isfile(filepath):
         return os.path.abspath(filepath)
     elif os.path.isdir(filepath):
-        files = get_list(folder=filepath, include=filters, abspath=True)
+        files = get_list(folder=filepath, include=include, abspath=True)
     elif return_anyway:
         return None
     else:
@@ -60,7 +61,7 @@ def get(
     elif return_anyway:
         return None
     elif len(files) == 0:
-        raise FileNotFoundError('The following directory is empty (maybe due to the filters):\n' + filepath)
+        raise FileNotFoundError("The following directory is empty (maybe due to the 'include' filters):\n" + filepath)
     else:
         raise FileExistsError(f'More than one file found, please apply a more strict filter. Found:\n{files}')    
 
