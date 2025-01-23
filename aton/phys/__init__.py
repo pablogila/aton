@@ -35,8 +35,7 @@ See the API reference of the specific modules for more information.
 
 ## `aton.phys.units`
 
-Constant values come from the 2022 CODATA Internationally
-recommended 2022 values of the Fundamental Physical Constants.
+Constant values come from the [2022 CODATA](https://doi.org/10.48550/arXiv.2409.03787) Recommended Values of the Fundamental Physical Constants.
 
 
 ## `aton.phys.atoms`

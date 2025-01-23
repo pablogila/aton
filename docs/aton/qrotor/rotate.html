@@ -75,7 +75,7 @@
             <h2>API Documentation</h2>
                 <ul class="memberlist">
             <li>
-                    <a class="function" href="#qe">qe</a>
+                    <a class="function" href="#structure_qe">structure_qe</a>
             </li>
             <li>
                     <a class="function" href="#rotate_coords">rotate_coords</a>
@@ -83,7 +83,7 @@
     </ul>
 
 
-            <footer>ATON v0.0.2 documentation</footer>
+            <footer>ATON v0.0.3 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -113,7 +113,7 @@ Works with Quantum ESPRESSO input files.</p>
 </thead>
 <tbody>
 <tr>
-  <td><code><a href="#qe">qe()</a></code></td>
+  <td><code><a href="#structure_qe">structure_qe()</a></code></td>
   <td>Rotate specific atoms from a Quantum ESPRESSO input file</td>
 </tr>
 <tr>
@@ -141,7 +141,7 @@ Works with Quantum ESPRESSO input files.</p>
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a>
 </span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="sd">| | |</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="sd">| --- | --- |</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="sd">| `qe()`            | Rotate specific atoms from a Quantum ESPRESSO input file |</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="sd">| `structure_qe()`  | Rotate specific atoms from a Quantum ESPRESSO input file |</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="sd">| `rotate_coords()` | Rotate a specific list of coordinates |</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>
 </span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="sd">---</span>
@@ -158,7 +158,7 @@ Works with Quantum ESPRESSO input files.</p>
 </span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a><span class="kn">import</span> <span class="nn">aton.txt.edit</span> <span class="k">as</span> <span class="nn">edit</span>
 </span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a>
 </span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a>
-</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a><span class="k">def</span> <span class="nf">qe</span><span class="p">(</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a><span class="k">def</span> <span class="nf">structure_qe</span><span class="p">(</span>
 </span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>        <span class="n">positions</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
 </span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>        <span class="n">angle</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span>
@@ -307,76 +307,76 @@ Works with Quantum ESPRESSO input files.</p>
 
 
             </section>
-                <section id="qe">
-                            <input id="qe-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                <section id="structure_qe">
+                            <input id="structure_qe-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">qe</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">positions</span><span class="p">:</span> <span class="nb">list</span>,</span><span class="param">	<span class="n">angle</span><span class="p">:</span> <span class="nb">float</span>,</span><span class="param">	<span class="n">repeat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">precision</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>,</span><span class="param">	<span class="n">show_axis</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span><span class="return-annotation">) -> <span class="nb">list</span>:</span></span>
+        <span class="name">structure_qe</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">positions</span><span class="p">:</span> <span class="nb">list</span>,</span><span class="param">	<span class="n">angle</span><span class="p">:</span> <span class="nb">float</span>,</span><span class="param">	<span class="n">repeat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">precision</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>,</span><span class="param">	<span class="n">show_axis</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span><span class="return-annotation">) -> <span class="nb">list</span>:</span></span>
 
-                <label class="view-source-button" for="qe-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="structure_qe-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#qe"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="qe-30"><a href="#qe-30"><span class="linenos">30</span></a><span class="k">def</span> <span class="nf">qe</span><span class="p">(</span>
-</span><span id="qe-31"><a href="#qe-31"><span class="linenos">31</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
-</span><span id="qe-32"><a href="#qe-32"><span class="linenos">32</span></a>        <span class="n">positions</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
-</span><span id="qe-33"><a href="#qe-33"><span class="linenos">33</span></a>        <span class="n">angle</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span>
-</span><span id="qe-34"><a href="#qe-34"><span class="linenos">34</span></a>        <span class="n">repeat</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="qe-35"><a href="#qe-35"><span class="linenos">35</span></a>        <span class="n">precision</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-</span><span id="qe-36"><a href="#qe-36"><span class="linenos">36</span></a>        <span class="n">show_axis</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="qe-37"><a href="#qe-37"><span class="linenos">37</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-</span><span id="qe-38"><a href="#qe-38"><span class="linenos">38</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotates atoms from a Quantum ESPRESSO input file.</span>
-</span><span id="qe-39"><a href="#qe-39"><span class="linenos">39</span></a>
-</span><span id="qe-40"><a href="#qe-40"><span class="linenos">40</span></a><span class="sd">    Takes a `filepath` with a molecular structure, and three or more atomic `positions` (list).</span>
-</span><span id="qe-41"><a href="#qe-41"><span class="linenos">41</span></a><span class="sd">    These input positions can be approximate, and are used to identify the target atoms.</span>
-</span><span id="qe-42"><a href="#qe-42"><span class="linenos">42</span></a><span class="sd">    The decimal precision in the search for these positions is controlled by `precision`.</span>
-</span><span id="qe-43"><a href="#qe-43"><span class="linenos">43</span></a>
-</span><span id="qe-44"><a href="#qe-44"><span class="linenos">44</span></a><span class="sd">    It rotates the atoms by the geometrical center of the first 3 atoms by a specific `angle`.</span>
-</span><span id="qe-45"><a href="#qe-45"><span class="linenos">45</span></a><span class="sd">    Additionally, if `repeat = True` it repeats the same rotation over the whole circunference.</span>
-</span><span id="qe-46"><a href="#qe-46"><span class="linenos">46</span></a><span class="sd">    Finally, it writes the rotated structure(s) to a new structural file(s).</span>
-</span><span id="qe-47"><a href="#qe-47"><span class="linenos">47</span></a><span class="sd">    Returns a list with the output filename(s).</span>
-</span><span id="qe-48"><a href="#qe-48"><span class="linenos">48</span></a>
-</span><span id="qe-49"><a href="#qe-49"><span class="linenos">49</span></a><span class="sd">    To debug, `show_axis = True` adds two additional helium atoms as the rotation vector.</span>
-</span><span id="qe-50"><a href="#qe-50"><span class="linenos">50</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="qe-51"><a href="#qe-51"><span class="linenos">51</span></a>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rotating Quantum ESPRESSO input structure with QRotor...&#39;</span><span class="p">)</span>
-</span><span id="qe-52"><a href="#qe-52"><span class="linenos">52</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
-</span><span id="qe-53"><a href="#qe-53"><span class="linenos">53</span></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least three positions are required to define the rotation axis.&quot;</span><span class="p">)</span>
-</span><span id="qe-54"><a href="#qe-54"><span class="linenos">54</span></a>    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="qe-55"><a href="#qe-55"><span class="linenos">55</span></a>    <span class="n">full_positions</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="qe-56"><a href="#qe-56"><span class="linenos">56</span></a>    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
-</span><span id="qe-57"><a href="#qe-57"><span class="linenos">57</span></a>        <span class="n">line</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">qe</span><span class="o">.</span><span class="n">get_atom</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
-</span><span id="qe-58"><a href="#qe-58"><span class="linenos">58</span></a>        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-</span><span id="qe-59"><a href="#qe-59"><span class="linenos">59</span></a>        <span class="n">pos</span> <span class="o">=</span> <span class="n">extract</span><span class="o">.</span><span class="n">coords</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-</span><span id="qe-60"><a href="#qe-60"><span class="linenos">60</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Keep only the first three coordinates</span>
-</span><span id="qe-61"><a href="#qe-61"><span class="linenos">61</span></a>            <span class="n">pos</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
-</span><span id="qe-62"><a href="#qe-62"><span class="linenos">62</span></a>        <span class="c1"># Convert to cartesian</span>
-</span><span id="qe-63"><a href="#qe-63"><span class="linenos">63</span></a>        <span class="n">pos_cartesian</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">qe</span><span class="o">.</span><span class="n">to_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
-</span><span id="qe-64"><a href="#qe-64"><span class="linenos">64</span></a>        <span class="n">full_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos_cartesian</span><span class="p">)</span>
-</span><span id="qe-65"><a href="#qe-65"><span class="linenos">65</span></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found atom: &quot;</span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-</span><span id="qe-66"><a href="#qe-66"><span class="linenos">66</span></a>    <span class="c1"># Set the angles to rotate</span>
-</span><span id="qe-67"><a href="#qe-67"><span class="linenos">67</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">repeat</span><span class="p">:</span>
-</span><span id="qe-68"><a href="#qe-68"><span class="linenos">68</span></a>        <span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">angle</span><span class="p">]</span>
-</span><span id="qe-69"><a href="#qe-69"><span class="linenos">69</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="qe-70"><a href="#qe-70"><span class="linenos">70</span></a>        <span class="n">angles</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
-</span><span id="qe-71"><a href="#qe-71"><span class="linenos">71</span></a>    <span class="c1"># Rotate and save the structure</span>
-</span><span id="qe-72"><a href="#qe-72"><span class="linenos">72</span></a>    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="qe-73"><a href="#qe-73"><span class="linenos">73</span></a>    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-</span><span id="qe-74"><a href="#qe-74"><span class="linenos">74</span></a>    <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-</span><span id="qe-75"><a href="#qe-75"><span class="linenos">75</span></a>    <span class="n">name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">)</span>
-</span><span id="qe-76"><a href="#qe-76"><span class="linenos">76</span></a>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rotating the structure...&#39;</span><span class="p">)</span>
-</span><span id="qe-77"><a href="#qe-77"><span class="linenos">77</span></a>    <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="n">angles</span><span class="p">:</span>
-</span><span id="qe-78"><a href="#qe-78"><span class="linenos">78</span></a>        <span class="n">output_name</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;_</span><span class="si">{</span><span class="n">angle</span><span class="si">}</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">ext</span>
-</span><span id="qe-79"><a href="#qe-79"><span class="linenos">79</span></a>        <span class="n">output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">output_name</span><span class="p">)</span>
-</span><span id="qe-80"><a href="#qe-80"><span class="linenos">80</span></a>        <span class="n">rotated_positions_cartesian</span> <span class="o">=</span> <span class="n">rotate_coords</span><span class="p">(</span><span class="n">full_positions</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">show_axis</span><span class="p">)</span>
-</span><span id="qe-81"><a href="#qe-81"><span class="linenos">81</span></a>        <span class="n">rotated_positions</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="qe-82"><a href="#qe-82"><span class="linenos">82</span></a>        <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">rotated_positions_cartesian</span><span class="p">:</span>
-</span><span id="qe-83"><a href="#qe-83"><span class="linenos">83</span></a>            <span class="n">pos</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">qe</span><span class="o">.</span><span class="n">from_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coord</span><span class="p">)</span>
-</span><span id="qe-84"><a href="#qe-84"><span class="linenos">84</span></a>            <span class="n">rotated_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
-</span><span id="qe-85"><a href="#qe-85"><span class="linenos">85</span></a>        <span class="n">_save_qe</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">rotated_positions</span><span class="p">)</span>
-</span><span id="qe-86"><a href="#qe-86"><span class="linenos">86</span></a>        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-</span><span id="qe-87"><a href="#qe-87"><span class="linenos">87</span></a>        <span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-</span><span id="qe-88"><a href="#qe-88"><span class="linenos">88</span></a>    <span class="k">return</span> <span class="n">outputs</span>
+    <a class="headerlink" href="#structure_qe"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="structure_qe-30"><a href="#structure_qe-30"><span class="linenos">30</span></a><span class="k">def</span> <span class="nf">structure_qe</span><span class="p">(</span>
+</span><span id="structure_qe-31"><a href="#structure_qe-31"><span class="linenos">31</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
+</span><span id="structure_qe-32"><a href="#structure_qe-32"><span class="linenos">32</span></a>        <span class="n">positions</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
+</span><span id="structure_qe-33"><a href="#structure_qe-33"><span class="linenos">33</span></a>        <span class="n">angle</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span>
+</span><span id="structure_qe-34"><a href="#structure_qe-34"><span class="linenos">34</span></a>        <span class="n">repeat</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="structure_qe-35"><a href="#structure_qe-35"><span class="linenos">35</span></a>        <span class="n">precision</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+</span><span id="structure_qe-36"><a href="#structure_qe-36"><span class="linenos">36</span></a>        <span class="n">show_axis</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="structure_qe-37"><a href="#structure_qe-37"><span class="linenos">37</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="structure_qe-38"><a href="#structure_qe-38"><span class="linenos">38</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Rotates atoms from a Quantum ESPRESSO input file.</span>
+</span><span id="structure_qe-39"><a href="#structure_qe-39"><span class="linenos">39</span></a>
+</span><span id="structure_qe-40"><a href="#structure_qe-40"><span class="linenos">40</span></a><span class="sd">    Takes a `filepath` with a molecular structure, and three or more atomic `positions` (list).</span>
+</span><span id="structure_qe-41"><a href="#structure_qe-41"><span class="linenos">41</span></a><span class="sd">    These input positions can be approximate, and are used to identify the target atoms.</span>
+</span><span id="structure_qe-42"><a href="#structure_qe-42"><span class="linenos">42</span></a><span class="sd">    The decimal precision in the search for these positions is controlled by `precision`.</span>
+</span><span id="structure_qe-43"><a href="#structure_qe-43"><span class="linenos">43</span></a>
+</span><span id="structure_qe-44"><a href="#structure_qe-44"><span class="linenos">44</span></a><span class="sd">    It rotates the atoms by the geometrical center of the first 3 atoms by a specific `angle`.</span>
+</span><span id="structure_qe-45"><a href="#structure_qe-45"><span class="linenos">45</span></a><span class="sd">    Additionally, if `repeat = True` it repeats the same rotation over the whole circunference.</span>
+</span><span id="structure_qe-46"><a href="#structure_qe-46"><span class="linenos">46</span></a><span class="sd">    Finally, it writes the rotated structure(s) to a new structural file(s).</span>
+</span><span id="structure_qe-47"><a href="#structure_qe-47"><span class="linenos">47</span></a><span class="sd">    Returns a list with the output filename(s).</span>
+</span><span id="structure_qe-48"><a href="#structure_qe-48"><span class="linenos">48</span></a>
+</span><span id="structure_qe-49"><a href="#structure_qe-49"><span class="linenos">49</span></a><span class="sd">    To debug, `show_axis = True` adds two additional helium atoms as the rotation vector.</span>
+</span><span id="structure_qe-50"><a href="#structure_qe-50"><span class="linenos">50</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="structure_qe-51"><a href="#structure_qe-51"><span class="linenos">51</span></a>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rotating Quantum ESPRESSO input structure with QRotor...&#39;</span><span class="p">)</span>
+</span><span id="structure_qe-52"><a href="#structure_qe-52"><span class="linenos">52</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+</span><span id="structure_qe-53"><a href="#structure_qe-53"><span class="linenos">53</span></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least three positions are required to define the rotation axis.&quot;</span><span class="p">)</span>
+</span><span id="structure_qe-54"><a href="#structure_qe-54"><span class="linenos">54</span></a>    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="structure_qe-55"><a href="#structure_qe-55"><span class="linenos">55</span></a>    <span class="n">full_positions</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="structure_qe-56"><a href="#structure_qe-56"><span class="linenos">56</span></a>    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
+</span><span id="structure_qe-57"><a href="#structure_qe-57"><span class="linenos">57</span></a>        <span class="n">line</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">qe</span><span class="o">.</span><span class="n">get_atom</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
+</span><span id="structure_qe-58"><a href="#structure_qe-58"><span class="linenos">58</span></a>        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span><span id="structure_qe-59"><a href="#structure_qe-59"><span class="linenos">59</span></a>        <span class="n">pos</span> <span class="o">=</span> <span class="n">extract</span><span class="o">.</span><span class="n">coords</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span><span id="structure_qe-60"><a href="#structure_qe-60"><span class="linenos">60</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Keep only the first three coordinates</span>
+</span><span id="structure_qe-61"><a href="#structure_qe-61"><span class="linenos">61</span></a>            <span class="n">pos</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+</span><span id="structure_qe-62"><a href="#structure_qe-62"><span class="linenos">62</span></a>        <span class="c1"># Convert to cartesian</span>
+</span><span id="structure_qe-63"><a href="#structure_qe-63"><span class="linenos">63</span></a>        <span class="n">pos_cartesian</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">qe</span><span class="o">.</span><span class="n">to_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+</span><span id="structure_qe-64"><a href="#structure_qe-64"><span class="linenos">64</span></a>        <span class="n">full_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos_cartesian</span><span class="p">)</span>
+</span><span id="structure_qe-65"><a href="#structure_qe-65"><span class="linenos">65</span></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Found atom: &quot;</span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+</span><span id="structure_qe-66"><a href="#structure_qe-66"><span class="linenos">66</span></a>    <span class="c1"># Set the angles to rotate</span>
+</span><span id="structure_qe-67"><a href="#structure_qe-67"><span class="linenos">67</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">repeat</span><span class="p">:</span>
+</span><span id="structure_qe-68"><a href="#structure_qe-68"><span class="linenos">68</span></a>        <span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">angle</span><span class="p">]</span>
+</span><span id="structure_qe-69"><a href="#structure_qe-69"><span class="linenos">69</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="structure_qe-70"><a href="#structure_qe-70"><span class="linenos">70</span></a>        <span class="n">angles</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+</span><span id="structure_qe-71"><a href="#structure_qe-71"><span class="linenos">71</span></a>    <span class="c1"># Rotate and save the structure</span>
+</span><span id="structure_qe-72"><a href="#structure_qe-72"><span class="linenos">72</span></a>    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="structure_qe-73"><a href="#structure_qe-73"><span class="linenos">73</span></a>    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+</span><span id="structure_qe-74"><a href="#structure_qe-74"><span class="linenos">74</span></a>    <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+</span><span id="structure_qe-75"><a href="#structure_qe-75"><span class="linenos">75</span></a>    <span class="n">name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">)</span>
+</span><span id="structure_qe-76"><a href="#structure_qe-76"><span class="linenos">76</span></a>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rotating the structure...&#39;</span><span class="p">)</span>
+</span><span id="structure_qe-77"><a href="#structure_qe-77"><span class="linenos">77</span></a>    <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="n">angles</span><span class="p">:</span>
+</span><span id="structure_qe-78"><a href="#structure_qe-78"><span class="linenos">78</span></a>        <span class="n">output_name</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;_</span><span class="si">{</span><span class="n">angle</span><span class="si">}</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">ext</span>
+</span><span id="structure_qe-79"><a href="#structure_qe-79"><span class="linenos">79</span></a>        <span class="n">output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">output_name</span><span class="p">)</span>
+</span><span id="structure_qe-80"><a href="#structure_qe-80"><span class="linenos">80</span></a>        <span class="n">rotated_positions_cartesian</span> <span class="o">=</span> <span class="n">rotate_coords</span><span class="p">(</span><span class="n">full_positions</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">show_axis</span><span class="p">)</span>
+</span><span id="structure_qe-81"><a href="#structure_qe-81"><span class="linenos">81</span></a>        <span class="n">rotated_positions</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="structure_qe-82"><a href="#structure_qe-82"><span class="linenos">82</span></a>        <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">rotated_positions_cartesian</span><span class="p">:</span>
+</span><span id="structure_qe-83"><a href="#structure_qe-83"><span class="linenos">83</span></a>            <span class="n">pos</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">qe</span><span class="o">.</span><span class="n">from_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coord</span><span class="p">)</span>
+</span><span id="structure_qe-84"><a href="#structure_qe-84"><span class="linenos">84</span></a>            <span class="n">rotated_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+</span><span id="structure_qe-85"><a href="#structure_qe-85"><span class="linenos">85</span></a>        <span class="n">_save_qe</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">rotated_positions</span><span class="p">)</span>
+</span><span id="structure_qe-86"><a href="#structure_qe-86"><span class="linenos">86</span></a>        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</span><span id="structure_qe-87"><a href="#structure_qe-87"><span class="linenos">87</span></a>        <span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</span><span id="structure_qe-88"><a href="#structure_qe-88"><span class="linenos">88</span></a>    <span class="k">return</span> <span class="n">outputs</span>
 </span></pre></div>
 
 

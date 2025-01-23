@@ -85,7 +85,7 @@
             </ul>
 
 
-            <footer>ATON v0.0.2 documentation</footer>
+            <footer>ATON v0.0.3 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -150,8 +150,7 @@ as in the example below.</p>
 
 <h2 id="atonphysunits"><code><a href="phys/units.html">aton.phys.units</a></code></h2>
 
-<p>Constant values come from the 2022 CODATA Internationally
-recommended 2022 values of the Fundamental Physical Constants.</p>
+<p>Constant values come from the <a href="https://doi.org/10.48550/arXiv.2409.03787">2022 CODATA</a> Recommended Values of the Fundamental Physical Constants.</p>
 
 <h2 id="atonphysatoms"><code><a href="phys/atoms.html">aton.phys.atoms</a></code></h2>
 
@@ -209,29 +208,28 @@ From Felix Fernandez-Alonso, <em>"Neutron Scattering Fundamentals"</em>, 2013.</
 </span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
 </span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">## `aton.phys.units`</span>
 </span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">Constant values come from the 2022 CODATA Internationally</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">recommended 2022 values of the Fundamental Physical Constants.</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">Constant values come from the [2022 CODATA](https://doi.org/10.48550/arXiv.2409.03787) Recommended Values of the Fundamental Physical Constants.</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>
 </span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="sd">## `aton.phys.atoms`</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="sd">Atomic `mass` are in atomic mass units (amu), and come from:</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">Pure Appl. Chem., Vol. 78, No. 11, pp. 2051-2066, 2006.</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">The following masses are obtained from Wikipedia:</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">Ac: 227, Np: 237, Pm: 145, Tc: 98.</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">Isotope `mass`, `mass_number` and `abundance` come from:</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">J. R. de Laeter, J. K. Böhlke, P. De Bièvre, H. Hidaka, H. S. Peiser, K. J. R. Rosman</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">and P. D. P. Taylor (2003). *&quot;Atomic weights of the elements. Review 2000 (IUPAC Technical Report)&quot;*.</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">Total bound scattering `cross_section` $\\sigma_s$ are in barns (1 b = 100 fm$^2$).</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">From Felix Fernandez-Alonso, *&quot;Neutron Scattering Fundamentals&quot;*, 2013.</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="kn">from</span> <span class="nn">.units</span> <span class="kn">import</span> <span class="o">*</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="kn">from</span> <span class="nn">.functions</span> <span class="kn">import</span> <span class="o">*</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="kn">from</span> <span class="nn">.atoms</span> <span class="kn">import</span> <span class="n">atoms</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="sd">## `aton.phys.atoms`</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">Atomic `mass` are in atomic mass units (amu), and come from:</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="sd">Pure Appl. Chem., Vol. 78, No. 11, pp. 2051-2066, 2006.</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">The following masses are obtained from Wikipedia:</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">Ac: 227, Np: 237, Pm: 145, Tc: 98.</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">Isotope `mass`, `mass_number` and `abundance` come from:</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">J. R. de Laeter, J. K. Böhlke, P. De Bièvre, H. Hidaka, H. S. Peiser, K. J. R. Rosman</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">and P. D. P. Taylor (2003). *&quot;Atomic weights of the elements. Review 2000 (IUPAC Technical Report)&quot;*.</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="sd">Total bound scattering `cross_section` $\\sigma_s$ are in barns (1 b = 100 fm$^2$).</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">From Felix Fernandez-Alonso, *&quot;Neutron Scattering Fundamentals&quot;*, 2013.</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="kn">from</span> <span class="nn">.units</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="kn">from</span> <span class="nn">.functions</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="kn">from</span> <span class="nn">.atoms</span> <span class="kn">import</span> <span class="n">atoms</span>
 </span></pre></div>
 
 

@@ -1,7 +1,7 @@
 """
 # Description
 
-Common constants and default values used in the QRotor subpackage.
+Common constants and default inertia values used in the QRotor subpackage.
 
 Bond lengths and angles were obtained from MAPbI3,
 see [*Cryst. Growth Des.* 2024, 24, 391−404](https://doi.org/10.1021/acs.cgd.3c01112).
@@ -38,23 +38,23 @@ r_NH = distance_NH * np.sin(np.deg2rad(angle_NH)) * phys.A_to_m
 
 # Inertia, SI units
 I_CH = 3 * (phys.atoms['H'].mass * phys.amu_to_kg * r_CH**2)
-"""Inertia of CH3, in uma·m^2."""
+"""Inertia of CH3, in kg·m^2."""
 I_CD = 3 * (phys.atoms['H'].isotope[2].mass * phys.amu_to_kg * r_CH**2)
-"""Inertia of CD3, in uma·m^2."""
+"""Inertia of CD3, in kg·m^2."""
 I_NH = 3 * (phys.atoms['H'].mass * phys.amu_to_kg * r_NH**2)
-"""Inertia of NH3, in uma·m^2."""
+"""Inertia of NH3, in kg·m^2."""
 I_ND = 3 * (phys.atoms['H'].isotope[2].mass * phys.amu_to_kg * r_NH**2)
-"""Inertia of ND3, in uma·m^2."""
+"""Inertia of ND3, in kg·m^2."""
 
 # Rotational energy.
-B_CH = ((phys.hbar**2) / (2 * I_CH)) * phys.J_to_eV
-"""Rotational energy of CH3, in eV·s/uma·m^2."""
-B_CD = ((phys.hbar**2) / (2 * I_CD)) * phys.J_to_eV
-"""Rotational energy of CD3, in eV·s/uma·m^2."""
-B_NH = ((phys.hbar**2) / (2 * I_NH)) * phys.J_to_eV
-"""Rotational energy of NH3, in eV·s/uma·m^2."""
-B_ND = ((phys.hbar**2) / (2 * I_ND)) * phys.J_to_eV
-"""Rotational energy of ND3, in eV·s/uma·m^2."""
+B_CH = ((phys.hbar_eV**2) / (2 * I_CH))
+"""Rotational energy of CH3, in eV·s/kg·m^2."""
+B_CD = ((phys.hbar_eV**2) / (2 * I_CD))
+"""Rotational energy of CD3, in eV·s/kg·m^2."""
+B_NH = ((phys.hbar_eV**2) / (2 * I_NH))
+"""Rotational energy of NH3, in eV·s/kg·m^2."""
+B_ND = ((phys.hbar_eV**2) / (2 * I_ND))
+"""Rotational energy of ND3, in eV·s/kg·m^2."""
 
 # Potential constants from titov2023 [C1, C2, C3, C4, C5]
 constants_titov2023 = [
