@@ -136,7 +136,7 @@ Inelastic Neutron Scattering, Raman, Infrared, etc.
 
 ## General text edition
 
-The **text** module handles text files.
+The **txt** module handles text files.
 It powers more complex subpackages,
 such as [aton.interface](#interfaces-for-ab-initio-codes).
 
