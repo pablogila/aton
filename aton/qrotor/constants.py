@@ -64,9 +64,12 @@ constants_titov2023 = [
     [5.9109, 0.0258,-7.0152,-0.0168, 1.0213],
     [1.4526, 0.0134,-0.3196, 0.0005,-1.1461]
     ]
-"""Potential constants from titov2023."""
+"""Potential constants from
+[K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)](https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402)
+for the `aton.qrotor.potential.titov2023` potential.
+"""
 constants_titov2023_zero = [
     [0,0,0,0,0]
     ]
-"""Zero potential constants."""
+"""Zero potential constants for the `aton.qrotor.potential.titov2023` potential."""
 

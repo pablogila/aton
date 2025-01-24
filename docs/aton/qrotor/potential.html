@@ -98,7 +98,7 @@
     </ul>
 
 
-            <footer>ATON v0.0.4 documentation</footer>
+            <footer>ATON v0.0.5 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -317,67 +317,73 @@
 </span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a><span class="c1"># Redirect to the desired potential energy function</span>
 </span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a><span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves `aton.qrotor.classes.QSys.potential_values`,</span>
-</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="sd">    according to the `aton.qrotor.classes.QSys.potential_name`.</span>
-</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="sd">    Returns the new `potential_values`.</span>
-</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>
-</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a><span class="sd">    If `QSys.potential_name` is not present or not recognised,</span>
-</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a><span class="sd">    the current `QSys.potential_values` are used.</span>
-</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>
-</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a><span class="sd">    If a bigger `QSys.gridsize` is provided,</span>
-</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a><span class="sd">    the potential is also interpolated to the new gridsize.</span>
-</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>    <span class="c1"># Is there a potential_name?</span>
-</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="p">:</span>
-</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">potential_values</span><span class="p">):</span>
-</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;No potential_name and no potential_values found in the system!&#39;</span><span class="p">)</span>
-</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;titov2023&#39;</span><span class="p">:</span>
-</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">titov2023</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;zero&#39;</span><span class="p">:</span>
-</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;sine&#39;</span><span class="p">:</span>
-</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">sine</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>    <span class="c1"># At least there should be potential_values</span>
-</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">potential_values</span><span class="p">):</span>
-</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognised potential_name &#39;</span><span class="si">{data.potential_name}</span><span class="s2">&#39; and no potential_values found&quot;</span><span class="p">)</span>
-</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span>
-</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves `QSys.potential_values`</span>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="sd">    according to the `QSys.potential_name`,</span>
+</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="sd">    returning the new `potential_values`.</span>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a><span class="sd">    Avaliable potential names are `zero`, `sine` and `titov2023`.</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>
+</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a><span class="sd">    If `QSys.potential_name` is not present or not recognised,</span>
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a><span class="sd">    the current `QSys.potential_values` are used.</span>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>
+</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a><span class="sd">    If a bigger `QSys.gridsize` is provided,</span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="sd">    the potential is also interpolated to the new gridsize.</span>
+</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    <span class="c1"># Is there a potential_name?</span>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="p">:</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">potential_values</span><span class="p">):</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;No potential_name and no potential_values found in the system!&#39;</span><span class="p">)</span>
+</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;titov2023&#39;</span><span class="p">:</span>
+</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">titov2023</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;zero&#39;</span><span class="p">:</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;sine&#39;</span><span class="p">:</span>
+</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">sine</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>    <span class="c1"># At least there should be potential_values</span>
+</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">potential_values</span><span class="p">):</span>
+</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognised potential_name &#39;</span><span class="si">{data.potential_name}</span><span class="s2">&#39; and no potential_values found&quot;</span><span class="p">)</span>
+</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span>
 </span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>
-</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="k">def</span> <span class="nf">zero</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
-</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Zero potential.&quot;&quot;&quot;</span>
-</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
-</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a>    <span class="k">return</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x</span>
-</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>
+</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a>
+</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a><span class="k">def</span> <span class="nf">zero</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
+</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Zero potential.&quot;&quot;&quot;</span>
+</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
+</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>    <span class="k">return</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x</span>
 </span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>
-</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a><span class="k">def</span> <span class="nf">sine</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
-</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Sine potential.</span>
-</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a>
-</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a><span class="sd">    If potential_constants are provided, returns:</span>
-</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a><span class="sd">    $C_0 + C_1 sin(3x + C_2)$.</span>
-</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
-</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>    <span class="n">C</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span>
-</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>    <span class="n">C0</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>    <span class="n">C1</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>    <span class="n">C2</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a>    <span class="k">if</span> <span class="n">C</span><span class="p">:</span>
-</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a>            <span class="n">C0</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>            <span class="n">C1</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>            <span class="n">C2</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>    <span class="k">return</span> <span class="n">C0</span> <span class="o">+</span> <span class="n">C1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">C2</span><span class="p">)</span>
-</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>
+</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>
+</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a><span class="k">def</span> <span class="nf">sine</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
+</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Sine potential.</span>
+</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a>
+</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a><span class="sd">    $C_0 + C_1 sin(3x + C_2)$  </span>
+</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a><span class="sd">    If no `QSys.potential_constants` are provided, defaults to $sin(3x)$  </span>
+</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>    <span class="n">C</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span>
+</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>    <span class="n">C0</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>    <span class="n">C1</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a>    <span class="n">C2</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a>    <span class="k">if</span> <span class="n">C</span><span class="p">:</span>
+</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a>            <span class="n">C0</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a>            <span class="n">C1</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>            <span class="n">C2</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>    <span class="k">return</span> <span class="n">C0</span> <span class="o">+</span> <span class="n">C1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">C2</span><span class="p">)</span>
 </span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>
-</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="k">def</span> <span class="nf">titov2023</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
-</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Potential energy function of the hindered methyl rotor, from titov2023.&quot;&quot;&quot;</span>
-</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
-</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>    <span class="n">C</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span>
-</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>    <span class="k">if</span> <span class="n">C</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a>        <span class="n">C</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">constants_titov2023</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a>    <span class="k">return</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>
+</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="k">def</span> <span class="nf">titov2023</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
+</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Potential energy function of the hindered methyl rotor, from</span>
+</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a><span class="sd">    [K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)](https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402).  </span>
+</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>
+</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a><span class="sd">    $C_0 + C_1 sin(3x) + C_2 cos(3x) + C_3 sin(6x) + C_4 cos(6x)$  </span>
+</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a><span class="sd">    Default constants are `aton.qrotor.constants.constants_titov2023`[0].  </span>
+</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
+</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>    <span class="n">C</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span>
+</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>    <span class="k">if</span> <span class="n">C</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>        <span class="n">C</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">constants_titov2023</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>    <span class="k">return</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -574,37 +580,39 @@ The <code>output</code> name is <code>potential.dat</code> by default.</p>
     </div>
     <a class="headerlink" href="#solve"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="solve-154"><a href="#solve-154"><span class="linenos">154</span></a><span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
-</span><span id="solve-155"><a href="#solve-155"><span class="linenos">155</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves `aton.qrotor.classes.QSys.potential_values`,</span>
-</span><span id="solve-156"><a href="#solve-156"><span class="linenos">156</span></a><span class="sd">    according to the `aton.qrotor.classes.QSys.potential_name`.</span>
-</span><span id="solve-157"><a href="#solve-157"><span class="linenos">157</span></a><span class="sd">    Returns the new `potential_values`.</span>
-</span><span id="solve-158"><a href="#solve-158"><span class="linenos">158</span></a>
-</span><span id="solve-159"><a href="#solve-159"><span class="linenos">159</span></a><span class="sd">    If `QSys.potential_name` is not present or not recognised,</span>
-</span><span id="solve-160"><a href="#solve-160"><span class="linenos">160</span></a><span class="sd">    the current `QSys.potential_values` are used.</span>
-</span><span id="solve-161"><a href="#solve-161"><span class="linenos">161</span></a>
-</span><span id="solve-162"><a href="#solve-162"><span class="linenos">162</span></a><span class="sd">    If a bigger `QSys.gridsize` is provided,</span>
-</span><span id="solve-163"><a href="#solve-163"><span class="linenos">163</span></a><span class="sd">    the potential is also interpolated to the new gridsize.</span>
-</span><span id="solve-164"><a href="#solve-164"><span class="linenos">164</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="solve-165"><a href="#solve-165"><span class="linenos">165</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
-</span><span id="solve-166"><a href="#solve-166"><span class="linenos">166</span></a>    <span class="c1"># Is there a potential_name?</span>
-</span><span id="solve-167"><a href="#solve-167"><span class="linenos">167</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="p">:</span>
-</span><span id="solve-168"><a href="#solve-168"><span class="linenos">168</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">potential_values</span><span class="p">):</span>
-</span><span id="solve-169"><a href="#solve-169"><span class="linenos">169</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;No potential_name and no potential_values found in the system!&#39;</span><span class="p">)</span>
-</span><span id="solve-170"><a href="#solve-170"><span class="linenos">170</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;titov2023&#39;</span><span class="p">:</span>
-</span><span id="solve-171"><a href="#solve-171"><span class="linenos">171</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">titov2023</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span id="solve-172"><a href="#solve-172"><span class="linenos">172</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;zero&#39;</span><span class="p">:</span>
-</span><span id="solve-173"><a href="#solve-173"><span class="linenos">173</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span id="solve-174"><a href="#solve-174"><span class="linenos">174</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;sine&#39;</span><span class="p">:</span>
-</span><span id="solve-175"><a href="#solve-175"><span class="linenos">175</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">sine</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span id="solve-176"><a href="#solve-176"><span class="linenos">176</span></a>    <span class="c1"># At least there should be potential_values</span>
-</span><span id="solve-177"><a href="#solve-177"><span class="linenos">177</span></a>    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">potential_values</span><span class="p">):</span>
-</span><span id="solve-178"><a href="#solve-178"><span class="linenos">178</span></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognised potential_name &#39;</span><span class="si">{data.potential_name}</span><span class="s2">&#39; and no potential_values found&quot;</span><span class="p">)</span>
-</span><span id="solve-179"><a href="#solve-179"><span class="linenos">179</span></a>    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span>
+</span><span id="solve-155"><a href="#solve-155"><span class="linenos">155</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Solves `QSys.potential_values`</span>
+</span><span id="solve-156"><a href="#solve-156"><span class="linenos">156</span></a><span class="sd">    according to the `QSys.potential_name`,</span>
+</span><span id="solve-157"><a href="#solve-157"><span class="linenos">157</span></a><span class="sd">    returning the new `potential_values`.</span>
+</span><span id="solve-158"><a href="#solve-158"><span class="linenos">158</span></a><span class="sd">    Avaliable potential names are `zero`, `sine` and `titov2023`.</span>
+</span><span id="solve-159"><a href="#solve-159"><span class="linenos">159</span></a>
+</span><span id="solve-160"><a href="#solve-160"><span class="linenos">160</span></a><span class="sd">    If `QSys.potential_name` is not present or not recognised,</span>
+</span><span id="solve-161"><a href="#solve-161"><span class="linenos">161</span></a><span class="sd">    the current `QSys.potential_values` are used.</span>
+</span><span id="solve-162"><a href="#solve-162"><span class="linenos">162</span></a>
+</span><span id="solve-163"><a href="#solve-163"><span class="linenos">163</span></a><span class="sd">    If a bigger `QSys.gridsize` is provided,</span>
+</span><span id="solve-164"><a href="#solve-164"><span class="linenos">164</span></a><span class="sd">    the potential is also interpolated to the new gridsize.</span>
+</span><span id="solve-165"><a href="#solve-165"><span class="linenos">165</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="solve-166"><a href="#solve-166"><span class="linenos">166</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+</span><span id="solve-167"><a href="#solve-167"><span class="linenos">167</span></a>    <span class="c1"># Is there a potential_name?</span>
+</span><span id="solve-168"><a href="#solve-168"><span class="linenos">168</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="p">:</span>
+</span><span id="solve-169"><a href="#solve-169"><span class="linenos">169</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">potential_values</span><span class="p">):</span>
+</span><span id="solve-170"><a href="#solve-170"><span class="linenos">170</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;No potential_name and no potential_values found in the system!&#39;</span><span class="p">)</span>
+</span><span id="solve-171"><a href="#solve-171"><span class="linenos">171</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;titov2023&#39;</span><span class="p">:</span>
+</span><span id="solve-172"><a href="#solve-172"><span class="linenos">172</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">titov2023</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="solve-173"><a href="#solve-173"><span class="linenos">173</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;zero&#39;</span><span class="p">:</span>
+</span><span id="solve-174"><a href="#solve-174"><span class="linenos">174</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="solve-175"><a href="#solve-175"><span class="linenos">175</span></a>    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;sine&#39;</span><span class="p">:</span>
+</span><span id="solve-176"><a href="#solve-176"><span class="linenos">176</span></a>        <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">sine</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="solve-177"><a href="#solve-177"><span class="linenos">177</span></a>    <span class="c1"># At least there should be potential_values</span>
+</span><span id="solve-178"><a href="#solve-178"><span class="linenos">178</span></a>    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">potential_values</span><span class="p">):</span>
+</span><span id="solve-179"><a href="#solve-179"><span class="linenos">179</span></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognised potential_name &#39;</span><span class="si">{data.potential_name}</span><span class="s2">&#39; and no potential_values found&quot;</span><span class="p">)</span>
+</span><span id="solve-180"><a href="#solve-180"><span class="linenos">180</span></a>    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">potential_values</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Solves <code><a href="classes.html#QSys.potential_values">aton.qrotor.classes.QSys.potential_values</a></code>,
-according to the <code><a href="classes.html#QSys.potential_name">aton.qrotor.classes.QSys.potential_name</a></code>.
-Returns the new <code>potential_values</code>.</p>
+            <div class="docstring"><p>Solves <code>QSys.potential_values</code>
+according to the <code>QSys.potential_name</code>,
+returning the new <code>potential_values</code>.
+Avaliable potential names are <code><a href="#zero">zero</a></code>, <code><a href="#sine">sine</a></code> and <code><a href="#titov2023">titov2023</a></code>.</p>
 
 <p>If <code>QSys.potential_name</code> is not present or not recognised,
 the current <code>QSys.potential_values</code> are used.</p>
@@ -626,10 +634,10 @@ the potential is also interpolated to the new gridsize.</p>
 
     </div>
     <a class="headerlink" href="#zero"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="zero-182"><a href="#zero-182"><span class="linenos">182</span></a><span class="k">def</span> <span class="nf">zero</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
-</span><span id="zero-183"><a href="#zero-183"><span class="linenos">183</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Zero potential.&quot;&quot;&quot;</span>
-</span><span id="zero-184"><a href="#zero-184"><span class="linenos">184</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
-</span><span id="zero-185"><a href="#zero-185"><span class="linenos">185</span></a>    <span class="k">return</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="zero-183"><a href="#zero-183"><span class="linenos">183</span></a><span class="k">def</span> <span class="nf">zero</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
+</span><span id="zero-184"><a href="#zero-184"><span class="linenos">184</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Zero potential.&quot;&quot;&quot;</span>
+</span><span id="zero-185"><a href="#zero-185"><span class="linenos">185</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
+</span><span id="zero-186"><a href="#zero-186"><span class="linenos">186</span></a>    <span class="k">return</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x</span>
 </span></pre></div>
 
 
@@ -649,32 +657,32 @@ the potential is also interpolated to the new gridsize.</p>
 
     </div>
     <a class="headerlink" href="#sine"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="sine-188"><a href="#sine-188"><span class="linenos">188</span></a><span class="k">def</span> <span class="nf">sine</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
-</span><span id="sine-189"><a href="#sine-189"><span class="linenos">189</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Sine potential.</span>
-</span><span id="sine-190"><a href="#sine-190"><span class="linenos">190</span></a>
-</span><span id="sine-191"><a href="#sine-191"><span class="linenos">191</span></a><span class="sd">    If potential_constants are provided, returns:</span>
-</span><span id="sine-192"><a href="#sine-192"><span class="linenos">192</span></a><span class="sd">    $C_0 + C_1 sin(3x + C_2)$.</span>
-</span><span id="sine-193"><a href="#sine-193"><span class="linenos">193</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="sine-194"><a href="#sine-194"><span class="linenos">194</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
-</span><span id="sine-195"><a href="#sine-195"><span class="linenos">195</span></a>    <span class="n">C</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span>
-</span><span id="sine-196"><a href="#sine-196"><span class="linenos">196</span></a>    <span class="n">C0</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="sine-197"><a href="#sine-197"><span class="linenos">197</span></a>    <span class="n">C1</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="sine-198"><a href="#sine-198"><span class="linenos">198</span></a>    <span class="n">C2</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="sine-199"><a href="#sine-199"><span class="linenos">199</span></a>    <span class="k">if</span> <span class="n">C</span><span class="p">:</span>
-</span><span id="sine-200"><a href="#sine-200"><span class="linenos">200</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="sine-201"><a href="#sine-201"><span class="linenos">201</span></a>            <span class="n">C0</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="sine-202"><a href="#sine-202"><span class="linenos">202</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="sine-203"><a href="#sine-203"><span class="linenos">203</span></a>            <span class="n">C1</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span id="sine-204"><a href="#sine-204"><span class="linenos">204</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-</span><span id="sine-205"><a href="#sine-205"><span class="linenos">205</span></a>            <span class="n">C2</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-</span><span id="sine-206"><a href="#sine-206"><span class="linenos">206</span></a>    <span class="k">return</span> <span class="n">C0</span> <span class="o">+</span> <span class="n">C1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">C2</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="sine-189"><a href="#sine-189"><span class="linenos">189</span></a><span class="k">def</span> <span class="nf">sine</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
+</span><span id="sine-190"><a href="#sine-190"><span class="linenos">190</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Sine potential.</span>
+</span><span id="sine-191"><a href="#sine-191"><span class="linenos">191</span></a>
+</span><span id="sine-192"><a href="#sine-192"><span class="linenos">192</span></a><span class="sd">    $C_0 + C_1 sin(3x + C_2)$  </span>
+</span><span id="sine-193"><a href="#sine-193"><span class="linenos">193</span></a><span class="sd">    If no `QSys.potential_constants` are provided, defaults to $sin(3x)$  </span>
+</span><span id="sine-194"><a href="#sine-194"><span class="linenos">194</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="sine-195"><a href="#sine-195"><span class="linenos">195</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
+</span><span id="sine-196"><a href="#sine-196"><span class="linenos">196</span></a>    <span class="n">C</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span>
+</span><span id="sine-197"><a href="#sine-197"><span class="linenos">197</span></a>    <span class="n">C0</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="sine-198"><a href="#sine-198"><span class="linenos">198</span></a>    <span class="n">C1</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="sine-199"><a href="#sine-199"><span class="linenos">199</span></a>    <span class="n">C2</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="sine-200"><a href="#sine-200"><span class="linenos">200</span></a>    <span class="k">if</span> <span class="n">C</span><span class="p">:</span>
+</span><span id="sine-201"><a href="#sine-201"><span class="linenos">201</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="sine-202"><a href="#sine-202"><span class="linenos">202</span></a>            <span class="n">C0</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="sine-203"><a href="#sine-203"><span class="linenos">203</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="sine-204"><a href="#sine-204"><span class="linenos">204</span></a>            <span class="n">C1</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="sine-205"><a href="#sine-205"><span class="linenos">205</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="sine-206"><a href="#sine-206"><span class="linenos">206</span></a>            <span class="n">C2</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span><span id="sine-207"><a href="#sine-207"><span class="linenos">207</span></a>    <span class="k">return</span> <span class="n">C0</span> <span class="o">+</span> <span class="n">C1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">C2</span><span class="p">)</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Sine potential.</p>
 
-<p>If potential_constants are provided, returns:
-$C_0 + C_1 sin(3x + C_2)$.</p>
+<p>$C_0 + C_1 sin(3x + C_2)$<br />
+If no <code>QSys.potential_constants</code> are provided, defaults to $sin(3x)$</p>
 </div>
 
 
@@ -690,17 +698,26 @@ $C_0 + C_1 sin(3x + C_2)$.</p>
 
     </div>
     <a class="headerlink" href="#titov2023"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="titov2023-209"><a href="#titov2023-209"><span class="linenos">209</span></a><span class="k">def</span> <span class="nf">titov2023</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
-</span><span id="titov2023-210"><a href="#titov2023-210"><span class="linenos">210</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Potential energy function of the hindered methyl rotor, from titov2023.&quot;&quot;&quot;</span>
-</span><span id="titov2023-211"><a href="#titov2023-211"><span class="linenos">211</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
-</span><span id="titov2023-212"><a href="#titov2023-212"><span class="linenos">212</span></a>    <span class="n">C</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span>
-</span><span id="titov2023-213"><a href="#titov2023-213"><span class="linenos">213</span></a>    <span class="k">if</span> <span class="n">C</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="titov2023-214"><a href="#titov2023-214"><span class="linenos">214</span></a>        <span class="n">C</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">constants_titov2023</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="titov2023-215"><a href="#titov2023-215"><span class="linenos">215</span></a>    <span class="k">return</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="titov2023-210"><a href="#titov2023-210"><span class="linenos">210</span></a><span class="k">def</span> <span class="nf">titov2023</span><span class="p">(</span><span class="n">system</span><span class="p">:</span><span class="n">QSys</span><span class="p">):</span>
+</span><span id="titov2023-211"><a href="#titov2023-211"><span class="linenos">211</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Potential energy function of the hindered methyl rotor, from</span>
+</span><span id="titov2023-212"><a href="#titov2023-212"><span class="linenos">212</span></a><span class="sd">    [K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)](https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402).  </span>
+</span><span id="titov2023-213"><a href="#titov2023-213"><span class="linenos">213</span></a>
+</span><span id="titov2023-214"><a href="#titov2023-214"><span class="linenos">214</span></a><span class="sd">    $C_0 + C_1 sin(3x) + C_2 cos(3x) + C_3 sin(6x) + C_4 cos(6x)$  </span>
+</span><span id="titov2023-215"><a href="#titov2023-215"><span class="linenos">215</span></a><span class="sd">    Default constants are `aton.qrotor.constants.constants_titov2023`[0].  </span>
+</span><span id="titov2023-216"><a href="#titov2023-216"><span class="linenos">216</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="titov2023-217"><a href="#titov2023-217"><span class="linenos">217</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">grid</span>
+</span><span id="titov2023-218"><a href="#titov2023-218"><span class="linenos">218</span></a>    <span class="n">C</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span>
+</span><span id="titov2023-219"><a href="#titov2023-219"><span class="linenos">219</span></a>    <span class="k">if</span> <span class="n">C</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="titov2023-220"><a href="#titov2023-220"><span class="linenos">220</span></a>        <span class="n">C</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">constants_titov2023</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="titov2023-221"><a href="#titov2023-221"><span class="linenos">221</span></a>    <span class="k">return</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Potential energy function of the hindered methyl rotor, from titov2023.</p>
+            <div class="docstring"><p>Potential energy function of the hindered methyl rotor, from
+<a href="https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402">K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)</a>.  </p>
+
+<p>$C_0 + C_1 sin(3x) + C_2 cos(3x) + C_3 sin(6x) + C_4 cos(6x)$<br />
+Default constants are <code><a href="constants.html#constants_titov2023">aton.qrotor.constants.constants_titov2023</a></code>[0].</p>
 </div>
 
 

@@ -151,9 +151,10 @@ def interpolate(system:QSys) -> QSys:
 
 # Redirect to the desired potential energy function
 def solve(system:QSys):
-    """Solves `aton.qrotor.classes.QSys.potential_values`,
-    according to the `aton.qrotor.classes.QSys.potential_name`.
-    Returns the new `potential_values`.
+    """Solves `QSys.potential_values`
+    according to the `QSys.potential_name`,
+    returning the new `potential_values`.
+    Avaliable potential names are `zero`, `sine` and `titov2023`.
 
     If `QSys.potential_name` is not present or not recognised,
     the current `QSys.potential_values` are used.
@@ -187,8 +188,8 @@ def zero(system:QSys):
 def sine(system:QSys):
     """Sine potential.
 
-    If potential_constants are provided, returns:
-    $C_0 + C_1 sin(3x + C_2)$.
+    $C_0 + C_1 sin(3x + C_2)$  
+    If no `QSys.potential_constants` are provided, defaults to $sin(3x)$  
     """
     x = system.grid
     C = system.potential_constants
@@ -206,7 +207,12 @@ def sine(system:QSys):
 
 
 def titov2023(system:QSys):
-    """Potential energy function of the hindered methyl rotor, from titov2023."""
+    """Potential energy function of the hindered methyl rotor, from
+    [K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)](https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402).  
+
+    $C_0 + C_1 sin(3x) + C_2 cos(3x) + C_3 sin(6x) + C_4 cos(6x)$  
+    Default constants are `aton.qrotor.constants.constants_titov2023`[0].  
+    """
     x = system.grid
     C = system.potential_constants
     if C is None:

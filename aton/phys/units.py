@@ -1,20 +1,30 @@
 """
 # Description
 
-This module contains constants and conversion factors from the 
+This module contains the constants from the 
 [2022 CODATA](https://doi.org/10.48550/arXiv.2409.03787)
 Recommended Values of the Fundamental Physical Constants.
+
+It also contains useful conversion factors for neutron scattering,
+from [M. Bée, "Quasielastic Neutron scattering", Adam Hilger, Bristol and Philadelphia, 1988](https://www.ncnr.nist.gov/instruments/dcs/dcs_usersguide/Conversion_Factors.pdf).
 
 
 # Index
 
 - [Conversion factors](#conversion-factors)
-    - [Energy](#energy)
+    - [Energy E](#energy)
     - [Distance](#distance)
     - [Mass](#mass)
     - [Pressure](#pressure)
     - [Time](#time)
-    - [Temperature](#temperature)
+    - [Wavelength l](#wavelength)
+    - [Wavevector *k*](#wavevector)
+    - [Velocity v](#velocity)
+    - [Temperature T](#temperature)
+    - [Temperature scales](#temperature-scales)
+    - [Frequency *v*](#frequency)
+    - [Angular frequency *w*](#angular-frequency)
+    - [Wavenumber *v*/c](#wavenumber)
 - [Fundamental Physical Constants](#fundamental-physical-constants)
     - [Universal](#universal)
     - [Electromagnetic](#electromagnetic)
@@ -28,6 +38,46 @@ Recommended Values of the Fundamental Physical Constants.
     - [Physicochemical](#physicochemical)
 
 
+# Legend
+
+Universal constant names contain [romanized greek letters](https://en.wikipedia.org/wiki/Romanization_of_Greek#Ancient_Greek),
+except for $\\mu$ which is used as `u`.
+
+Conversion factors are used as `value_initial * initial_to_final`.
+
+Units are named as the unit itself, removing any `/` divider in between.
+Inverse of a unit U, as in 1/U or U$^{-1}$, is expressed as `U1`.
+
+| | |
+| --- | --- |
+| **Unit**   | **Alias** |
+| eV         | `eV` |
+| meV        | `meV` |
+| Joule      | `J` |
+| kJ/mol     | `kJmol` |
+| 1/cm       | `cm1` |
+| Rydberg    | `Ry` |
+| calorie    | `cal` |
+| kcal       | `kcal` |
+| Angstrom Å | `A` |
+| 1/Å        | `A1` |
+| meter      | `m` |
+| bohr       | `bohr` |
+| m/s        | `ms` |
+| Kelvin     | `K` |
+| THz        | `THz` |
+| rad/s      | `rads` |
+| kilogram   | `kg` |
+| gram       | `g` |
+| a.m.u.     | `amu` |
+| Pascal     | `Pa` |
+| GPa        | `GPa` |
+| bar        | `bar` |
+| kbar       | `kbar` |
+| hour       | `H` |
+| second     | `s` |
+
+
 # Examples
 
 ```python
@@ -37,18 +87,11 @@ length_in_angstroms = 10.0 * phys.bohr_to_A  # 5.29177210544
 phys.hbar   # 1.0545718176461565e-34
 ```
 
-In general, greek letters from constant names are
-[romanized](https://en.wikipedia.org/wiki/Romanization_of_Greek#Ancient_Greek),
-excepting $\\mu$ which uses `u`.
-
 ---
 
-## Conversion factors
+# Conversion factors
 
-For quick unit conversion, as `value_initial * initial_to_final`
-
-### Energy
-Note that `cm1` refers to cm$^{-1}$.
+## Energy
 """
 
 import numpy as np
@@ -69,10 +112,25 @@ cal_to_J    = 4.184
 J_to_cal    = 1 / cal_to_J
 kcal_to_J   = cal_to_J * 1000.0
 J_to_kcal   = 1 / kcal_to_J
+# Specific for neutron scattering
+meV_to_A = 9.045
+meV_to_A1 = 0.6947
+meV_to_ms = 437.4 
+meV_to_K = 11.604
+meV_to_THz = 0.2418
+meV_to_rads = 1.519e12
+meV_to_kJmol = 0.0965
+kJmol_to_A = 2.809
+kJmol_to_A1 = 2.237
+kJmol_to_ms = 1.408e3
+kJmol_to_K = 120.3
+kJmol_to_THz = 2.506 
+kJmol_to_rads = 1.575e13
+kJmol_to_cm1 = 83.59 
+kJmol_to_meV = 10.36 
 
 """---
-### Distance
-Note that `A` refers to Angstroms.
+## Distance
 """
 A_to_m      = 1.0e-10
 m_to_A      = 1.0 / A_to_m
@@ -82,7 +140,7 @@ A_to_bohr   = A_to_m * m_to_bohr
 bohr_to_A   = 1.0 / A_to_bohr
 
 """---
-### Mass
+## Mass
 """
 amu_to_kg   = 1.66053906660e-27
 kg_to_amu   = 1.0 / amu_to_kg
@@ -90,7 +148,7 @@ kg_to_g     = 1000.0
 g_to_kg     = 1.0 / kg_to_g
 
 """---
-### Pressure
+## Pressure
 """
 GPa_to_Pa   = 1.0e9
 Pa_to_GPa   = 1.0 / GPa_to_Pa
@@ -102,23 +160,108 @@ GPa_to_kbar = GPa_to_Pa * Pa_to_bar * bar_to_kbar
 kbar_to_GPa = 1.0 / GPa_to_kbar
 
 """---
-### Time
+## Time
 """
 H_to_s      = 3600.0
 s_to_H      = 1.0 / H_to_s
 
 """---
-### Temperature
-Note that temperature constants must be added, not multiplied.
+## Wavelength
 """
-C_to_K = 273.15
-K_to_C = -C_to_K
+A_to_A1 = 6.28318
+A_to_ms = 3956
+A_to_K = 949.3 
+A_to_THz = 19.78 
+A_to_rads = 1.243e14
+A_to_cm1 = 659.8 
+A_to_meV = 81.805 
+A_to_kJmol = 7.893
 
 """---
-## Fundamental Physical Constants
+## Wavevector
+"""
+A1_to_A = 6.28318
+A1_to_ms = 629.6 
+A1_to_K = 24.046
+A1_to_THz = 0.5010
+A1_to_rads = 3.148e12
+A1_to_cm1 = 16.71
+A1_to_meV = 2.072 
+A1_to_kJmol = 0.1999
+
+"""---
+## Velocity
+"""
+ms_to_A = 3956 
+ms_to_A1 = 1.589e-3
+ms_to_K = 6.066e5
+ms_to_THz = 1.265e-6
+ms_to_rads = 7.948e6
+ms_to_cm1 = 4.216e-5
+ms_to_meV = 5.227e-6
+ms_to_kJmol = 5.044e-7
+
+"""---
+## Temperature
+"""
+K_to_A = 30.81 
+K_to_A1 = 0.2039 
+K_to_ms = 128.4 
+K_to_THz = 0.02084 
+K_to_rads = 1.309e11
+K_to_cm1 = 0.6950
+K_to_meV = 8.617e-2
+K_to_kJmol = 8.314e-3
+
+"""---
+## Temperature scales
+Note that to change between temperature scales,
+these constants must be added instead of multiplied.
+"""
+C_to_K_scale = 273.15
+K_to_C_scale = -C_to_K_scale
+
+"""---
+## Frequency
+"""
+THz_to_A = 4.4475
+THz_to_A1 = 1.4127 
+THz_to_ms = 889.5 
+THz_to_K = 48.0
+THz_to_rads = 6.283e12
+THz_to_cm1 = 33.36 
+THz_to_meV = 4.136
+THz_to_kJmol = 0.3990
+
+"""---
+## Angular frequency
+"""
+rads_to_A = 11.15e6
+rads_to_A1 = 5.64e-7
+rads_to_ms = 3.549e-4
+rads_to_K = 7.64e-12
+rads_to_THz = 0.1592e-12
+rads_to_cm1 = 5.309e-12
+rads_to_meV = 6.582e-13
+rads_to_kJmol = 6.351e-14
+
+"""---
+## Wavenumber
+""" 
+cm1_to_A = 25.69 
+cm1_to_A1 = 0.2446
+cm1_to_ms = 154.01
+cm1_to_K = 1.439
+cm1_to_THz = 0.02998
+cm1_to_rads = 1.884e11
+cm1_to_meV = 0.1240 
+cm1_to_kJmol = 1.196e-2
+
+"""---
+# Fundamental Physical Constants
 Using SI units unless stated otherwise.
 
-### Universal
+## Universal
 """
 c = 299792458
 """$c$ | speed of light in vacuum, in m/s"""
@@ -129,7 +272,7 @@ e0 = 1.25663706127e-6
 Z0 = 376.730313412
 """$Z_0$ | characteristic impedance of vacuum, in $\\Omega$ ($\\mu_0 c$)"""
 G = 6.67430e-11
-"""Newtonian constant of gravitation, in m$^3$·kg$^{-1}$·s$^{-1}$"""
+"""$G$ | Newtonian constant of gravitation, in m$^3$·kg$^{-1}$·s$^{-1}$"""
 h = 6.62607015e-34
 """$h$ | Planck constant, in J·s"""
 h_eV = h * J_to_eV
@@ -140,7 +283,7 @@ hbar_eV = h_eV / (2 * np.pi)
 """$\\hbar$ | reduced Planck constant, in eV·s
 
 ---
-### Electromagnetic
+## Electromagnetic
 """
 e = 1.602176634e-19
 """$e$ | elementary charge, in C"""
@@ -158,8 +301,8 @@ uN = 5.0507837393e-27
 """$\\mu_N$ | nuclear magneton, in J·T$^{-1}$ ($e\\hbar / 2m_p$)
 
 ---
-### Atomic and nuclear
-#### General
+## Atomic and nuclear
+### General
 """
 a = 7.2973525643e-3
 """$\\alpha$ | fine-structure constant ($e^2 / 4 \\pi \\epsilon_0 \\hbar c$)"""
@@ -175,7 +318,7 @@ Eh = 4.3597447222060e-18
 """$E_h$ | Hartree energy, in J ($\\alpha^2m_ec^2=e^2/4\\pi\\epsilon_0a_0=2h c R_{\\infty}$)
 
 ---
-#### Electron
+### Electron
 """
 me = 9.1093837139-31
 """$m_e$ | electron mass, in kg"""
@@ -195,7 +338,7 @@ ue = -9.2847646917e-24
 """$\\mu_e$ | electron magnetic moment, in J·T$^{-1}$
 
 ---
-#### Proton
+### Proton
 """
 mp = 1.67262192595-27
 """$m_p$ | proton mass, in kg"""
@@ -215,7 +358,7 @@ up = 1.41060679545e-26
 """$\\mu_p$ | proton magnetic moment, in J·T$^{-1}$
 
 ---
-#### Neutron
+### Neutron
 """
 mn = 1.67492750056e-27
 """$m_n$ | neutron mass, in kg"""
@@ -231,7 +374,7 @@ un = -9.6623653e-27
 """$\\mu_n$ | neutron magnetic moment, in J·T$^{-1}$
 
 ---
-#### Deuteron
+### Deuteron
 """
 md = 3.3435837768e-27
 """$m_d$ | deuteron mass, in kg"""
@@ -247,7 +390,7 @@ ud = 4.330735087e-27
 """$\\mu_d$ | deuteron magnetic moment, in J·T$^{-1}$
 
 ---
-#### Alpha particle
+### Alpha particle
 """
 ma = 6.6446573450e-27
 """$m_\\alpha$ | alpha particle mass, in kg"""
@@ -259,7 +402,7 @@ ra = 1.6785e-15
 """$r_\\alpha$ | alpha particle rms charge radius, in m
 
 ---
-### Physicochemical
+## Physicochemical
 """
 NA = 6.02214076e23
 """$N_A$ | Avogadro constant, in mol$^{-1}$"""
