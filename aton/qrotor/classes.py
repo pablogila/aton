@@ -122,16 +122,25 @@ class QSys:
         }
 
     def set_grid(self, gridsize:int=None):
-        """Sets the `QSys.grid` to the specified `gridsize`.
+        """Sets the `QSys.grid` to the specified `gridsize` from 0 to $2\\pi$.
 
-        It removes the previous grid,
-        do **not** use this method if the potential was loaded externally!
+        If the system had a previous grid and potential values,
+        it will interpolate those values to the new gridsize,
+        using `aton.qrotor.potential.interpolate()`.
         """
-        if gridsize is not None:
+        if gridsize == self.gridsize:
+            return self  # Nothing to do here
+        if gridsize:
             self.gridsize = gridsize
-        if self.gridsize is None:
-            raise ValueError('QSys.gridsize is not set yet!.')
-        self.grid = np.linspace(0, 2*np.pi, self.gridsize)
+        # Should we interpolate?
+        if self.potential_values and self.grid and self.gridsize:
+            from .potential import interpolate
+            self = interpolate(self)
+        # Should we create the values from zero?
+        elif self.gridsize:
+                self.grid = np.linspace(0, 2*np.pi, self.gridsize)
+        else:
+            raise ValueError('gridsize must be provided if there is no QSys.gridsize')
         return self
     
     def set_group(self, group:str=None, B:float=None):

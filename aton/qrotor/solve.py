@@ -59,7 +59,7 @@ def potential(system:QSys) -> QSys:
     if system.correct_potential_offset is True:
         offset = min(V)
         V = V - offset
-        system.corrected_potential_offset = offset
+        system.potential_offset = offset
     system.potential_values = V
     return system
 

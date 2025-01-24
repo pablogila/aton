@@ -95,7 +95,7 @@
     </ul>
 
 
-            <footer>ATON v0.0.3 documentation</footer>
+            <footer>ATON v0.0.4a1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -178,12 +178,12 @@
 </span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>
 </span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>
-</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="kn">from</span> <span class="nn">.classes</span> <span class="kn">import</span> <span class="o">*</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.classes</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
 </span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>
 </span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>
-</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="k">def</span> <span class="nf">reduced_energies</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="k">def</span><span class="w"> </span><span class="nf">reduced_energies</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
 </span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots the reduced energy of the system, E/B, vs the reduced potential energy, V/B&quot;&quot;&quot;</span>
 </span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>    <span class="n">number_of_levels</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">systems</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">E_levels</span>
 </span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
@@ -200,7 +200,7 @@
 </span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>
 </span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="k">def</span> <span class="nf">potential</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="k">def</span><span class="w"> </span><span class="nf">potential</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the potential values of the system.</span>
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="sd">    Input `data` can be a `QSys` or `QExp` object.</span>
@@ -219,7 +219,7 @@
 </span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>
 </span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>
-</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a><span class="k">def</span> <span class="nf">energies_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a><span class="k">def</span><span class="w"> </span><span class="nf">energies_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
 </span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;Plots the energy in separated plots. NOT YET IMPLEMENTED&#39;&#39;&#39;</span>
 </span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">separate_plots</span><span class="p">:</span>
 </span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>        <span class="k">for</span> <span class="n">variables</span><span class="p">,</span> <span class="n">solutions</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">solutions</span><span class="p">):</span>
@@ -235,7 +235,7 @@
 </span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>            <span class="n">energy</span><span class="p">(</span><span class="n">new_data</span><span class="p">)</span>
 </span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>
 </span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="k">def</span> <span class="nf">energy_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="k">def</span><span class="w"> </span><span class="nf">energy_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
 </span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;Plots the energy of the system. NOT YET IMPLEMENTED&#39;&#39;&#39;</span>
 </span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>    <span class="n">V_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;C0&#39;</span><span class="p">]</span> <span class="c1">#...</span>
 </span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>    <span class="n">E_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="s1">&#39;grey&#39;</span><span class="p">]</span>  <span class="c1"># To extend...</span>
@@ -296,7 +296,7 @@
 </span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>
 </span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>
-</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="k">def</span> <span class="nf">convergence_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="k">def</span><span class="w"> </span><span class="nf">convergence_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
 </span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;Plots the energy convergence of the system. NOT YET IMPLEMENTED&#39;&#39;&#39;</span>
 </span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>    <span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 </span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>
@@ -417,7 +417,7 @@
 </span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a>
 </span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a>
 </span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a>
-</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a><span class="k">def</span> <span class="nf">eigenvectors_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scaling_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a><span class="k">def</span><span class="w"> </span><span class="nf">eigenvectors_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scaling_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 </span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a>
 </span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a>    <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Angle / radians&#39;</span>
 </span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a>    <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;Energy / meV&#39;</span>
@@ -488,7 +488,7 @@
 
     </div>
     <a class="headerlink" href="#reduced_energies"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="reduced_energies-28"><a href="#reduced_energies-28"><span class="linenos">28</span></a><span class="k">def</span> <span class="nf">reduced_energies</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="reduced_energies-28"><a href="#reduced_energies-28"><span class="linenos">28</span></a><span class="k">def</span><span class="w"> </span><span class="nf">reduced_energies</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
 </span><span id="reduced_energies-29"><a href="#reduced_energies-29"><span class="linenos">29</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots the reduced energy of the system, E/B, vs the reduced potential energy, V/B&quot;&quot;&quot;</span>
 </span><span id="reduced_energies-30"><a href="#reduced_energies-30"><span class="linenos">30</span></a>    <span class="n">number_of_levels</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">systems</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">E_levels</span>
 </span><span id="reduced_energies-31"><a href="#reduced_energies-31"><span class="linenos">31</span></a>    <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
@@ -522,7 +522,7 @@
 
     </div>
     <a class="headerlink" href="#potential"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="potential-45"><a href="#potential-45"><span class="linenos">45</span></a><span class="k">def</span> <span class="nf">potential</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="potential-45"><a href="#potential-45"><span class="linenos">45</span></a><span class="k">def</span><span class="w"> </span><span class="nf">potential</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
 </span><span id="potential-46"><a href="#potential-46"><span class="linenos">46</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the potential values of the system.</span>
 </span><span id="potential-47"><a href="#potential-47"><span class="linenos">47</span></a>
 </span><span id="potential-48"><a href="#potential-48"><span class="linenos">48</span></a><span class="sd">    Input `data` can be a `QSys` or `QExp` object.</span>
@@ -560,7 +560,7 @@
 
     </div>
     <a class="headerlink" href="#energies_DEV"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="energies_DEV-64"><a href="#energies_DEV-64"><span class="linenos">64</span></a><span class="k">def</span> <span class="nf">energies_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="energies_DEV-64"><a href="#energies_DEV-64"><span class="linenos">64</span></a><span class="k">def</span><span class="w"> </span><span class="nf">energies_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
 </span><span id="energies_DEV-65"><a href="#energies_DEV-65"><span class="linenos">65</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;Plots the energy in separated plots. NOT YET IMPLEMENTED&#39;&#39;&#39;</span>
 </span><span id="energies_DEV-66"><a href="#energies_DEV-66"><span class="linenos">66</span></a>    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">separate_plots</span><span class="p">:</span>
 </span><span id="energies_DEV-67"><a href="#energies_DEV-67"><span class="linenos">67</span></a>        <span class="k">for</span> <span class="n">variables</span><span class="p">,</span> <span class="n">solutions</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">solutions</span><span class="p">):</span>
@@ -593,7 +593,7 @@
 
     </div>
     <a class="headerlink" href="#energy_DEV"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="energy_DEV-80"><a href="#energy_DEV-80"><span class="linenos"> 80</span></a><span class="k">def</span> <span class="nf">energy_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="energy_DEV-80"><a href="#energy_DEV-80"><span class="linenos"> 80</span></a><span class="k">def</span><span class="w"> </span><span class="nf">energy_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
 </span><span id="energy_DEV-81"><a href="#energy_DEV-81"><span class="linenos"> 81</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;Plots the energy of the system. NOT YET IMPLEMENTED&#39;&#39;&#39;</span>
 </span><span id="energy_DEV-82"><a href="#energy_DEV-82"><span class="linenos"> 82</span></a>    <span class="n">V_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;C0&#39;</span><span class="p">]</span> <span class="c1">#...</span>
 </span><span id="energy_DEV-83"><a href="#energy_DEV-83"><span class="linenos"> 83</span></a>    <span class="n">E_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="s1">&#39;grey&#39;</span><span class="p">]</span>  <span class="c1"># To extend...</span>
@@ -671,7 +671,7 @@
 
     </div>
     <a class="headerlink" href="#convergence_DEV"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="convergence_DEV-141"><a href="#convergence_DEV-141"><span class="linenos">141</span></a><span class="k">def</span> <span class="nf">convergence_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="convergence_DEV-141"><a href="#convergence_DEV-141"><span class="linenos">141</span></a><span class="k">def</span><span class="w"> </span><span class="nf">convergence_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">):</span>
 </span><span id="convergence_DEV-142"><a href="#convergence_DEV-142"><span class="linenos">142</span></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;Plots the energy convergence of the system. NOT YET IMPLEMENTED&#39;&#39;&#39;</span>
 </span><span id="convergence_DEV-143"><a href="#convergence_DEV-143"><span class="linenos">143</span></a>    <span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 </span><span id="convergence_DEV-144"><a href="#convergence_DEV-144"><span class="linenos">144</span></a>
@@ -802,7 +802,7 @@
 
     </div>
     <a class="headerlink" href="#eigenvectors_DEV"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="eigenvectors_DEV-262"><a href="#eigenvectors_DEV-262"><span class="linenos">262</span></a><span class="k">def</span> <span class="nf">eigenvectors_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scaling_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="eigenvectors_DEV-262"><a href="#eigenvectors_DEV-262"><span class="linenos">262</span></a><span class="k">def</span><span class="w"> </span><span class="nf">eigenvectors_DEV</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">QExp</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scaling_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 </span><span id="eigenvectors_DEV-263"><a href="#eigenvectors_DEV-263"><span class="linenos">263</span></a>
 </span><span id="eigenvectors_DEV-264"><a href="#eigenvectors_DEV-264"><span class="linenos">264</span></a>    <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Angle / radians&#39;</span>
 </span><span id="eigenvectors_DEV-265"><a href="#eigenvectors_DEV-265"><span class="linenos">265</span></a>    <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;Energy / meV&#39;</span>

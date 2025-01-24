@@ -119,7 +119,7 @@
     </ul>
 
 
-            <footer>ATON v0.0.3 documentation</footer>
+            <footer>ATON v0.0.4a1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -202,18 +202,18 @@
 </span><span id="L-32"><a href="#L-32"><span class="linenos">  32</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-33"><a href="#L-33"><span class="linenos">  33</span></a>
 </span><span id="L-34"><a href="#L-34"><span class="linenos">  34</span></a>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">  35</span></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">  36</span></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">  37</span></a><span class="kn">import</span> <span class="nn">os</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">  38</span></a><span class="kn">from</span> <span class="nn">aton._version</span> <span class="kn">import</span> <span class="n">__version__</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">  39</span></a><span class="kn">import</span> <span class="nn">aton.st.file</span> <span class="k">as</span> <span class="nn">file</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">  40</span></a><span class="kn">import</span> <span class="nn">aton.phys.atoms</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">  41</span></a><span class="kn">import</span> <span class="nn">aton.txt.find</span> <span class="k">as</span> <span class="nn">find</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">  42</span></a><span class="kn">import</span> <span class="nn">aton.txt.edit</span> <span class="k">as</span> <span class="nn">edit</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">  43</span></a><span class="kn">import</span> <span class="nn">aton.txt.extract</span> <span class="k">as</span> <span class="nn">extract</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">  35</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">  36</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">  37</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">  38</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">aton._version</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">  39</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.st.file</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">file</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">  40</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.phys.atoms</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">  41</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.txt.find</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">find</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">  42</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.txt.edit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">edit</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">  43</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.txt.extract</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">extract</span>
 </span><span id="L-44"><a href="#L-44"><span class="linenos">  44</span></a>
 </span><span id="L-45"><a href="#L-45"><span class="linenos">  45</span></a>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">  46</span></a><span class="k">def</span> <span class="nf">read_in</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">  46</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_in</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos">  47</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads a Quantum ESPRESSO input `filepath` and returns the values as a dict.</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos">  48</span></a>
 </span><span id="L-49"><a href="#L-49"><span class="linenos">  49</span></a><span class="sd">    Dict keys are named after the corresponding variable.</span>
@@ -263,7 +263,7 @@
 </span><span id="L-93"><a href="#L-93"><span class="linenos">  93</span></a>    <span class="k">return</span> <span class="n">data</span>
 </span><span id="L-94"><a href="#L-94"><span class="linenos">  94</span></a>
 </span><span id="L-95"><a href="#L-95"><span class="linenos">  95</span></a>
-</span><span id="L-96"><a href="#L-96"><span class="linenos">  96</span></a><span class="k">def</span> <span class="nf">read_out</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos">  96</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_out</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 </span><span id="L-97"><a href="#L-97"><span class="linenos">  97</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads a Quantum ESPRESSO output `filepath`, returns a dict with the output keys.</span>
 </span><span id="L-98"><a href="#L-98"><span class="linenos">  98</span></a>
 </span><span id="L-99"><a href="#L-99"><span class="linenos">  99</span></a><span class="sd">    The output keys are:</span>
@@ -391,7 +391,7 @@
 </span><span id="L-221"><a href="#L-221"><span class="linenos"> 221</span></a>    <span class="k">return</span> <span class="n">output</span>
 </span><span id="L-222"><a href="#L-222"><span class="linenos"> 222</span></a>
 </span><span id="L-223"><a href="#L-223"><span class="linenos"> 223</span></a>
-</span><span id="L-224"><a href="#L-224"><span class="linenos"> 224</span></a><span class="k">def</span> <span class="nf">read_dir</span><span class="p">(</span>
+</span><span id="L-224"><a href="#L-224"><span class="linenos"> 224</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_dir</span><span class="p">(</span>
 </span><span id="L-225"><a href="#L-225"><span class="linenos"> 225</span></a>        <span class="n">folder</span><span class="p">,</span>
 </span><span id="L-226"><a href="#L-226"><span class="linenos"> 226</span></a>        <span class="n">in_str</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;.in&#39;</span><span class="p">,</span>
 </span><span id="L-227"><a href="#L-227"><span class="linenos"> 227</span></a>        <span class="n">out_str</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;.out&#39;</span>
@@ -419,7 +419,7 @@
 </span><span id="L-249"><a href="#L-249"><span class="linenos"> 249</span></a>    <span class="k">return</span> <span class="n">merged_dict</span>
 </span><span id="L-250"><a href="#L-250"><span class="linenos"> 250</span></a>
 </span><span id="L-251"><a href="#L-251"><span class="linenos"> 251</span></a>
-</span><span id="L-252"><a href="#L-252"><span class="linenos"> 252</span></a><span class="k">def</span> <span class="nf">read_dirs</span><span class="p">(</span>
+</span><span id="L-252"><a href="#L-252"><span class="linenos"> 252</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_dirs</span><span class="p">(</span>
 </span><span id="L-253"><a href="#L-253"><span class="linenos"> 253</span></a>        <span class="n">directory</span><span class="p">,</span>
 </span><span id="L-254"><a href="#L-254"><span class="linenos"> 254</span></a>        <span class="n">in_str</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;.in&#39;</span><span class="p">,</span>
 </span><span id="L-255"><a href="#L-255"><span class="linenos"> 255</span></a>        <span class="n">out_str</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;.out&#39;</span><span class="p">,</span>
@@ -490,7 +490,7 @@
 </span><span id="L-320"><a href="#L-320"><span class="linenos"> 320</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total successful calculations: </span><span class="si">{</span><span class="n">total_success_counter</span><span class="si">}</span><span class="s1"> out of </span><span class="si">{</span><span class="n">len_folders</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </span><span id="L-321"><a href="#L-321"><span class="linenos"> 321</span></a>
 </span><span id="L-322"><a href="#L-322"><span class="linenos"> 322</span></a>
-</span><span id="L-323"><a href="#L-323"><span class="linenos"> 323</span></a><span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span>
+</span><span id="L-323"><a href="#L-323"><span class="linenos"> 323</span></a><span class="k">def</span><span class="w"> </span><span class="nf">set_value</span><span class="p">(</span>
 </span><span id="L-324"><a href="#L-324"><span class="linenos"> 324</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-325"><a href="#L-325"><span class="linenos"> 325</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-326"><a href="#L-326"><span class="linenos"> 326</span></a>        <span class="n">value</span><span class="p">,</span>
@@ -538,7 +538,7 @@
 </span><span id="L-368"><a href="#L-368"><span class="linenos"> 368</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-369"><a href="#L-369"><span class="linenos"> 369</span></a>
 </span><span id="L-370"><a href="#L-370"><span class="linenos"> 370</span></a>
-</span><span id="L-371"><a href="#L-371"><span class="linenos"> 371</span></a><span class="k">def</span> <span class="nf">_update_value</span><span class="p">(</span>
+</span><span id="L-371"><a href="#L-371"><span class="linenos"> 371</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_update_value</span><span class="p">(</span>
 </span><span id="L-372"><a href="#L-372"><span class="linenos"> 372</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-373"><a href="#L-373"><span class="linenos"> 373</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-374"><a href="#L-374"><span class="linenos"> 374</span></a>        <span class="n">value</span><span class="p">,</span>
@@ -564,7 +564,7 @@
 </span><span id="L-394"><a href="#L-394"><span class="linenos"> 394</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-395"><a href="#L-395"><span class="linenos"> 395</span></a>
 </span><span id="L-396"><a href="#L-396"><span class="linenos"> 396</span></a>
-</span><span id="L-397"><a href="#L-397"><span class="linenos"> 397</span></a><span class="k">def</span> <span class="nf">_add_value</span><span class="p">(</span>
+</span><span id="L-397"><a href="#L-397"><span class="linenos"> 397</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_add_value</span><span class="p">(</span>
 </span><span id="L-398"><a href="#L-398"><span class="linenos"> 398</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-399"><a href="#L-399"><span class="linenos"> 399</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-400"><a href="#L-400"><span class="linenos"> 400</span></a>        <span class="n">value</span><span class="p">,</span>
@@ -601,7 +601,7 @@
 </span><span id="L-431"><a href="#L-431"><span class="linenos"> 431</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-432"><a href="#L-432"><span class="linenos"> 432</span></a>
 </span><span id="L-433"><a href="#L-433"><span class="linenos"> 433</span></a>
-</span><span id="L-434"><a href="#L-434"><span class="linenos"> 434</span></a><span class="k">def</span> <span class="nf">_add_namelist</span><span class="p">(</span>
+</span><span id="L-434"><a href="#L-434"><span class="linenos"> 434</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_add_namelist</span><span class="p">(</span>
 </span><span id="L-435"><a href="#L-435"><span class="linenos"> 435</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-436"><a href="#L-436"><span class="linenos"> 436</span></a>        <span class="n">namelist</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-437"><a href="#L-437"><span class="linenos"> 437</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -635,7 +635,7 @@
 </span><span id="L-465"><a href="#L-465"><span class="linenos"> 465</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-466"><a href="#L-466"><span class="linenos"> 466</span></a>
 </span><span id="L-467"><a href="#L-467"><span class="linenos"> 467</span></a>
-</span><span id="L-468"><a href="#L-468"><span class="linenos"> 468</span></a><span class="k">def</span> <span class="nf">_update_card</span><span class="p">(</span>
+</span><span id="L-468"><a href="#L-468"><span class="linenos"> 468</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_update_card</span><span class="p">(</span>
 </span><span id="L-469"><a href="#L-469"><span class="linenos"> 469</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-470"><a href="#L-470"><span class="linenos"> 470</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-471"><a href="#L-471"><span class="linenos"> 471</span></a>        <span class="n">value</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
@@ -660,7 +660,7 @@
 </span><span id="L-490"><a href="#L-490"><span class="linenos"> 490</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-491"><a href="#L-491"><span class="linenos"> 491</span></a>
 </span><span id="L-492"><a href="#L-492"><span class="linenos"> 492</span></a>
-</span><span id="L-493"><a href="#L-493"><span class="linenos"> 493</span></a><span class="k">def</span> <span class="nf">_add_card</span><span class="p">(</span>
+</span><span id="L-493"><a href="#L-493"><span class="linenos"> 493</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_add_card</span><span class="p">(</span>
 </span><span id="L-494"><a href="#L-494"><span class="linenos"> 494</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-495"><a href="#L-495"><span class="linenos"> 495</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-496"><a href="#L-496"><span class="linenos"> 496</span></a>        <span class="n">value</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
@@ -681,7 +681,7 @@
 </span><span id="L-511"><a href="#L-511"><span class="linenos"> 511</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-512"><a href="#L-512"><span class="linenos"> 512</span></a>
 </span><span id="L-513"><a href="#L-513"><span class="linenos"> 513</span></a>
-</span><span id="L-514"><a href="#L-514"><span class="linenos"> 514</span></a><span class="k">def</span> <span class="nf">_update_other_values</span><span class="p">(</span>
+</span><span id="L-514"><a href="#L-514"><span class="linenos"> 514</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_update_other_values</span><span class="p">(</span>
 </span><span id="L-515"><a href="#L-515"><span class="linenos"> 515</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="L-516"><a href="#L-516"><span class="linenos"> 516</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-517"><a href="#L-517"><span class="linenos"> 517</span></a>        <span class="n">value</span><span class="p">,</span>
@@ -742,7 +742,7 @@
 </span><span id="L-572"><a href="#L-572"><span class="linenos"> 572</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-573"><a href="#L-573"><span class="linenos"> 573</span></a>
 </span><span id="L-574"><a href="#L-574"><span class="linenos"> 574</span></a>
-</span><span id="L-575"><a href="#L-575"><span class="linenos"> 575</span></a><span class="k">def</span> <span class="nf">add_atom</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;  &#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-575"><a href="#L-575"><span class="linenos"> 575</span></a><span class="k">def</span><span class="w"> </span><span class="nf">add_atom</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;  &#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-576"><a href="#L-576"><span class="linenos"> 576</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds an atom in a given `filepath` at a specified `position`.</span>
 </span><span id="L-577"><a href="#L-577"><span class="linenos"> 577</span></a>
 </span><span id="L-578"><a href="#L-578"><span class="linenos"> 578</span></a><span class="sd">    Position must be a string or a list, as follows:</span>
@@ -790,7 +790,7 @@
 </span><span id="L-620"><a href="#L-620"><span class="linenos"> 620</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-621"><a href="#L-621"><span class="linenos"> 621</span></a>
 </span><span id="L-622"><a href="#L-622"><span class="linenos"> 622</span></a>
-</span><span id="L-623"><a href="#L-623"><span class="linenos"> 623</span></a><span class="k">def</span> <span class="nf">get_atom</span><span class="p">(</span>
+</span><span id="L-623"><a href="#L-623"><span class="linenos"> 623</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get_atom</span><span class="p">(</span>
 </span><span id="L-624"><a href="#L-624"><span class="linenos"> 624</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-625"><a href="#L-625"><span class="linenos"> 625</span></a>        <span class="n">position</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
 </span><span id="L-626"><a href="#L-626"><span class="linenos"> 626</span></a>        <span class="n">precision</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
@@ -861,7 +861,7 @@
 </span><span id="L-691"><a href="#L-691"><span class="linenos"> 691</span></a>    <span class="k">return</span> <span class="n">matched_line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 </span><span id="L-692"><a href="#L-692"><span class="linenos"> 692</span></a>
 </span><span id="L-693"><a href="#L-693"><span class="linenos"> 693</span></a>
-</span><span id="L-694"><a href="#L-694"><span class="linenos"> 694</span></a><span class="k">def</span> <span class="nf">normalize_card</span><span class="p">(</span><span class="n">card</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="L-694"><a href="#L-694"><span class="linenos"> 694</span></a><span class="k">def</span><span class="w"> </span><span class="nf">normalize_card</span><span class="p">(</span><span class="n">card</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 </span><span id="L-695"><a href="#L-695"><span class="linenos"> 695</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Take a matched card, and return it in a normalised format.</span>
 </span><span id="L-696"><a href="#L-696"><span class="linenos"> 696</span></a>
 </span><span id="L-697"><a href="#L-697"><span class="linenos"> 697</span></a><span class="sd">    Optionally change indentation with `indent`, 0 spaces by default.</span>
@@ -897,7 +897,7 @@
 </span><span id="L-727"><a href="#L-727"><span class="linenos"> 727</span></a>    <span class="k">return</span> <span class="n">cleaned_content</span>
 </span><span id="L-728"><a href="#L-728"><span class="linenos"> 728</span></a>
 </span><span id="L-729"><a href="#L-729"><span class="linenos"> 729</span></a>
-</span><span id="L-730"><a href="#L-730"><span class="linenos"> 730</span></a><span class="k">def</span> <span class="nf">_normalize_cell_parameters</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="L-730"><a href="#L-730"><span class="linenos"> 730</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_normalize_cell_parameters</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 </span><span id="L-731"><a href="#L-731"><span class="linenos"> 731</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs extra formatting to a previously cleaned CELL_PARAMETERS `card`.</span>
 </span><span id="L-732"><a href="#L-732"><span class="linenos"> 732</span></a>
 </span><span id="L-733"><a href="#L-733"><span class="linenos"> 733</span></a><span class="sd">    Optionally change indentation with `indent`, 0 spaces by default.</span>
@@ -929,7 +929,7 @@
 </span><span id="L-759"><a href="#L-759"><span class="linenos"> 759</span></a>    <span class="k">return</span> <span class="n">cell_parameters</span>
 </span><span id="L-760"><a href="#L-760"><span class="linenos"> 760</span></a>
 </span><span id="L-761"><a href="#L-761"><span class="linenos"> 761</span></a>
-</span><span id="L-762"><a href="#L-762"><span class="linenos"> 762</span></a><span class="k">def</span> <span class="nf">_normalize_atomic_positions</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="L-762"><a href="#L-762"><span class="linenos"> 762</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_normalize_atomic_positions</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 </span><span id="L-763"><a href="#L-763"><span class="linenos"> 763</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs extra formatting to a previously cleaned ATOMIC_POSITIONS `card`.</span>
 </span><span id="L-764"><a href="#L-764"><span class="linenos"> 764</span></a>
 </span><span id="L-765"><a href="#L-765"><span class="linenos"> 765</span></a><span class="sd">    Optionally change indentation with `indent`, 2 spaces by default.</span>
@@ -966,7 +966,7 @@
 </span><span id="L-796"><a href="#L-796"><span class="linenos"> 796</span></a>    <span class="k">return</span> <span class="n">atomic_positions</span>
 </span><span id="L-797"><a href="#L-797"><span class="linenos"> 797</span></a>
 </span><span id="L-798"><a href="#L-798"><span class="linenos"> 798</span></a>
-</span><span id="L-799"><a href="#L-799"><span class="linenos"> 799</span></a><span class="k">def</span> <span class="nf">_normalize_atomic_species</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="L-799"><a href="#L-799"><span class="linenos"> 799</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_normalize_atomic_species</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 </span><span id="L-800"><a href="#L-800"><span class="linenos"> 800</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs extra formatting to a previously cleaned ATOMIC_SPECIES `card`.</span>
 </span><span id="L-801"><a href="#L-801"><span class="linenos"> 801</span></a>
 </span><span id="L-802"><a href="#L-802"><span class="linenos"> 802</span></a><span class="sd">    Optionally change indentation with `indent`, 2 spaces by default.</span>
@@ -994,7 +994,7 @@
 </span><span id="L-824"><a href="#L-824"><span class="linenos"> 824</span></a>    <span class="k">return</span> <span class="n">atomic_species</span>
 </span><span id="L-825"><a href="#L-825"><span class="linenos"> 825</span></a>
 </span><span id="L-826"><a href="#L-826"><span class="linenos"> 826</span></a>
-</span><span id="L-827"><a href="#L-827"><span class="linenos"> 827</span></a><span class="k">def</span> <span class="nf">_normalize_k_points</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="L-827"><a href="#L-827"><span class="linenos"> 827</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_normalize_k_points</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 </span><span id="L-828"><a href="#L-828"><span class="linenos"> 828</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs extra formatting to a previously cleaned K_POINTS `card`.</span>
 </span><span id="L-829"><a href="#L-829"><span class="linenos"> 829</span></a>
 </span><span id="L-830"><a href="#L-830"><span class="linenos"> 830</span></a><span class="sd">    Optionally change indentation with `indent`, 2 spaces by default.</span>
@@ -1028,7 +1028,7 @@
 </span><span id="L-858"><a href="#L-858"><span class="linenos"> 858</span></a>    <span class="k">return</span> <span class="n">k_points</span>
 </span><span id="L-859"><a href="#L-859"><span class="linenos"> 859</span></a>
 </span><span id="L-860"><a href="#L-860"><span class="linenos"> 860</span></a>
-</span><span id="L-861"><a href="#L-861"><span class="linenos"> 861</span></a><span class="k">def</span> <span class="nf">count_elements</span><span class="p">(</span><span class="n">atomic_positions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="L-861"><a href="#L-861"><span class="linenos"> 861</span></a><span class="k">def</span><span class="w"> </span><span class="nf">count_elements</span><span class="p">(</span><span class="n">atomic_positions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 </span><span id="L-862"><a href="#L-862"><span class="linenos"> 862</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes ATOMIC_POSITIONS, returns a dict as `{element : number of atoms}`&quot;&quot;&quot;</span>
 </span><span id="L-863"><a href="#L-863"><span class="linenos"> 863</span></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">atomic_positions</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
 </span><span id="L-864"><a href="#L-864"><span class="linenos"> 864</span></a>        <span class="n">atomic_positions</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -1048,7 +1048,7 @@
 </span><span id="L-878"><a href="#L-878"><span class="linenos"> 878</span></a>    <span class="k">return</span> <span class="n">elements</span>
 </span><span id="L-879"><a href="#L-879"><span class="linenos"> 879</span></a>
 </span><span id="L-880"><a href="#L-880"><span class="linenos"> 880</span></a>
-</span><span id="L-881"><a href="#L-881"><span class="linenos"> 881</span></a><span class="k">def</span> <span class="nf">scf_from_relax</span><span class="p">(</span>
+</span><span id="L-881"><a href="#L-881"><span class="linenos"> 881</span></a><span class="k">def</span><span class="w"> </span><span class="nf">scf_from_relax</span><span class="p">(</span>
 </span><span id="L-882"><a href="#L-882"><span class="linenos"> 882</span></a>        <span class="n">folder</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="L-883"><a href="#L-883"><span class="linenos"> 883</span></a>        <span class="n">relax_in</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;relax.in&#39;</span><span class="p">,</span>
 </span><span id="L-884"><a href="#L-884"><span class="linenos"> 884</span></a>        <span class="n">relax_out</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;relax.out&#39;</span>
@@ -1091,7 +1091,7 @@
 </span><span id="L-921"><a href="#L-921"><span class="linenos"> 921</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-922"><a href="#L-922"><span class="linenos"> 922</span></a>
 </span><span id="L-923"><a href="#L-923"><span class="linenos"> 923</span></a>
-</span><span id="L-924"><a href="#L-924"><span class="linenos"> 924</span></a><span class="k">def</span> <span class="nf">to_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-924"><a href="#L-924"><span class="linenos"> 924</span></a><span class="k">def</span><span class="w"> </span><span class="nf">to_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="L-925"><a href="#L-925"><span class="linenos"> 925</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a given `cordinates` from crystal lattice vectors to cartesian.</span>
 </span><span id="L-926"><a href="#L-926"><span class="linenos"> 926</span></a>
 </span><span id="L-927"><a href="#L-927"><span class="linenos"> 927</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters.</span>
@@ -1108,7 +1108,7 @@
 </span><span id="L-938"><a href="#L-938"><span class="linenos"> 938</span></a>    <span class="k">return</span> <span class="n">final_coords</span>
 </span><span id="L-939"><a href="#L-939"><span class="linenos"> 939</span></a>
 </span><span id="L-940"><a href="#L-940"><span class="linenos"> 940</span></a>
-</span><span id="L-941"><a href="#L-941"><span class="linenos"> 941</span></a><span class="k">def</span> <span class="nf">from_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-941"><a href="#L-941"><span class="linenos"> 941</span></a><span class="k">def</span><span class="w"> </span><span class="nf">from_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="L-942"><a href="#L-942"><span class="linenos"> 942</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a given `cordinates` from cartesian to the base of lattice vectors.</span>
 </span><span id="L-943"><a href="#L-943"><span class="linenos"> 943</span></a>
 </span><span id="L-944"><a href="#L-944"><span class="linenos"> 944</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters.</span>
@@ -1126,7 +1126,7 @@
 </span><span id="L-956"><a href="#L-956"><span class="linenos"> 956</span></a>    <span class="k">return</span> <span class="n">final_coords</span>
 </span><span id="L-957"><a href="#L-957"><span class="linenos"> 957</span></a>
 </span><span id="L-958"><a href="#L-958"><span class="linenos"> 958</span></a>
-</span><span id="L-959"><a href="#L-959"><span class="linenos"> 959</span></a><span class="k">def</span> <span class="nf">_get_base_change_matrix</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+</span><span id="L-959"><a href="#L-959"><span class="linenos"> 959</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_get_base_change_matrix</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
 </span><span id="L-960"><a href="#L-960"><span class="linenos"> 960</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the base change matrix, based on the cell parameters. Only for `ibrav=0`.&quot;&quot;&quot;</span>
 </span><span id="L-961"><a href="#L-961"><span class="linenos"> 961</span></a>    <span class="n">content</span> <span class="o">=</span> <span class="n">read_in</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 </span><span id="L-962"><a href="#L-962"><span class="linenos"> 962</span></a>    <span class="c1"># Get the base change matrix</span>
@@ -1143,7 +1143,7 @@
 </span><span id="L-973"><a href="#L-973"><span class="linenos"> 973</span></a>    <span class="k">return</span> <span class="n">cell_base</span>
 </span><span id="L-974"><a href="#L-974"><span class="linenos"> 974</span></a>
 </span><span id="L-975"><a href="#L-975"><span class="linenos"> 975</span></a>
-</span><span id="L-976"><a href="#L-976"><span class="linenos"> 976</span></a><span class="k">def</span> <span class="nf">_clean_coords</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="L-976"><a href="#L-976"><span class="linenos"> 976</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_clean_coords</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 </span><span id="L-977"><a href="#L-977"><span class="linenos"> 977</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Make sure that `coordinates` is a list with 3 floats. Removes extra values if present.&quot;&quot;&quot;</span>
 </span><span id="L-978"><a href="#L-978"><span class="linenos"> 978</span></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
 </span><span id="L-979"><a href="#L-979"><span class="linenos"> 979</span></a>        <span class="n">coordinates</span> <span class="o">=</span> <span class="n">extract</span><span class="o">.</span><span class="n">coords</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
@@ -1239,7 +1239,7 @@
 
     </div>
     <a class="headerlink" href="#read_in"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="read_in-47"><a href="#read_in-47"><span class="linenos">47</span></a><span class="k">def</span> <span class="nf">read_in</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="read_in-47"><a href="#read_in-47"><span class="linenos">47</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_in</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 </span><span id="read_in-48"><a href="#read_in-48"><span class="linenos">48</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads a Quantum ESPRESSO input `filepath` and returns the values as a dict.</span>
 </span><span id="read_in-49"><a href="#read_in-49"><span class="linenos">49</span></a>
 </span><span id="read_in-50"><a href="#read_in-50"><span class="linenos">50</span></a><span class="sd">    Dict keys are named after the corresponding variable.</span>
@@ -1310,7 +1310,7 @@ title card + parameters in the first item.</p>
 
     </div>
     <a class="headerlink" href="#read_out"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="read_out-97"><a href="#read_out-97"><span class="linenos"> 97</span></a><span class="k">def</span> <span class="nf">read_out</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="read_out-97"><a href="#read_out-97"><span class="linenos"> 97</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_out</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 </span><span id="read_out-98"><a href="#read_out-98"><span class="linenos"> 98</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads a Quantum ESPRESSO output `filepath`, returns a dict with the output keys.</span>
 </span><span id="read_out-99"><a href="#read_out-99"><span class="linenos"> 99</span></a>
 </span><span id="read_out-100"><a href="#read_out-100"><span class="linenos">100</span></a><span class="sd">    The output keys are:</span>
@@ -1462,7 +1462,7 @@ title card + parameters in the first item.</p>
 
     </div>
     <a class="headerlink" href="#read_dir"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="read_dir-225"><a href="#read_dir-225"><span class="linenos">225</span></a><span class="k">def</span> <span class="nf">read_dir</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="read_dir-225"><a href="#read_dir-225"><span class="linenos">225</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_dir</span><span class="p">(</span>
 </span><span id="read_dir-226"><a href="#read_dir-226"><span class="linenos">226</span></a>        <span class="n">folder</span><span class="p">,</span>
 </span><span id="read_dir-227"><a href="#read_dir-227"><span class="linenos">227</span></a>        <span class="n">in_str</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;.in&#39;</span><span class="p">,</span>
 </span><span id="read_dir-228"><a href="#read_dir-228"><span class="linenos">228</span></a>        <span class="n">out_str</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;.out&#39;</span>
@@ -1511,7 +1511,7 @@ if more than one file ends with <code>.in</code> or <code>.out</code>.</p>
 
     </div>
     <a class="headerlink" href="#read_dirs"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="read_dirs-253"><a href="#read_dirs-253"><span class="linenos">253</span></a><span class="k">def</span> <span class="nf">read_dirs</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="read_dirs-253"><a href="#read_dirs-253"><span class="linenos">253</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_dirs</span><span class="p">(</span>
 </span><span id="read_dirs-254"><a href="#read_dirs-254"><span class="linenos">254</span></a>        <span class="n">directory</span><span class="p">,</span>
 </span><span id="read_dirs-255"><a href="#read_dirs-255"><span class="linenos">255</span></a>        <span class="n">in_str</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;.in&#39;</span><span class="p">,</span>
 </span><span id="read_dirs-256"><a href="#read_dirs-256"><span class="linenos">256</span></a>        <span class="n">out_str</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;.out&#39;</span><span class="p">,</span>
@@ -1615,7 +1615,7 @@ will be interpreted as follows:</p>
 
     </div>
     <a class="headerlink" href="#set_value"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="set_value-324"><a href="#set_value-324"><span class="linenos">324</span></a><span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="set_value-324"><a href="#set_value-324"><span class="linenos">324</span></a><span class="k">def</span><span class="w"> </span><span class="nf">set_value</span><span class="p">(</span>
 </span><span id="set_value-325"><a href="#set_value-325"><span class="linenos">325</span></a>        <span class="n">filepath</span><span class="p">,</span>
 </span><span id="set_value-326"><a href="#set_value-326"><span class="linenos">326</span></a>        <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="set_value-327"><a href="#set_value-327"><span class="linenos">327</span></a>        <span class="n">value</span><span class="p">,</span>
@@ -1688,7 +1688,7 @@ and updating 'ATOMIC_SPECIES' updates 'ntyp'.</p>
 
     </div>
     <a class="headerlink" href="#add_atom"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="add_atom-576"><a href="#add_atom-576"><span class="linenos">576</span></a><span class="k">def</span> <span class="nf">add_atom</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;  &#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="add_atom-576"><a href="#add_atom-576"><span class="linenos">576</span></a><span class="k">def</span><span class="w"> </span><span class="nf">add_atom</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;  &#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="add_atom-577"><a href="#add_atom-577"><span class="linenos">577</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds an atom in a given `filepath` at a specified `position`.</span>
 </span><span id="add_atom-578"><a href="#add_atom-578"><span class="linenos">578</span></a>
 </span><span id="add_atom-579"><a href="#add_atom-579"><span class="linenos">579</span></a><span class="sd">    Position must be a string or a list, as follows:</span>
@@ -1761,7 +1761,7 @@ such as 'ntyp' when updating ATOMIC_SPECIES, etc.</p>
 
     </div>
     <a class="headerlink" href="#get_atom"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="get_atom-624"><a href="#get_atom-624"><span class="linenos">624</span></a><span class="k">def</span> <span class="nf">get_atom</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="get_atom-624"><a href="#get_atom-624"><span class="linenos">624</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get_atom</span><span class="p">(</span>
 </span><span id="get_atom-625"><a href="#get_atom-625"><span class="linenos">625</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="get_atom-626"><a href="#get_atom-626"><span class="linenos">626</span></a>        <span class="n">position</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
 </span><span id="get_atom-627"><a href="#get_atom-627"><span class="linenos">627</span></a>        <span class="n">precision</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
@@ -1852,7 +1852,7 @@ If <code>return_anyway = True</code>, ignores errors and returns an empty string
 
     </div>
     <a class="headerlink" href="#normalize_card"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="normalize_card-695"><a href="#normalize_card-695"><span class="linenos">695</span></a><span class="k">def</span> <span class="nf">normalize_card</span><span class="p">(</span><span class="n">card</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="normalize_card-695"><a href="#normalize_card-695"><span class="linenos">695</span></a><span class="k">def</span><span class="w"> </span><span class="nf">normalize_card</span><span class="p">(</span><span class="n">card</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 </span><span id="normalize_card-696"><a href="#normalize_card-696"><span class="linenos">696</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Take a matched card, and return it in a normalised format.</span>
 </span><span id="normalize_card-697"><a href="#normalize_card-697"><span class="linenos">697</span></a>
 </span><span id="normalize_card-698"><a href="#normalize_card-698"><span class="linenos">698</span></a><span class="sd">    Optionally change indentation with `indent`, 0 spaces by default.</span>
@@ -1907,7 +1907,7 @@ If <code>return_anyway = True</code>, ignores errors and returns an empty string
 
     </div>
     <a class="headerlink" href="#count_elements"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="count_elements-862"><a href="#count_elements-862"><span class="linenos">862</span></a><span class="k">def</span> <span class="nf">count_elements</span><span class="p">(</span><span class="n">atomic_positions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="count_elements-862"><a href="#count_elements-862"><span class="linenos">862</span></a><span class="k">def</span><span class="w"> </span><span class="nf">count_elements</span><span class="p">(</span><span class="n">atomic_positions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 </span><span id="count_elements-863"><a href="#count_elements-863"><span class="linenos">863</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes ATOMIC_POSITIONS, returns a dict as `{element : number of atoms}`&quot;&quot;&quot;</span>
 </span><span id="count_elements-864"><a href="#count_elements-864"><span class="linenos">864</span></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">atomic_positions</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
 </span><span id="count_elements-865"><a href="#count_elements-865"><span class="linenos">865</span></a>        <span class="n">atomic_positions</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -1944,7 +1944,7 @@ If <code>return_anyway = True</code>, ignores errors and returns an empty string
 
     </div>
     <a class="headerlink" href="#scf_from_relax"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="scf_from_relax-882"><a href="#scf_from_relax-882"><span class="linenos">882</span></a><span class="k">def</span> <span class="nf">scf_from_relax</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="scf_from_relax-882"><a href="#scf_from_relax-882"><span class="linenos">882</span></a><span class="k">def</span><span class="w"> </span><span class="nf">scf_from_relax</span><span class="p">(</span>
 </span><span id="scf_from_relax-883"><a href="#scf_from_relax-883"><span class="linenos">883</span></a>        <span class="n">folder</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="scf_from_relax-884"><a href="#scf_from_relax-884"><span class="linenos">884</span></a>        <span class="n">relax_in</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;relax.in&#39;</span><span class="p">,</span>
 </span><span id="scf_from_relax-885"><a href="#scf_from_relax-885"><span class="linenos">885</span></a>        <span class="n">relax_out</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;relax.out&#39;</span>
@@ -2008,7 +2008,7 @@ update the names if necessary.</p>
 
     </div>
     <a class="headerlink" href="#to_cartesian"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="to_cartesian-925"><a href="#to_cartesian-925"><span class="linenos">925</span></a><span class="k">def</span> <span class="nf">to_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="to_cartesian-925"><a href="#to_cartesian-925"><span class="linenos">925</span></a><span class="k">def</span><span class="w"> </span><span class="nf">to_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="to_cartesian-926"><a href="#to_cartesian-926"><span class="linenos">926</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a given `cordinates` from crystal lattice vectors to cartesian.</span>
 </span><span id="to_cartesian-927"><a href="#to_cartesian-927"><span class="linenos">927</span></a>
 </span><span id="to_cartesian-928"><a href="#to_cartesian-928"><span class="linenos">928</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters.</span>
@@ -2045,7 +2045,7 @@ Note that the result is not multiplied by <code>A</code> nor <code>celldm(1)</co
 
     </div>
     <a class="headerlink" href="#from_cartesian"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="from_cartesian-942"><a href="#from_cartesian-942"><span class="linenos">942</span></a><span class="k">def</span> <span class="nf">from_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="from_cartesian-942"><a href="#from_cartesian-942"><span class="linenos">942</span></a><span class="k">def</span><span class="w"> </span><span class="nf">from_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="from_cartesian-943"><a href="#from_cartesian-943"><span class="linenos">943</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a given `cordinates` from cartesian to the base of lattice vectors.</span>
 </span><span id="from_cartesian-944"><a href="#from_cartesian-944"><span class="linenos">944</span></a>
 </span><span id="from_cartesian-945"><a href="#from_cartesian-945"><span class="linenos">945</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters.</span>
