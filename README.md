@@ -10,12 +10,13 @@ for cutting-edge materials research,
 focused on (but not limited to) neutron science.
 
 Just like its [ancient Egyptian deity](https://en.wikipedia.org/wiki/Aten) counterpart,
-this all-in-one Python package contains a range of tools from spectra normalisation to deuteration estimations.
-A set of physico-chemical constants and definitions is also included.
-ATON also allows you to easily create, edit and analyse all kinds of text files,
-with a special focus on *ab-initio* calculation files.
-In particular, it contains interfaces for [Quantum ESPRESSO](https://www.quantum-espresso.org/),
-[Phonopy](https://phonopy.github.io/phonopy/) and [CASTEP](https://castep-docs.github.io/castep-docs/).  
+this all-in-one Python package contains a range of tools
+from INS spectra analysis to *ab-initio* interfaces
+for [Quantum ESPRESSO](https://www.quantum-espresso.org/),
+[Phonopy](https://phonopy.github.io/phonopy/) and
+[CASTEP](https://castep-docs.github.io/castep-docs/).
+Conversion factors and universal constants from the [2022 CODATA](https://doi.org/10.48550/arXiv.2409.03787)
+Recommended Values of the Fundamental Physical Constants are also included.  
 
 The source code is available on [GitHub](https://github.com/pablogila/ATON/).   
 Check the [full documentation online](https://pablogila.github.io/ATON/).  
@@ -55,7 +56,7 @@ First install the dependencies:
 pip install pandas numpy scipy matplotlib
 ```
 
-Then clone the repository or download the [latest stable release](https://github.com/pablogila/Aton/tags) as a ZIP, unzip it, and run inside the `Aton/` directory:  
+Then clone the repository or download the [latest stable release](https://github.com/pablogila/Aton/tags) as a ZIP, unzip it, and run inside the `ATON/` directory:  
 ```bash
 pip install .
 ```
@@ -68,7 +69,7 @@ pip install .
 
 The full ATON documentation is available [online](https://pablogila.github.io/ATON/).  
 An offline version of the documentation is found at `docs/aton.html`.  
-Code examples are included in the [`ATON/examples/`](https://github.com/pablogila/ATON/tree/main/examples) folder.    
+Code examples are included in the [`examples/`](https://github.com/pablogila/ATON/tree/main/examples) folder.    
 
 
 ## Interfaces for *ab-initio* codes
