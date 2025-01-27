@@ -241,41 +241,43 @@ s = 5.670374419e-8
 
 ## Energy
 """
-Ry_to_eV    = 13.605693122990
-Ry_to_J     = 2.1798723611030e-18
+Ry_to_eV      = 13.605693122990
+Ry_to_meV     = Ry_to_eV * 1000.0
+Ry_to_J       = 2.1798723611030e-18
 
-eV_to_Ry    = 1.0 / Ry_to_eV
-eV_to_J     = 1.602176634e-19
-eV_to_meV   = 1000.0
+eV_to_Ry      = 1.0 / Ry_to_eV
+eV_to_J       = 1.602176634e-19
+eV_to_meV     = 1000.0
 
-meV_to_eV   = 1e-3
-meV_to_J    = 1.602176634e-22
-meV_to_A = 9.045
-meV_to_A1 = 0.6947
-meV_to_ms = 437.4 
-meV_to_K = 11.604
-meV_to_THz = 0.2418
-meV_to_rads = 1.519e12
-meV_to_cm1  = 8.0655
-meV_to_kJmol = 0.0965
+meV_to_eV     = 1e-3
+meV_to_Ry     = 1.0 / Ry_to_meV
+meV_to_J      = 1.602176634e-22
+meV_to_A      = 9.045
+meV_to_A1     = 0.6947
+meV_to_ms     = 437.4 
+meV_to_K      = 11.604
+meV_to_THz    = 0.2418
+meV_to_rads   = 1.519e12
+meV_to_cm1    = 8.0655
+meV_to_kJmol  = 0.0965
 
-cal_to_J    = 4.184
-kcal_to_J   = cal_to_J * 1000.0
+cal_to_J      = 4.184
+kcal_to_J     = cal_to_J * 1000.0
 
-J_to_eV     = 1.0 / eV_to_J
-J_to_meV    = 1.0 / meV_to_J
-J_to_Ry     = 1.0 / Ry_to_J
-J_to_cal    = 1.0 / cal_to_J
-J_to_kcal   = 1.0 / kcal_to_J
+J_to_eV       = 1.0 / eV_to_J
+J_to_meV      = 1.0 / meV_to_J
+J_to_Ry       = 1.0 / Ry_to_J
+J_to_cal      = 1.0 / cal_to_J
+J_to_kcal     = 1.0 / kcal_to_J
 
-kJmol_to_A = 2.809
-kJmol_to_A1 = 2.237
-kJmol_to_ms = 1.408e3
-kJmol_to_K = 120.3
-kJmol_to_THz = 2.506 
+kJmol_to_A    = 2.809
+kJmol_to_A1   = 2.237
+kJmol_to_ms   = 1.408e3
+kJmol_to_K    = 120.3
+kJmol_to_THz  = 2.506 
 kJmol_to_rads = 1.575e13
-kJmol_to_cm1 = 83.59 
-kJmol_to_meV = 10.36 
+kJmol_to_cm1  = 83.59 
+kJmol_to_meV  = 10.36 
 
 """---
 ## Distance

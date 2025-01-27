@@ -37,39 +37,36 @@ r_NH = distance_NH * np.sin(np.deg2rad(angle_NH)) * phys.A_to_m
 """Rotation radius of the amine group, in meters."""
 
 # Inertia, SI units
-I_CH = 3 * (phys.atoms['H'].mass * phys.amu_to_kg * r_CH**2)
+I_CH3 = 3 * (phys.atoms['H'].mass * phys.amu_to_kg * r_CH**2)
 """Inertia of CH3, in kg·m^2."""
-I_CD = 3 * (phys.atoms['H'].isotope[2].mass * phys.amu_to_kg * r_CH**2)
+I_CD3 = 3 * (phys.atoms['H'].isotope[2].mass * phys.amu_to_kg * r_CH**2)
 """Inertia of CD3, in kg·m^2."""
-I_NH = 3 * (phys.atoms['H'].mass * phys.amu_to_kg * r_NH**2)
+I_NH3 = 3 * (phys.atoms['H'].mass * phys.amu_to_kg * r_NH**2)
 """Inertia of NH3, in kg·m^2."""
-I_ND = 3 * (phys.atoms['H'].isotope[2].mass * phys.amu_to_kg * r_NH**2)
+I_ND3 = 3 * (phys.atoms['H'].isotope[2].mass * phys.amu_to_kg * r_NH**2)
 """Inertia of ND3, in kg·m^2."""
 
 # Rotational energy.
-B_CH = ((phys.hbar_eV**2) / (2 * I_CH))
+B_CH3 = ((phys.hbar**2) / (2 * I_CH3)) * phys.J_to_meV
 """Rotational energy of CH3, in eV·s/kg·m^2."""
-B_CD = ((phys.hbar_eV**2) / (2 * I_CD))
+B_CD3 = ((phys.hbar**2) / (2 * I_CD3)) * phys.J_to_meV
 """Rotational energy of CD3, in eV·s/kg·m^2."""
-B_NH = ((phys.hbar_eV**2) / (2 * I_NH))
+B_NH3 = ((phys.hbar**2) / (2 * I_NH3)) * phys.J_to_meV
 """Rotational energy of NH3, in eV·s/kg·m^2."""
-B_ND = ((phys.hbar_eV**2) / (2 * I_ND))
-"""Rotational energy of ND3, in eV·s/kg·m^2."""
+B_ND3 = ((phys.hbar**2) / (2 * I_ND3)) * phys.J_to_meV
+"""Rotational energy of ND3, in meV·s/kg·m^2."""
 
 # Potential constants from titov2023 [C1, C2, C3, C4, C5]
 constants_titov2023 = [
-    [2.7860, 0.0130,-1.5284,-0.0037,-1.2791],
-    [2.6507, 0.0158,-1.4111,-0.0007,-1.2547],
-    [2.1852, 0.0164,-1.0017, 0.0003,-1.2061],
-    [5.9109, 0.0258,-7.0152,-0.0168, 1.0213],
-    [1.4526, 0.0134,-0.3196, 0.0005,-1.1461]
+    [2.7860, 0.0130,-1.5284,-0.0037,-1.2791],  # ZIF-8
+    [2.6507, 0.0158,-1.4111,-0.0007,-1.2547],  # ZIF-8 + Ar-1
+    [2.1852, 0.0164,-1.0017, 0.0003,-1.2061],  # ZIF-8 + Ar-{1,2}
+    [5.9109, 0.0258,-7.0152,-0.0168, 1.0213],  # ZIF-8 + Ar-{1,2,3}
+    [1.4526, 0.0134,-0.3196, 0.0005,-1.1461],  # ZIF-8 + Ar-{1,2,4}
     ]
 """Potential constants from
 [K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)](https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402)
 for the `aton.qrotor.potential.titov2023` potential.
+In meV units.
 """
-constants_titov2023_zero = [
-    [0,0,0,0,0]
-    ]
-"""Zero potential constants for the `aton.qrotor.potential.titov2023` potential."""
 

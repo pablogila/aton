@@ -30,7 +30,10 @@ import aton
 
 
 def energies(var, filename:str=None) -> QExp:
-    """Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` or `aton.qrotor.classes.QExp` object."""
+    """Solves the Schrödinger equation for a given `var` (`QSys` or `QExp` object).
+
+    The resulting `QExp` object is saved to `filename` if specified.
+    """
     if isinstance(var, QSys):
         data = QExp()
         data.systems = [deepcopy(var)]
@@ -39,6 +42,8 @@ def energies(var, filename:str=None) -> QExp:
     else:
         raise TypeError('Input must be a QSys or QExp object.')
     for system in data.systems:
+        if not any(system.grid):
+            system.set_grid()
         system = potential(system)
         system = schrodinger(system)
     if filename:
@@ -49,12 +54,15 @@ def energies(var, filename:str=None) -> QExp:
 def potential(system:QSys) -> QSys:
     """Solves the potential_values of the system.
 
-    It uses the potential name, by calling `aton.qrotor.potential.solve`.
+    It interpolates the potential if `system.gridsize` is larger than the current grid.
+    It solves the potential according to the potential name,
+    by calling `aton.qrotor.potential.solve`.
     Then it applies extra operations, such as removing the potential offset
     if `aton.qrotor.classes.QSys.correct_potential_offset = True`.
     """
-    if system.gridsize > len(system.grid):
-        system = interpolate(system)
+    if system.gridsize and any(system.grid):
+        if system.gridsize > len(system.grid):
+            system = interpolate(system)
     V = solve_potential(system)
     if system.correct_potential_offset is True:
         offset = min(V)
@@ -72,12 +80,12 @@ def schrodinger(system:QSys) -> QSys:
     time_start = time.time()
     V = system.potential_values
     H = hamiltonian_matrix(system)
-    print(f'Solving Hamiltonian matrix of size {system.gridsize}...')
+    print('Solving Hamiltonian matrix...')
     # Solve eigenvalues with ARPACK in shift-inverse mode, with a sparse matrix
     eigenvalues, eigenvectors = sparse.linalg.eigsh(H, system.E_levels, which='LM', sigma=0, maxiter=10000)
     if any(eigenvalues) is None:
         print('WARNING:  Not all eigenvalues were found.\n')
-    else: print('Done.\n')
+    else: print('Done.')
     system.runtime = time.time() - time_start
     system.eigenvalues = eigenvalues
     system.potential_max = max(V)
@@ -93,6 +101,7 @@ def schrodinger(system:QSys) -> QSys:
 
 def hamiltonian_matrix(system:QSys):
     """Calculates the Hamiltonian matrix for a given `aton.qrotor.classes.QSys` object."""
+    print(f'Creating Hamiltonian matrix of size {system.gridsize}...')
     V = system.potential_values.tolist()
     potential = sparse.diags(V, format='lil')
     B = system.B

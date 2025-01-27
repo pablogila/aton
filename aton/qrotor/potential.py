@@ -30,19 +30,20 @@ import aton.st.alias as alias
 import aton.st.file as file
 import aton.interface.qe as qe
 import aton.phys as phys
+from aton._version import __version__
 
 
 def load(
         filepath:str='potential.dat',
         system:QSys=None,
         angle_unit:str='deg',
-        energy_unit:str='eV',
+        energy_unit:str='meV',
         ) -> QSys:
     """Read a potential rotational energy dataset.
 
     The file in `filepath` should contain two columns with angle and potential energy values.
-    Degrees and eV are assumed as default units unless stated in `angle_unit` and `energy_unit`.
-    Units will be converted automatically to radians and eV.
+    Degrees and meV are assumed as default units unless stated in `angle_unit` and `energy_unit`.
+    Units will be converted automatically to radians and meV.
     """
     file_path = file.get(filepath)
     system = QSys() if system is None else system
@@ -64,12 +65,12 @@ def load(
     else:
         raise ValueError(f"Angle unit '{angle_unit}' not recognized.")
     # Save energies to numpy arrays
-    if energy_unit.lower() in alias.units['meV']:
-        potentials = np.array(potentials) * 1000
-    elif energy_unit.lower() in alias.units['eV']:
+    if energy_unit.lower() in alias.units['eV']:
+        potentials = np.array(potentials) * phys.eV_to_meV
+    elif energy_unit.lower() in alias.units['meV']:
         potentials = np.array(potentials)
     elif energy_unit.lower() in alias.units['Ry']:
-        potentials = np.array(potentials) * phys.Ry_to_eV
+        potentials = np.array(potentials) * phys.Ry_to_meV
     else:
         raise ValueError(f"Energy unit '{energy_unit}' not recognized.")
     # Set the system
@@ -84,6 +85,7 @@ def from_qe(
         output:str='potential.dat',
         include:list=['.out'],
         ignore:list=['slurm-'],
+        energy_unit:str='meV',
         ) -> None:
     """Creates a potential data file from Quantum ESPRESSO outputs.
 
@@ -94,10 +96,23 @@ def from_qe(
     Files can be filtered by those containing the specified `filters`,
     excluding those containing any string from the `ignore` list. 
     The `output` name is `potential.dat` by default.
+
+    Energy values are saved to meV by dafault, unless specified in `energy_unit`.
     """
     folder = file.get_dir(folder)
     files = file.get_list(folder=folder, include=include, ignore=ignore, abspath=True)
-    potential_data = '# Angle/deg    Potential/eV\n'
+    # Set header
+    potential_data = f'# Potential values imported with ATON {__version__}\n'
+    potential_data += '# https://pablogila.github.io/ATON\n'
+    potential_data += '# ------------------------------------------\n'
+    if energy_unit.lower() in alias.units['eV']:
+        potential_data += '# Angle/deg    Potential/eV\n'
+    elif energy_unit.lower() in alias.units['meV']:
+        potential_data += '# Angle/deg    Potential/meV\n'
+    elif energy_unit.lower() in alias.units['Ry']:
+        potential_data += '# Angle/deg    Potential/Ry\n'
+    else:
+        potential_data += '# Angle/deg    Potential/meV\n'
     potential_data_list = []
     print('Extracting the potential as a function of the angle...')
     print('----------------------------------')
@@ -113,7 +128,15 @@ def from_qe(
             print(f'x   {filename}')
             counter_errors += 1
             continue
-        energy = content['Energy'] * phys.Ry_to_eV
+        if energy_unit.lower() in alias.units['eV']:
+            energy = content['Energy'] * phys.Ry_to_eV
+        elif energy_unit.lower() in alias.units['meV']:
+            energy = content['Energy'] * phys.Ry_to_meV
+        elif energy_unit.lower() in alias.units['Ry']:
+            energy = content['Energy']
+        else:
+            print(f"WARNING: Energy unit '{energy_unit}' not recognized, using meV instead.")
+            energy = content['Energy'] * phys.Ry_to_meV
         splits = filename.split('_')
         angle = splits[-1].replace('.out', '')
         angle = float(angle)
@@ -137,6 +160,7 @@ def from_qe(
 
 def interpolate(system:QSys) -> QSys:
     """Interpolates the current `aton.qrotor.classes.QSys.potential_values` to a new grid of size `aton.qrotor.classes.QSys.gridsize`."""
+    print(f"Interpolating potential to a grid of size {system.gridsize}...")
     V = system.potential_values
     grid = system.grid
     gridsize = system.gridsize
@@ -161,6 +185,10 @@ def solve(system:QSys):
 
     If a bigger `QSys.gridsize` is provided,
     the potential is also interpolated to the new gridsize.
+
+    This function provides basic solving of the potential energy function.
+    To interpolate to a new grid and correct the potential offset after solving,
+    check `aton.qrotor.solve.potential()`.
     """
     data = deepcopy(system)
     # Is there a potential_name?

@@ -98,39 +98,36 @@
                     <a class="variable" href="#r_NH">r_NH</a>
             </li>
             <li>
-                    <a class="variable" href="#I_CH">I_CH</a>
+                    <a class="variable" href="#I_CH3">I_CH3</a>
             </li>
             <li>
-                    <a class="variable" href="#I_CD">I_CD</a>
+                    <a class="variable" href="#I_CD3">I_CD3</a>
             </li>
             <li>
-                    <a class="variable" href="#I_NH">I_NH</a>
+                    <a class="variable" href="#I_NH3">I_NH3</a>
             </li>
             <li>
-                    <a class="variable" href="#I_ND">I_ND</a>
+                    <a class="variable" href="#I_ND3">I_ND3</a>
             </li>
             <li>
-                    <a class="variable" href="#B_CH">B_CH</a>
+                    <a class="variable" href="#B_CH3">B_CH3</a>
             </li>
             <li>
-                    <a class="variable" href="#B_CD">B_CD</a>
+                    <a class="variable" href="#B_CD3">B_CD3</a>
             </li>
             <li>
-                    <a class="variable" href="#B_NH">B_NH</a>
+                    <a class="variable" href="#B_NH3">B_NH3</a>
             </li>
             <li>
-                    <a class="variable" href="#B_ND">B_ND</a>
+                    <a class="variable" href="#B_ND3">B_ND3</a>
             </li>
             <li>
                     <a class="variable" href="#constants_titov2023">constants_titov2023</a>
             </li>
-            <li>
-                    <a class="variable" href="#constants_titov2023_zero">constants_titov2023_zero</a>
-            </li>
     </ul>
 
 
-            <footer>ATON v0.0.6 documentation</footer>
+            <footer>ATON v0.0.7 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -197,41 +194,38 @@ see <a href="https://doi.org/10.1021/acs.cgd.3c01112"><em>Cryst. Growth Des.</em
 </span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">&quot;&quot;&quot;Rotation radius of the amine group, in meters.&quot;&quot;&quot;</span>
 </span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>
 </span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="c1"># Inertia, SI units</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="n">I_CH</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">phys</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">amu_to_kg</span> <span class="o">*</span> <span class="n">r_CH</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="n">I_CH3</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">phys</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">amu_to_kg</span> <span class="o">*</span> <span class="n">r_CH</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 </span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="sd">&quot;&quot;&quot;Inertia of CH3, in kg·m^2.&quot;&quot;&quot;</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="n">I_CD</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">phys</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isotope</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">amu_to_kg</span> <span class="o">*</span> <span class="n">r_CH</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="n">I_CD3</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">phys</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isotope</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">amu_to_kg</span> <span class="o">*</span> <span class="n">r_CH</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 </span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">&quot;&quot;&quot;Inertia of CD3, in kg·m^2.&quot;&quot;&quot;</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="n">I_NH</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">phys</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">amu_to_kg</span> <span class="o">*</span> <span class="n">r_NH</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="n">I_NH3</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">phys</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">amu_to_kg</span> <span class="o">*</span> <span class="n">r_NH</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">&quot;&quot;&quot;Inertia of NH3, in kg·m^2.&quot;&quot;&quot;</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="n">I_ND</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">phys</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isotope</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">amu_to_kg</span> <span class="o">*</span> <span class="n">r_NH</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="n">I_ND3</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">phys</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isotope</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">amu_to_kg</span> <span class="o">*</span> <span class="n">r_NH</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">&quot;&quot;&quot;Inertia of ND3, in kg·m^2.&quot;&quot;&quot;</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>
 </span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="c1"># Rotational energy.</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="n">B_CH</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar_eV</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_CH</span><span class="p">))</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="n">B_CH3</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_CH3</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">J_to_meV</span>
 </span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of CH3, in eV·s/kg·m^2.&quot;&quot;&quot;</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="n">B_CD</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar_eV</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_CD</span><span class="p">))</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="n">B_CD3</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_CD3</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">J_to_meV</span>
 </span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of CD3, in eV·s/kg·m^2.&quot;&quot;&quot;</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="n">B_NH</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar_eV</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_NH</span><span class="p">))</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="n">B_NH3</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_NH3</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">J_to_meV</span>
 </span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of NH3, in eV·s/kg·m^2.&quot;&quot;&quot;</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="n">B_ND</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar_eV</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_ND</span><span class="p">))</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of ND3, in eV·s/kg·m^2.&quot;&quot;&quot;</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="n">B_ND3</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_ND3</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">J_to_meV</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of ND3, in meV·s/kg·m^2.&quot;&quot;&quot;</span>
 </span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
 </span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="c1"># Potential constants from titov2023 [C1, C2, C3, C4, C5]</span>
 </span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="n">constants_titov2023</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>    <span class="p">[</span><span class="mf">2.7860</span><span class="p">,</span> <span class="mf">0.0130</span><span class="p">,</span><span class="o">-</span><span class="mf">1.5284</span><span class="p">,</span><span class="o">-</span><span class="mf">0.0037</span><span class="p">,</span><span class="o">-</span><span class="mf">1.2791</span><span class="p">],</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>    <span class="p">[</span><span class="mf">2.6507</span><span class="p">,</span> <span class="mf">0.0158</span><span class="p">,</span><span class="o">-</span><span class="mf">1.4111</span><span class="p">,</span><span class="o">-</span><span class="mf">0.0007</span><span class="p">,</span><span class="o">-</span><span class="mf">1.2547</span><span class="p">],</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>    <span class="p">[</span><span class="mf">2.1852</span><span class="p">,</span> <span class="mf">0.0164</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0017</span><span class="p">,</span> <span class="mf">0.0003</span><span class="p">,</span><span class="o">-</span><span class="mf">1.2061</span><span class="p">],</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="p">[</span><span class="mf">5.9109</span><span class="p">,</span> <span class="mf">0.0258</span><span class="p">,</span><span class="o">-</span><span class="mf">7.0152</span><span class="p">,</span><span class="o">-</span><span class="mf">0.0168</span><span class="p">,</span> <span class="mf">1.0213</span><span class="p">],</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>    <span class="p">[</span><span class="mf">1.4526</span><span class="p">,</span> <span class="mf">0.0134</span><span class="p">,</span><span class="o">-</span><span class="mf">0.3196</span><span class="p">,</span> <span class="mf">0.0005</span><span class="p">,</span><span class="o">-</span><span class="mf">1.1461</span><span class="p">]</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>    <span class="p">[</span><span class="mf">2.7860</span><span class="p">,</span> <span class="mf">0.0130</span><span class="p">,</span><span class="o">-</span><span class="mf">1.5284</span><span class="p">,</span><span class="o">-</span><span class="mf">0.0037</span><span class="p">,</span><span class="o">-</span><span class="mf">1.2791</span><span class="p">],</span>  <span class="c1"># ZIF-8</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>    <span class="p">[</span><span class="mf">2.6507</span><span class="p">,</span> <span class="mf">0.0158</span><span class="p">,</span><span class="o">-</span><span class="mf">1.4111</span><span class="p">,</span><span class="o">-</span><span class="mf">0.0007</span><span class="p">,</span><span class="o">-</span><span class="mf">1.2547</span><span class="p">],</span>  <span class="c1"># ZIF-8 + Ar-1</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>    <span class="p">[</span><span class="mf">2.1852</span><span class="p">,</span> <span class="mf">0.0164</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0017</span><span class="p">,</span> <span class="mf">0.0003</span><span class="p">,</span><span class="o">-</span><span class="mf">1.2061</span><span class="p">],</span>  <span class="c1"># ZIF-8 + Ar-{1,2}</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="p">[</span><span class="mf">5.9109</span><span class="p">,</span> <span class="mf">0.0258</span><span class="p">,</span><span class="o">-</span><span class="mf">7.0152</span><span class="p">,</span><span class="o">-</span><span class="mf">0.0168</span><span class="p">,</span> <span class="mf">1.0213</span><span class="p">],</span>  <span class="c1"># ZIF-8 + Ar-{1,2,3}</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>    <span class="p">[</span><span class="mf">1.4526</span><span class="p">,</span> <span class="mf">0.0134</span><span class="p">,</span><span class="o">-</span><span class="mf">0.3196</span><span class="p">,</span> <span class="mf">0.0005</span><span class="p">,</span><span class="o">-</span><span class="mf">1.1461</span><span class="p">],</span>  <span class="c1"># ZIF-8 + Ar-{1,2,4}</span>
 </span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>    <span class="p">]</span>
 </span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="sd">&quot;&quot;&quot;Potential constants from</span>
 </span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="sd">[K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)](https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402)</span>
 </span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="sd">for the `aton.qrotor.potential.titov2023` potential.</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a><span class="n">constants_titov2023_zero</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a>    <span class="p">]</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a><span class="sd">&quot;&quot;&quot;Zero potential constants for the `aton.qrotor.potential.titov2023` potential.&quot;&quot;&quot;</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="sd">In meV units.</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span></pre></div>
 
 
@@ -348,114 +342,114 @@ see <a href="https://doi.org/10.1021/acs.cgd.3c01112"><em>Cryst. Growth Des.</em
 
 
                 </section>
-                <section id="I_CH">
+                <section id="I_CH3">
                     <div class="attr variable">
-            <span class="name">I_CH</span>        =
+            <span class="name">I_CH3</span>        =
 <span class="default_value">np.float64(5.37903596799128e-47)</span>
 
         
     </div>
-    <a class="headerlink" href="#I_CH"></a>
+    <a class="headerlink" href="#I_CH3"></a>
     
             <div class="docstring"><p>Inertia of CH3, in kg·m^2.</p>
 </div>
 
 
                 </section>
-                <section id="I_CD">
+                <section id="I_CD3">
                     <div class="attr variable">
-            <span class="name">I_CD</span>        =
+            <span class="name">I_CD3</span>        =
 <span class="default_value">np.float64(1.0748582164136045e-46)</span>
 
         
     </div>
-    <a class="headerlink" href="#I_CD"></a>
+    <a class="headerlink" href="#I_CD3"></a>
     
             <div class="docstring"><p>Inertia of CD3, in kg·m^2.</p>
 </div>
 
 
                 </section>
-                <section id="I_NH">
+                <section id="I_NH3">
                     <div class="attr variable">
-            <span class="name">I_NH</span>        =
+            <span class="name">I_NH3</span>        =
 <span class="default_value">np.float64(4.717299973303422e-47)</span>
 
         
     </div>
-    <a class="headerlink" href="#I_NH"></a>
+    <a class="headerlink" href="#I_NH3"></a>
     
             <div class="docstring"><p>Inertia of NH3, in kg·m^2.</p>
 </div>
 
 
                 </section>
-                <section id="I_ND">
+                <section id="I_ND3">
                     <div class="attr variable">
-            <span class="name">I_ND</span>        =
+            <span class="name">I_ND3</span>        =
 <span class="default_value">np.float64(9.426277618824576e-47)</span>
 
         
     </div>
-    <a class="headerlink" href="#I_ND"></a>
+    <a class="headerlink" href="#I_ND3"></a>
     
             <div class="docstring"><p>Inertia of ND3, in kg·m^2.</p>
 </div>
 
 
                 </section>
-                <section id="B_CH">
+                <section id="B_CH3">
                     <div class="attr variable">
-            <span class="name">B_CH</span>        =
-<span class="default_value">np.float64(4027143365941557.0)</span>
+            <span class="name">B_CH3</span>        =
+<span class="default_value">np.float64(0.6452195002679675)</span>
 
         
     </div>
-    <a class="headerlink" href="#B_CH"></a>
+    <a class="headerlink" href="#B_CH3"></a>
     
             <div class="docstring"><p>Rotational energy of CH3, in eV·s/kg·m^2.</p>
 </div>
 
 
                 </section>
-                <section id="B_CD">
+                <section id="B_CD3">
                     <div class="attr variable">
-            <span class="name">B_CD</span>        =
-<span class="default_value">np.float64(2015349437057429.5)</span>
+            <span class="name">B_CD3</span>        =
+<span class="default_value">np.float64(0.32289457773984676)</span>
 
         
     </div>
-    <a class="headerlink" href="#B_CD"></a>
+    <a class="headerlink" href="#B_CD3"></a>
     
             <div class="docstring"><p>Rotational energy of CD3, in eV·s/kg·m^2.</p>
 </div>
 
 
                 </section>
-                <section id="B_NH">
+                <section id="B_NH3">
                     <div class="attr variable">
-            <span class="name">B_NH</span>        =
-<span class="default_value">np.float64(4592065193277835.0)</span>
+            <span class="name">B_NH3</span>        =
+<span class="default_value">np.float64(0.7357299554474442)</span>
 
         
     </div>
-    <a class="headerlink" href="#B_NH"></a>
+    <a class="headerlink" href="#B_NH3"></a>
     
             <div class="docstring"><p>Rotational energy of NH3, in eV·s/kg·m^2.</p>
 </div>
 
 
                 </section>
-                <section id="B_ND">
+                <section id="B_ND3">
                     <div class="attr variable">
-            <span class="name">B_ND</span>        =
-<span class="default_value">np.float64(2298059731489035.0)</span>
+            <span class="name">B_ND3</span>        =
+<span class="default_value">np.float64(0.36818976053280467)</span>
 
         
     </div>
-    <a class="headerlink" href="#B_ND"></a>
+    <a class="headerlink" href="#B_ND3"></a>
     
-            <div class="docstring"><p>Rotational energy of ND3, in eV·s/kg·m^2.</p>
+            <div class="docstring"><p>Rotational energy of ND3, in meV·s/kg·m^2.</p>
 </div>
 
 
@@ -472,21 +466,8 @@ see <a href="https://doi.org/10.1021/acs.cgd.3c01112"><em>Cryst. Growth Des.</em
     
             <div class="docstring"><p>Potential constants from
 <a href="https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402">K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)</a>
-for the <code><a href="potential.html#titov2023">aton.qrotor.potential.titov2023</a></code> potential.</p>
-</div>
-
-
-                </section>
-                <section id="constants_titov2023_zero">
-                    <div class="attr variable">
-            <span class="name">constants_titov2023_zero</span>        =
-<span class="default_value">[[0, 0, 0, 0, 0]]</span>
-
-        
-    </div>
-    <a class="headerlink" href="#constants_titov2023_zero"></a>
-    
-            <div class="docstring"><p>Zero potential constants for the <code><a href="potential.html#titov2023">aton.qrotor.potential.titov2023</a></code> potential.</p>
+for the <code><a href="potential.html#titov2023">aton.qrotor.potential.titov2023</a></code> potential.
+In meV units.</p>
 </div>
 
 

@@ -54,7 +54,7 @@ def potential(data):
     for system in dataset.systems:
         plt.plot(system.grid, system.potential_values, marker='', linestyle='-')
     plt.xlabel('Angle / rad')
-    plt.ylabel('Potential energy / eV')
+    plt.ylabel('Potential energy / meV')
     plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
     plt.title(dataset.comment)
     plt.show()
@@ -85,15 +85,8 @@ def energy_DEV(data:QExp):
 
     V_linestyle = '-'
 
-    units = data.units
-    E_units = 'meV'
-    if 'meV' in units or 'mev' in units:
-        E_units = 'meV'
-    elif 'eV' in units or 'ev' in units:
-        E_units = 'eV'
-
     title = data.comment
-    ylabel_text = f'Energy / {E_units}'
+    ylabel_text = f'Energy / eV'
     xlabel_text = 'Angle / radians'
 
     plt.figure(figsize=(10, 6))

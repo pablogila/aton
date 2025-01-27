@@ -3,6 +3,9 @@
  
 The QRotor module is used to study the energy levels of quantum rotations, such as methyl and amine groups.
 
+This module uses meV as default units in the calculations.
+
+
 # Index
 
 | | |

@@ -24,21 +24,23 @@ from aton._version import __version__
 
 
 class QSys:
-    """Quantum system, contains all the data for a single calculation, with both inputs and outputs."""
+    """Quantum system.
+
+    Contains all the data for a single QRotor calculation, with both inputs and outputs.
+    """
     def __init__(
             self,
             comment: str = None,
             group: str = 'CH3',
             E_levels: int = 5,
-            units = None,            ################ TODO CHECK THAT THIS WORKS. previously = []
             correct_potential_offset: bool = True,
             save_eigenvectors: bool = False,
             gridsize: int = None,
-            grid = None,
+            grid = [],
             B: float = None,
             potential_name: str = '',
             potential_constants: list = None,
-            potential_values = None,
+            potential_values = [],
             ):
         ## Technical
         self.comment: str = comment
@@ -48,8 +50,6 @@ class QSys:
         self.set_group(group)  # Normalise the group name, and set the value of B
         self.E_levels: int = E_levels
         """Number of energy levels to be studied."""
-        self.units = units
-        """List containing the energy units in use, e.g. ['meV']."""     #############  TODO remove the need for a list
         self.correct_potential_offset: bool = correct_potential_offset
         """Correct the potential offset as `V - min(V)` or not."""
         self.save_eigenvectors: bool = save_eigenvectors
@@ -61,7 +61,7 @@ class QSys:
         """The grid with the points to be used in the calculation.
 
         Can be set automatically over $2 \\Pi$ with `QSys.set_grid()`.
-        Units should be in radians.
+        Units must be in radians.
         """
         if not B:
             B = self.B
@@ -74,11 +74,11 @@ class QSys:
         self.potential_constants: list = potential_constants
         """List of constants to be used in the calculation of the potential energy, in the `aton.qrotor.potential` module."""
         self.potential_values = potential_values
-        """Numpy array with the potential values for each point in the grid.
+        """Numpy ndarray with the potential values for each point in the grid.
 
         Can be calculated with a function available in the `qrotor.potential` module,
         or loaded externally with the `qrotor.potential.load()` function.
-        Units should be in eV.
+        Potential energy units must be in meV.
         """
         self.potential_offset: float = None
         """`min(V)` before offset correction when `QSys.correct_potential_offset = True`"""
@@ -90,7 +90,7 @@ class QSys:
         """Reduced `potential_max`, in units of B."""
         # Energies
         self.eigenvalues = None
-        """Calculated eigenvalues of the system."""
+        """Calculated eigenvalues of the system. Should be in meV."""
         self.eigenvalues_B = None
         """Reduced `eigenvalues`, in units of B."""
         self.eigenvectors = None
@@ -133,7 +133,7 @@ class QSys:
         if gridsize:
             self.gridsize = gridsize
         # Should we interpolate?
-        if self.potential_values and self.grid and self.gridsize:
+        if any(self.potential_values) and any(self.grid) and self.gridsize:
             from .potential import interpolate
             self = interpolate(self)
         # Should we create the values from zero?
@@ -149,28 +149,28 @@ class QSys:
             if group.lower() == name:
                 self.group = 'CH3'
                 if not B:
-                    B = B_CH
+                    B = B_CH3
                 self.B = B
                 return self
         for name in alias.chemical['CD3']:
             if group.lower() == name:
                 self.group = 'CD3'
                 if not B:
-                    B = B_CD
+                    B = B_CD3
                 self.B = B
                 return self
         for name in alias.chemical['NH3']:
             if group.lower() == name:
                 self.group = 'NH3'
                 if not B:
-                    B = B_NH
+                    B = B_NH3
                 self.B = B
                 return self
         for name in alias.chemical['ND3']:
             if group.lower() == name:
                 self.group = 'ND3'
                 if not B:
-                    B = B_ND
+                    B = B_ND3
                 self.B = B
                 return self
         self.group = group  # No match was found
@@ -178,6 +178,10 @@ class QSys:
 
 
 class QExp:
+    """Quantum experiment.
+
+    Used as a container for `QSys` objects, with additional methods for data manipulation.
+    """
     def __init__(self,
                  comment: str = None,
                  systems: list = [],
