@@ -37,6 +37,9 @@ See the API reference of the specific modules for more information.
 
 Constant values come from the [2022 CODATA](https://doi.org/10.48550/arXiv.2409.03787) Recommended Values of the Fundamental Physical Constants.
 
+Conversion factors for neutron scattering come from
+[M. Bée, "Quasielastic Neutron scattering", Adam Hilger, Bristol and Philadelphia, 1988](https://www.ncnr.nist.gov/instruments/dcs/dcs_usersguide/Conversion_Factors.pdf).
+
 
 ## `aton.phys.atoms`
 

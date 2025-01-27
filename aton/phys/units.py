@@ -11,6 +11,17 @@ from [M. Bée, "Quasielastic Neutron scattering", Adam Hilger, Bristol and Phila
 
 # Index
 
+- [Fundamental Physical Constants](#fundamental-physical-constants)
+    - [Universal](#universal)
+    - [Electromagnetic](#electromagnetic)
+    - [Atomic and nuclear](#atomic-and-nuclear)
+        - [General](#general)
+        - [Electron](#electron)
+        - [Proton](#proton)
+        - [Neutron](#neutron)
+        - [Deuteron](#deuteron)
+        - [Alpha particle](#alpha-particle)
+    - [Physicochemical](#physicochemical)
 - [Conversion factors](#conversion-factors)
     - [Energy E](#energy)
     - [Distance](#distance)
@@ -25,246 +36,48 @@ from [M. Bée, "Quasielastic Neutron scattering", Adam Hilger, Bristol and Phila
     - [Frequency *v*](#frequency)
     - [Angular frequency *w*](#angular-frequency)
     - [Wavenumber *v*/c](#wavenumber)
-- [Fundamental Physical Constants](#fundamental-physical-constants)
-    - [Universal](#universal)
-    - [Electromagnetic](#electromagnetic)
-    - [Atomic and nuclear](#atomic-and-nuclear)
-        - [General](#general)
-        - [Electron](#electron)
-        - [Proton](#proton)
-        - [Neutron](#neutron)
-        - [Deuteron](#deuteron)
-        - [Alpha particle](#alpha-particle)
-    - [Physicochemical](#physicochemical)
-
-
-# Legend
-
-Universal constant names contain [romanized greek letters](https://en.wikipedia.org/wiki/Romanization_of_Greek#Ancient_Greek),
-except for $\\mu$ which is used as `u`.
-
-Conversion factors are used as `value_initial * initial_to_final`.
-
-Units are named as the unit itself, removing any `/` divider in between.
-Inverse of a unit U, as in 1/U or U$^{-1}$, is expressed as `U1`.
-
-| | |
-| --- | --- |
-| **Unit**   | **Alias** |
-| eV         | `eV` |
-| meV        | `meV` |
-| Joule      | `J` |
-| kJ/mol     | `kJmol` |
-| 1/cm       | `cm1` |
-| Rydberg    | `Ry` |
-| calorie    | `cal` |
-| kcal       | `kcal` |
-| Angstrom Å | `A` |
-| 1/Å        | `A1` |
-| meter      | `m` |
-| bohr       | `bohr` |
-| m/s        | `ms` |
-| Kelvin     | `K` |
-| THz        | `THz` |
-| rad/s      | `rads` |
-| kilogram   | `kg` |
-| gram       | `g` |
-| a.m.u.     | `amu` |
-| Pascal     | `Pa` |
-| GPa        | `GPa` |
-| bar        | `bar` |
-| kbar       | `kbar` |
-| hour       | `H` |
-| second     | `s` |
 
 
 # Examples
 
+Units and constants are named as their standard symbol, removing any `/` divider in between.
+Inverse of a unit or constant X, as in 1/X or X$^{-1}$, is expressed as `X1`.
+
+Universal constant names contain
+[romanized greek letters](https://en.wikipedia.org/wiki/Romanization_of_Greek#Ancient_Greek),
+except for $\\mu$ which is used as `u`.
+
+Some examples:  
 ```python
-from aton import phys
-energy_in_cm1 = 1000 * phys.meV_to_cm1       # 8065.5
-length_in_angstroms = 10.0 * phys.bohr_to_A  # 5.29177210544
-phys.hbar   # 1.0545718176461565e-34
+from aton.phys import *
+# Constants
+h     # Planck constant
+hbar  # reduced Planck constant
+a     # fine-structure constant (alpha)
+ue    # electron magnetic moment (mu e)
+mn    # neutron mass
+mnc2  # neutron mass energy equivalent
+# Conversions
+# meV to 1/cm
+energy_in_cm1 = energy_in_meV * meV_to_cm1
+# Bohr to Angstroms
+distance_in_angstroms = distance_in_bohr * bohr_to_A
+# m/s to rad/s  (used in neutron scattering)
+velocity_in_rads = velocity_in_ms * ms_to_rads
 ```
 
+
 ---
-
-# Conversion factors
-
-## Energy
-"""
-
-import numpy as np
-
-eV_to_meV   = 1000.0
-meV_to_eV   = 0.001
-meV_to_cm1  = 8.0655
-cm1_to_meV  = 1.0 / meV_to_cm1
-eV_to_J     = 1.602176634e-19
-J_to_eV     = 1.0 / eV_to_J
-meV_to_J    = meV_to_eV * eV_to_J
-J_to_meV    = J_to_eV * eV_to_meV
-Ry_to_eV    = 13.605693122990
-eV_to_Ry    = 1.0 / Ry_to_eV
-Ry_to_J     = 2.1798723611030e-18
-J_to_Ry     = 1.0 / Ry_to_J
-cal_to_J    = 4.184
-J_to_cal    = 1 / cal_to_J
-kcal_to_J   = cal_to_J * 1000.0
-J_to_kcal   = 1 / kcal_to_J
-# Specific for neutron scattering
-meV_to_A = 9.045
-meV_to_A1 = 0.6947
-meV_to_ms = 437.4 
-meV_to_K = 11.604
-meV_to_THz = 0.2418
-meV_to_rads = 1.519e12
-meV_to_kJmol = 0.0965
-kJmol_to_A = 2.809
-kJmol_to_A1 = 2.237
-kJmol_to_ms = 1.408e3
-kJmol_to_K = 120.3
-kJmol_to_THz = 2.506 
-kJmol_to_rads = 1.575e13
-kJmol_to_cm1 = 83.59 
-kJmol_to_meV = 10.36 
-
-"""---
-## Distance
-"""
-A_to_m      = 1.0e-10
-m_to_A      = 1.0 / A_to_m
-bohr_to_m   = 5.29177210544e-11
-m_to_bohr   = 1.0 / bohr_to_m
-A_to_bohr   = A_to_m * m_to_bohr
-bohr_to_A   = 1.0 / A_to_bohr
-
-"""---
-## Mass
-"""
-amu_to_kg   = 1.66053906660e-27
-kg_to_amu   = 1.0 / amu_to_kg
-kg_to_g     = 1000.0
-g_to_kg     = 1.0 / kg_to_g
-
-"""---
-## Pressure
-"""
-GPa_to_Pa   = 1.0e9
-Pa_to_GPa   = 1.0 / GPa_to_Pa
-kbar_to_bar = 1000.0
-bar_to_kbar = 1.0 / kbar_to_bar
-Pa_to_bar   = 1.0e-5
-bar_to_Pa   = 1.0 / Pa_to_bar
-GPa_to_kbar = GPa_to_Pa * Pa_to_bar * bar_to_kbar
-kbar_to_GPa = 1.0 / GPa_to_kbar
-
-"""---
-## Time
-"""
-H_to_s      = 3600.0
-s_to_H      = 1.0 / H_to_s
-
-"""---
-## Wavelength
-"""
-A_to_A1 = 6.28318
-A_to_ms = 3956
-A_to_K = 949.3 
-A_to_THz = 19.78 
-A_to_rads = 1.243e14
-A_to_cm1 = 659.8 
-A_to_meV = 81.805 
-A_to_kJmol = 7.893
-
-"""---
-## Wavevector
-"""
-A1_to_A = 6.28318
-A1_to_ms = 629.6 
-A1_to_K = 24.046
-A1_to_THz = 0.5010
-A1_to_rads = 3.148e12
-A1_to_cm1 = 16.71
-A1_to_meV = 2.072 
-A1_to_kJmol = 0.1999
-
-"""---
-## Velocity
-"""
-ms_to_A = 3956 
-ms_to_A1 = 1.589e-3
-ms_to_K = 6.066e5
-ms_to_THz = 1.265e-6
-ms_to_rads = 7.948e6
-ms_to_cm1 = 4.216e-5
-ms_to_meV = 5.227e-6
-ms_to_kJmol = 5.044e-7
-
-"""---
-## Temperature
-"""
-K_to_A = 30.81 
-K_to_A1 = 0.2039 
-K_to_ms = 128.4 
-K_to_THz = 0.02084 
-K_to_rads = 1.309e11
-K_to_cm1 = 0.6950
-K_to_meV = 8.617e-2
-K_to_kJmol = 8.314e-3
-
-"""---
-## Temperature scales
-Note that to change between temperature scales,
-these constants must be added instead of multiplied.
-"""
-C_to_K_scale = 273.15
-K_to_C_scale = -C_to_K_scale
-
-"""---
-## Frequency
-"""
-THz_to_A = 4.4475
-THz_to_A1 = 1.4127 
-THz_to_ms = 889.5 
-THz_to_K = 48.0
-THz_to_rads = 6.283e12
-THz_to_cm1 = 33.36 
-THz_to_meV = 4.136
-THz_to_kJmol = 0.3990
-
-"""---
-## Angular frequency
-"""
-rads_to_A = 11.15e6
-rads_to_A1 = 5.64e-7
-rads_to_ms = 3.549e-4
-rads_to_K = 7.64e-12
-rads_to_THz = 0.1592e-12
-rads_to_cm1 = 5.309e-12
-rads_to_meV = 6.582e-13
-rads_to_kJmol = 6.351e-14
-
-"""---
-## Wavenumber
-""" 
-cm1_to_A = 25.69 
-cm1_to_A1 = 0.2446
-cm1_to_ms = 154.01
-cm1_to_K = 1.439
-cm1_to_THz = 0.02998
-cm1_to_rads = 1.884e11
-cm1_to_meV = 0.1240 
-cm1_to_kJmol = 1.196e-2
-
-"""---
 # Fundamental Physical Constants
 Using SI units unless stated otherwise.
 
 ## Universal
 """
+
+import numpy as np
+
 c = 299792458
-"""$c$ | speed of light in vacuum, in m/s"""
+"""$c$ | speed of light in vacuum / natural unit of velocity, in m/s"""
 u0 = 1.25663706127e-6
 """$\\mu_0$ | vacuum magnetic permeability, in N·A$^{-2}$ ($4\\pi\\alpha\\hbar/e^2 c$)"""
 e0 = 1.25663706127e-6
@@ -275,10 +88,10 @@ G = 6.67430e-11
 """$G$ | Newtonian constant of gravitation, in m$^3$·kg$^{-1}$·s$^{-1}$"""
 h = 6.62607015e-34
 """$h$ | Planck constant, in J·s"""
-h_eV = h * J_to_eV
+h_eV = 4.135667696923859e-15
 """$h$ | Planck constant, in eV·s"""
 hbar = h / (2 * np.pi)
-"""$\\hbar$ | reduced Planck constant, in J·s"""
+"""$\\hbar$ | reduced Planck constant / natural unit of action, in J·s"""
 hbar_eV = h_eV / (2 * np.pi)
 """$\\hbar$ | reduced Planck constant, in eV·s
 
@@ -321,11 +134,11 @@ Eh = 4.3597447222060e-18
 ### Electron
 """
 me = 9.1093837139-31
-"""$m_e$ | electron mass, in kg"""
+"""$m_e$ | electron mass / natural unit of mass, in kg"""
 me_uma = 5.485799090441e-4
 """$m_e$ | electron mass, in uma"""
 mec2 = 8.1871057880e-14
-"""$m_e c^2$ | electron mass energy equivalent, in J"""
+"""$m_e c^2$ | electron mass energy equivalent / natural unit of energy, in J"""
 mec2_eV = 510998.95069
 """$m_e c^2$ | electron mass energy equivalent, in eV"""
 lC = 2.42631023538e-12
@@ -411,7 +224,7 @@ k = 1.380649e-23
 k_eV = 8.617333262e-5
 """$k$ | Boltzmann constant, in eV·K$^{-1}$"""
 mu = 1.66053906892e-27
-"""$m_u$ | atomic mass constant, in kg ($\\frac{1}{12}m(^{12}C)$)"""
+"""$m_u$ | atomic mass constant / unified atomic mass unit, in kg ($\\frac{1}{12}m(^{12}C)$)"""
 muc2 = 1.49241808768e-10
 """$m_u c^2$ | atomic mass constant energy equivalent, in J"""
 muc2_eV = 931494103.72
@@ -421,5 +234,177 @@ R = 8.314462618
 F = 96485.33212
 """$F$ | Faraday constant, in C·mol$^{-1}$ ($N_A e$)"""
 s = 5.670374419e-8
-"""$\\sigma$ | Stefan-Boltzmann constant, in W·m$^{-2}$·K$^{-4}$ ($(\\pi^2/60)k^4 /\\hbar^3 c^2$)"""
+"""$\\sigma$ | Stefan-Boltzmann constant, in W·m$^{-2}$·K$^{-4}$ ($(\\pi^2/60)k^4 /\\hbar^3 c^2$)
+
+---
+# Conversion factors
+
+## Energy
+"""
+Ry_to_eV    = 13.605693122990
+Ry_to_J     = 2.1798723611030e-18
+
+eV_to_Ry    = 1.0 / Ry_to_eV
+eV_to_J     = 1.602176634e-19
+eV_to_meV   = 1000.0
+
+meV_to_eV   = 1e-3
+meV_to_J    = 1.602176634e-22
+meV_to_A = 9.045
+meV_to_A1 = 0.6947
+meV_to_ms = 437.4 
+meV_to_K = 11.604
+meV_to_THz = 0.2418
+meV_to_rads = 1.519e12
+meV_to_cm1  = 8.0655
+meV_to_kJmol = 0.0965
+
+cal_to_J    = 4.184
+kcal_to_J   = cal_to_J * 1000.0
+
+J_to_eV     = 1.0 / eV_to_J
+J_to_meV    = 1.0 / meV_to_J
+J_to_Ry     = 1.0 / Ry_to_J
+J_to_cal    = 1.0 / cal_to_J
+J_to_kcal   = 1.0 / kcal_to_J
+
+kJmol_to_A = 2.809
+kJmol_to_A1 = 2.237
+kJmol_to_ms = 1.408e3
+kJmol_to_K = 120.3
+kJmol_to_THz = 2.506 
+kJmol_to_rads = 1.575e13
+kJmol_to_cm1 = 83.59 
+kJmol_to_meV = 10.36 
+
+"""---
+## Distance
+"""
+A_to_m      = 1.0e-10
+m_to_A      = 1.0 / A_to_m
+
+bohr_to_m   = 5.29177210544e-11
+m_to_bohr   = 1.0 / bohr_to_m
+
+A_to_bohr   = A_to_m * m_to_bohr
+bohr_to_A   = 1.0 / A_to_bohr
+
+"""---
+## Mass
+"""
+kg_to_g     = 1000.0
+g_to_kg     = 1.0 / kg_to_g
+
+amu_to_kg   = 1.66053906660e-27
+kg_to_amu   = 1.0 / amu_to_kg
+
+"""---
+## Pressure
+"""
+Pa_to_bar   = 1.0e-5
+bar_to_Pa   = 1.0 / Pa_to_bar
+
+GPa_to_Pa   = 1.0e9
+Pa_to_GPa   = 1.0 / GPa_to_Pa
+
+kbar_to_bar = 1000.0
+bar_to_kbar = 1.0 / kbar_to_bar
+
+GPa_to_kbar = GPa_to_Pa * Pa_to_bar * bar_to_kbar
+kbar_to_GPa = 1.0 / GPa_to_kbar
+
+"""---
+## Time
+"""
+H_to_s      = 3600.0
+s_to_H      = 1.0 / H_to_s
+"""---
+## Wavelength
+"""
+A_to_A1 = 6.28318
+A_to_ms = 3956
+A_to_K = 949.3
+A_to_THz = 19.78
+A_to_rads = 1.243e14
+A_to_cm1 = 659.8
+A_to_meV = 81.805
+A_to_kJmol = 7.893
+"""---
+## Wavevector
+"""
+A1_to_A = 6.28318
+A1_to_ms = 629.6
+A1_to_K = 24.046
+A1_to_THz = 0.5010
+A1_to_rads = 3.148e12
+A1_to_cm1 = 16.71
+A1_to_meV = 2.072
+A1_to_kJmol = 0.1999
+"""---
+## Velocity
+"""
+ms_to_A = 3956 
+ms_to_A1 = 1.589e-3
+ms_to_K = 6.066e5
+ms_to_THz = 1.265e-6
+ms_to_rads = 7.948e6
+ms_to_cm1 = 4.216e-5
+ms_to_meV = 5.227e-6
+ms_to_kJmol = 5.044e-7
+
+"""---
+## Temperature
+"""
+K_to_A = 30.81 
+K_to_A1 = 0.2039 
+K_to_ms = 128.4 
+K_to_THz = 0.02084 
+K_to_rads = 1.309e11
+K_to_cm1 = 0.6950
+K_to_meV = 8.617e-2
+K_to_kJmol = 8.314e-3
+
+"""---
+## Temperature scales
+Note that to change between temperature scales,
+these constants must be added instead of multiplied.
+"""
+C_to_K_scale = 273.15
+K_to_C_scale = -C_to_K_scale
+
+"""---
+## Frequency
+"""
+THz_to_A = 4.4475
+THz_to_A1 = 1.4127 
+THz_to_ms = 889.5 
+THz_to_K = 48.0
+THz_to_rads = 6.283e12
+THz_to_cm1 = 33.36 
+THz_to_meV = 4.136
+THz_to_kJmol = 0.3990
+
+"""---
+## Angular frequency
+"""
+rads_to_A = 11.15e6
+rads_to_A1 = 5.64e-7
+rads_to_ms = 3.549e-4
+rads_to_K = 7.64e-12
+rads_to_THz = 0.1592e-12
+rads_to_cm1 = 5.309e-12
+rads_to_meV = 6.582e-13
+rads_to_kJmol = 6.351e-14
+
+"""---
+## Wavenumber
+""" 
+cm1_to_A = 25.69 
+cm1_to_A1 = 0.2446
+cm1_to_ms = 154.01
+cm1_to_K = 1.439
+cm1_to_THz = 0.02998
+cm1_to_rads = 1.884e11
+cm1_to_meV  = 1.0 / meV_to_cm1
+cm1_to_kJmol = 1.196e-2
 
