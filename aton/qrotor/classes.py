@@ -32,7 +32,7 @@ class QSys:
             self,
             comment: str = None,
             group: str = 'CH3',
-            E_levels: int = 5,
+            E_levels: int = 15,
             correct_potential_offset: bool = True,
             save_eigenvectors: bool = False,
             gridsize: int = None,
@@ -185,7 +185,6 @@ class QExp:
     def __init__(self,
                  comment: str = None,
                  systems: list = [],
-                 plotting: Plotting = None,
                  ):
         self.version = __version__
         """Version of the package used to generate the data."""
@@ -195,8 +194,6 @@ class QExp:
             systems = [systems]
         self.systems = systems
         """List containing the calculated `QSys` objects."""
-        self.plotting: Plotting = plotting
-        """`aton.spx.classes.Plotting` object (not implemented)."""
 
     def add(self, *args):
         """Adds more systems to `self.systems` from the introduced `QSys` or `QExp` objects."""
@@ -241,7 +238,7 @@ class QExp:
                 runtimes.append(None)
         return runtimes
 
-    def get_gropus(self):
+    def get_groups(self):
         """Returns a list with all `QSys.group` values."""
         groups = []
         for i in self.systems:
@@ -262,13 +259,10 @@ class QExp:
         return data
 
     def group_by_potential_values(self):
-        """Returns an array of grouped `QExp` objects with the same `QSys.potential_values`."""
+        """Returns an array of grouped `QExp` objects with the same `QSys.potential_values`."""  # BUG: old systems are not overwritten
         print('Grouping Experiment by potential_values...')
         grouped_data = []
         for system in self.systems:
-            data = QExp()
-            data.comment = self.comment
-            data.systems.append(system)
             new_group = True
             for data_i in grouped_data:
                 if np.array_equal(system.potential_values, data_i.systems[0].potential_values):
@@ -277,6 +271,8 @@ class QExp:
                     break
             if new_group:
                 print('New potential_values found')
+                data = QExp(comment=self.comment)
+                data.systems.append(system)
                 grouped_data.append(data)
         return grouped_data
 

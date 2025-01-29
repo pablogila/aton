@@ -77,6 +77,8 @@ def load(
     system.grid = np.array(positions)
     system.gridsize = len(positions)
     system.potential_values = np.array(potentials)
+    # System comment as the parent folder
+    system.comment = os.path.dirname(file_path)
     return system
 
 
@@ -169,7 +171,6 @@ def interpolate(system:QSys) -> QSys:
     new_V = cubic_spline(new_grid)
     system.grid = new_grid
     system.potential_values = new_V
-    print(f"Interpolated potential to a grid of size {gridsize}")
     return system
 
 

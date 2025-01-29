@@ -10,8 +10,8 @@ This module provides straightforward functions to plot QRotor data.
 | --- | --- |
 | `reduced_energies()` | Reduced energies E/B as a function of the reduced potential V/B |
 | `potential()`        | Potential values as a function of the angle |
+| `energy()`           | Calculated eigenvalues |
 | `energies_DEV()`     | NOT IMPLEMENTED |
-| `energy_DEV()`       | NOT IMPLEMENTED |
 | `convergence_DEV()`  | NOT IMPLEMENTED |
 | `eigenvectors_DEV()` | NOT IMPLEMENTED |
 
@@ -50,7 +50,7 @@ def potential(data):
     if isinstance(dataset, QSys):
         dataset = QExp(systems=[dataset], comment=data.comment)
     if not isinstance(dataset, QExp):
-        raise TypeError(f'aton.qrotor.plot.potential requires a QExp or QSys object as input!')
+        raise TypeError(f'Requires a QExp or QSys object as input')
     for system in dataset.systems:
         plt.plot(system.grid, system.potential_values, marker='', linestyle='-')
     plt.xlabel('Angle / rad')
@@ -60,24 +60,9 @@ def potential(data):
     plt.show()
 
 
-def energies_DEV(data:QExp):
-    '''Plots the energy in separated plots. NOT YET IMPLEMENTED'''
-    if data.separate_plots:
-        for variables, solutions in zip(data.variables, data.solutions):
-            new_data = QExp()
-            new_data.comment = variables.comment
-            new_data.variables.append(variables)
-            new_data.solutions.append(solutions)
-            energy(new_data)
-    else:
-        # Group data with the same potential_values and different element
-        grouped_data = data.group_by_potential_and_atoms()
-        for i, new_data in enumerate(grouped_data):
-            energy(new_data)
-
-
-def energy_DEV(data:QExp):
-    '''Plots the energy of the system. NOT YET IMPLEMENTED'''
+def energy(data:QExp):
+    """Plot the potential values of the QExp `data`."""
+    dataset = deepcopy(data)
     V_colors = ['C0'] #...
     E_colors = ['red', 'purple', 'grey']  # To extend...
     E_linestyles = ['--', ':', '-.']
@@ -85,8 +70,8 @@ def energy_DEV(data:QExp):
 
     V_linestyle = '-'
 
-    title = data.comment
-    ylabel_text = f'Energy / eV'
+    title = dataset.comment
+    ylabel_text = f'Energy / meV'
     xlabel_text = 'Angle / radians'
 
     plt.figure(figsize=(10, 6))
@@ -94,40 +79,66 @@ def energy_DEV(data:QExp):
     plt.ylabel(ylabel_text)
 
     plt.title(title)
-    if not data.comment or (len(data.variables) == 1 and data.variables[0].comment):
-        plt.title(f'{data.variables[0].comment}')
+    if not dataset.comment and dataset.systems[0].comment:
+        plt.title(f'{dataset.systems[0].comment}')
 
     plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
 
     unique_potentials = []
-    unique_elements = []
-    for i, (variables, solutions) in enumerate(zip(data.variables, data.solutions)):
+    unique_groups = []
+    for i, system in enumerate(dataset.systems):
         V_color = V_colors[i % len(V_colors)]
         E_color = E_colors[i % len(E_colors)]
         E_linestyle = E_linestyles[i % len(E_linestyles)]
         edgecolor = edgecolors[i % len(edgecolors)]
 
         # Plot potential energy if it is unique
-        if not any(np.array_equal(variables.potential_values, element) for element in unique_potentials):
-            unique_potentials.append(variables.potential_values)
-            plt.plot(variables.grid, variables.potential_values, color=V_color, linestyle=V_linestyle)
+        if not any(np.array_equal(system.potential_values, value) for value in unique_potentials):
+            unique_potentials.append(system.potential_values)
+            plt.plot(system.grid, system.potential_values, color=V_color, linestyle=V_linestyle)
 
         # Plot eigenvalues
-        if solutions.eigenvalues is not None:
-            text_offset = 3 * len(unique_elements)
-            if variables.element not in unique_elements:
-                unique_elements.append(variables.element)
-            for j, energy in enumerate(solutions.eigenvalues):
+        if system.eigenvalues is not None:
+            text_offset = 3 * len(unique_groups)
+            if system.group not in unique_groups:
+                unique_groups.append(system.group)
+            for j, energy in enumerate(system.eigenvalues):
                 plt.axhline(y=energy, color=E_color, linestyle=E_linestyle)
                 plt.text(j%3*0.9 + text_offset, energy, f'$E_{{{j}}}$ = {round(energy,4):.04f}', va='top', bbox=dict(edgecolor=edgecolor, boxstyle='round,pad=0.2', facecolor='white', alpha=0.8))
-            if len(data.elements()) > 1:
-                plt.plot([], [], color=E_color, label=f'{variables.element} Energies')  # Add to legend
+            if len(dataset.get_groups()) > 1:
+                plt.plot([], [], color=E_color, label=f'{system.group} Energies')  # Add to legend
 
-    if len(data.elements()) > 1:
+    if len(dataset.get_groups()) > 1:
         plt.subplots_adjust(right=0.85)
         plt.legend(bbox_to_anchor=(1.1, 0.5), loc='center', fontsize='small')
 
     plt.show()
+
+
+def energies_DEV(data, separate_plots:bool=False):
+    """Plot the potential values of the system. NOT YET IMPLEMENTED
+
+    Input `data` can be a `QSys` or `QExp` object.
+    Separate plots with `separate_plots = True`.
+    """
+    dataset = deepcopy(data)
+    if isinstance(dataset, QSys):
+        dataset = QExp(systems=[dataset], comment=data.comment)
+    if not isinstance(dataset, QExp):
+        raise TypeError(f'Requires a QExp or QSys object as input')
+    if separate_plots:
+        for system in dataset.systems:
+            new_data = QExp()
+            new_data.comment = system.comment
+            new_data.systems = [system]
+            energy(new_data)
+    else:  # Group data with the same potential_values and different element
+        grouped_data = dataset.group_by_potential_values()
+        print(f'energies plot: len = {len(dataset.systems)}')
+        print(f'grouped: {len(grouped_data[0].systems)}')  # BUG: old systems are not overwritten
+        for new_data in grouped_data:
+            print('new_data')
+            energy(new_data)
 
 
 def convergence_DEV(data:QExp):

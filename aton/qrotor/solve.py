@@ -37,6 +37,7 @@ def energies(var, filename:str=None) -> QExp:
     if isinstance(var, QSys):
         data = QExp()
         data.systems = [deepcopy(var)]
+        data.comment = var.comment
     elif isinstance(var, QExp):
         data = deepcopy(var)
     else:

@@ -48,11 +48,11 @@ I_ND3 = 3 * (phys.atoms['H'].isotope[2].mass * phys.amu_to_kg * r_NH**2)
 
 # Rotational energy.
 B_CH3 = ((phys.hbar**2) / (2 * I_CH3)) * phys.J_to_meV
-"""Rotational energy of CH3, in eV·s/kg·m^2."""
+"""Rotational energy of CH3, in meV·s/kg·m^2."""
 B_CD3 = ((phys.hbar**2) / (2 * I_CD3)) * phys.J_to_meV
-"""Rotational energy of CD3, in eV·s/kg·m^2."""
+"""Rotational energy of CD3, in meV·s/kg·m^2."""
 B_NH3 = ((phys.hbar**2) / (2 * I_NH3)) * phys.J_to_meV
-"""Rotational energy of NH3, in eV·s/kg·m^2."""
+"""Rotational energy of NH3, in meV·s/kg·m^2."""
 B_ND3 = ((phys.hbar**2) / (2 * I_ND3)) * phys.J_to_meV
 """Rotational energy of ND3, in meV·s/kg·m^2."""
 

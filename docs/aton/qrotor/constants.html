@@ -127,7 +127,7 @@
     </ul>
 
 
-            <footer>ATON v0.0.7 documentation</footer>
+            <footer>ATON v0.0.8 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -167,8 +167,8 @@ see <a href="https://doi.org/10.1021/acs.cgd.3c01112"><em>Cryst. Growth Des.</em
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
 </span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="kn">import</span> <span class="nn">aton.phys</span> <span class="k">as</span> <span class="nn">phys</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.phys</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">phys</span>
 </span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
 </span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
 </span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="c1"># Distance between Carbon and Hydrogen atoms (measured from MAPbI3)</span>
@@ -205,11 +205,11 @@ see <a href="https://doi.org/10.1021/acs.cgd.3c01112"><em>Cryst. Growth Des.</em
 </span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>
 </span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="c1"># Rotational energy.</span>
 </span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="n">B_CH3</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_CH3</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">J_to_meV</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of CH3, in eV·s/kg·m^2.&quot;&quot;&quot;</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of CH3, in meV·s/kg·m^2.&quot;&quot;&quot;</span>
 </span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="n">B_CD3</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_CD3</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">J_to_meV</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of CD3, in eV·s/kg·m^2.&quot;&quot;&quot;</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of CD3, in meV·s/kg·m^2.&quot;&quot;&quot;</span>
 </span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="n">B_NH3</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_NH3</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">J_to_meV</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of NH3, in eV·s/kg·m^2.&quot;&quot;&quot;</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of NH3, in meV·s/kg·m^2.&quot;&quot;&quot;</span>
 </span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="n">B_ND3</span> <span class="o">=</span> <span class="p">((</span><span class="n">phys</span><span class="o">.</span><span class="n">hbar</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">I_ND3</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">J_to_meV</span>
 </span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">&quot;&quot;&quot;Rotational energy of ND3, in meV·s/kg·m^2.&quot;&quot;&quot;</span>
 </span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
@@ -407,7 +407,7 @@ see <a href="https://doi.org/10.1021/acs.cgd.3c01112"><em>Cryst. Growth Des.</em
     </div>
     <a class="headerlink" href="#B_CH3"></a>
     
-            <div class="docstring"><p>Rotational energy of CH3, in eV·s/kg·m^2.</p>
+            <div class="docstring"><p>Rotational energy of CH3, in meV·s/kg·m^2.</p>
 </div>
 
 
@@ -421,7 +421,7 @@ see <a href="https://doi.org/10.1021/acs.cgd.3c01112"><em>Cryst. Growth Des.</em
     </div>
     <a class="headerlink" href="#B_CD3"></a>
     
-            <div class="docstring"><p>Rotational energy of CD3, in eV·s/kg·m^2.</p>
+            <div class="docstring"><p>Rotational energy of CD3, in meV·s/kg·m^2.</p>
 </div>
 
 
@@ -435,7 +435,7 @@ see <a href="https://doi.org/10.1021/acs.cgd.3c01112"><em>Cryst. Growth Des.</em
     </div>
     <a class="headerlink" href="#B_NH3"></a>
     
-            <div class="docstring"><p>Rotational energy of NH3, in eV·s/kg·m^2.</p>
+            <div class="docstring"><p>Rotational energy of NH3, in meV·s/kg·m^2.</p>
 </div>
 
 
