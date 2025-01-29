@@ -105,10 +105,10 @@ def from_qe(
     files = file.get_list(folder=folder, include=include, ignore=ignore, abspath=True)
     folder_name = os.path.basename(folder)
     # Set header
-    potential_data = f'# Potential from calculation {folder_name}'
+    potential_data = f'# Potential from calculation {folder_name}\n'
     potential_data += f'# Imported with ATON {__version__}\n'
     potential_data += '# https://pablogila.github.io/ATON\n'
-    potential_data += '# ------------------------------------------\n'
+    potential_data += '#\n'
     if energy_unit.lower() in alias.units['eV']:
         potential_data += '# Angle/deg    Potential/eV\n'
     elif energy_unit.lower() in alias.units['meV']:
