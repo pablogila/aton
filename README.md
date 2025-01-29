@@ -110,9 +110,10 @@ such as methyl and amine groups.
 
 | | |
 | --- | --- |
-| [qrotor.classes](https://pablogila.github.io/ATON/aton/qrotor/classes.html)     | Definition of the `QSys` and `QExp` classes |
-| [qrotor.constants](https://pablogila.github.io/ATON/aton/qrotor/constants.html) | Bond lengths and inertias |
 | [qrotor.rotate](https://pablogila.github.io/ATON/aton/qrotor/rotate.html)       | Rotate specific atoms from structural files |
+| [qrotor.constants](https://pablogila.github.io/ATON/aton/qrotor/constants.html) | Bond lengths and inertias |
+| [qrotor.system](https://pablogila.github.io/ATON/aton/qrotor/system.html)       | Definition of the quantum `System` object |
+| [qrotor.systems](https://pablogila.github.io/ATON/aton/qrotor/systems.html)     | Functions to manage several System objects |
 | [qrotor.potential](https://pablogila.github.io/ATON/aton/qrotor/potential.html) | Potential definitions and loading functions |
 | [qrotor.solve](https://pablogila.github.io/ATON/aton/qrotor/solve.html)         | Solve rotation eigenvalues and eigenvectors |
 | [qrotor.plot](https://pablogila.github.io/ATON/aton/qrotor/plot.html)           | Plotting functions |
