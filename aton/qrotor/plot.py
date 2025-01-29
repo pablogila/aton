@@ -10,8 +10,7 @@ This module provides straightforward functions to plot QRotor data.
 | --- | --- |
 | `reduced_energies()` | Reduced energies E/B as a function of the reduced potential V/B |
 | `potential()`        | Potential values as a function of the angle |
-| `energy()`           | Calculated eigenvalues |
-| `energies_DEV()`     | NOT IMPLEMENTED |
+| `energies()`         | Calculated eigenvalues |
 | `convergence_DEV()`  | NOT IMPLEMENTED |
 | `eigenvectors_DEV()` | NOT IMPLEMENTED |
 
@@ -19,74 +18,70 @@ This module provides straightforward functions to plot QRotor data.
 """
 
 
-from .classes import *
+from .system import System
+from . import systems
 import matplotlib.pyplot as plt
-from copy import deepcopy
+import numpy as np
 
 
-def reduced_energies(data:QExp):
-    """Plots the reduced energy of the system, E/B, vs the reduced potential energy, V/B"""
-    number_of_levels = data.systems[0].E_levels
+def reduced_energies(data:list) -> None:
+    """Plots the reduced energy of the system E/B vs the reduced potential energy V/B.
+
+    Takes a list of System objects as input.
+    """
+    systems.check(data)
+    number_of_levels = data[0].E_levels
     x = []
-    for system in data.systems:
+    for system in data:
         x.append(system.potential_max_B)
     for i in range(number_of_levels):
         y = []
-        for system in data.systems:
+        for system in data:
             y.append(system.eigenvalues_B[i])
         plt.plot(x, y, marker='', linestyle='-')
     plt.xlabel('V$_{B}$ / B')
     plt.ylabel('E / B')
-    plt.title(data.comment)
+    plt.title(data[0].comment)
     plt.show()
 
 
-def potential(data):
-    """Plot the potential values of the system.
-
-    Input `data` can be a `QSys` or `QExp` object.
-    """
-    dataset = deepcopy(data)
-    if isinstance(dataset, QSys):
-        dataset = QExp(systems=[dataset], comment=data.comment)
-    if not isinstance(dataset, QExp):
-        raise TypeError(f'Requires a QExp or QSys object as input')
-    for system in dataset.systems:
-        plt.plot(system.grid, system.potential_values, marker='', linestyle='-')
+def potential(system:System) -> None:
+    """Plot the potential values of a `system`."""
+    plt.plot(system.grid, system.potential_values, marker='', linestyle='-')
     plt.xlabel('Angle / rad')
     plt.ylabel('Potential energy / meV')
     plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
-    plt.title(dataset.comment)
+    plt.title(system.comment)
     plt.show()
 
 
-def energy(data:QExp):
-    """Plot the potential values of the QExp `data`."""
-    dataset = deepcopy(data)
+def energies(data) -> None:
+    """Plot the eigenvalues of `var` (System or a list of System objects)."""
+    if isinstance(data, System):
+        var = [data]
+    else:  # Should be a list
+        systems.check(data)
+        var = data
+
     V_colors = ['C0'] #...
     E_colors = ['red', 'purple', 'grey']  # To extend...
     E_linestyles = ['--', ':', '-.']
     edgecolors = ['tomato', 'purple', 'grey']
 
     V_linestyle = '-'
-
-    title = dataset.comment
+    title = var[0].comment
     ylabel_text = f'Energy / meV'
     xlabel_text = 'Angle / radians'
 
     plt.figure(figsize=(10, 6))
     plt.xlabel(xlabel_text)
     plt.ylabel(ylabel_text)
-
     plt.title(title)
-    if not dataset.comment and dataset.systems[0].comment:
-        plt.title(f'{dataset.systems[0].comment}')
-
     plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
 
     unique_potentials = []
     unique_groups = []
-    for i, system in enumerate(dataset.systems):
+    for i, system in enumerate(var):
         V_color = V_colors[i % len(V_colors)]
         E_color = E_colors[i % len(E_colors)]
         E_linestyle = E_linestyles[i % len(E_linestyles)]
@@ -104,44 +99,21 @@ def energy(data:QExp):
                 unique_groups.append(system.group)
             for j, energy in enumerate(system.eigenvalues):
                 plt.axhline(y=energy, color=E_color, linestyle=E_linestyle)
-                plt.text(j%3*0.9 + text_offset, energy, f'$E_{{{j}}}$ = {round(energy,4):.04f}', va='top', bbox=dict(edgecolor=edgecolor, boxstyle='round,pad=0.2', facecolor='white', alpha=0.8))
-            if len(dataset.get_groups()) > 1:
+                plt.text(j%3*1.0 + text_offset, energy, f'$E_{{{j}}}$ = {round(energy,4):.04f}', va='top', bbox=dict(edgecolor=edgecolor, boxstyle='round,pad=0.2', facecolor='white', alpha=0.8))
+            if len(systems.get_groups(var)) > 1:
                 plt.plot([], [], color=E_color, label=f'{system.group} Energies')  # Add to legend
 
-    if len(dataset.get_groups()) > 1:
+    if len(systems.get_groups(var)) > 1:
         plt.subplots_adjust(right=0.85)
         plt.legend(bbox_to_anchor=(1.1, 0.5), loc='center', fontsize='small')
 
     plt.show()
 
 
-def energies_DEV(data, separate_plots:bool=False):
-    """Plot the potential values of the system. NOT YET IMPLEMENTED
-
-    Input `data` can be a `QSys` or `QExp` object.
-    Separate plots with `separate_plots = True`.
-    """
-    dataset = deepcopy(data)
-    if isinstance(dataset, QSys):
-        dataset = QExp(systems=[dataset], comment=data.comment)
-    if not isinstance(dataset, QExp):
-        raise TypeError(f'Requires a QExp or QSys object as input')
-    if separate_plots:
-        for system in dataset.systems:
-            new_data = QExp()
-            new_data.comment = system.comment
-            new_data.systems = [system]
-            energy(new_data)
-    else:  # Group data with the same potential_values and different element
-        grouped_data = dataset.group_by_potential_values()
-        print(f'energies plot: len = {len(dataset.systems)}')
-        print(f'grouped: {len(grouped_data[0].systems)}')  # BUG: old systems are not overwritten
-        for new_data in grouped_data:
-            print('new_data')
-            energy(new_data)
+##  TODO: Implement the following functions
 
 
-def convergence_DEV(data:QExp):
+def convergence_DEV(data:list):
     '''Plots the energy convergence of the system. NOT YET IMPLEMENTED'''
     fig, ax1 = plt.subplots(figsize=(10, 6))
 
@@ -255,14 +227,7 @@ def convergence_DEV(data:QExp):
     plt.show()
 
 
-
-
-
-
-
-
-
-def eigenvectors_DEV(data:QExp, levels=None, squared=False, scaling_factor=1):
+def eigenvectors_DEV(data:System, levels=None, squared=False, scaling_factor=1):
 
     xlabel = 'Angle / radians'
     ylabel = 'Energy / meV'

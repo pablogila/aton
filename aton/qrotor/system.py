@@ -1,16 +1,8 @@
 """
 # Description
 
-This module contains common classes for QRotor calculations.
-These classes can be loaded directly as `aton.qrotor.Class()`.
-
-
-# Index
-
-| | |
-| --- | --- |
-| `QSys` | Quantum system, with all the data for a single calculation |
-| `QExp` | Quantum experiment, contains several `QSys` objects |
+The `System` object contains all the information needed for a single QRotor calculation.
+This class can be loaded directly as `aton.qrotor.System()`.
 
 ---
 """
@@ -19,11 +11,10 @@ These classes can be loaded directly as `aton.qrotor.Class()`.
 import numpy as np
 from .constants import *
 from aton.st import alias
-from aton.spx import Plotting
 from aton._version import __version__
 
 
-class QSys:
+class System:
     """Quantum system.
 
     Contains all the data for a single QRotor calculation, with both inputs and outputs.
@@ -43,6 +34,8 @@ class QSys:
             potential_values = [],
             ):
         ## Technical
+        self.version = __version__
+        """Version of the package used to generate the data."""
         self.comment: str = comment
         """Custom comment for the dataset."""
         self.group: str = group
@@ -60,16 +53,16 @@ class QSys:
         self.grid = grid
         """The grid with the points to be used in the calculation.
 
-        Can be set automatically over $2 \\Pi$ with `QSys.set_grid()`.
+        Can be set automatically over $2 \\pi$ with `System.set_grid()`.
         Units must be in radians.
         """
         if not B:
             B = self.B
         self.B: float = B
-        """Rotational inertia, as in $B=\\frac{\\hbar^2}{2I}."""
+        """Rotational inertia, as in $B=\\frac{\\hbar^2}{2I}$."""
         self.potential_name: str = potential_name
         """Name of the desired potential: `'zero'`, `'titov2023'`, `'test'`...
-        If empty or unrecognised, the custom potential values inside `QSys.potential_values` will be used. 
+        If empty or unrecognised, the custom potential values inside `System.potential_values` will be used. 
         """
         self.potential_constants: list = potential_constants
         """List of constants to be used in the calculation of the potential energy, in the `aton.qrotor.potential` module."""
@@ -81,7 +74,7 @@ class QSys:
         Potential energy units must be in meV.
         """
         self.potential_offset: float = None
-        """`min(V)` before offset correction when `QSys.correct_potential_offset = True`"""
+        """`min(V)` before offset correction when `correct_potential_offset = True`"""
         self.potential_min: float = None
         """`min(V)`"""
         self.potential_max: float = None
@@ -104,6 +97,7 @@ class QSys:
 
     def summary(self):
         return {
+            'version': self.version,
             'comment': self.comment,
             'runtime': self.runtime,
             'group': self.gropu,
@@ -122,7 +116,7 @@ class QSys:
         }
 
     def set_grid(self, gridsize:int=None):
-        """Sets the `QSys.grid` to the specified `gridsize` from 0 to $2\\pi$.
+        """Sets the `System.grid` to the specified `gridsize` from 0 to $2\\pi$.
 
         If the system had a previous grid and potential values,
         it will interpolate those values to the new gridsize,
@@ -140,11 +134,11 @@ class QSys:
         elif self.gridsize:
                 self.grid = np.linspace(0, 2*np.pi, self.gridsize)
         else:
-            raise ValueError('gridsize must be provided if there is no QSys.gridsize')
+            raise ValueError('gridsize must be provided if there is no System.gridsize')
         return self
     
     def set_group(self, group:str=None, B:float=None):
-        """Normalise `QSys.group` name, and set `QSys.B` based on it."""
+        """Normalise `System.group` name, and set `System.B` based on it."""
         for name in alias.chemical['CH3']:
             if group.lower() == name:
                 self.group = 'CH3'
@@ -175,131 +169,20 @@ class QSys:
                 return self
         self.group = group  # No match was found
         return self
-
-
-class QExp:
-    """Quantum experiment.
-
-    Used as a container for `QSys` objects, with additional methods for data manipulation.
-    """
-    def __init__(self,
-                 comment: str = None,
-                 systems: list = [],
-                 ):
-        self.version = __version__
-        """Version of the package used to generate the data."""
-        self.comment: str = comment
-        """Custom comment for the dataset."""
-        if isinstance(systems, QSys):
-            systems = [systems]
-        self.systems = systems
-        """List containing the calculated `QSys` objects."""
-
-    def add(self, *args):
-        """Adds more systems to `self.systems` from the introduced `QSys` or `QExp` objects."""
-        for value in args:
-            if isinstance(value, QExp):
-                self.systems.extend(value.systems)
-                self.version = value.version if len(self.systems) == 0 else self.version
-                self.comment = value.comment if self.comment is None else self.comment
-                self.plotting = value.plotting if self.plotting is None else self.plotting
-            elif isinstance(value, QSys):
-                self.systems.append(value)
-            else:
-                raise TypeError(f'QExp.add() can only add QExp and/or QSys objects, not {type(value)}.')
-
-    def get_energies(self):
-        """Returns a list with all `QSys.eigenvalues` values."""
-        energies = []
-        for i in self.systems:
-            if all(i.eigenvalues):
-                energies.append(i.eigenvalues)
-            else:
-                energies.append(None)
-        return energies
-
-    def get_gridsizes(self):
-        """Returns a list with all `QSys.gridsize` values."""
-        gridsizes = []
-        for i in self.systems:
-            if i.gridsize:
-                gridsizes.append(i.gridsize)
-            else:
-                gridsizes.append(None)
-        return gridsizes
-
-    def get_runtimes(self):
-        """Returns a list with all `QSys.runtime` values."""
-        runtimes = []
-        for i in self.systems:
-            if i.runtime:
-                runtimes.append(i.runtime)
-            else:
-                runtimes.append(None)
-        return runtimes
-
-    def get_groups(self):
-        """Returns a list with all `QSys.group` values."""
-        groups = []
-        for i in self.systems:
-            if i.group not in groups:
-                groups.append(i.group)
-        return groups
-
-    def sort_by_potential_values(self):
-        """Returns the `QExp` object, sorted by `QSys.potential_values`."""
-        grouped_data = self.group_by_potential_values()
-        data = QExp(
-            version = self.version,
-            comment = self.comment,
-            plotting = self.plotting,
-        )
-        for dataset in grouped_data:
-            data.add(dataset)
-        return data
-
-    def group_by_potential_values(self):
-        """Returns an array of grouped `QExp` objects with the same `QSys.potential_values`."""  # BUG: old systems are not overwritten
-        print('Grouping Experiment by potential_values...')
-        grouped_data = []
-        for system in self.systems:
-            new_group = True
-            for data_i in grouped_data:
-                if np.array_equal(system.potential_values, data_i.systems[0].potential_values):
-                    data_i.systems.append(system)
-                    new_group = False
-                    break
-            if new_group:
-                print('New potential_values found')
-                data = QExp(comment=self.comment)
-                data.systems.append(system)
-                grouped_data.append(data)
-        return grouped_data
-
-    def sort_by_gridsize(self):
-        """Returns the same `QExp`, sorted by `QSys.gridsize`."""
-        self.systems = sorted(self.systems, key=lambda sys: sys.gridsize)
-        return self
-
-    def get_ideal_E(self, E_level):
-        """Calculates the ideal energy for a specified `E_level` for a convergence test. Only for 'zero' potential."""
-        real_E_level = None
-        if self.systems[0].potential_name == 'zero':
-            if E_level % 2 == 0:
-                real_E_level = E_level / 2
-            else:
-                real_E_level = (E_level + 1) / 2
-            ideal_E = int(real_E_level ** 2)
-            return ideal_E
-        else:
-            print("WARNING:  get_ideal_E() only valid for potential_name='zero'")
-            return
     
-    def discard_shit(self):
-        """Discard data that takes too much space, like eigenvectors, potential values and grids."""
-        for dataset in self.systems:
-            dataset.eigenvectors = None
-            dataset.potential_values = None
-            dataset.grid = None
-        return self
+    def get_ideal_E(self, E_level):
+        """Calculates the ideal energy for a specified `E_level` for a convergence test.
+
+        To use with `potential_name = 'zero'`.
+        """
+        real_E_level = None
+        if self.potential_name != 'zero':
+            print("WARNING:  System.get_ideal_E() only valid for potential_name = 'zero'")
+            return
+        if E_level % 2 == 0:
+            real_E_level = E_level / 2
+        else:
+            real_E_level = (E_level + 1) / 2
+        ideal_E = int(real_E_level ** 2)
+        return ideal_E
 

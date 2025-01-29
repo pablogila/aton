@@ -10,9 +10,10 @@ This module uses meV as default units in the calculations.
 
 | | |
 | --- | --- |
-| `aton.qrotor.classes`   | Definition of the `QSys` and `QExp` classes |
-| `aton.qrotor.constants` | Bond lengths and inertias |
 | `aton.qrotor.rotate`    | Rotate specific atoms from structural files |
+| `aton.qrotor.constants` | Bond lengths and inertias |
+| `aton.qrotor.system`    | Definition of the quantum `System` object |
+| `aton.qrotor.systems`   | Functions to manage several System objects |
 | `aton.qrotor.potential` | Potential definitions and loading functions |
 | `aton.qrotor.solve`     | Solve rotation eigenvalues and eigenvectors |
 | `aton.qrotor.plot`      | Plotting functions |
@@ -20,10 +21,11 @@ This module uses meV as default units in the calculations.
 """
 
 
-from .classes import QSys, QExp
+from .system import System
 from .constants import *
+from . import systems
 from . import rotate
 from . import potential
 from . import solve
-from . import plot        ###### TODO: update
+from . import plot
 

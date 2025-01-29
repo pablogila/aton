@@ -9,7 +9,7 @@ Sparse matrices are used to achieve optimal performance.
 
 | | |
 | --- | --- |
-| `energies()`              | Solve the system(s) for the `QSys` or `QExp` object |
+| `energies()`              | Solve the quantum system, including eigenvalues and eigenvectors |
 | `potential()`             | Solve the potential values of the system |
 | `schrodinger()`           | Solve the Schrödiger equation for the system |
 | `hamiltonian_matrix()`    | Calculate the hamiltonian matrix of the system |
@@ -19,47 +19,38 @@ Sparse matrices are used to achieve optimal performance.
 """
 
 
-from .classes import *
+from .system import System
 from .potential import solve as solve_potential
 from .potential import interpolate
-from copy import deepcopy
 import time
 import numpy as np
 from scipy import sparse
 import aton
+from aton._version import __version__
 
 
-def energies(var, filename:str=None) -> QExp:
-    """Solves the Schrödinger equation for a given `var` (`QSys` or `QExp` object).
+def energies(system:System, filename:str=None) -> System:
+    """Solves the quantum `system`.
 
-    The resulting `QExp` object is saved to `filename` if specified.
+    The resulting System object is saved to `filename` if specified.
     """
-    if isinstance(var, QSys):
-        data = QExp()
-        data.systems = [deepcopy(var)]
-        data.comment = var.comment
-    elif isinstance(var, QExp):
-        data = deepcopy(var)
-    else:
-        raise TypeError('Input must be a QSys or QExp object.')
-    for system in data.systems:
-        if not any(system.grid):
-            system.set_grid()
-        system = potential(system)
-        system = schrodinger(system)
+    if not any(system.grid):
+        system.set_grid()
+    system = potential(system)
+    system = schrodinger(system)
     if filename:
-        aton.st.file.save(data, filename)
-    return data
+        aton.st.file.save(system, filename)
+    return system
 
 
-def potential(system:QSys) -> QSys:
-    """Solves the potential_values of the system.
+def potential(system:System) -> System:
+    """Solves the potential_values of the `system`.
 
     It interpolates the potential if `system.gridsize` is larger than the current grid.
     It solves the potential according to the potential name,
-    by calling `aton.qrotor.potential.solve`.
+    by calling `aton.qrotor.potential.solve()`.
     Then it applies extra operations, such as removing the potential offset
-    if `aton.qrotor.classes.QSys.correct_potential_offset = True`.
+    if `System.correct_potential_offset = True`.
     """
     if system.gridsize and any(system.grid):
         if system.gridsize > len(system.grid):
@@ -73,8 +64,8 @@ def potential(system:QSys) -> QSys:
     return system
 
 
-def schrodinger(system:QSys) -> QSys:
-    """Solves the Schrödinger equation for a given `aton.qrotor.classes.QSys` object.
+def schrodinger(system:System) -> System:
+    """Solves the Schrödinger equation for a given `system`.
     
     Uses ARPACK in shift-inverse mode to solve the hamiltonian sparse matrix.
     """
@@ -87,6 +78,7 @@ def schrodinger(system:QSys) -> QSys:
     if any(eigenvalues) is None:
         print('WARNING:  Not all eigenvalues were found.\n')
     else: print('Done.')
+    system.version = __version__
     system.runtime = time.time() - time_start
     system.eigenvalues = eigenvalues
     system.potential_max = max(V)
@@ -100,8 +92,8 @@ def schrodinger(system:QSys) -> QSys:
     return system
 
 
-def hamiltonian_matrix(system:QSys):
-    """Calculates the Hamiltonian matrix for a given `aton.qrotor.classes.QSys` object."""
+def hamiltonian_matrix(system:System):
+    """Calculates the Hamiltonian matrix for a given `system`."""
     print(f'Creating Hamiltonian matrix of size {system.gridsize}...')
     V = system.potential_values.tolist()
     potential = sparse.diags(V, format='lil')

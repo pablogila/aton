@@ -10,7 +10,7 @@ This module contains functions to calculate the actual `potential_values` of the
 | --- | --- |
 | `load()`        | Load a system with a custom potential from a potential file |
 | `from_qe()`     | Creates a potential data file from Quantum ESPRESSO outputs |
-| `interpolate()` | Interpolates the current `QSys.potential_values` to a new `QSys.gridsize` |
+| `interpolate()` | Interpolates the current `System.potential_values` to a new `System.gridsize` |
 | `solve()`       | Solve the potential values based on the potential name |
 | `zero()`        | Zero potential |
 | `sine()`        | Sine potential |
@@ -20,7 +20,7 @@ This module contains functions to calculate the actual `potential_values` of the
 """
 
 
-from .classes import *
+from .system import System
 from . import constants
 import numpy as np
 import os
@@ -35,10 +35,10 @@ from aton._version import __version__
 
 def load(
         filepath:str='potential.dat',
-        system:QSys=None,
+        system:System=None,
         angle_unit:str='deg',
         energy_unit:str='meV',
-        ) -> QSys:
+        ) -> System:
     """Read a potential rotational energy dataset.
 
     The file in `filepath` should contain two columns with angle and potential energy values.
@@ -46,7 +46,7 @@ def load(
     Units will be converted automatically to radians and meV.
     """
     file_path = file.get(filepath)
-    system = QSys() if system is None else system
+    system = System() if system is None else system
     with open(file_path, 'r') as f:
         lines = f.readlines()
     positions = []
@@ -77,8 +77,8 @@ def load(
     system.grid = np.array(positions)
     system.gridsize = len(positions)
     system.potential_values = np.array(potentials)
-    # System comment as the parent folder
-    system.comment = os.path.dirname(file_path)
+    # System comment as the parent folder name
+    system.comment = os.path.basename(os.path.dirname(file_path))
     return system
 
 
@@ -103,8 +103,10 @@ def from_qe(
     """
     folder = file.get_dir(folder)
     files = file.get_list(folder=folder, include=include, ignore=ignore, abspath=True)
+    folder_name = os.path.basename(folder)
     # Set header
-    potential_data = f'# Potential values imported with ATON {__version__}\n'
+    potential_data = f'# Potential from calculation {folder_name}'
+    potential_data += f'# Imported with ATON {__version__}\n'
     potential_data += '# https://pablogila.github.io/ATON\n'
     potential_data += '# ------------------------------------------\n'
     if energy_unit.lower() in alias.units['eV']:
@@ -160,8 +162,10 @@ def from_qe(
     return None
 
 
-def interpolate(system:QSys) -> QSys:
-    """Interpolates the current `aton.qrotor.classes.QSys.potential_values` to a new grid of size `aton.qrotor.classes.QSys.gridsize`."""
+def interpolate(system:System) -> System:
+    """Interpolates the current `System.potential_values`
+    to a new grid of size `System.gridsize`.
+    """
     print(f"Interpolating potential to a grid of size {system.gridsize}...")
     V = system.potential_values
     grid = system.grid
@@ -175,16 +179,16 @@ def interpolate(system:QSys) -> QSys:
 
 
 # Redirect to the desired potential energy function
-def solve(system:QSys):
-    """Solves `QSys.potential_values`
-    according to the `QSys.potential_name`,
+def solve(system:System):
+    """Solves `System.potential_values`
+    according to the `System.potential_name`,
     returning the new `potential_values`.
     Avaliable potential names are `zero`, `sine` and `titov2023`.
 
-    If `QSys.potential_name` is not present or not recognised,
-    the current `QSys.potential_values` are used.
+    If `System.potential_name` is not present or not recognised,
+    the current `System.potential_values` are used.
 
-    If a bigger `QSys.gridsize` is provided,
+    If a bigger `System.gridsize` is provided,
     the potential is also interpolated to the new gridsize.
 
     This function provides basic solving of the potential energy function.
@@ -208,17 +212,17 @@ def solve(system:QSys):
     return data.potential_values
 
 
-def zero(system:QSys):
+def zero(system:System):
     """Zero potential."""
     x = system.grid
     return 0 * x
 
 
-def sine(system:QSys):
+def sine(system:System):
     """Sine potential.
 
     $C_0 + C_1 sin(3x + C_2)$  
-    If no `QSys.potential_constants` are provided, defaults to $sin(3x)$  
+    If no `System.potential_constants` are provided, defaults to $sin(3x)$  
     """
     x = system.grid
     C = system.potential_constants
@@ -235,7 +239,7 @@ def sine(system:QSys):
     return C0 + C1 * np.sin(3*x + C2)
 
 
-def titov2023(system:QSys):
+def titov2023(system:System):
     """Potential energy function of the hindered methyl rotor, from
     [K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)](https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402).  
 
