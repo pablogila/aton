@@ -92,8 +92,8 @@ files: dict = {
 
 
 boolean: dict = {
-    True  : ['yes', 'YES', 'Yes', 'Y', 'y', 'T', 'True', 'TRUE', 't', 'true', True, 'Si', 'SI', 'si', 'S', 's'],
-    False : ['no', 'NO', 'No', 'N', 'n', 'F', 'False', 'FALSE', 'f', 'false', False],
+    True  : ['yes', 'YES', 'Yes', 'Y', 'y', 'T', 'True', 'TRUE', 't', 'true', 'Si', 'SI', 'si', 'S', 's'],
+    False : ['no', 'NO', 'No', 'N', 'n', 'F', 'False', 'FALSE', 'f', 'false'],
 }
 """Strings with booleans such as 'yes' / 'no'."""
 

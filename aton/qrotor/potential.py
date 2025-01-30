@@ -102,6 +102,15 @@ def from_qe(
     Energy values are saved to meV by dafault, unless specified in `energy_unit`.
     """
     folder = file.get_dir(folder)
+    # Check if a previous potential.dat file exists, and ask to overwrite it
+    previous_potential_file = file.get(output, return_anyway=True)
+    if previous_potential_file:
+        print(f"WARNING: Previous '{output}' file will be overwritten, proceed anyway?")
+        answer = input("(y/n): ")
+        if not answer.lower() in alias.boolean[True]:
+            print("Aborted.")
+            return None
+    # Get the files to read
     files = file.get_list(folder=folder, include=include, ignore=ignore, abspath=True)
     folder_name = os.path.basename(folder)
     # Set header
