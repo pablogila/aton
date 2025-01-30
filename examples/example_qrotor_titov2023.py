@@ -1,20 +1,21 @@
 import aton.qrotor as qr
 
-system = qr.QSys()
+# Reproducing eigenvalues from:
+# K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)
+# https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402
+
+system = qr.System()
 system.potential_name = 'titov2023'
-system.B = 0.573  # qr.B_CH3
-system.E_levels = 10
+system.B = 0.573  # Titov uses a custom B value, a more accurate one is qr.B_CH3
+system.E_levels = 5
 system.gridsize = 200000
 
-experiment = qr.solve.energies(system)
-experiment.comment = 'titov2023'
+system = qr.solve.energies(system)
+system.comment = 'Reproduced eigenvalues from titov2023 with ATON.QRotor'
 print('Eigenvalues:')
-print(experiment.systems[0].eigenvalues)
-
-print('Rounded eigenvalues:')
 precision = 4
-for value in experiment.systems[0].eigenvalues:
+for value in system.eigenvalues:
     print(round(value, precision))
 
-qr.plot.potential(experiment)
+qr.plot.energies(system)
 
