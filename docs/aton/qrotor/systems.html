@@ -101,7 +101,7 @@
     </ul>
 
 
-            <footer>ATON v0.0.13 documentation</footer>
+            <footer>ATON v0.0.14 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -268,28 +268,29 @@
 </span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>
 </span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>
 </span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="k">def</span><span class="w"> </span><span class="nf">reduce_size</span><span class="p">(</span><span class="n">systems</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Discard data that takes too much space,</span>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">    like eigenvectors, potential values and grids.&quot;&quot;&quot;</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>    <span class="n">check</span><span class="p">(</span><span class="n">systems</span><span class="p">)</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>    <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">systems</span><span class="p">:</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>        <span class="n">dataset</span><span class="o">.</span><span class="n">eigenvectors</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>        <span class="n">dataset</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>        <span class="n">dataset</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>    <span class="k">return</span> <span class="n">systems</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Discard data that takes too much space.</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">    Removes eigenvectors, potential values and grids,</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">    for all System values inside the `systems` list.</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>    <span class="n">check</span><span class="p">(</span><span class="n">systems</span><span class="p">)</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">systems</span><span class="p">:</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>        <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">reduce_size</span><span class="p">()</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="k">return</span> <span class="n">systems</span>
 </span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get_ideal_E</span><span class="p">(</span><span class="n">E_level</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the ideal energy for a specified `E_level`.</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="sd">    To be used in convergence tests with `potential_name = &#39;zero&#39;`.</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>    <span class="n">real_E_level</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="k">if</span> <span class="n">E_level</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>        <span class="n">real_E_level</span> <span class="o">=</span> <span class="n">E_level</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>        <span class="n">real_E_level</span> <span class="o">=</span> <span class="p">(</span><span class="n">E_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>    <span class="n">ideal_E</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">real_E_level</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>    <span class="k">return</span> <span class="n">ideal_E</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get_ideal_E</span><span class="p">(</span><span class="n">E_level</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the ideal energy for a specified `E_level`.</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="sd">    To be used in convergence tests with `potential_name = &#39;zero&#39;`.</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="n">real_E_level</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>    <span class="k">if</span> <span class="n">E_level</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>        <span class="n">real_E_level</span> <span class="o">=</span> <span class="n">E_level</span> <span class="o">/</span> <span class="mi">2</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="n">real_E_level</span> <span class="o">=</span> <span class="p">(</span><span class="n">E_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>    <span class="n">ideal_E</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">real_E_level</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>    <span class="k">return</span> <span class="n">ideal_E</span>
 </span></pre></div>
 
 
@@ -484,19 +485,22 @@
     </div>
     <a class="headerlink" href="#reduce_size"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="reduce_size-98"><a href="#reduce_size-98"><span class="linenos"> 98</span></a><span class="k">def</span><span class="w"> </span><span class="nf">reduce_size</span><span class="p">(</span><span class="n">systems</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-</span><span id="reduce_size-99"><a href="#reduce_size-99"><span class="linenos"> 99</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Discard data that takes too much space,</span>
-</span><span id="reduce_size-100"><a href="#reduce_size-100"><span class="linenos">100</span></a><span class="sd">    like eigenvectors, potential values and grids.&quot;&quot;&quot;</span>
-</span><span id="reduce_size-101"><a href="#reduce_size-101"><span class="linenos">101</span></a>    <span class="n">check</span><span class="p">(</span><span class="n">systems</span><span class="p">)</span>
-</span><span id="reduce_size-102"><a href="#reduce_size-102"><span class="linenos">102</span></a>    <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">systems</span><span class="p">:</span>
-</span><span id="reduce_size-103"><a href="#reduce_size-103"><span class="linenos">103</span></a>        <span class="n">dataset</span><span class="o">.</span><span class="n">eigenvectors</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="reduce_size-104"><a href="#reduce_size-104"><span class="linenos">104</span></a>        <span class="n">dataset</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="reduce_size-105"><a href="#reduce_size-105"><span class="linenos">105</span></a>        <span class="n">dataset</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="reduce_size-106"><a href="#reduce_size-106"><span class="linenos">106</span></a>    <span class="k">return</span> <span class="n">systems</span>
+</span><span id="reduce_size-99"><a href="#reduce_size-99"><span class="linenos"> 99</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Discard data that takes too much space.</span>
+</span><span id="reduce_size-100"><a href="#reduce_size-100"><span class="linenos">100</span></a>
+</span><span id="reduce_size-101"><a href="#reduce_size-101"><span class="linenos">101</span></a><span class="sd">    Removes eigenvectors, potential values and grids,</span>
+</span><span id="reduce_size-102"><a href="#reduce_size-102"><span class="linenos">102</span></a><span class="sd">    for all System values inside the `systems` list.</span>
+</span><span id="reduce_size-103"><a href="#reduce_size-103"><span class="linenos">103</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="reduce_size-104"><a href="#reduce_size-104"><span class="linenos">104</span></a>    <span class="n">check</span><span class="p">(</span><span class="n">systems</span><span class="p">)</span>
+</span><span id="reduce_size-105"><a href="#reduce_size-105"><span class="linenos">105</span></a>    <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">systems</span><span class="p">:</span>
+</span><span id="reduce_size-106"><a href="#reduce_size-106"><span class="linenos">106</span></a>        <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">reduce_size</span><span class="p">()</span>
+</span><span id="reduce_size-107"><a href="#reduce_size-107"><span class="linenos">107</span></a>    <span class="k">return</span> <span class="n">systems</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Discard data that takes too much space,
-like eigenvectors, potential values and grids.</p>
+            <div class="docstring"><p>Discard data that takes too much space.</p>
+
+<p>Removes eigenvectors, potential values and grids,
+for all System values inside the <code>systems</code> list.</p>
 </div>
 
 
@@ -512,18 +516,18 @@ like eigenvectors, potential values and grids.</p>
 
     </div>
     <a class="headerlink" href="#get_ideal_E"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="get_ideal_E-109"><a href="#get_ideal_E-109"><span class="linenos">109</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get_ideal_E</span><span class="p">(</span><span class="n">E_level</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="get_ideal_E-110"><a href="#get_ideal_E-110"><span class="linenos">110</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the ideal energy for a specified `E_level`.</span>
-</span><span id="get_ideal_E-111"><a href="#get_ideal_E-111"><span class="linenos">111</span></a>
-</span><span id="get_ideal_E-112"><a href="#get_ideal_E-112"><span class="linenos">112</span></a><span class="sd">    To be used in convergence tests with `potential_name = &#39;zero&#39;`.</span>
-</span><span id="get_ideal_E-113"><a href="#get_ideal_E-113"><span class="linenos">113</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="get_ideal_E-114"><a href="#get_ideal_E-114"><span class="linenos">114</span></a>    <span class="n">real_E_level</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="get_ideal_E-115"><a href="#get_ideal_E-115"><span class="linenos">115</span></a>    <span class="k">if</span> <span class="n">E_level</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="get_ideal_E-116"><a href="#get_ideal_E-116"><span class="linenos">116</span></a>        <span class="n">real_E_level</span> <span class="o">=</span> <span class="n">E_level</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="get_ideal_E-117"><a href="#get_ideal_E-117"><span class="linenos">117</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="get_ideal_E-118"><a href="#get_ideal_E-118"><span class="linenos">118</span></a>        <span class="n">real_E_level</span> <span class="o">=</span> <span class="p">(</span><span class="n">E_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="get_ideal_E-119"><a href="#get_ideal_E-119"><span class="linenos">119</span></a>    <span class="n">ideal_E</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">real_E_level</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-</span><span id="get_ideal_E-120"><a href="#get_ideal_E-120"><span class="linenos">120</span></a>    <span class="k">return</span> <span class="n">ideal_E</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="get_ideal_E-110"><a href="#get_ideal_E-110"><span class="linenos">110</span></a><span class="k">def</span><span class="w"> </span><span class="nf">get_ideal_E</span><span class="p">(</span><span class="n">E_level</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="get_ideal_E-111"><a href="#get_ideal_E-111"><span class="linenos">111</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the ideal energy for a specified `E_level`.</span>
+</span><span id="get_ideal_E-112"><a href="#get_ideal_E-112"><span class="linenos">112</span></a>
+</span><span id="get_ideal_E-113"><a href="#get_ideal_E-113"><span class="linenos">113</span></a><span class="sd">    To be used in convergence tests with `potential_name = &#39;zero&#39;`.</span>
+</span><span id="get_ideal_E-114"><a href="#get_ideal_E-114"><span class="linenos">114</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="get_ideal_E-115"><a href="#get_ideal_E-115"><span class="linenos">115</span></a>    <span class="n">real_E_level</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="get_ideal_E-116"><a href="#get_ideal_E-116"><span class="linenos">116</span></a>    <span class="k">if</span> <span class="n">E_level</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="get_ideal_E-117"><a href="#get_ideal_E-117"><span class="linenos">117</span></a>        <span class="n">real_E_level</span> <span class="o">=</span> <span class="n">E_level</span> <span class="o">/</span> <span class="mi">2</span>
+</span><span id="get_ideal_E-118"><a href="#get_ideal_E-118"><span class="linenos">118</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="get_ideal_E-119"><a href="#get_ideal_E-119"><span class="linenos">119</span></a>        <span class="n">real_E_level</span> <span class="o">=</span> <span class="p">(</span><span class="n">E_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</span><span id="get_ideal_E-120"><a href="#get_ideal_E-120"><span class="linenos">120</span></a>    <span class="n">ideal_E</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">real_E_level</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="get_ideal_E-121"><a href="#get_ideal_E-121"><span class="linenos">121</span></a>    <span class="k">return</span> <span class="n">ideal_E</span>
 </span></pre></div>
 
 

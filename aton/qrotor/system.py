@@ -82,11 +82,11 @@ class System:
         self.potential_max_B: float = None
         """Reduced `potential_max`, in units of B."""
         # Energies
-        self.eigenvalues = None
+        self.eigenvalues = []
         """Calculated eigenvalues of the system. Should be in meV."""
-        self.eigenvalues_B = None
+        self.eigenvalues_B = []
         """Reduced `eigenvalues`, in units of B."""
-        self.eigenvectors = None
+        self.eigenvectors = []
         """Eigenvectors, if `save_eigenvectors` is True. Beware of the file size."""
         self.energy_barrier: float = None
         """`max(V) - min(eigenvalues)`"""
@@ -177,4 +177,12 @@ class System:
         """
         from .solve import energies
         return energies(self)
+
+    def reduce_size(self):
+        """Discard data that takes too much space,
+        like eigenvectors, potential values and grids."""
+        self.eigenvectors = []
+        self.potential_values = []
+        self.grid = []
+        return self
 

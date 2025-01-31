@@ -95,13 +95,14 @@ def sort_by_gridsize(systems:list) -> list:
 
 
 def reduce_size(systems:list) -> list:
-    """Discard data that takes too much space,
-    like eigenvectors, potential values and grids."""
+    """Discard data that takes too much space.
+
+    Removes eigenvectors, potential values and grids,
+    for all System values inside the `systems` list.
+    """
     check(systems)
     for dataset in systems:
-        dataset.eigenvectors = None
-        dataset.potential_values = None
-        dataset.grid = None
+        dataset = dataset.reduce_size()
     return systems
 
 
