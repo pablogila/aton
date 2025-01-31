@@ -32,6 +32,7 @@ def structure_qe(
         angle:float,
         repeat:bool=False,
         precision:int=3,
+        use_centroid:bool=True,
         show_axis:bool=False,
     ) -> list:
     """Rotates atoms from a Quantum ESPRESSO input file.
@@ -40,10 +41,15 @@ def structure_qe(
     These input positions can be approximate, and are used to identify the target atoms.
     The decimal precision in the search for these positions is controlled by `precision`.
 
-    It rotates the atoms by the geometrical center of the first 3 atoms by a specific `angle`.
+    It rotates the atoms by a specific `angle` in degrees.
     Additionally, if `repeat = True` it repeats the same rotation over the whole circunference.
     Finally, it writes the rotated structure(s) to a new structural file(s).
     Returns a list with the output filename(s).
+
+    By default, the rotation axis is defined by the perpendicular vector
+    passing through the geometrical center of the first three points.
+    To override this and instead use the vector between the first two atoms
+    as the rotation axis, set `use_centroid = False`.
 
     To debug, `show_axis = True` adds two additional helium atoms as the rotation vector.
     """
@@ -76,7 +82,7 @@ def structure_qe(
     for angle in angles:
         output_name = name + f'_{angle}' + ext
         output = os.path.join(path, output_name)
-        rotated_positions_cartesian = rotate_coords(full_positions, angle, show_axis)
+        rotated_positions_cartesian = rotate_coords(full_positions, angle, use_centroid, show_axis)
         rotated_positions = []
         for coord in rotated_positions_cartesian:
             pos = interface.qe.from_cartesian(filepath, coord)
@@ -90,36 +96,43 @@ def structure_qe(
 def rotate_coords(
         positions:list,
         angle:float,
+        use_centroid:bool=True,
         show_axis:bool=False,
     ) -> list:
     """Rotates geometrical coordinates.
 
     Takes a list of atomic `positions` in cartesian coordinates, as
-    `[[x1,y1,z1], [x2,y2,z2], [x3,y3,z3]], [etc]`.
-    Then rotates said coordinates by a given `angle` (degrees),
-    taking the perpendicular axis that passes through the
-    geometrical center of the first three points as the axis of rotation.
-    Any additional coordinates are rotated with the same rotation matrix.
+    `[[x1,y1,z1], [x2,y2,z2], [x3,y3,z3], [etc]`.
+    Then rotates said coordinates by a given `angle` in degrees.
     Returns a list with the updated positions.
 
+    By default, the rotation axis is defined by the perpendicular vector
+    passing through the geometrical center of the first three points.
+    To override this and use the vector between the first two atoms
+    as the rotation axis, set `use_centroid = False`.
+
     If `show_axis = True` it returns two additional coordinates at the end of the list,
-    with the centroid and the rotation vector.
+    with the centroid and the rotation vector. Only works with `use_centroid = True`.
     """
     if len(positions) < 3:
-        raise ValueError("At least three coordinates are required to define the rotation axis.")
+        raise ValueError("At least three atoms must be rotated.")
     if not isinstance(positions[0], list):
         raise ValueError(f"Atomic positions must have the form: [[x1,y1,z1], [x2,y2,z2], [x3,y3,z3], etc]. Yours were:\n{positions}")
     positions = np.array(positions)
     #print(f'POSITIONS: {positions}')  # DEBUG
-    # Define the geometrical center of the first three points
-    center = np.mean(positions[:3], axis=0)
+    # Define the geometrical center
+    center_atoms = positions[:2]
+    if use_centroid:
+        center_atoms = positions[:3]
+    center = np.mean(center_atoms, axis=0)
     # Ensure the axis passes through the geometrical center
     centered_positions = positions - center
     # Define the perpendicular axis (normal to the plane formed by the first three points)
     v1 = centered_positions[0] - centered_positions[1]
     v2 = centered_positions[0] - centered_positions[2]
-    # Cross product
-    axis = np.cross(v2, v1)
+    axis = v1  # Axis defined by the first two points
+    if use_centroid:  # Axis defined by the cross product of the first three points
+        axis = np.cross(v2, v1)
     axis_length = np.linalg.norm(axis)
     axis = axis / axis_length
     # Create the rotation object using scipy
@@ -128,7 +141,7 @@ def rotate_coords(
     rotated_centered_positions = rotation.apply(centered_positions)
     rotated_positions = (rotated_centered_positions + center).tolist()
     #print(f'ROTATED_POSITIONS: {rotated_positions}')  # DEBUG
-    if show_axis:
+    if show_axis and use_centroid:
         rotated_positions.append(center.tolist())
         rotated_positions.append((center + axis).tolist())
     return rotated_positions
