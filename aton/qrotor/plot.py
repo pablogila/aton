@@ -11,7 +11,7 @@ This module provides straightforward functions to plot QRotor data.
 | `reduced_energies()` | Reduced energies E/B as a function of the reduced potential V/B |
 | `potential()`        | Potential values as a function of the angle |
 | `energies()`         | Calculated eigenvalues |
-| `convergence_DEV()`  | NOT IMPLEMENTED |
+| `convergence()`      | Energy convergence |
 | `eigenvectors_DEV()` | NOT IMPLEMENTED |
 
 ---
@@ -110,121 +110,41 @@ def energies(data) -> None:
     plt.show()
 
 
-##  TODO: Implement the following functions
-
-
-def convergence_DEV(data:list):
-    '''Plots the energy convergence of the system. NOT YET IMPLEMENTED'''
-    fig, ax1 = plt.subplots(figsize=(10, 6))
-
-    E_color = 'C0'
-    runtime_color = 'C3'
-    yaxes_color = E_color
-
-    converged_color_line = 'lightgrey'
-
-    units = data.variables[0].units
-    E_units = 'meV'
-    if 'meV' in units or 'mev' in units:
-        E_units = 'meV'
-    elif 'eV' in units or 'ev' in units:
-        E_units = 'eV'
-
-    title = data.comment
-    ylabel_text = f'Energy / {E_units}'
-    xlabel_text = 'Grid Size'
-    runtime_text = 'Runtime / s'
-
-    legend_title = data.legend_title
-    legend_title_position = data.legend_title_position
-    check_E_threshold = data.check_E_threshold
-    check_E_diff = data.check_E_diff
-    check_E_level = data.check_E_level
-    ideal_E = data.ideal_E
-    if check_E_level is None:
-        data.check_E_level = len(data.solutions[0].eigenvalues) - 1
-        check_E_level = data.check_E_level
-        ideal_E = data.get_ideal_E()
-
-
-    textbox = dict(boxstyle='round', facecolor='white', edgecolor='lightgrey', alpha=0.5)
-    textstr = ''
-
-    textstr_position_x = 0.88
-    textstr_position_y = 0.15
-    textstr_alignment_h = 'right'
-    textstr_alignment_v = 'bottom'
-
-    if legend_title_position and isinstance(legend_title_position, list):
-        textstr_position_x = data.legend_title_position[0]
-        textstr_position_y = data.legend_title_position[1]
-        textstr_alignment_h = data.legend_title_position[2]
-        textstr_alignment_v = data.legend_title_position[3]
-
-    energies = data.energies()
-    energies_transposed = np.transpose(energies)
-    plotted_energies = energies_transposed[check_E_level]
-    gridsizes = data.gridsizes()
-    runtimes = data.runtimes()
-
-    if check_E_diff:
-        plotted_energies = np.abs(plotted_energies - ideal_E)
-        ylabel_text = 'Energy offset / |meV|'
-        textstr_position_x = 0.5
-        textstr_position_y = 0.85
-        textstr_alignment_v = 'top'
-        textstr_alignment_h = 'center'
-    
-    if not any(runtimes):
-        yaxes_color = 'black'
-
-    ax1.plot(gridsizes, plotted_energies, marker='o', linestyle='-', color=E_color)
-    ax1.set_xlabel(xlabel_text)
-    ax1.set_ylabel(ylabel_text, color=yaxes_color)
-    ax1.tick_params(axis='y', labelcolor=yaxes_color)
-
-    if ideal_E is not None:
-        if check_E_diff:
-            ax1.axhline(y=0, color='grey', linestyle='--')
-        else:
-            ax1.axhline(y=ideal_E, color='grey', linestyle='--')
-            textstr += f'Ideal  E={ideal_E:.4f}\n'
-    
-    if check_E_threshold and (ideal_E is not None):
-        if check_E_diff:
-            abs_energies = energy
-        else:
-            abs_energies = np.abs(plotted_energies - ideal_E)
-        for i, energy in enumerate(abs_energies):
-            if energy < check_E_threshold:
-                #ax1.plot(gridsizes[i], plotted_energies[i], marker=converged_marker, color=E_converged_color)
-                ax1.axvline(x=gridsizes[i], color=converged_color_line, linestyle='--')
-                textstr += f'Convergence threshold:  {check_E_threshold}\n'
-                lower_limit, _ = ax1.get_ylim()
-                ax1.text(gridsizes[i], lower_limit, str(gridsizes[i]), fontsize=10, verticalalignment='bottom', horizontalalignment='center')
-                break
-
-    if any(runtimes):
-        ax2 = ax1.twinx()  # instantiate a second y-axis that shares the same x-axis
-        ax2.set_ylabel(runtime_text, color=runtime_color)  # we already handled the x-label with ax1
-        ax2.plot(gridsizes, runtimes, marker='o', linestyle='-', color=runtime_color)
-        ax2.tick_params(axis='y', labelcolor=runtime_color)
-        for i, energy in enumerate(plotted_energies):
-            textstr += f'N={gridsizes[i]}   E={round(energy,4):.04f}   t={round(runtimes[i],2):.02f}'
-            if i < len(plotted_energies) - 1:
-                textstr += '\n'
-
-    else:
-        for i, energy in enumerate(plotted_energies):
-            textstr += f'N={gridsizes[i]}   E={round(energy,4):.04f}\n'
-
-    if legend_title is not False:
-        if isinstance(legend_title, str):
-            textstr = legend_title + '\n' + textstr
-        fig.text(textstr_position_x, textstr_position_y, textstr, fontsize=10, verticalalignment=textstr_alignment_v, horizontalalignment=textstr_alignment_h, bbox=textbox)
-
-    plt.title(title)
+def convergence(data:list) -> None:
+    """Plot the energy convergence of a list of Systems as a function of the gridsize."""
+    systems.check(data)
+    gridsizes = [system.gridsize for system in data]
+    runtimes = [system.runtime for system in data]
+    deviations = []  # List of lists, containing all eigenvalue deviations for every system
+    E_levels = data[0].E_levels
+    for system in data:
+        deviation_list = []
+        for i, eigenvalue in enumerate(system.eigenvalues):
+            ideal_E = systems.get_ideal_E(i)
+            deviation = abs(ideal_E - eigenvalue)
+            deviation_list.append(deviation)
+        deviation_list = deviation_list[1:]  # Remove ground state
+        deviations.append(deviation_list)
+    # Plotting
+    fig, ax1 = plt.subplots()
+    ax1.set_xlabel('Grid size')
+    ax1.set_ylabel('Error / meV')
+    ax1.set_xscale('log')
+    ax1.set_yscale('log')
+    ax2 = ax1.twinx()
+    ax2.set_ylabel('Runtime [s]')
+    ax2.set_yscale('log')
+    ax2.plot(gridsizes, runtimes, color='tab:red', label='Runtime', linestyle='--')
+    for i in range(E_levels-1):
+        if i % 2 == 0:  # Ignore even numbers, since those levels are degenerated.
+            continue
+        ax1.plot(gridsizes, [dev[i] for dev in deviations], label=f'$E_{int((i+1)/2)}$')
+    fig.legend(loc='upper right', bbox_to_anchor=(0.9, 0.88), fontsize='small')
+    plt.title(data[0].comment if data[0].comment else 'Energy convergence vs gridsize')
     plt.show()
+
+
+##  TODO: Implement the following functions
 
 
 def eigenvectors_DEV(data:System, levels=None, squared=False, scaling_factor=1):

@@ -1,7 +1,7 @@
 """
 # Description
 
-This module contains functions to handle multiple `aton.qrotor.system` calculations.
+This module contains utility functions to handle multiple `aton.qrotor.system` calculations.
 
 
 # Index
@@ -15,6 +15,7 @@ This module contains functions to handle multiple `aton.qrotor.system` calculati
 | `get_groups()`       | Get the chemical groups in use |
 | `sort_by_gridsize()` | Sort systems by gridsize |
 | `reduce_size()`      | Discard data that takes too much space |
+| `get_ideal_E()`      | Calculate the ideal energy for a specified level |
 
 ---
 """
@@ -102,4 +103,18 @@ def reduce_size(systems:list) -> list:
         dataset.potential_values = None
         dataset.grid = None
     return systems
+
+
+def get_ideal_E(E_level:int) -> int:
+    """Calculates the ideal energy for a specified `E_level`.
+
+    To be used in convergence tests with `potential_name = 'zero'`.
+    """
+    real_E_level = None
+    if E_level % 2 == 0:
+        real_E_level = E_level / 2
+    else:
+        real_E_level = (E_level + 1) / 2
+    ideal_E = int(real_E_level ** 2)
+    return ideal_E
 

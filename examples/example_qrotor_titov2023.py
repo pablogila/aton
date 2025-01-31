@@ -1,8 +1,12 @@
+"""
+This script is used to reproduce the eigenvalues from:
+K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)
+https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402
+"""
+
+
 import aton.qrotor as qr
 
-# Reproducing eigenvalues from:
-# K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)
-# https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402
 
 system = qr.System()
 system.potential_name = 'titov2023'

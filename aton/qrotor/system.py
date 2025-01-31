@@ -170,19 +170,11 @@ class System:
         self.group = group  # No match was found
         return self
     
-    def get_ideal_E(self, E_level):
-        """Calculates the ideal energy for a specified `E_level` for a convergence test.
-
-        To use with `potential_name = 'zero'`.
+    def solve(self):
+        """Solves the quantum system.
+        
+        Same as `aton.qrotor.solve.energies(System)`.
         """
-        real_E_level = None
-        if self.potential_name != 'zero':
-            print("WARNING:  System.get_ideal_E() only valid for potential_name = 'zero'")
-            return
-        if E_level % 2 == 0:
-            real_E_level = E_level / 2
-        else:
-            real_E_level = (E_level + 1) / 2
-        ideal_E = int(real_E_level ** 2)
-        return ideal_E
+        from .solve import energies
+        return energies(self)
 

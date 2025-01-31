@@ -155,7 +155,7 @@
                                 <a class="function" href="#System.set_group">set_group</a>
                         </li>
                         <li>
-                                <a class="function" href="#System.get_ideal_E">get_ideal_E</a>
+                                <a class="function" href="#System.solve">solve</a>
                         </li>
                 </ul>
 
@@ -163,7 +163,7 @@
     </ul>
 
 
-            <footer>ATON v0.0.12 documentation</footer>
+            <footer>ATON v0.0.13 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -361,21 +361,13 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">group</span> <span class="o">=</span> <span class="n">group</span>  <span class="c1"># No match was found</span>
 </span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>    
-</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_ideal_E</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E_level</span><span class="p">):</span>
-</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates the ideal energy for a specified `E_level` for a convergence test.</span>
-</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>
-</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a><span class="sd">        To use with `potential_name = &#39;zero&#39;`.</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Solves the quantum system.</span>
+</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a><span class="sd">        </span>
+</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a><span class="sd">        Same as `aton.qrotor.solve.energies(System)`.</span>
 </span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>        <span class="n">real_E_level</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">potential_name</span> <span class="o">!=</span> <span class="s1">&#39;zero&#39;</span><span class="p">:</span>
-</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING:  System.get_ideal_E() only valid for potential_name = &#39;zero&#39;&quot;</span><span class="p">)</span>
-</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a>            <span class="k">return</span>
-</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>        <span class="k">if</span> <span class="n">E_level</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a>            <span class="n">real_E_level</span> <span class="o">=</span> <span class="n">E_level</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>            <span class="n">real_E_level</span> <span class="o">=</span> <span class="p">(</span><span class="n">E_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>        <span class="n">ideal_E</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">real_E_level</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>        <span class="k">return</span> <span class="n">ideal_E</span>
+</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">.solve</span><span class="w"> </span><span class="kn">import</span> <span class="n">energies</span>
+</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>        <span class="k">return</span> <span class="n">energies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -547,21 +539,13 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="System-171"><a href="#System-171"><span class="linenos">171</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">group</span> <span class="o">=</span> <span class="n">group</span>  <span class="c1"># No match was found</span>
 </span><span id="System-172"><a href="#System-172"><span class="linenos">172</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="System-173"><a href="#System-173"><span class="linenos">173</span></a>    
-</span><span id="System-174"><a href="#System-174"><span class="linenos">174</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_ideal_E</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E_level</span><span class="p">):</span>
-</span><span id="System-175"><a href="#System-175"><span class="linenos">175</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates the ideal energy for a specified `E_level` for a convergence test.</span>
-</span><span id="System-176"><a href="#System-176"><span class="linenos">176</span></a>
-</span><span id="System-177"><a href="#System-177"><span class="linenos">177</span></a><span class="sd">        To use with `potential_name = &#39;zero&#39;`.</span>
+</span><span id="System-174"><a href="#System-174"><span class="linenos">174</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="System-175"><a href="#System-175"><span class="linenos">175</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Solves the quantum system.</span>
+</span><span id="System-176"><a href="#System-176"><span class="linenos">176</span></a><span class="sd">        </span>
+</span><span id="System-177"><a href="#System-177"><span class="linenos">177</span></a><span class="sd">        Same as `aton.qrotor.solve.energies(System)`.</span>
 </span><span id="System-178"><a href="#System-178"><span class="linenos">178</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="System-179"><a href="#System-179"><span class="linenos">179</span></a>        <span class="n">real_E_level</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="System-180"><a href="#System-180"><span class="linenos">180</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">potential_name</span> <span class="o">!=</span> <span class="s1">&#39;zero&#39;</span><span class="p">:</span>
-</span><span id="System-181"><a href="#System-181"><span class="linenos">181</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING:  System.get_ideal_E() only valid for potential_name = &#39;zero&#39;&quot;</span><span class="p">)</span>
-</span><span id="System-182"><a href="#System-182"><span class="linenos">182</span></a>            <span class="k">return</span>
-</span><span id="System-183"><a href="#System-183"><span class="linenos">183</span></a>        <span class="k">if</span> <span class="n">E_level</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="System-184"><a href="#System-184"><span class="linenos">184</span></a>            <span class="n">real_E_level</span> <span class="o">=</span> <span class="n">E_level</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="System-185"><a href="#System-185"><span class="linenos">185</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="System-186"><a href="#System-186"><span class="linenos">186</span></a>            <span class="n">real_E_level</span> <span class="o">=</span> <span class="p">(</span><span class="n">E_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="System-187"><a href="#System-187"><span class="linenos">187</span></a>        <span class="n">ideal_E</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">real_E_level</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-</span><span id="System-188"><a href="#System-188"><span class="linenos">188</span></a>        <span class="k">return</span> <span class="n">ideal_E</span>
+</span><span id="System-179"><a href="#System-179"><span class="linenos">179</span></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">.solve</span><span class="w"> </span><span class="kn">import</span> <span class="n">energies</span>
+</span><span id="System-180"><a href="#System-180"><span class="linenos">180</span></a>        <span class="k">return</span> <span class="n">energies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -1087,38 +1071,30 @@ using <code><a href="potential.html#interpolate">aton.qrotor.potential.interpola
 
 
                             </div>
-                            <div id="System.get_ideal_E" class="classattr">
-                                        <input id="System.get_ideal_E-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                            <div id="System.solve" class="classattr">
+                                        <input id="System.solve-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">get_ideal_E</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">E_level</span></span><span class="return-annotation">):</span></span>
+        <span class="name">solve</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
 
-                <label class="view-source-button" for="System.get_ideal_E-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="System.solve-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#System.get_ideal_E"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="System.get_ideal_E-174"><a href="#System.get_ideal_E-174"><span class="linenos">174</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_ideal_E</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">E_level</span><span class="p">):</span>
-</span><span id="System.get_ideal_E-175"><a href="#System.get_ideal_E-175"><span class="linenos">175</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates the ideal energy for a specified `E_level` for a convergence test.</span>
-</span><span id="System.get_ideal_E-176"><a href="#System.get_ideal_E-176"><span class="linenos">176</span></a>
-</span><span id="System.get_ideal_E-177"><a href="#System.get_ideal_E-177"><span class="linenos">177</span></a><span class="sd">        To use with `potential_name = &#39;zero&#39;`.</span>
-</span><span id="System.get_ideal_E-178"><a href="#System.get_ideal_E-178"><span class="linenos">178</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="System.get_ideal_E-179"><a href="#System.get_ideal_E-179"><span class="linenos">179</span></a>        <span class="n">real_E_level</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="System.get_ideal_E-180"><a href="#System.get_ideal_E-180"><span class="linenos">180</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">potential_name</span> <span class="o">!=</span> <span class="s1">&#39;zero&#39;</span><span class="p">:</span>
-</span><span id="System.get_ideal_E-181"><a href="#System.get_ideal_E-181"><span class="linenos">181</span></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING:  System.get_ideal_E() only valid for potential_name = &#39;zero&#39;&quot;</span><span class="p">)</span>
-</span><span id="System.get_ideal_E-182"><a href="#System.get_ideal_E-182"><span class="linenos">182</span></a>            <span class="k">return</span>
-</span><span id="System.get_ideal_E-183"><a href="#System.get_ideal_E-183"><span class="linenos">183</span></a>        <span class="k">if</span> <span class="n">E_level</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="System.get_ideal_E-184"><a href="#System.get_ideal_E-184"><span class="linenos">184</span></a>            <span class="n">real_E_level</span> <span class="o">=</span> <span class="n">E_level</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="System.get_ideal_E-185"><a href="#System.get_ideal_E-185"><span class="linenos">185</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="System.get_ideal_E-186"><a href="#System.get_ideal_E-186"><span class="linenos">186</span></a>            <span class="n">real_E_level</span> <span class="o">=</span> <span class="p">(</span><span class="n">E_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="System.get_ideal_E-187"><a href="#System.get_ideal_E-187"><span class="linenos">187</span></a>        <span class="n">ideal_E</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">real_E_level</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-</span><span id="System.get_ideal_E-188"><a href="#System.get_ideal_E-188"><span class="linenos">188</span></a>        <span class="k">return</span> <span class="n">ideal_E</span>
+    <a class="headerlink" href="#System.solve"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="System.solve-174"><a href="#System.solve-174"><span class="linenos">174</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="System.solve-175"><a href="#System.solve-175"><span class="linenos">175</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Solves the quantum system.</span>
+</span><span id="System.solve-176"><a href="#System.solve-176"><span class="linenos">176</span></a><span class="sd">        </span>
+</span><span id="System.solve-177"><a href="#System.solve-177"><span class="linenos">177</span></a><span class="sd">        Same as `aton.qrotor.solve.energies(System)`.</span>
+</span><span id="System.solve-178"><a href="#System.solve-178"><span class="linenos">178</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="System.solve-179"><a href="#System.solve-179"><span class="linenos">179</span></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">.solve</span><span class="w"> </span><span class="kn">import</span> <span class="n">energies</span>
+</span><span id="System.solve-180"><a href="#System.solve-180"><span class="linenos">180</span></a>        <span class="k">return</span> <span class="n">energies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Calculates the ideal energy for a specified <code>E_level</code> for a convergence test.</p>
+            <div class="docstring"><p>Solves the quantum system.</p>
 
-<p>To use with <code>potential_name = 'zero'</code>.</p>
+<p>Same as <code><a href="solve.html#energies">aton.qrotor.solve.energies</a>(System)</code>.</p>
 </div>
 
 
