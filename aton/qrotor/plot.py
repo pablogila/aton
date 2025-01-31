@@ -132,15 +132,16 @@ def convergence(data:list) -> None:
     ax1.set_xscale('log')
     ax1.set_yscale('log')
     ax2 = ax1.twinx()
-    ax2.set_ylabel('Runtime [s]')
+    ax2.set_ylabel('Runtime / s')
     ax2.set_yscale('log')
     ax2.plot(gridsizes, runtimes, color='tab:grey', label='Runtime', linestyle='--')
+    colors = plt.cm.viridis(np.linspace(0, 1, E_levels-1))
     for i in range(E_levels-1):
         if i % 2 == 0:  # Ignore even numbers, since those levels are degenerated.
             continue
-        ax1.plot(gridsizes, [dev[i] for dev in deviations], label=f'$E_{int((i+1)/2)}$')
+        ax1.plot(gridsizes, [dev[i] for dev in deviations], label=f'$E_{{{int((i+1)/2)}}}$', color=colors[i])
     fig.legend(loc='upper right', bbox_to_anchor=(0.9, 0.88), fontsize='small')
-    plt.title(data[0].comment if data[0].comment else 'Energy convergence vs gridsize')
+    plt.title(data[0].comment if data[0].comment else 'Energy convergence vs grid size')
     plt.show()
 
 
