@@ -134,7 +134,7 @@ def convergence(data:list) -> None:
     ax2 = ax1.twinx()
     ax2.set_ylabel('Runtime [s]')
     ax2.set_yscale('log')
-    ax2.plot(gridsizes, runtimes, color='tab:red', label='Runtime', linestyle='--')
+    ax2.plot(gridsizes, runtimes, color='tab:grey', label='Runtime', linestyle='--')
     for i in range(E_levels-1):
         if i % 2 == 0:  # Ignore even numbers, since those levels are degenerated.
             continue
