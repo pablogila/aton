@@ -71,7 +71,7 @@
   <li><a href="#examples">Examples</a>
   <ul>
     <li><a href="#solving-quantum-rotational-systems">Solving quantum rotational systems</a></li>
-    <li><a href="#rotational-potentials-from-dft">Rotational potentials from DFT</a></li>
+    <li><a href="#custom-potentials-from-dft">Custom potentials from DFT</a></li>
   </ul></li>
 </ul>
 
@@ -88,7 +88,7 @@
             </ul>
 
 
-            <footer>ATON v0.0.17 documentation</footer>
+            <footer>ATON v0.0.18 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -104,9 +104,14 @@
 
                         <div class="docstring"><h1 id="qrotor">QRotor</h1>
 
-<p>The QRotor module is used to study the energy levels of quantum rotations, such as methyl and amine groups.</p>
+<p>The QRotor module is used to study the energy levels and wavefunctions of quantum rotations,
+such as those of methyl and amine groups.
+These quantum systems are represented by the <code>qrotor.System()</code> object.</p>
 
-<p>This module uses meV as default units in the calculations.</p>
+<p>QRotor can obtain custom potentials from DFT,
+which are used to solve the quantum system.</p>
+
+<p>This module uses meV as the default unit in the calculations.</p>
 
 <h1 id="index">Index</h1>
 
@@ -119,20 +124,20 @@
 </thead>
 <tbody>
 <tr>
+  <td><code><a href="qrotor/system.html">aton.qrotor.system</a></code></td>
+  <td>Definition of the quantum <code>System</code> object</td>
+</tr>
+<tr>
+  <td><code><a href="qrotor/systems.html">aton.qrotor.systems</a></code></td>
+  <td>Functions to manage several System objects, such as a list of systems</td>
+</tr>
+<tr>
   <td><code><a href="qrotor/rotate.html">aton.qrotor.rotate</a></code></td>
   <td>Rotate specific atoms from structural files</td>
 </tr>
 <tr>
   <td><code><a href="qrotor/constants.html">aton.qrotor.constants</a></code></td>
   <td>Bond lengths and inertias</td>
-</tr>
-<tr>
-  <td><code><a href="qrotor/system.html">aton.qrotor.system</a></code></td>
-  <td>Definition of the quantum <code>System</code> object</td>
-</tr>
-<tr>
-  <td><code><a href="qrotor/systems.html">aton.qrotor.systems</a></code></td>
-  <td>Functions to manage several System objects</td>
 </tr>
 <tr>
   <td><code><a href="qrotor/potential.html">aton.qrotor.potential</a></code></td>
@@ -171,7 +176,7 @@
 but note that the runtime increases exponentially.</p>
 
 <p>The same calculation can be performed for a methyl group,
-in a sine potential of amplitude 30 meV:</p>
+in a cosine potential of amplitude 30 meV:</p>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn"><a href="">aton.qrotor</a></span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qr</span>
@@ -179,8 +184,8 @@ in a sine potential of amplitude 30 meV:</p>
 <span class="n">system</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">System</span><span class="p">()</span>
 <span class="n">system</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="mi">200000</span>  <span class="c1"># Size of the potential grid</span>
 <span class="n">system</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">B_CH3</span>  <span class="c1"># Rotational inertia of a methyl group</span>
-<span class="n">system</span><span class="o">.</span><span class="n">potential_name</span> <span class="o">=</span> <span class="s1">&#39;sine&#39;</span>
-<span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># Offset, max, phase</span>
+<span class="n">system</span><span class="o">.</span><span class="n">potential_name</span> <span class="o">=</span> <span class="s1">&#39;cosine&#39;</span>
+<span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># Offset, max, phase (for cosine potential)</span>
 <span class="n">system</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 <span class="c1"># Plot potential and eigenvalues</span>
 <span class="n">qr</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">energies</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
@@ -189,10 +194,10 @@ in a sine potential of amplitude 30 meV:</p>
 </code></pre>
 </div>
 
-<h2 id="rotational-potentials-from-dft">Rotational potentials from DFT</h2>
+<h2 id="custom-potentials-from-dft">Custom potentials from DFT</h2>
 
-<p>To calculate a rotational potential via Quantum ESPRESSO,
-running an SCF calculation every 10 degrees:</p>
+<p>QRotor can be used to obtain custom rotational potentials from DFT calculations.
+Using Quantum ESPRESSO, running an SCF calculation for a methyl rotation every 10 degrees:</p>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn"><a href="">aton.qrotor</a></span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qr</span>
@@ -205,7 +210,7 @@ running an SCF calculation every 10 degrees:</p>
 <span class="p">]</span>
 <span class="c1"># Create the input SCF files, saving the filenames to a list</span>
 <span class="n">scf_files</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">rotate</span><span class="o">.</span><span class="n">structure_qe</span><span class="p">(</span><span class="s1">&#39;molecule.in&#39;</span><span class="p">,</span> <span class="n">positions</span><span class="o">=</span><span class="n">atoms</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1"># Run the calculations</span>
+<span class="c1"># Run the Quantum ESPRESSO calculations</span>
 <span class="n">interface</span><span class="o">.</span><span class="n">slurm</span><span class="o">.</span><span class="n">sbatch</span><span class="p">(</span><span class="n">files</span><span class="o">=</span><span class="n">scf_files</span><span class="p">)</span>
 </code></pre>
 </div>
@@ -215,7 +220,12 @@ running an SCF calculation every 10 degrees:</p>
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="c1"># Create a &#39;potential.dat&#39; file with the potential as a function of the angle</span>
 <span class="n">qr</span><span class="o">.</span><span class="n">potential</span><span class="o">.</span><span class="n">from_qe</span><span class="p">()</span>
+<span class="c1"># Load to the system</span>
 <span class="n">system</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">potential</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="c1"># Solve the system, interpolating to a bigger gridsize</span>
+<span class="n">system</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">B_CH3</span>
+<span class="n">system</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="mi">200000</span><span class="p">)</span>
+<span class="n">qr</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">energies</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
 </code></pre>
 </div>
 
@@ -226,105 +236,115 @@ running an SCF calculation every 10 degrees:</p>
 
                         <label class="view-source-button" for="mod-qrotor-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd"># QRotor</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd"> </span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="sd">The QRotor module is used to study the energy levels of quantum rotations, such as methyl and amine groups.</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">This module uses meV as default units in the calculations.</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd"># Index</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">| | |</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">| --- | --- |</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">| `aton.qrotor.rotate`    | Rotate specific atoms from structural files |</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">| `aton.qrotor.constants` | Bond lengths and inertias |</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">| `aton.qrotor.system`    | Definition of the quantum `System` object |</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">| `aton.qrotor.systems`   | Functions to manage several System objects |</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">| `aton.qrotor.potential` | Potential definitions and loading functions |</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="sd">| `aton.qrotor.solve`     | Solve rotation eigenvalues and eigenvectors |</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">| `aton.qrotor.plot`      | Plotting functions |</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd"># Examples</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">## Solving quantum rotational systems</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">To perform a basic calculation of the eigenvalues for a zero potential:</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="sd">```python</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="sd">import aton.qrotor as qr</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">system = qr.System()</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">system.gridsize = 200000  # Size of the potential grid</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">system.B = 1  # Rotational inertia</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">system.potential_name = &#39;zero&#39;</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">system.solve()</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">system.eigenvalues</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd"># [0.0, 1.0, 1.0, 4.0, 4.0, 9.0, 9.0, ...]  # approx values</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">```</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">The accuracy of the calculation increases with bigger gridsizes,</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="sd">but note that the runtime increases exponentially.</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="sd">The same calculation can be performed for a methyl group,</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">in a sine potential of amplitude 30 meV:</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">```python</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">import aton.qrotor as qr</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">import numpy as np</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">system = qr.System()</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">system.gridsize = 200000  # Size of the potential grid</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">system.B = qr.B_CH3  # Rotational inertia of a methyl group</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">system.potential_name = &#39;sine&#39;</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="sd">system.potential_constants = [0, 30, np.pi/2]  # Offset, max, phase</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">system.solve()</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd"># Plot potential and eigenvalues</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">qr.plot.energies(system)</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="sd"># Plot the first wavefunctions</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">qr.plot.wavefunction(system, levels=[0,1,2], square=True)</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="sd">```</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a><span class="sd">## Rotational potentials from DFT</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="sd">To calculate a rotational potential via Quantum ESPRESSO,</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="sd">running an SCF calculation every 10 degrees:</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a><span class="sd">```python</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="sd">import aton.qrotor as qr</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="sd">from aton import interface</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="sd"># Approx crystal positions of the atoms to rotate</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="sd">atoms = [</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a><span class="sd">    &#39;1.101   1.204   1.307&#39;</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a><span class="sd">    &#39;2.102   2.205   2.308&#39;</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="sd">    &#39;3.103   3.206   3.309&#39;</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a><span class="sd">]</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a><span class="sd"># Create the input SCF files, saving the filenames to a list</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a><span class="sd">scf_files = qr.rotate.structure_qe(&#39;molecule.in&#39;, positions=atoms, angle=10, repeat=True)</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a><span class="sd"># Run the calculations</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a><span class="sd">interface.slurm.sbatch(files=scf_files)</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a><span class="sd">```</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a>
-</span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a><span class="sd">To load the calculated potential to a QRotor System,</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a><span class="sd">```python</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos">83</span></a><span class="sd"># Create a &#39;potential.dat&#39; file with the potential as a function of the angle</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos">84</span></a><span class="sd">qr.potential.from_qe()</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos">85</span></a><span class="sd">system = qr.potential.load()</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos">86</span></a><span class="sd">```</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos">87</span></a>
-</span><span id="L-88"><a href="#L-88"><span class="linenos">88</span></a><span class="sd">Check the API documentation for more details.</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos">89</span></a>
-</span><span id="L-90"><a href="#L-90"><span class="linenos">90</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos">91</span></a>
-</span><span id="L-92"><a href="#L-92"><span class="linenos">92</span></a>
-</span><span id="L-93"><a href="#L-93"><span class="linenos">93</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.system</span><span class="w"> </span><span class="kn">import</span> <span class="n">System</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos">94</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.constants</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos">95</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">systems</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos">96</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">rotate</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos">97</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">potential</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos">98</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve</span>
-</span><span id="L-99"><a href="#L-99"><span class="linenos">99</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="sd"># QRotor</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="sd"> </span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="sd">The QRotor module is used to study the energy levels and wavefunctions of quantum rotations,</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="sd">such as those of methyl and amine groups.</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="sd">These quantum systems are represented by the `qrotor.System()` object.</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="sd">QRotor can obtain custom potentials from DFT,</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="sd">which are used to solve the quantum system.</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="sd">This module uses meV as the default unit in the calculations.</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="sd"># Index</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a>
+</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="sd">| | |</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="sd">| --- | --- |</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="sd">| `aton.qrotor.system`    | Definition of the quantum `System` object |</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="sd">| `aton.qrotor.systems`   | Functions to manage several System objects, such as a list of systems |</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="sd">| `aton.qrotor.rotate`    | Rotate specific atoms from structural files |</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a><span class="sd">| `aton.qrotor.constants` | Bond lengths and inertias |</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="sd">| `aton.qrotor.potential` | Potential definitions and loading functions |</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="sd">| `aton.qrotor.solve`     | Solve rotation eigenvalues and eigenvectors |</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="sd">| `aton.qrotor.plot`      | Plotting functions |</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>
+</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="sd"># Examples</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a>
+</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a><span class="sd">## Solving quantum rotational systems</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a>
+</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a><span class="sd">To perform a basic calculation of the eigenvalues for a zero potential:</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="sd">```python</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="sd">import aton.qrotor as qr</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a><span class="sd">system = qr.System()</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a><span class="sd">system.gridsize = 200000  # Size of the potential grid</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a><span class="sd">system.B = 1  # Rotational inertia</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a><span class="sd">system.potential_name = &#39;zero&#39;</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a><span class="sd">system.solve()</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="sd">system.eigenvalues</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a><span class="sd"># [0.0, 1.0, 1.0, 4.0, 4.0, 9.0, 9.0, ...]  # approx values</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="sd">```</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="sd">The accuracy of the calculation increases with bigger gridsizes,</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a><span class="sd">but note that the runtime increases exponentially.</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="sd">The same calculation can be performed for a methyl group,</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="sd">in a cosine potential of amplitude 30 meV:</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="sd">```python</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="sd">import aton.qrotor as qr</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="sd">import numpy as np</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a><span class="sd">system = qr.System()</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="sd">system.gridsize = 200000  # Size of the potential grid</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="sd">system.B = qr.B_CH3  # Rotational inertia of a methyl group</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a><span class="sd">system.potential_name = &#39;cosine&#39;</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a><span class="sd">system.potential_constants = [0, 30, 0]  # Offset, max, phase (for cosine potential)</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a><span class="sd">system.solve()</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd"># Plot potential and eigenvalues</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a><span class="sd">qr.plot.energies(system)</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a><span class="sd"># Plot the first wavefunctions</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="sd">qr.plot.wavefunction(system, levels=[0,1,2], square=True)</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a><span class="sd">```</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a><span class="sd">## Custom potentials from DFT</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="sd">QRotor can be used to obtain custom rotational potentials from DFT calculations.</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="sd">Using Quantum ESPRESSO, running an SCF calculation for a methyl rotation every 10 degrees:</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="sd">```python</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">import aton.qrotor as qr</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">from aton import interface</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd"># Approx crystal positions of the atoms to rotate</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd">atoms = [</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="sd">    &#39;1.101   1.204   1.307&#39;</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">    &#39;2.102   2.205   2.308&#39;</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="sd">    &#39;3.103   3.206   3.309&#39;</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="sd">]</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="sd"># Create the input SCF files, saving the filenames to a list</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">scf_files = qr.rotate.structure_qe(&#39;molecule.in&#39;, positions=atoms, angle=10, repeat=True)</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd"># Run the Quantum ESPRESSO calculations</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="sd">interface.slurm.sbatch(files=scf_files)</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">```</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="sd">To load the calculated potential to a QRotor System,</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">```python</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="sd"># Create a &#39;potential.dat&#39; file with the potential as a function of the angle</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">qr.potential.from_qe()</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="sd"># Load to the system</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">system = qr.potential.load()</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd"># Solve the system, interpolating to a bigger gridsize</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="sd">system.B = qr.B_CH3</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="sd">system.solve(200000)</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="sd">qr.plot.energies(system)</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="sd">```</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="sd">Check the API documentation for more details.</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.system</span><span class="w"> </span><span class="kn">import</span> <span class="n">System</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.constants</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">systems</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">rotate</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">potential</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot</span>
 </span></pre></div>
 
 

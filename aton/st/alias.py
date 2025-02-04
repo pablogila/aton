@@ -12,6 +12,7 @@ All values can be found in lowercase, to allow comparison with the `string.lower
 `experiments`  
 `files`  
 `boolean`  
+`math`  
 
 
 # Examples
@@ -96,4 +97,13 @@ boolean: dict = {
     False : ['no', 'NO', 'No', 'N', 'n', 'F', 'False', 'FALSE', 'f', 'false'],
 }
 """Strings with booleans such as 'yes' / 'no'."""
+
+
+math: dict = {
+    'sin'  : ['sin', 'sen', 'sine', 'seno'],
+    'cos'  : ['cos', 'cosine', 'coseno'],
+    'tg'   : ['tg', 'tangent', 'tangente'],
+    '0' : ['zero', 'cero', '0'],
+}
+"""Math-related strings."""
 

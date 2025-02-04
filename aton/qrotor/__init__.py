@@ -1,19 +1,24 @@
 """
 # QRotor
  
-The QRotor module is used to study the energy levels of quantum rotations, such as methyl and amine groups.
+The QRotor module is used to study the energy levels and wavefunctions of quantum rotations,
+such as those of methyl and amine groups.
+These quantum systems are represented by the `qrotor.System()` object.
 
-This module uses meV as default units in the calculations.
+QRotor can obtain custom potentials from DFT,
+which are used to solve the quantum system.
+
+This module uses meV as the default unit in the calculations.
 
 
 # Index
 
 | | |
 | --- | --- |
+| `aton.qrotor.system`    | Definition of the quantum `System` object |
+| `aton.qrotor.systems`   | Functions to manage several System objects, such as a list of systems |
 | `aton.qrotor.rotate`    | Rotate specific atoms from structural files |
 | `aton.qrotor.constants` | Bond lengths and inertias |
-| `aton.qrotor.system`    | Definition of the quantum `System` object |
-| `aton.qrotor.systems`   | Functions to manage several System objects |
 | `aton.qrotor.potential` | Potential definitions and loading functions |
 | `aton.qrotor.solve`     | Solve rotation eigenvalues and eigenvectors |
 | `aton.qrotor.plot`      | Plotting functions |
@@ -40,7 +45,7 @@ The accuracy of the calculation increases with bigger gridsizes,
 but note that the runtime increases exponentially.
 
 The same calculation can be performed for a methyl group,
-in a sine potential of amplitude 30 meV:
+in a cosine potential of amplitude 30 meV:
 
 ```python
 import aton.qrotor as qr
@@ -48,8 +53,8 @@ import numpy as np
 system = qr.System()
 system.gridsize = 200000  # Size of the potential grid
 system.B = qr.B_CH3  # Rotational inertia of a methyl group
-system.potential_name = 'sine'
-system.potential_constants = [0, 30, np.pi/2]  # Offset, max, phase
+system.potential_name = 'cosine'
+system.potential_constants = [0, 30, 0]  # Offset, max, phase (for cosine potential)
 system.solve()
 # Plot potential and eigenvalues
 qr.plot.energies(system)
@@ -58,10 +63,10 @@ qr.plot.wavefunction(system, levels=[0,1,2], square=True)
 ```
 
 
-## Rotational potentials from DFT
+## Custom potentials from DFT
 
-To calculate a rotational potential via Quantum ESPRESSO,
-running an SCF calculation every 10 degrees:
+QRotor can be used to obtain custom rotational potentials from DFT calculations.
+Using Quantum ESPRESSO, running an SCF calculation for a methyl rotation every 10 degrees:
 
 ```python
 import aton.qrotor as qr
@@ -74,7 +79,7 @@ atoms = [
 ]
 # Create the input SCF files, saving the filenames to a list
 scf_files = qr.rotate.structure_qe('molecule.in', positions=atoms, angle=10, repeat=True)
-# Run the calculations
+# Run the Quantum ESPRESSO calculations
 interface.slurm.sbatch(files=scf_files)
 ```
 
@@ -82,7 +87,12 @@ To load the calculated potential to a QRotor System,
 ```python
 # Create a 'potential.dat' file with the potential as a function of the angle
 qr.potential.from_qe()
+# Load to the system
 system = qr.potential.load()
+# Solve the system, interpolating to a bigger gridsize
+system.B = qr.B_CH3
+system.solve(200000)
+qr.plot.energies(system)
 ```
 
 Check the API documentation for more details.

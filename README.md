@@ -74,7 +74,7 @@ Code examples are included in the [`examples/`](https://github.com/pablogila/ATO
 
 ## Interfaces for *ab-initio* codes
 
-The **interface** module contains interfaces for several *ab-initio* codes.
+The **interface** module contains Python interfaces for several *ab-initio* codes.
 These are powered by the [aton.txt](#general-text-edition) module and can be easily extended.
 
 ### [aton.interface](https://pablogila.github.io/ATON/aton/interface.html)
@@ -98,13 +98,13 @@ Values are accessed directly as `phys.value` or `phys.function()`.
 | --- | --- |  
 | [phys.units](https://pablogila.github.io/ATON/aton/phys/units.html)         | Physical constants and conversion factors |  
 | [phys.atoms](https://pablogila.github.io/ATON/aton/phys/atoms.html)         | Megadictionary with data for all chemical elements |  
-| [phys.functions](https://pablogila.github.io/ATON/aton/phys/functions.html) | Functions to sort and analyse element data, and to update the atoms dictionary |  
+| [phys.functions](https://pablogila.github.io/ATON/aton/phys/functions.html) | Functions to sort and analyse element data |  
 
 
 ## Quantum rotations
  
-The **QRotor** module is used to study the energy levels of quantum rotations,
-such as methyl and amine groups.
+The **QRotor** module is used to study quantum rotations,
+such as those of methyl and amine groups.
 
 ### [aton.qrotor](https://pablogila.github.io/ATON/aton/qrotor.html)
 

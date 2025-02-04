@@ -14,6 +14,7 @@ This module contains functions to calculate the actual `potential_values` of the
 | `solve()`       | Solve the potential values based on the potential name |
 | `zero()`        | Zero potential |
 | `sine()`        | Sine potential |
+| `cosine()`      | Cosine potential |
 | `titov2023()`   | Potential of the hidered methyl rotor, as in titov2023. |
 
 ---
@@ -211,10 +212,12 @@ def solve(system:System):
             raise ValueError(f'No potential_name and no potential_values found in the system!')
     elif data.potential_name.lower() == 'titov2023':
         data.potential_values = titov2023(data)
-    elif data.potential_name.lower() == 'zero':
+    elif data.potential_name.lower() in alias.math['0']:
         data.potential_values = zero(data)
-    elif data.potential_name.lower() == 'sine':
+    elif data.potential_name.lower() in alias.math['sin']:
         data.potential_values = sine(data)
+    elif data.potential_name.lower() in alias.math['cos']:
+        data.potential_values = cosine(data)
     # At least there should be potential_values
     elif not any(data.potential_values):
         raise ValueError("Unrecognised potential_name '{data.potential_name}' and no potential_values found")
@@ -249,6 +252,30 @@ def sine(system:System):
         if len(C) > 2:
             C2 = C[2]
     return C0 + (C1 / 2) * np.sin(3*x + C2)
+
+
+def cosine(system:System):
+    """Cosine potential.
+
+    $C_0 + \\frac{C_1}{2} cos(3x + C_2)$  
+    With $C_0$ as the potential offset,
+    $C_1$ as the max potential value (without considering the offset),
+    and $C_2$ as the phase.
+    If no `System.potential_constants` are provided, defaults to $cos(3x)$  
+    """
+    x = system.grid
+    C = system.potential_constants
+    C0 = 0
+    C1 = 1
+    C2 = 0
+    if C:
+        if len(C) > 0:
+            C0 = C[0]
+        if len(C) > 1:
+            C1 = C[1]
+        if len(C) > 2:
+            C2 = C[2]
+    return C0 + (C1 / 2) * np.cos(3*x + C2)
 
 
 def titov2023(system:System):

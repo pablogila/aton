@@ -9,9 +9,9 @@ Functions to handle Slurm calls, to run calculations in clusters.
 | | |
 | --- | --- |
 | `sbatch()`         | Sbatch all calculations |
-| `squeue()`         | Get a Pandas DataFrame with info about the submitted calculations |
 | `scancel()`        | Scancel all calculations, or applying some filters |
 | `scancel_here()`   | Scancel all calculations running from a specific folder |
+| `squeue()`         | Get a Pandas DataFrame with info about the submitted calculations |
 | `check_template()` | Checks that the slurm template is OK, and provides an example if not |
 
 ---
@@ -109,15 +109,6 @@ def sbatch(
     print(f'\nDone! Temporary slurm files were moved to ./{slurm_folder}/\n')
 
 
-def squeue(user) -> pd.DataFrame:
-    result = call.bash(command=f'squeue -u {user}', verbose=False)
-    data = result.stdout
-    lines = data.strip().split('\n')
-    data_rows = [line.split() for line in lines[1:]]
-    df = pd.DataFrame(data_rows, columns=lines[0].split())
-    return df
-
-
 def scancel(
         user:str,
         status:str='',
@@ -186,6 +177,16 @@ def scancel_here(jobs=None, folder=None, prefix:str='slurm-', sufix:str='.out') 
     for job in jobs:
         call.bash(f'scancel {job}', folder)
     return None
+
+
+def squeue(user) -> pd.DataFrame:
+    """Returns a Pandas DataFrame with the jobs from a specific `user`"""
+    result = call.bash(command=f'squeue -u {user}', verbose=False)
+    data = result.stdout
+    lines = data.strip().split('\n')
+    data_rows = [line.split() for line in lines[1:]]
+    df = pd.DataFrame(data_rows, columns=lines[0].split())
+    return df
 
 
 def check_template(

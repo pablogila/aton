@@ -12,7 +12,7 @@ It also includes functions to manage this data.
 | --- | --- |
 | `aton.phys.units`     | Universal constants and conversion factors |
 | `aton.phys.atoms`     | Data from all chemical elements |
-| `aton.phys.functions` | Functions to manage data from the `aton.phys.atoms` dict |
+| `aton.phys.functions` | Functions to sort and manage element data from the `aton.phys.atoms` dict |
 
 
 # Examples
