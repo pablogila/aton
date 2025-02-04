@@ -16,6 +16,7 @@ This module contains utility functions to handle multiple `aton.qrotor.system` c
 | `sort_by_gridsize()` | Sort systems by gridsize |
 | `reduce_size()`      | Discard data that takes too much space |
 | `get_ideal_E()`      | Calculate the ideal energy for a specified level |
+| `set_index_list()`   | Sets a list of indexes |
 
 ---
 """

@@ -25,7 +25,7 @@ class System:
             group: str = 'CH3',
             E_levels: int = 15,
             correct_potential_offset: bool = True,
-            save_eigenvectors: bool = False,
+            save_eigenvectors: bool = True,
             gridsize: int = None,
             grid = [],
             B: float = None,
@@ -170,12 +170,16 @@ class System:
         self.group = group  # No match was found
         return self
     
-    def solve(self):
+    def solve(self, new_gridsize:int=None):
         """Solves the quantum system.
-        
-        Same as `aton.qrotor.solve.energies(System)`.
+
+        The potential can be interpolated to a `new_gridsize`.
+    
+        Same as running `aton.qrotor.solve.energies(System)`.
         """
         from .solve import energies
+        if new_gridsize:
+            self.gridsize = new_gridsize
         return energies(self)
 
     def reduce_size(self):

@@ -8,11 +8,11 @@ This module provides straightforward functions to plot QRotor data.
 
 | | |
 | --- | --- |
-| `reduced_energies()` | Reduced energies E/B as a function of the reduced potential V/B |
 | `potential()`        | Potential values as a function of the angle |
 | `energies()`         | Calculated eigenvalues |
+| `reduced_energies()` | Reduced energies E/B as a function of the reduced potential V/B |
+| `wavefunction()`     | Selected wavefunctions or squared wavefunctions of a system |
 | `convergence()`      | Energy convergence |
-| `eigenvectors_DEV()` | NOT IMPLEMENTED |
 
 ---
 """
@@ -22,27 +22,7 @@ from .system import System
 from . import systems
 import matplotlib.pyplot as plt
 import numpy as np
-
-
-def reduced_energies(data:list) -> None:
-    """Plots the reduced energy of the system E/B vs the reduced potential energy V/B.
-
-    Takes a list of System objects as input.
-    """
-    systems.check(data)
-    number_of_levels = data[0].E_levels
-    x = []
-    for system in data:
-        x.append(system.potential_max_B)
-    for i in range(number_of_levels):
-        y = []
-        for system in data:
-            y.append(system.eigenvalues_B[i])
-        plt.plot(x, y, marker='', linestyle='-')
-    plt.xlabel('V$_{B}$ / B')
-    plt.ylabel('E / B')
-    plt.title(data[0].comment)
-    plt.show()
+from copy import deepcopy
 
 
 def potential(system:System) -> None:
@@ -56,7 +36,7 @@ def potential(system:System) -> None:
 
 
 def energies(data) -> None:
-    """Plot the eigenvalues of `var` (System or a list of System objects)."""
+    """Plot the eigenvalues of `data` (System or a list of System objects)."""
     if isinstance(data, System):
         var = [data]
     else:  # Should be a list
@@ -93,7 +73,7 @@ def energies(data) -> None:
             plt.plot(system.grid, system.potential_values, color=V_color, linestyle=V_linestyle)
 
         # Plot eigenvalues
-        if system.eigenvalues is not None:
+        if any(system.eigenvalues):
             text_offset = 3 * len(unique_groups)
             if system.group not in unique_groups:
                 unique_groups.append(system.group)
@@ -110,8 +90,91 @@ def energies(data) -> None:
     plt.show()
 
 
+def reduced_energies(data:list) -> None:
+    """Plots the reduced energy of the system E/B vs the reduced potential energy V/B.
+
+    Takes a `data` list of System objects as input.
+    """
+    systems.check(data)
+    number_of_levels = data[0].E_levels
+    x = []
+    for system in data:
+        x.append(system.potential_max_B)
+    for i in range(number_of_levels):
+        y = []
+        for system in data:
+            y.append(system.eigenvalues_B[i])
+        plt.plot(x, y, marker='', linestyle='-')
+    plt.xlabel('V$_{B}$ / B')
+    plt.ylabel('E / B')
+    plt.title(data[0].comment)
+    plt.show()
+
+
+def wavefunction(system:System, square:bool=True, levels=[0, 1, 2], overlap=False):
+    """Plot the wavefunction of a `system` for the specified `levels`.
+
+    Wavefunctions are squared by default, showing the probabilities;
+    To show the actual wavefunctions, set `square = False`.
+
+    `levels` can be a list of indexes, or the number of levels to plot.
+
+    Specific wavefunctions can be overlapped with `overlap` as a list with the target indexes.
+    The `overlap` value can also be the max number of wavefunctions to add.
+    All found wavefunctions can be added together with `overlap = True`;
+    but note that this overlap is limited by the number of System.E_levels,
+    that must be specified before solving the system.
+    Setting `overlap` will ignore the `levels` argument.
+    """
+    data = deepcopy(system)
+    eigenvectors = data.eigenvectors
+
+    title = data.comment
+    fig, ax1 = plt.subplots()
+    plt.title(title)
+    ax1.set_xlabel('Angle / radians')
+    ax1.set_ylabel('Potential / meV')
+    ax1.set_xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
+    ax1.plot(data.grid, data.potential_values, color='blue', linestyle='-')
+    ax2 = ax1.twinx()
+    ax2.set_yticks([])
+    ax2.set_ylabel('Squared wavefunction' if square else 'Wavefunction')
+
+    # Set levels list
+    if isinstance(levels, int) or isinstance(levels, float):
+        levels = [x for x in range(int(levels))]
+    if not isinstance(levels, list):
+        raise ValueError('levels must be an int or a list of ints')
+    # Set overlap if requested
+    if overlap == True and isinstance(overlap, bool):
+        eigenvectors = [np.sum(eigenvectors, axis=0)]
+        levels = [0]
+        show_legend = False
+    elif overlap is not False and (isinstance(overlap, int) or isinstance(overlap, float)):
+        max_int = int(overlap)
+        eigenvectors = [np.sum(eigenvectors[:max_int], axis=0)]
+        levels = [0]
+        show_legend = False
+    elif isinstance(overlap, list):
+        eigenvectors = [np.sum([eigenvectors[i] for i in overlap], axis=0)]
+        levels = [0]
+        show_legend = False
+    else:
+        show_legend = True
+    # Square values if so
+    if square:
+        eigenvectors = [vec**2 for vec in eigenvectors]
+    # Plot the wavefunction
+    for i in levels:
+        ax2.plot(data.grid, eigenvectors[i], linestyle='--', label=f'{i}')
+    if show_legend:
+        fig.legend(loc='upper right', bbox_to_anchor=(0.9, 0.88), fontsize='small', title='Index')
+
+    plt.show()
+
+
 def convergence(data:list) -> None:
-    """Plot the energy convergence of a list of Systems as a function of the gridsize."""
+    """Plot the energy convergence of a `data` list of Systems as a function of the gridsize."""
     systems.check(data)
     gridsizes = [system.gridsize for system in data]
     runtimes = [system.runtime for system in data]
@@ -143,67 +206,4 @@ def convergence(data:list) -> None:
     fig.legend(loc='upper right', bbox_to_anchor=(0.9, 0.88), fontsize='small')
     plt.title(data[0].comment if data[0].comment else 'Energy convergence vs grid size')
     plt.show()
-
-
-##  TODO: Implement the following functions
-
-
-def eigenvectors_DEV(data:System, levels=None, squared=False, scaling_factor=1):
-
-    xlabel = 'Angle / radians'
-    ylabel = 'Energy / meV'
-    title = data.title
-    V_color = 'lightblue'
-    V_label = 'Potential'
-
-    #energy_color = 'red'
-    energy_edgecolor = 'lightgrey'
-    energy_linestyle = ':'
-    energy_label = 'E'
-
-    eigenvector_linestyle = '--'
-
-    # To square the eigenvectors
-    if squared:
-        eigenvector_label = 'Eigenvect$^2$ '
-        square = 2
-    else:
-        eigenvector_label = 'Eigenvect '
-        square = 1
-    
-    for i, potential in enumerate(data.set_of_potentials):
-
-        # Transpose the 2D array so that each inner array represents a different eigenvector
-        eigenvectors_transposed = np.transpose(data.set_of_eigenvectors[i])
-
-        # Plot potential energy
-        plt.figure(figsize=(10, 6))
-        plt.plot(data.x, potential, color=V_color, label=V_label)
-        plt.xlabel(xlabel)
-        plt.ylabel(ylabel)
-        plt.title(f'{title} (#' + str(i+1) + ')' )
-        if len(data.set_of_potentials) == 1:
-            plt.title(f'{title}')
-        plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi],
-                   ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
-        for j, energy in enumerate(data.set_of_energies[i]):
-            if levels is not None and j not in levels:
-                continue
-
-            color = 'C' + str(j)
-
-            E_label = energy_label + str(j)
-            plt.axhline(y=energy, linestyle=energy_linestyle, color=color, label=E_label)
-            plt.text(j%3*0.9, energy, f'E$_{j}$ = {energy:.4f}', va='top', bbox=dict(edgecolor=energy_edgecolor, boxstyle='round,pad=0.2', facecolor='white', alpha=0.8))
-
-            eigenvect_label = eigenvector_label + str(j)
-            eigenvector = scaling_factor*eigenvectors_transposed[j]**square
-            plt.plot(data.x, eigenvector, linestyle=eigenvector_linestyle, label=eigenvect_label, color=color)
-
-        plt.subplots_adjust(right=0.85)
-        plt.legend(bbox_to_anchor=(1.1, 0.5), loc='center', fontsize='small')
-        plt.text(1.03, 0.9, f'Eigenvects\nscaled x{scaling_factor}', transform=plt.gca().transAxes)
-        plt.show()
-
-
 

@@ -230,7 +230,10 @@ def zero(system:System):
 def sine(system:System):
     """Sine potential.
 
-    $C_0 + C_1 sin(3x + C_2)$  
+    $C_0 + \\frac{C_1}{2} sin(3x + C_2)$  
+    With $C_0$ as the potential offset,
+    $C_1$ as the max potential value (without considering the offset),
+    and $C_2$ as the phase.
     If no `System.potential_constants` are provided, defaults to $sin(3x)$  
     """
     x = system.grid
@@ -245,7 +248,7 @@ def sine(system:System):
             C1 = C[1]
         if len(C) > 2:
             C2 = C[2]
-    return C0 + C1 * np.sin(3*x + C2)
+    return C0 + (C1 / 2) * np.sin(3*x + C2)
 
 
 def titov2023(system:System):

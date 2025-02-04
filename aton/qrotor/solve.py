@@ -72,7 +72,7 @@ def schrodinger(system:System) -> System:
     time_start = time.time()
     V = system.potential_values
     H = hamiltonian_matrix(system)
-    print('Solving Hamiltonian matrix...')
+    print('Solving Schrodinger equation...')
     # Solve eigenvalues with ARPACK in shift-inverse mode, with a sparse matrix
     eigenvalues, eigenvectors = sparse.linalg.eigsh(H, system.E_levels, which='LM', sigma=0, maxiter=10000)
     if any(eigenvalues) is None:
@@ -86,7 +86,7 @@ def schrodinger(system:System) -> System:
     system.energy_barrier = max(V) - min(eigenvalues)
     system.first_transition = eigenvalues[1] - eigenvalues[0]
     if system.save_eigenvectors == True:
-        system.eigenvectors = eigenvectors
+        system.eigenvectors = np.transpose(eigenvectors)
     system.eigenvalues_B = eigenvalues / system.B
     system.potential_max_B = system.potential_max / system.B
     return system
