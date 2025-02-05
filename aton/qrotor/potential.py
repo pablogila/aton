@@ -8,7 +8,8 @@ This module contains functions to calculate the actual `potential_values` of the
 
 | | |
 | --- | --- |
-| `load()`        | Load a system with a custom potential from a potential file |
+| `save()`        | Save the potential from a System to a data file |
+| `load()`        | Load a System with a custom potential from a potential data file |
 | `from_qe()`     | Creates a potential data file from Quantum ESPRESSO outputs |
 | `interpolate()` | Interpolates the current `System.potential_values` to a new `System.gridsize` |
 | `solve()`       | Solve the potential values based on the potential name |
@@ -41,17 +42,84 @@ import aton.phys as phys
 from aton._version import __version__
 
 
+def save(
+        system:System,
+        filepath:str='potential.dat',
+        angle:str='deg',
+        energy:str='meV',
+        ) -> None:
+    """Save the rotational potential from a `system` to a potential data file.
+
+    The output `filepath` contains angle and energy columns,
+    in degrees and meVs by default.
+    The units can be changed with `angle` and `energy`,
+    but only change these defaults if you know what you are doing.
+    """
+    print('Saving potential data file...')
+    # Check if a previous potential.dat file exists, and ask to overwrite it
+    previous_potential_file = file.get(filepath, return_anyway=True)
+    if previous_potential_file:
+        print(f"WARNING: Previous '{filepath}' file will be overwritten, proceed anyway?")
+        answer = input("(y/n): ")
+        if not answer.lower() in alias.boolean[True]:
+            print("Aborted.")
+            return None
+    # Set header
+    potential_data = f'# {system.comment}\n' if system.comment else ''
+    potential_data += '# Rotational potential dataset\n'
+    potential_data += f'# Saved with ATON {__version__}\n'
+    potential_data += '# https://pablogila.github.io/ATON\n'
+    potential_data += '#\n'
+    # Check that grid and potential values are the same size
+    if len(system.grid) != len(system.potential_values):
+        raise ValueError('len(system.grid) != len(system.potential_values)')
+    grid = system.grid
+    potential_values = system.potential_values
+    # Convert angle units
+    if angle.lower() in alias.units['rad']:
+        potential_data += '# Angle/rad    '
+    else:
+        grid = np.degrees(grid)
+        potential_data += '# Angle/deg    '
+        if not angle.lower() in alias.units['deg']:
+            print(f"WARNING: Unrecognised '{angle}' angle units, using degrees instead")
+    # Convert energy units
+    if energy.lower() in alias.units['meV']:
+        potential_data += 'Potential/meV\n'
+    elif energy.lower() in alias.units['eV']:
+        potential_values = potential_values * phys.meV_to_eV
+        potential_data += 'Potential/eV\n'
+    elif energy.lower() in alias.units['Ry']:
+        potential_values = potential_values * phys.meV_to_Ry
+        potential_data += 'Potential/Ry\n'
+    else:
+        print(f"WARNING:  Unrecognised '{energy}' energy units, using meV instead")
+        potential_data += 'Potential/meV\n'
+    potential_data += '#\n'
+    # Save all values
+    for angle_value, energy_value in zip(grid, potential_values):
+        potential_data += f'{angle_value}    {energy_value}\n'
+    with open(filepath, 'w') as f:
+        f.write(potential_data)
+    print(f'Saved to {filepath}')
+    # Warn the user if not in default units
+    if angle.lower() not in alias.units['deg']:
+        print(f"WARNING: You saved the potential in '{angle}' angle units! Remember that QRotor works in degrees!")
+    if energy.lower() not in alias.units['meV']:
+        print(f"WARNING: You saved the potential in '{energy}' energy units! Remember that QRotor works in meVs!")
+
+
 def load(
         filepath:str='potential.dat',
         comment:str=None,
         system:System=None,
-        angle_unit:str='deg',
-        energy_unit:str='meV',
+        angle:str='deg',
+        energy:str='meV',
         ) -> System:
-    """Read a potential rotational energy dataset.
+    """Read a rotational potential energy dataset.
 
-    The file in `filepath` should contain two columns with angle and potential energy values.
-    Degrees and meV are assumed as default units unless stated in `angle_unit` and `energy_unit`.
+    The input file in `filepath` should contain two columns with angle and potential energy values.
+    Degrees and meV are assumed as default units unless stated in `angle` and `energy`.
     Units will be converted automatically to radians and meV.
 
     An optional `comment` can be included in the output System.
@@ -71,36 +139,38 @@ def load(
         positions.append(float(position.strip()))
         potentials.append(float(potential.strip()))
     # Save angles to numpy arrays
-    if angle_unit.lower() in alias.units['deg']:
+    if angle.lower() in alias.units['deg']:
         positions = np.radians(positions)
-    elif angle_unit.lower() in alias.units['rad']:
+    elif angle.lower() in alias.units['rad']:
         positions = np.array(positions)
     else:
-        raise ValueError(f"Angle unit '{angle_unit}' not recognized.")
+        raise ValueError(f"Angle unit '{angle}' not recognized.")
     # Save energies to numpy arrays
-    if energy_unit.lower() in alias.units['eV']:
+    if energy.lower() in alias.units['eV']:
         potentials = np.array(potentials) * phys.eV_to_meV
-    elif energy_unit.lower() in alias.units['meV']:
+    elif energy.lower() in alias.units['meV']:
         potentials = np.array(potentials)
-    elif energy_unit.lower() in alias.units['Ry']:
+    elif energy.lower() in alias.units['Ry']:
         potentials = np.array(potentials) * phys.Ry_to_meV
     else:
-        raise ValueError(f"Energy unit '{energy_unit}' not recognized.")
+        raise ValueError(f"Energy unit '{energy}' not recognized.")
     # Set the system
     system.grid = np.array(positions)
     system.gridsize = len(positions)
     system.potential_values = np.array(potentials)
     # System comment as the parent folder name
     system.comment = os.path.basename(os.path.dirname(file_path)) if not comment else comment
+    print(f"Loaded {filepath}")
     return system
 
 
 def from_qe(
         folder=None,
-        output:str='potential.dat',
+        filepath:str='potential.dat',
         include:list=['.out'],
         exclude:list=['slurm-'],
-        energy_unit:str='meV',
+        energy:str='meV',
+        comment:str=None,
         ) -> None:
     """Creates a potential data file from Quantum ESPRESSO outputs.
 
@@ -110,15 +180,17 @@ def from_qe(
     Outputs from SCF calculations must be located in the provided `folder` (CWD if None).
     Files can be filtered by those containing the specified `include` filters,
     excluding those containing any string from the `exclude` list. 
-    The `output` name is `'potential.dat'` by default.
+    The output `filepath` name is `'potential.dat'` by default.
 
-    Energy values are saved to meV by dafault, unless specified in `energy_unit`.
+    Energy values are saved to meV by dafault, unless specified in `energy`.
+    Only change the energy units if you know what you are doing;
+    remember that default energy units in QRotor are meV!
     """
     folder = file.get_dir(folder)
     # Check if a previous potential.dat file exists, and ask to overwrite it
-    previous_potential_file = file.get(output, return_anyway=True)
+    previous_potential_file = file.get(filepath, return_anyway=True)
     if previous_potential_file:
-        print(f"WARNING: Previous '{output}' file will be overwritten, proceed anyway?")
+        print(f"WARNING: Previous '{filepath}' file will be overwritten, proceed anyway?")
         answer = input("(y/n): ")
         if not answer.lower() in alias.boolean[True]:
             print("Aborted.")
@@ -127,60 +199,66 @@ def from_qe(
     files = file.get_list(folder=folder, include=include, exclude=exclude, abspath=True)
     folder_name = os.path.basename(folder)
     # Set header
-    potential_data = f'# Potential from calculation {folder_name}\n'
-    potential_data += f'# Imported with ATON {__version__}\n'
+    potential_data = f'# {comment}\n' if comment else f'# {folder_name}\n'
+    potential_data += '# Rotational potential dataset\n'
+    potential_data += f'# Imported from QE calculations with ATON {__version__}\n'
     potential_data += '# https://pablogila.github.io/ATON\n'
     potential_data += '#\n'
-    if energy_unit.lower() in alias.units['eV']:
+    if energy.lower() in alias.units['eV']:
         potential_data += '# Angle/deg    Potential/eV\n'
-    elif energy_unit.lower() in alias.units['meV']:
+    elif energy.lower() in alias.units['meV']:
         potential_data += '# Angle/deg    Potential/meV\n'
-    elif energy_unit.lower() in alias.units['Ry']:
+    elif energy.lower() in alias.units['Ry']:
         potential_data += '# Angle/deg    Potential/Ry\n'
     else:
         potential_data += '# Angle/deg    Potential/meV\n'
+    potential_data += '#\n'
     potential_data_list = []
     print('Extracting the potential as a function of the angle...')
     print('----------------------------------')
     counter_success = 0
     counter_errors = 0
-    for filepath in files:
-        filename = os.path.basename(filepath)
-        filepath = file.get(filepath=filepath, include='.out', return_anyway=True)
-        if not filepath:  # Not an output file, skip it
+    for file_path in files:
+        filename = os.path.basename(file_path)
+        file_path = file.get(filepath=file_path, include='.out', return_anyway=True)
+        if not file_path:  # Not an output file, skip it
             continue
-        content = qe.read_out(filepath)
+        content = qe.read_out(file_path)
         if not content['Success']:  # Ignore unsuccessful calculations
             print(f'x   {filename}')
             counter_errors += 1
             continue
-        if energy_unit.lower() in alias.units['eV']:
-            energy = content['Energy'] * phys.Ry_to_eV
-        elif energy_unit.lower() in alias.units['meV']:
-            energy = content['Energy'] * phys.Ry_to_meV
-        elif energy_unit.lower() in alias.units['Ry']:
-            energy = content['Energy']
+        if energy.lower() in alias.units['eV']:
+            energy_value = content['Energy'] * phys.Ry_to_eV
+        elif energy.lower() in alias.units['meV']:
+            energy_value = content['Energy'] * phys.Ry_to_meV
+        elif energy.lower() in alias.units['Ry']:
+            energy_value = content['Energy']
         else:
-            print(f"WARNING: Energy unit '{energy_unit}' not recognized, using meV instead.")
-            energy = content['Energy'] * phys.Ry_to_meV
+            print(f"WARNING: Energy unit '{energy}' not recognized, using meV instead.")
+            energy = 'meV'
+            energy_value = content['Energy'] * phys.Ry_to_meV
         splits = filename.split('_')
-        angle = splits[-1].replace('.out', '')
-        angle = float(angle)
-        potential_data_list.append((angle, energy))
+        angle_value = splits[-1].replace('.out', '')
+        angle_value = float(angle_value)
+        potential_data_list.append((angle_value, energy_value))
         print(f'OK  {filename}')
         counter_success += 1
     # Sort by angle
     potential_data_list_sorted = sorted(potential_data_list, key=lambda x: x[0])
     # Append the sorted values as a string
-    for angle, energy in potential_data_list_sorted:
-        potential_data += f'{angle}    {energy}\n'
-    with open(output, 'w') as f:
+    for angle_value, energy_value in potential_data_list_sorted:
+        potential_data += f'{angle_value}    {energy_value}\n'
+    with open(filepath, 'w') as f:
         f.write(potential_data)
     print('----------------------------------')
     print(f'Succesful calculations (OK): {counter_success}')
     print(f'Faulty calculations     (x): {counter_errors}')
     print('----------------------------------')
-    print(f'Saved angles and potential values at {output}')
+    print(f'Saved angles and potential values at {filepath}')
+    # Warn the user if not in default units
+    if energy.lower() not in alias.units['meV']:
+        print(f"WARNING: You saved the potential in '{energy}' units! Remember that QRotor works in meVs!")
     return None
 
 
@@ -245,17 +323,18 @@ def zero(system:System):
 def sine(system:System):
     """Sine potential.
 
-    $V(x) = C_0 + \\frac{C_1}{2} sin(3x + C_2)$  
+    $V(x) = C_0 + \\frac{C_1}{2} sin(x C_2 + C_3)$  
     With $C_0$ as the potential offset,
     $C_1$ as the max potential value (without considering the offset),
-    and $C_2$ as the phase.
+    $C_2$ as the frequency, and $C_3$ as the phase.
     If no `System.potential_constants` are provided, defaults to $sin(3x)$  
     """
     x = system.grid
     C = system.potential_constants
     C0 = 0
     C1 = 1
-    C2 = 0
+    C2 = 3
+    C3 = 0
     if C:
         if len(C) > 0:
             C0 = C[0]
@@ -263,23 +342,26 @@ def sine(system:System):
             C1 = C[1]
         if len(C) > 2:
             C2 = C[2]
-    return C0 + (C1 / 2) * np.sin(3*x + C2)
+        if len(C) > 3:
+            C3 = C[3]
+    return C0 + (C1 / 2) * np.sin(x * C2 + C3)
 
 
 def cosine(system:System):
     """Cosine potential.
 
-    $V(x) = C_0 + \\frac{C_1}{2} cos(3x + C_2)$  
+    $V(x) = C_0 + \\frac{C_1}{2} cos(x C_2 + C_3)$  
     With $C_0$ as the potential offset,
     $C_1$ as the max potential value (without considering the offset),
-    and $C_2$ as the phase.
+    $C_2$ as the frequency, and $C_3$ as the phase.
     If no `System.potential_constants` are provided, defaults to $cos(3x)$  
     """
     x = system.grid
     C = system.potential_constants
     C0 = 0
     C1 = 1
-    C2 = 0
+    C2 = 3
+    C3 = 0
     if C:
         if len(C) > 0:
             C0 = C[0]
@@ -287,7 +369,9 @@ def cosine(system:System):
             C1 = C[1]
         if len(C) > 2:
             C2 = C[2]
-    return C0 + (C1 / 2) * np.cos(3*x + C2)
+        if len(C) > 3:
+            C3 = C[3]
+    return C0 + (C1 / 2) * np.cos(x * C2 + C3)
 
 
 def titov2023(system:System):

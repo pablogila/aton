@@ -88,7 +88,7 @@
             </ul>
 
 
-            <footer>ATON v0.0.20 documentation</footer>
+            <footer>ATON v0.0.21 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -184,7 +184,7 @@ in a cosine potential of amplitude 30 meV:</p>
 <span class="n">system</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="mi">200000</span>  <span class="c1"># Size of the potential grid</span>
 <span class="n">system</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">B_CH3</span>  <span class="c1"># Rotational inertia of a methyl group</span>
 <span class="n">system</span><span class="o">.</span><span class="n">potential_name</span> <span class="o">=</span> <span class="s1">&#39;cosine&#39;</span>
-<span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># Offset, max, phase (for cosine potential)</span>
+<span class="n">system</span><span class="o">.</span><span class="n">potential_constants</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># Offset, max, frequency, phase (for cosine potential)</span>
 <span class="n">system</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 <span class="c1"># Plot potential and eigenvalues</span>
 <span class="n">qr</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">energies</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
@@ -290,7 +290,7 @@ Using Quantum ESPRESSO, running an SCF calculation for a methyl rotation every 1
 </span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a><span class="sd">system.gridsize = 200000  # Size of the potential grid</span>
 </span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="sd">system.B = qr.B_CH3  # Rotational inertia of a methyl group</span>
 </span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="sd">system.potential_name = &#39;cosine&#39;</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a><span class="sd">system.potential_constants = [0, 30, 0]  # Offset, max, phase (for cosine potential)</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a><span class="sd">system.potential_constants = [0, 30, 3, 0]  # Offset, max, frequency, phase (for cosine potential)</span>
 </span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a><span class="sd">system.solve()</span>
 </span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a><span class="sd"># Plot potential and eigenvalues</span>
 </span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd">qr.plot.energies(system)</span>
