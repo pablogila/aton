@@ -43,6 +43,7 @@ from aton._version import __version__
 
 def load(
         filepath:str='potential.dat',
+        comment:str=None,
         system:System=None,
         angle_unit:str='deg',
         energy_unit:str='meV',
@@ -52,6 +53,10 @@ def load(
     The file in `filepath` should contain two columns with angle and potential energy values.
     Degrees and meV are assumed as default units unless stated in `angle_unit` and `energy_unit`.
     Units will be converted automatically to radians and meV.
+
+    An optional `comment` can be included in the output System.
+
+    A previous System object can be provided through `system` to update its potential values.
     """
     file_path = file.get(filepath)
     system = System() if system is None else system
@@ -86,7 +91,7 @@ def load(
     system.gridsize = len(positions)
     system.potential_values = np.array(potentials)
     # System comment as the parent folder name
-    system.comment = os.path.basename(os.path.dirname(file_path))
+    system.comment = os.path.basename(os.path.dirname(file_path)) if not comment else comment
     return system
 
 
