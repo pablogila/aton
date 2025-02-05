@@ -27,7 +27,7 @@ def test_get():
     file_list = file.get_list(folder, include='sample.txt')
     assert len(file_list) == 1
     assert sample in file_list[0]
-    empty_file_list = file.get_list(folder, include='sample.txt', ignore='txt')
+    empty_file_list = file.get_list(folder, include='sample.txt', exclude='txt')
     assert len(empty_file_list) == 0
 
 

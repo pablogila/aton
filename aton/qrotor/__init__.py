@@ -28,7 +28,7 @@ This module uses meV as the default unit in the calculations.
 
 ## Solving quantum rotational systems
 
-To perform a basic calculation of the eigenvalues for a zero potential:
+A basic calculation of the eigenvalues for a zero potential goes as follows:
 
 ```python
 import aton.qrotor as qr
@@ -49,7 +49,6 @@ in a cosine potential of amplitude 30 meV:
 
 ```python
 import aton.qrotor as qr
-import numpy as np
 system = qr.System()
 system.gridsize = 200000  # Size of the potential grid
 system.B = qr.B_CH3  # Rotational inertia of a methyl group

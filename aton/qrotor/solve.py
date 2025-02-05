@@ -32,7 +32,9 @@ from aton._version import __version__
 def energies(system:System, filename:str=None) -> System:
     """Solves the quantum `system`.
 
-    The resulting System object is saved to `filename` if specified.
+    This includes solving the potential, the eigenvalues and the eigenvectors.
+
+    The resulting System object is saved with pickle to `filename` if specified.
     """
     if not any(system.grid):
         system.set_grid()
@@ -44,13 +46,13 @@ def energies(system:System, filename:str=None) -> System:
 
 
 def potential(system:System) -> System:
-    """Solves the potential_values of the `system`.
+    """Solves the potential values of the `system`.
 
     It interpolates the potential if `system.gridsize` is larger than the current grid.
     It solves the potential according to the potential name,
     by calling `aton.qrotor.potential.solve()`.
     Then it applies extra operations, such as removing the potential offset
-    if `System.correct_potential_offset = True`.
+    if `system.correct_potential_offset = True`.
     """
     if system.gridsize and any(system.grid):
         if system.gridsize > len(system.grid):

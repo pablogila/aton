@@ -12,10 +12,17 @@ This module contains functions to calculate the actual `potential_values` of the
 | `from_qe()`     | Creates a potential data file from Quantum ESPRESSO outputs |
 | `interpolate()` | Interpolates the current `System.potential_values` to a new `System.gridsize` |
 | `solve()`       | Solve the potential values based on the potential name |
+
+A sinthetic potential can be created by specifying its name in `System.potential_name`,
+along with the corresponding `System.potential_constants` if required.
+Available potentials are:
+
+| | |
+| --- | --- |
 | `zero()`        | Zero potential |
 | `sine()`        | Sine potential |
 | `cosine()`      | Cosine potential |
-| `titov2023()`   | Potential of the hidered methyl rotor, as in titov2023. |
+| `titov2023()`   | Potential of the hindered methyl rotor, as in titov2023. |
 
 ---
 """
@@ -87,7 +94,7 @@ def from_qe(
         folder=None,
         output:str='potential.dat',
         include:list=['.out'],
-        ignore:list=['slurm-'],
+        exclude:list=['slurm-'],
         energy_unit:str='meV',
         ) -> None:
     """Creates a potential data file from Quantum ESPRESSO outputs.
@@ -96,9 +103,9 @@ def from_qe(
     which must follow `whatever_ANGLE.out`.
 
     Outputs from SCF calculations must be located in the provided `folder` (CWD if None).
-    Files can be filtered by those containing the specified `filters`,
-    excluding those containing any string from the `ignore` list. 
-    The `output` name is `potential.dat` by default.
+    Files can be filtered by those containing the specified `include` filters,
+    excluding those containing any string from the `exclude` list. 
+    The `output` name is `'potential.dat'` by default.
 
     Energy values are saved to meV by dafault, unless specified in `energy_unit`.
     """
@@ -112,7 +119,7 @@ def from_qe(
             print("Aborted.")
             return None
     # Get the files to read
-    files = file.get_list(folder=folder, include=include, ignore=ignore, abspath=True)
+    files = file.get_list(folder=folder, include=include, exclude=exclude, abspath=True)
     folder_name = os.path.basename(folder)
     # Set header
     potential_data = f'# Potential from calculation {folder_name}\n'
@@ -198,11 +205,8 @@ def solve(system:System):
     If `System.potential_name` is not present or not recognised,
     the current `System.potential_values` are used.
 
-    If a bigger `System.gridsize` is provided,
-    the potential is also interpolated to the new gridsize.
-
     This function provides basic solving of the potential energy function.
-    To interpolate to a new grid and correct the potential offset after solving,
+    To interpolate to a new gridsize and correct the potential offset after solving,
     check `aton.qrotor.solve.potential()`.
     """
     data = deepcopy(system)
@@ -225,7 +229,10 @@ def solve(system:System):
 
 
 def zero(system:System):
-    """Zero potential."""
+    """Zero potential.
+
+    $V(x) = 0$
+    """
     x = system.grid
     return 0 * x
 
@@ -233,7 +240,7 @@ def zero(system:System):
 def sine(system:System):
     """Sine potential.
 
-    $C_0 + \\frac{C_1}{2} sin(3x + C_2)$  
+    $V(x) = C_0 + \\frac{C_1}{2} sin(3x + C_2)$  
     With $C_0$ as the potential offset,
     $C_1$ as the max potential value (without considering the offset),
     and $C_2$ as the phase.
@@ -257,7 +264,7 @@ def sine(system:System):
 def cosine(system:System):
     """Cosine potential.
 
-    $C_0 + \\frac{C_1}{2} cos(3x + C_2)$  
+    $V(x) = C_0 + \\frac{C_1}{2} cos(3x + C_2)$  
     With $C_0$ as the potential offset,
     $C_1$ as the max potential value (without considering the offset),
     and $C_2$ as the phase.
@@ -282,7 +289,7 @@ def titov2023(system:System):
     """Potential energy function of the hindered methyl rotor, from
     [K. Titov et al., Phys. Rev. Mater. 7, 073402 (2023)](https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402).  
 
-    $C_0 + C_1 sin(3x) + C_2 cos(3x) + C_3 sin(6x) + C_4 cos(6x)$  
+    $V(x) = C_0 + C_1 sin(3x) + C_2 cos(3x) + C_3 sin(6x) + C_4 cos(6x)$  
     Default constants are `aton.qrotor.constants.constants_titov2023`[0].  
     """
     x = system.grid

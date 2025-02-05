@@ -69,14 +69,14 @@ def get(
 def get_list(
         folder:str=None,
         include=None,
-        ignore=None,
+        exclude=None,
         abspath:bool=True,
         also_folders:bool=False,
     ) -> list:
     """Return the files inside a `folder`, applying optional filters.
 
     Only filenames containing all strings in the `include` list will be returned.
-    Filenames containing any string from the `ignore` list will be ignored.
+    Filenames containing any string from the `exclude` list will be ignored.
 
     The full paths are returned by default; to get only the base names, set `abspath = False`.
     The CWD folder is used by default if no `folder` is provided.
@@ -107,15 +107,15 @@ def get_list(
         include = [os.path.basename(i) for i in include]
         # Only keep files that contain all filters
         files = [f for f in files if all(filter_str in os.path.basename(f) for filter_str in include)]
-    # Remove files containing any string from the ignore list
-    if ignore is not None:
-        # Ensure ignore filters is always a list
-        if not isinstance(ignore, list):
-            ignore = [str(ignore)]
+    # Remove files containing any string from the exclude list
+    if exclude is not None:
+        # Ensure exclude filters is always a list
+        if not isinstance(exclude, list):
+            exclude = [str(exclude)]
         # Normalize ignoring filter names
-        ignore = [os.path.basename(i) for i in ignore]
+        exclude = [os.path.basename(i) for i in exclude]
         # Exclude the corresponding files
-        files = [f for f in files if not any(filter_str in os.path.basename(f) for filter_str in ignore)]
+        files = [f for f in files if not any(filter_str in os.path.basename(f) for filter_str in exclude)]
     return files
 
 

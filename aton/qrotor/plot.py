@@ -25,13 +25,25 @@ import numpy as np
 from copy import deepcopy
 
 
-def potential(system:System) -> None:
-    """Plot the potential values of a `system`."""
-    plt.plot(system.grid, system.potential_values, marker='', linestyle='-')
+def potential(system, title:str=None) -> None:
+    """Plot the potential values of a `system` (System object, or list of systems)."""
+    system = systems.as_list(system)
+    title_str = title if title is not None else 'Rotational potential energy'
+    if not title and system[0].comment and not system[-1].comment: 
+        title_str = system[0].comment
+
+    plt.figure()
+    plt.title(title_str)
     plt.xlabel('Angle / rad')
     plt.ylabel('Potential energy / meV')
     plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
-    plt.title(system.comment)
+    
+    for i in system:
+        plt.plot(i.grid, i.potential_values, marker='', linestyle='-', label=i.comment)
+    
+    if all(s.comment for s in system):
+        plt.legend()
+    
     plt.show()
 
 
@@ -40,7 +52,7 @@ def energies(data) -> None:
     if isinstance(data, System):
         var = [data]
     else:  # Should be a list
-        systems.check(data)
+        systems.as_list(data)
         var = data
 
     V_colors = ['C0'] #...
@@ -49,7 +61,7 @@ def energies(data) -> None:
     edgecolors = ['tomato', 'purple', 'grey']
 
     V_linestyle = '-'
-    title = var[0].comment
+    title = var[0].comment if var[0].comment else 'Energy eigenvalues'
     ylabel_text = f'Energy / meV'
     xlabel_text = 'Angle / radians'
 
@@ -95,7 +107,7 @@ def reduced_energies(data:list) -> None:
 
     Takes a `data` list of System objects as input.
     """
-    systems.check(data)
+    systems.as_list(data)
     number_of_levels = data[0].E_levels
     x = []
     for system in data:
@@ -175,7 +187,7 @@ def wavefunction(system:System, square:bool=True, levels=[0, 1, 2], overlap=Fals
 
 def convergence(data:list) -> None:
     """Plot the energy convergence of a `data` list of Systems as a function of the gridsize."""
-    systems.check(data)
+    systems.as_list(data)
     gridsizes = [system.gridsize for system in data]
     runtimes = [system.runtime for system in data]
     deviations = []  # List of lists, containing all eigenvalue deviations for every system

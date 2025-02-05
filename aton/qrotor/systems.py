@@ -8,7 +8,7 @@ This module contains utility functions to handle multiple `aton.qrotor.system` c
 
 | | |
 | --- | --- |
-| `check()`            | Check that a list only contains System objects |
+| `as_list()`          | Ensures that a list only contains System objects |
 | `get_energies()`     | Get the eigenvalues from all systems |
 | `get_gridsizes()`    | Get all gridsizes |
 | `get_runtimes()`     | Get all runtimes |
@@ -24,12 +24,22 @@ This module contains utility functions to handle multiple `aton.qrotor.system` c
 from .system import System
 
 
-def check(systems:list) -> None:
-    """Check that a list only contains System objects."""
+def as_list(systems) -> None:
+    """Ensures that `systems` is a list of System objects.
+
+    If it is a System, returns a list with that System as the only element.
+    If it is neither a list nor a System,
+    or if the list does not contain only System objects,
+    it raises an error.
+    """
+    if isinstance(systems, System):
+        systems = [systems]
+    if not isinstance(systems, list):
+        raise TypeError(f"Must be a System object or a list of systems, found instead: {type(systems)}")
     for i in systems:
         if not isinstance(i, System):
-            raise ValueError(f"All values in the list must be a System object, found instead: {type(i)}")
-    return None
+            raise TypeError(f"All items in the list must be System objects, found instead: {type(i)}")
+    return systems
 
 
 def get_energies(systems:list) -> list:
@@ -37,7 +47,7 @@ def get_energies(systems:list) -> list:
 
     If no eigenvalues are present for a particular system, appends None.
     """
-    check(systems)
+    as_list(systems)
     energies = []
     for i in systems:
         if all(i.eigenvalues):
@@ -52,7 +62,7 @@ def get_gridsizes(systems:list) -> list:
 
     If no gridsize value is present for a particular system, appends None.
     """
-    check(systems)
+    as_list(systems)
     gridsizes = []
     for i in systems:
         if i.gridsize:
@@ -67,7 +77,7 @@ def get_runtimes(systems:list) -> list:
     
     If no runtime value is present for a particular system, appends None.
     """
-    check(systems)
+    as_list(systems)
     runtimes = []
     for i in systems:
         if i.runtime:
@@ -79,7 +89,7 @@ def get_runtimes(systems:list) -> list:
 
 def get_groups(systems:list) -> list:
     """Returns a list with all `System.group` values."""
-    check(systems)
+    as_list(systems)
     groups = []
     for i in systems:
         if i.group not in groups:
@@ -89,7 +99,7 @@ def get_groups(systems:list) -> list:
 
 def sort_by_gridsize(systems:list) -> list:
     """Sorts a list of System objects by `System.gridsize`."""
-    check(systems)
+    as_list(systems)
     systems = sorted(systems, key=lambda sys: sys.gridsize)
     return systems
 
@@ -100,7 +110,7 @@ def reduce_size(systems:list) -> list:
     Removes eigenvectors, potential values and grids,
     for all System values inside the `systems` list.
     """
-    check(systems)
+    as_list(systems)
     for dataset in systems:
         dataset = dataset.reduce_size()
     return systems
