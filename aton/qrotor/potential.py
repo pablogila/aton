@@ -201,7 +201,7 @@ def from_qe(
     # Set header
     potential_data = f'# {comment}\n' if comment else f'# {folder_name}\n'
     potential_data += '# Rotational potential dataset\n'
-    potential_data += f'# Imported from QE calculations with ATON {__version__}\n'
+    potential_data += f'# Calculated with QE using ATON {__version__}\n'
     potential_data += '# https://pablogila.github.io/ATON\n'
     potential_data += '#\n'
     if energy.lower() in alias.units['eV']:
