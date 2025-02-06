@@ -25,23 +25,41 @@ import numpy as np
 from copy import deepcopy
 
 
-def potential(system, title:str=None) -> None:
-    """Plot the potential values of a `system` (System object, or list of systems)."""
+def potential(system, title:str=None, marker='', linestyle='-') -> None:
+    """Plot the potential values of a `system` (System object, or list of systems).
+
+    Title can be customized with `title`.
+    If empty, system[0].comment will be used as title if no more comments are present.
+
+    `marker` and `linestyle` can be a Matplotlib string or list of strings.
+    """
     system = systems.as_list(system)
     title_str = title if title else (system[0].comment if (system[0].comment and (len(system) == 1 or not system[-1].comment)) else 'Rotational potential energy')
+    # Marker as a list
+    if isinstance(marker, list):
+        if len(marker) < len(system):
+            marker.extend([''] * (len(system) - len(marker)))
+    else:
+        marker = [marker] * len(system)
+    # Linestyle as a list
+    if isinstance(linestyle, list):
+        if len(linestyle) < len(system):
+            linestyle.extend(['-'] * (len(system) - len(linestyle)))
+    else:
+        linestyle = [linestyle] * len(system)
 
     plt.figure()
     plt.title(title_str)
     plt.xlabel('Angle / rad')
     plt.ylabel('Potential energy / meV')
     plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
-    
-    for i in system:
-        plt.plot(i.grid, i.potential_values, marker='', linestyle='-', label=i.comment)
-    
+
+    for i, s in enumerate(system):
+        plt.plot(s.grid, s.potential_values, marker=marker[i], linestyle=linestyle[i], label=s.comment)
+
     if all(s.comment for s in system) and len(system) != 1:
         plt.legend()
-    
+
     plt.show()
 
 
