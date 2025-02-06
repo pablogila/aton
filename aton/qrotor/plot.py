@@ -28,9 +28,7 @@ from copy import deepcopy
 def potential(system, title:str=None) -> None:
     """Plot the potential values of a `system` (System object, or list of systems)."""
     system = systems.as_list(system)
-    title_str = title if title is not None else 'Rotational potential energy'
-    if not title and system[0].comment and not system[-1].comment: 
-        title_str = system[0].comment
+    title_str = title if title else (system[0].comment if (system[0].comment and (len(system) == 1 or not system[-1].comment)) else 'Rotational potential energy')
 
     plt.figure()
     plt.title(title_str)
@@ -41,13 +39,13 @@ def potential(system, title:str=None) -> None:
     for i in system:
         plt.plot(i.grid, i.potential_values, marker='', linestyle='-', label=i.comment)
     
-    if all(s.comment for s in system):
+    if all(s.comment for s in system) and len(system) != 1:
         plt.legend()
     
     plt.show()
 
 
-def energies(data) -> None:
+def energies(data, title:str=None) -> None:
     """Plot the eigenvalues of `data` (System or a list of System objects)."""
     if isinstance(data, System):
         var = [data]
@@ -61,7 +59,7 @@ def energies(data) -> None:
     edgecolors = ['tomato', 'purple', 'grey']
 
     V_linestyle = '-'
-    title = var[0].comment if var[0].comment else 'Energy eigenvalues'
+    title = title if title else (var[0].comment if var[0].comment else 'Energy eigenvalues')
     ylabel_text = f'Energy / meV'
     xlabel_text = 'Angle / radians'
 
@@ -102,12 +100,13 @@ def energies(data) -> None:
     plt.show()
 
 
-def reduced_energies(data:list) -> None:
+def reduced_energies(data:list, title:str=None) -> None:
     """Plots the reduced energy of the system E/B vs the reduced potential energy V/B.
 
     Takes a `data` list of System objects as input.
     """
     systems.as_list(data)
+    title = title if title else (data[0].comment if data[0].comment else 'Reduced energies')
     number_of_levels = data[0].E_levels
     x = []
     for system in data:
@@ -119,11 +118,11 @@ def reduced_energies(data:list) -> None:
         plt.plot(x, y, marker='', linestyle='-')
     plt.xlabel('V$_{B}$ / B')
     plt.ylabel('E / B')
-    plt.title(data[0].comment)
+    plt.title(title)
     plt.show()
 
 
-def wavefunction(system:System, square:bool=True, levels=[0, 1, 2], overlap=False):
+def wavefunction(system:System, square:bool=True, levels=[0, 1, 2], overlap=False, title:str=None):
     """Plot the wavefunction of a `system` for the specified `levels`.
 
     Wavefunctions are squared by default, showing the probabilities;
@@ -141,7 +140,7 @@ def wavefunction(system:System, square:bool=True, levels=[0, 1, 2], overlap=Fals
     data = deepcopy(system)
     eigenvectors = data.eigenvectors
 
-    title = data.comment
+    title = title if title else (data.comment if data.comment else 'System wavefunction')
     fig, ax1 = plt.subplots()
     plt.title(title)
     ax1.set_xlabel('Angle / radians')
