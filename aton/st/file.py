@@ -273,7 +273,11 @@ def load(filepath:str='data.aton'):
     
     Use only if you trust the person who sent you the file!
     """
-    file_path = get(filepath)
+    file_path = get(filepath, return_anyway=True)
+    if not file_path:
+        file_path = get(filepath + '.aton', return_anyway=True)
+    if not file_path:
+        raise FileNotFoundError(f"Missing file {filepath}")
     with gzip.open(file_path, 'rb') as f:
         data = pickle.load(f)
     return data
