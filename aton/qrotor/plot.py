@@ -129,11 +129,13 @@ def reduced_energies(data:list, title:str=None) -> None:
     number_of_levels = data[0].E_levels
     x = []
     for system in data:
-        x.append(system.potential_max_B)
+        potential_max_B = system.potential_max / system.B
+        x.append(potential_max_B)
     for i in range(number_of_levels):
         y = []
         for system in data:
-            y.append(system.eigenvalues_B[i])
+            eigenvalues_B_i = system.eigenvalues[i] / system.B
+            y.append(eigenvalues_B_i)
         plt.plot(x, y, marker='', linestyle='-')
     plt.xlabel('V$_{B}$ / B')
     plt.ylabel('E / B')

@@ -89,8 +89,6 @@ def schrodinger(system:System) -> System:
     system.first_transition = eigenvalues[1] - eigenvalues[0]
     if system.save_eigenvectors == True:
         system.eigenvectors = np.transpose(eigenvectors)
-    system.eigenvalues_B = eigenvalues / system.B
-    system.potential_max_B = system.potential_max / system.B
     return system
 
 

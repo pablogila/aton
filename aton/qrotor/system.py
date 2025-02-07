@@ -79,13 +79,9 @@ class System:
         """`min(V)`"""
         self.potential_max: float = None
         """`max(V)`"""
-        self.potential_max_B: float = None
-        """Reduced `potential_max`, in units of B."""
         # Energies
         self.eigenvalues = []
         """Calculated eigenvalues of the system. Should be in meV."""
-        self.eigenvalues_B = []
-        """Reduced `eigenvalues`, in units of B."""
         self.eigenvectors = []
         """Eigenvectors, if `save_eigenvectors` is True. Beware of the file size."""
         self.energy_barrier: float = None
@@ -99,8 +95,7 @@ class System:
         return {
             'version': self.version,
             'comment': self.comment,
-            'runtime': self.runtime,
-            'group': self.gropu,
+            'group': self.group,
             'gridsize': self.gridsize,
             'B': self.B,
             'potential_name': self.potential_name,
@@ -108,11 +103,10 @@ class System:
             'potential_offset': self.corrected_potential_offset,
             'potential_min': self.potential_min,
             'potential_max': self.potential_max,
-            'potential_max / B': self.potential_max_B,
             'eigenvalues': self.eigenvalues.tolist() if isinstance(self.eigenvalues, np.ndarray) else self.eigenvalues,
-            'eigenvalues / B': self.eigenvalues_B.tolist() if isinstance(self.eigenvalues_B, np.ndarray) else self.eigenvalues_B,
             'energy_barrier': self.energy_barrier,
             'first_transition': self.first_transition,
+            'runtime': self.runtime,
         }
 
     def set_grid(self, gridsize:int=None):
