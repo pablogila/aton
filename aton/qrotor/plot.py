@@ -71,10 +71,10 @@ def energies(data, title:str=None) -> None:
         systems.as_list(data)
         var = data
 
-    V_colors = ['C0'] #...
-    E_colors = ['red', 'purple', 'grey']  # To extend...
+    V_colors = ['C0', 'C1', 'C2', 'C3', 'C4']
+    E_colors = ['lightblue', 'sandybrown', 'lightgrey', 'lightcoral', 'plum']
     E_linestyles = ['--', ':', '-.']
-    edgecolors = ['tomato', 'purple', 'grey']
+    edgecolors = E_colors
 
     V_linestyle = '-'
     title = title if title else (var[0].comment if var[0].comment else 'Energy eigenvalues')
@@ -107,6 +107,7 @@ def energies(data, title:str=None) -> None:
                 unique_groups.append(system.group)
             for j, energy in enumerate(system.eigenvalues):
                 plt.axhline(y=energy, color=E_color, linestyle=E_linestyle)
+                # Textbox positions are a bit weird when plotting more than 2 systems, but whatever...
                 plt.text(j%3*1.0 + text_offset, energy, f'$E_{{{j}}}$ = {round(energy,4):.04f}', va='top', bbox=dict(edgecolor=edgecolor, boxstyle='round,pad=0.2', facecolor='white', alpha=0.8))
             if len(systems.get_groups(var)) > 1:
                 plt.plot([], [], color=E_color, label=f'{system.group} Energies')  # Add to legend

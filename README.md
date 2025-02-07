@@ -36,12 +36,12 @@ source .venv/bin/activate
 
 ## With pip
 
-The fastest way to install ATON is through pip:  
+Install ATON with  
 ```bash
 pip install aton
 ```
 
-To upgrade to a newer version,
+Or upgrade to a new version as
 ```bash
 pip install aton -U
 ```
@@ -49,14 +49,9 @@ pip install aton -U
 
 ## From source
 
-Optionally, you can install ATON from the [GitHub repository](https://github.com/pablogila/ATON/).  
-
-First install the dependencies:  
-```bash
-pip install pandas numpy scipy matplotlib
-```
-
-Then clone the repository or download the [latest stable release](https://github.com/pablogila/Aton/tags) as a ZIP, unzip it, and run inside the `ATON/` directory:  
+Optionally, you can install ATON from the [GitHub repo](https://github.com/pablogila/ATON/).
+Clone the repository or download the [latest stable release](https://github.com/pablogila/ATON/tags)
+as a ZIP, unzip it, and run inside the `ATON/` directory:  
 ```bash
 pip install .
 ```
@@ -68,7 +63,7 @@ pip install .
 # Documentation
 
 The full ATON documentation is available [online](https://pablogila.github.io/ATON/).  
-An offline version of the documentation is found at `docs/aton.html`.  
+An offline version is found at `docs/aton.html`.  
 Code examples are included in the [`examples/`](https://github.com/pablogila/ATON/tree/main/examples) folder.    
 
 

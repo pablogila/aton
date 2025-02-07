@@ -53,7 +53,7 @@ system = qr.System()
 system.gridsize = 200000  # Size of the potential grid
 system.B = qr.B_CH3  # Rotational inertia of a methyl group
 system.potential_name = 'cosine'
-system.potential_constants = [0, 30, 3, 0]  # Offset, max, frequency, phase (for cosine potential)
+system.potential_constants = [0, 30, 3, 0]  # Offset, max, freq, phase (for cos pot.)
 system.solve()
 # Plot potential and eigenvalues
 qr.plot.energies(system)
