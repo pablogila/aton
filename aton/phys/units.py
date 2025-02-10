@@ -282,44 +282,77 @@ kJmol_to_meV  = 10.36
 """---
 ## Distance
 """
-A_to_m      = 1.0e-10
-m_to_A      = 1.0 / A_to_m
 
+bohr_to_A   = 5.29177210544e-1
 bohr_to_m   = 5.29177210544e-11
-m_to_bohr   = 1.0 / bohr_to_m
 
-A_to_bohr   = A_to_m * m_to_bohr
-bohr_to_A   = 1.0 / A_to_bohr
+A_to_bohr   = 1.0 / bohr_to_A
+A_to_m      = 1.0e-10
+
+m_to_bohr   = 1.0 / bohr_to_m
+m_to_A      = 1.0e10
 
 """---
 ## Mass
 """
-kg_to_g     = 1000.0
-g_to_kg     = 1.0 / kg_to_g
-
 amu_to_kg   = 1.66053906660e-27
+amu_to_g    = 1.66053906660e-24
+
+kg_to_g     = 1000.0
 kg_to_amu   = 1.0 / amu_to_kg
+
+g_to_kg     = 1.0e-3
+g_to_amu    = 1.0 / amu_to_g
 
 """---
 ## Pressure
 """
-Pa_to_bar   = 1.0e-5
-bar_to_Pa   = 1.0 / Pa_to_bar
+Pa_to_bar     = 1.0e-5
+Pa_to_kbar    = 1.0e-8
+Pa_to_atm     = 101325.0
+Pa_to_Torr    = 760.0 / 101325.0
+Pa_to_kPa     = 1.0e-3
+Pa_to_mTorr   = 760000.0 / 101325.0
+Pa_to_GPa     = 1.0e-9
 
-GPa_to_Pa   = 1.0e9
-Pa_to_GPa   = 1.0 / GPa_to_Pa
+kPa_to_bar    = 0.01
+kPa_to_Pa     = 1000.0
 
-kbar_to_bar = 1000.0
-bar_to_kbar = 1.0 / kbar_to_bar
+GPa_to_bar    = 10000.0
+GPa_to_kbar   = 10.0
+GPa_to_Pa     = 1.0e9
 
-GPa_to_kbar = GPa_to_Pa * Pa_to_bar * bar_to_kbar
-kbar_to_GPa = 1.0 / GPa_to_kbar
+bar_to_Pa     = 1.0e5
+bar_to_GPa    = 1.0e-4
+bar_to_atm    = 1.0 / 1.01325
+bar_to_Torr   = 760.0 / 1.01325
+bar_to_kbar   = 1.0e-3
+bar_to_mTorr  = 760000.0 / 1.01325
+
+kbar_to_GPa   = 0.1
+kbar_to_bar   = 1000.0
+
+atm_to_Pa     = 1 / 101325.0
+atm_to_bar    = 1.01325
+atm_to_Torr   = 760.0
+atm_to_mTorr  = 760000.0
+
+Torr_to_Pa    = 101325.0 / 760.0
+Torr_to_bar   = 1.01325 / 760.0
+Torr_to_atm   = 1.0 / 760.0
+Torr_to_mTorr = 1000.0
+
+mTorr_to_Pa   = 101325000.0 / 760.0
+mTorr_to_bar  = 1013.25 / 760.0
+mTorr_to_atm  = 1000.0 / 760.0
+mTorr_to_Torr = 0.001
 
 """---
 ## Time
 """
 H_to_s      = 3600.0
 s_to_H      = 1.0 / H_to_s
+
 """---
 ## Wavelength
 """
@@ -331,6 +364,7 @@ A_to_rads = 1.243e14
 A_to_cm1 = 659.8
 A_to_meV = 81.805
 A_to_kJmol = 7.893
+
 """---
 ## Wavevector
 """
@@ -342,6 +376,7 @@ A1_to_rads = 3.148e12
 A1_to_cm1 = 16.71
 A1_to_meV = 2.072
 A1_to_kJmol = 0.1999
+
 """---
 ## Velocity
 """
