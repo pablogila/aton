@@ -58,4 +58,7 @@ aton.txt.edit.from_template(readme, temp_readme, fix_dict)
 # Run Pdoc with the dark theme template from the ./css/ folder
 aton.st.call.bash(f"pdoc ./aton/ -o ./docs/ --mermaid --math --footer-text='ATON {__version__} documentation' -t ./css/")
 aton.st.file.remove(temp_readme)
+# Include google search verification
+search_verification_tag = '    <meta name="google-site-verification" content="u0Be1NUH4ztGm5rr5f_YFt6hqoqMJ-j9h7rk3wEJAUo" />'
+aton.txt.edit.insert_under('docs/aton.html', '<head>', search_verification_tag)
 
