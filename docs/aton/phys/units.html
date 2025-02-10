@@ -750,21 +750,21 @@ except for $\mu$ which is used as <code>u</code>.</p>
 <p>Some examples:  </p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn"><a href="../phys.html">aton.phys</a></span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">aton</span><span class="w"> </span><span class="kn">import</span> <span class="n">phys</span>
 <span class="c1"># Constants</span>
-<span class="n">h</span>     <span class="c1"># Planck constant</span>
-<span class="n">hbar</span>  <span class="c1"># reduced Planck constant</span>
-<span class="n">a</span>     <span class="c1"># fine-structure constant (alpha)</span>
-<span class="n">ue</span>    <span class="c1"># electron magnetic moment (mu e)</span>
-<span class="n">mn</span>    <span class="c1"># neutron mass</span>
-<span class="n">mnc2</span>  <span class="c1"># neutron mass energy equivalent</span>
+<span class="n">phys</span><span class="o">.</span><span class="n">h</span>     <span class="c1"># Planck constant</span>
+<span class="n">phys</span><span class="o">.</span><span class="n">hbar</span>  <span class="c1"># reduced Planck constant</span>
+<span class="n">phys</span><span class="o">.</span><span class="n">a</span>     <span class="c1"># fine-structure constant (alpha)</span>
+<span class="n">phys</span><span class="o">.</span><span class="n">ue</span>    <span class="c1"># electron magnetic moment (mu e)</span>
+<span class="n">phys</span><span class="o">.</span><span class="n">mn</span>    <span class="c1"># neutron mass</span>
+<span class="n">phys</span><span class="o">.</span><span class="n">mnc2</span>  <span class="c1"># neutron mass energy equivalent</span>
 <span class="c1"># Conversions</span>
 <span class="c1"># meV to 1/cm</span>
-<span class="n">energy_in_cm1</span> <span class="o">=</span> <span class="n">energy_in_meV</span> <span class="o">*</span> <span class="n">meV_to_cm1</span>
+<span class="n">energy_in_cm1</span> <span class="o">=</span> <span class="n">energy_in_meV</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">meV_to_cm1</span>
 <span class="c1"># Bohr to Angstroms</span>
-<span class="n">distance_in_angstroms</span> <span class="o">=</span> <span class="n">distance_in_bohr</span> <span class="o">*</span> <span class="n">bohr_to_A</span>
+<span class="n">distance_in_angstroms</span> <span class="o">=</span> <span class="n">distance_in_bohr</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">bohr_to_A</span>
 <span class="c1"># m/s to rad/s  (used in neutron scattering)</span>
-<span class="n">velocity_in_rads</span> <span class="o">=</span> <span class="n">velocity_in_ms</span> <span class="o">*</span> <span class="n">ms_to_rads</span>
+<span class="n">velocity_in_rads</span> <span class="o">=</span> <span class="n">velocity_in_ms</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">ms_to_rads</span>
 </code></pre>
 </div>
 
@@ -832,21 +832,21 @@ except for $\mu$ which is used as <code>u</code>.</p>
 </span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>
 </span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="sd">Some examples:  </span>
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="sd">```python</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="sd">from aton.phys import *</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="sd">from aton import phys</span>
 </span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a><span class="sd"># Constants</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="sd">h     # Planck constant</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="sd">hbar  # reduced Planck constant</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a><span class="sd">a     # fine-structure constant (alpha)</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a><span class="sd">ue    # electron magnetic moment (mu e)</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a><span class="sd">mn    # neutron mass</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd">mnc2  # neutron mass energy equivalent</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="sd">phys.h     # Planck constant</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="sd">phys.hbar  # reduced Planck constant</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a><span class="sd">phys.a     # fine-structure constant (alpha)</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a><span class="sd">phys.ue    # electron magnetic moment (mu e)</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a><span class="sd">phys.mn    # neutron mass</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd">phys.mnc2  # neutron mass energy equivalent</span>
 </span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a><span class="sd"># Conversions</span>
 </span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a><span class="sd"># meV to 1/cm</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="sd">energy_in_cm1 = energy_in_meV * meV_to_cm1</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="sd">energy_in_cm1 = energy_in_meV * phys.meV_to_cm1</span>
 </span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a><span class="sd"># Bohr to Angstroms</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a><span class="sd">distance_in_angstroms = distance_in_bohr * bohr_to_A</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a><span class="sd">distance_in_angstroms = distance_in_bohr * phys.bohr_to_A</span>
 </span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a><span class="sd"># m/s to rad/s  (used in neutron scattering)</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a><span class="sd">velocity_in_rads = velocity_in_ms * ms_to_rads</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a><span class="sd">velocity_in_rads = velocity_in_ms * phys.ms_to_rads</span>
 </span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a><span class="sd">```</span>
 </span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>

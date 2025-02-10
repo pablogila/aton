@@ -49,21 +49,21 @@ except for $\\mu$ which is used as `u`.
 
 Some examples:  
 ```python
-from aton.phys import *
+from aton import phys
 # Constants
-h     # Planck constant
-hbar  # reduced Planck constant
-a     # fine-structure constant (alpha)
-ue    # electron magnetic moment (mu e)
-mn    # neutron mass
-mnc2  # neutron mass energy equivalent
+phys.h     # Planck constant
+phys.hbar  # reduced Planck constant
+phys.a     # fine-structure constant (alpha)
+phys.ue    # electron magnetic moment (mu e)
+phys.mn    # neutron mass
+phys.mnc2  # neutron mass energy equivalent
 # Conversions
 # meV to 1/cm
-energy_in_cm1 = energy_in_meV * meV_to_cm1
+energy_in_cm1 = energy_in_meV * phys.meV_to_cm1
 # Bohr to Angstroms
-distance_in_angstroms = distance_in_bohr * bohr_to_A
+distance_in_angstroms = distance_in_bohr * phys.bohr_to_A
 # m/s to rad/s  (used in neutron scattering)
-velocity_in_rads = velocity_in_ms * ms_to_rads
+velocity_in_rads = velocity_in_ms * phys.ms_to_rads
 ```
 
 
