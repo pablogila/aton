@@ -58,7 +58,7 @@ def potential(system, title:str=None, marker='', linestyle='-') -> None:
         plt.plot(s.grid, s.potential_values, marker=marker[i], linestyle=linestyle[i], label=s.comment)
 
     if all(s.comment for s in system) and len(system) != 1:
-        plt.legend()
+        plt.legend(fontsize='small')
 
     plt.show()
 
