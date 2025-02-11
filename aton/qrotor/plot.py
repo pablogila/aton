@@ -119,10 +119,15 @@ def energies(data, title:str=None) -> None:
     plt.show()
 
 
-def reduced_energies(data:list, title:str=None) -> None:
+def reduced_energies(data:list, title:str=None, values:list=[]) -> None:
     """Plots the reduced energy of the system E/B vs the reduced potential energy V/B.
 
     Takes a `data` list of System objects as input.
+    An optional `title` can be included.
+
+    Optional maximum reduced potential `values` are plotted
+    as vertical lines (floats or ints) or regions
+    (lists of 2 items inside the `values` list)
     """
     systems.as_list(data)
     title = title if title else (data[0].comment if data[0].comment else 'Reduced energies')
@@ -137,6 +142,13 @@ def reduced_energies(data:list, title:str=None) -> None:
             eigenvalues_B_i = system.eigenvalues[i] / system.B
             y.append(eigenvalues_B_i)
         plt.plot(x, y, marker='', linestyle='-')
+    # Add vertical lines in the specified values
+    for value in values:
+        for i, value in enumerate(values):
+            if isinstance(value, list) and len(value) == 2:
+                plt.axvspan(value[0], value[1], color='lightgrey', alpha=0.03, linestyle='')
+            else:
+                plt.axvline(x=value, color='lightgrey', alpha=0.1, linestyle='--')
     plt.xlabel('V$_{B}$ / B')
     plt.ylabel('E / B')
     plt.title(title)
