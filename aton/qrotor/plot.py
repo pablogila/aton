@@ -25,15 +25,15 @@ import numpy as np
 from copy import deepcopy
 
 
-def potential(system, title:str=None, marker='', linestyle='-') -> None:
-    """Plot the potential values of a `system` (System object, or list of systems).
+def potential(data, title:str=None, marker='', linestyle='-') -> None:
+    """Plot the potential values of `data` (System object, or list of systems).
 
     Title can be customized with `title`.
     If empty, system[0].comment will be used as title if no more comments are present.
 
     `marker` and `linestyle` can be a Matplotlib string or list of strings.
     """
-    system = systems.as_list(system)
+    system = systems.as_list(data)
     title_str = title if title else (system[0].comment if (system[0].comment and (len(system) == 1 or not system[-1].comment)) else 'Rotational potential energy')
     # Marker as a list
     if isinstance(marker, list):
@@ -119,7 +119,7 @@ def energies(data, title:str=None) -> None:
     plt.show()
 
 
-def reduced_energies(data:list, title:str=None, values:list=[]) -> None:
+def reduced_energies(data:list, title:str=None, values:list=[], legend:list=[]) -> None:
     """Plots the reduced energy of the system E/B vs the reduced potential energy V/B.
 
     Takes a `data` list of System objects as input.
@@ -127,8 +127,15 @@ def reduced_energies(data:list, title:str=None, values:list=[]) -> None:
 
     Optional maximum reduced potential `values` are plotted
     as vertical lines (floats or ints) or regions
-    (lists of 2 items inside the `values` list)
+    (lists inside the values list, from min to max).
+    A `legend` of the same len as `values` can be included.
     """
+    if values and len(values) <= len(legend):
+        plot_legend = True
+    else:
+        plot_legend = False
+        legend = [''] * len(values)
+
     systems.as_list(data)
     title = title if title else (data[0].comment if data[0].comment else 'Reduced energies')
     number_of_levels = data[0].E_levels
@@ -136,26 +143,31 @@ def reduced_energies(data:list, title:str=None, values:list=[]) -> None:
     for system in data:
         potential_max_B = system.potential_max / system.B
         x.append(potential_max_B)
+    colors = plt.cm.viridis(np.linspace(0, 1, number_of_levels+1))  # +1 to avoid the lighter tones
     for i in range(number_of_levels):
         y = []
         for system in data:
             eigenvalues_B_i = system.eigenvalues[i] / system.B
             y.append(eigenvalues_B_i)
-        plt.plot(x, y, marker='', linestyle='-')
+        plt.plot(x, y, marker='', linestyle='-', color=colors[i])
     # Add vertical lines in the specified values
-    for value in values:
-        for i, value in enumerate(values):
-            if isinstance(value, list) and len(value) == 2:
-                plt.axvspan(value[0], value[1], color='lightgrey', alpha=0.3, linestyle='')
-            else:
-                plt.axvline(x=value, color='lightgrey', linestyle='--')
+    line_colors = plt.cm.tab10(np.linspace(0, 1, len(values)))
+    for i, value in enumerate(values):
+        if isinstance(value, list):
+            min_value = min(value)
+            max_value = max(value)
+            plt.axvspan(min_value, max_value, color=line_colors[i], alpha=0.2, linestyle='', label=legend[i])
+        else:
+            plt.axvline(x=value, color=line_colors[i], linestyle='--', label=legend[i], alpha=0.5)
     plt.xlabel('V$_{B}$ / B')
     plt.ylabel('E / B')
     plt.title(title)
+    if plot_legend:
+        plt.legend()
     plt.show()
 
 
-def wavefunction(system:System, square:bool=True, levels=[0, 1, 2], overlap=False, title:str=None):
+def wavefunction(system:System, title:str=None, square:bool=True, levels=[0, 1, 2], overlap=False):
     """Plot the wavefunction of a `system` for the specified `levels`.
 
     Wavefunctions are squared by default, showing the probabilities;
@@ -242,7 +254,7 @@ def convergence(data:list) -> None:
     ax2.set_ylabel('Runtime / s')
     ax2.set_yscale('log')
     ax2.plot(gridsizes, runtimes, color='tab:grey', label='Runtime', linestyle='--')
-    colors = plt.cm.viridis(np.linspace(0, 1, E_levels-1))
+    colors = plt.cm.viridis(np.linspace(0, 1, E_levels))  # Should be E_levels-1 but we want to avoid lighter colors
     for i in range(E_levels-1):
         if i % 2 == 0:  # Ignore even numbers, since those levels are degenerated.
             continue
