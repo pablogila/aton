@@ -146,9 +146,9 @@ def reduced_energies(data:list, title:str=None, values:list=[]) -> None:
     for value in values:
         for i, value in enumerate(values):
             if isinstance(value, list) and len(value) == 2:
-                plt.axvspan(value[0], value[1], color='lightgrey', alpha=0.03, linestyle='')
+                plt.axvspan(value[0], value[1], color='lightgrey', alpha=0.3, linestyle='')
             else:
-                plt.axvline(x=value, color='lightgrey', alpha=0.1, linestyle='--')
+                plt.axvline(x=value, color='lightgrey', linestyle='--')
     plt.xlabel('V$_{B}$ / B')
     plt.ylabel('E / B')
     plt.title(title)
