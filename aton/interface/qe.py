@@ -573,7 +573,7 @@ def _update_other_values(
 
 
 def add_atom(filepath, position, indent='  ') -> None:
-    """Adds an atom in a given `filepath` at a specified `position`.
+    """Adds an atom in a given input `filepath` at a specified `position`.
 
     Position must be a string or a list, as follows:
     `"specie:str float float float"` or `[specie:str, float, float, float]`.
@@ -626,7 +626,7 @@ def get_atom(
         precision:int=3,
         return_anyway:bool=False,
     ) -> str:
-    """Takes the approximate `position` of an atom, and returns the full line from the `filepath`.
+    """Takes the approximate `position` of an atom, and returns the full line from the input `filepath`.
 
     It compares the atomic positions rounded up to the specified `precision` decimals.
     If `return_anyway = True`, ignores errors and returns an empty string.
@@ -924,7 +924,7 @@ def scf_from_relax(
 def to_cartesian(filepath, coordinates) -> str:
     """Converts a given `cordinates` from crystal lattice vectors to cartesian.
 
-    Only for `ibrav=0`. Uses the cell parameters.
+    Only for `ibrav=0`. Uses the cell parameters from the input `filepath`.
     Note that the result is not multiplied by `A` nor `celldm(1)`.
     """
     #print(f'COORDINATES: {coordinates}')
@@ -941,7 +941,7 @@ def to_cartesian(filepath, coordinates) -> str:
 def from_cartesian(filepath, coordinates:list) -> str:
     """Converts a given `cordinates` from cartesian to the base of lattice vectors.
 
-    Only for `ibrav=0`. Uses the cell parameters.
+    Only for `ibrav=0`. Uses the cell parameters from the input `filepath`.
     Note that the result is not divided by `A` nor `celldm(1)`.
     """
     #print(f'COORDINATES: {coordinates}')  # DEBUG

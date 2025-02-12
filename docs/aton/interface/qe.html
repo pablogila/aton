@@ -119,7 +119,7 @@
     </ul>
 
 
-            <footer>ATON v0.0.32 documentation</footer>
+            <footer>ATON v0.1.0 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -743,7 +743,7 @@
 </span><span id="L-573"><a href="#L-573"><span class="linenos"> 573</span></a>
 </span><span id="L-574"><a href="#L-574"><span class="linenos"> 574</span></a>
 </span><span id="L-575"><a href="#L-575"><span class="linenos"> 575</span></a><span class="k">def</span><span class="w"> </span><span class="nf">add_atom</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;  &#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-576"><a href="#L-576"><span class="linenos"> 576</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds an atom in a given `filepath` at a specified `position`.</span>
+</span><span id="L-576"><a href="#L-576"><span class="linenos"> 576</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds an atom in a given input `filepath` at a specified `position`.</span>
 </span><span id="L-577"><a href="#L-577"><span class="linenos"> 577</span></a>
 </span><span id="L-578"><a href="#L-578"><span class="linenos"> 578</span></a><span class="sd">    Position must be a string or a list, as follows:</span>
 </span><span id="L-579"><a href="#L-579"><span class="linenos"> 579</span></a><span class="sd">    `&quot;specie:str float float float&quot;` or `[specie:str, float, float, float]`.</span>
@@ -796,7 +796,7 @@
 </span><span id="L-626"><a href="#L-626"><span class="linenos"> 626</span></a>        <span class="n">precision</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
 </span><span id="L-627"><a href="#L-627"><span class="linenos"> 627</span></a>        <span class="n">return_anyway</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="L-628"><a href="#L-628"><span class="linenos"> 628</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-629"><a href="#L-629"><span class="linenos"> 629</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes the approximate `position` of an atom, and returns the full line from the `filepath`.</span>
+</span><span id="L-629"><a href="#L-629"><span class="linenos"> 629</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes the approximate `position` of an atom, and returns the full line from the input `filepath`.</span>
 </span><span id="L-630"><a href="#L-630"><span class="linenos"> 630</span></a>
 </span><span id="L-631"><a href="#L-631"><span class="linenos"> 631</span></a><span class="sd">    It compares the atomic positions rounded up to the specified `precision` decimals.</span>
 </span><span id="L-632"><a href="#L-632"><span class="linenos"> 632</span></a><span class="sd">    If `return_anyway = True`, ignores errors and returns an empty string.</span>
@@ -1094,7 +1094,7 @@
 </span><span id="L-924"><a href="#L-924"><span class="linenos"> 924</span></a><span class="k">def</span><span class="w"> </span><span class="nf">to_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="L-925"><a href="#L-925"><span class="linenos"> 925</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a given `cordinates` from crystal lattice vectors to cartesian.</span>
 </span><span id="L-926"><a href="#L-926"><span class="linenos"> 926</span></a>
-</span><span id="L-927"><a href="#L-927"><span class="linenos"> 927</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters.</span>
+</span><span id="L-927"><a href="#L-927"><span class="linenos"> 927</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters from the input `filepath`.</span>
 </span><span id="L-928"><a href="#L-928"><span class="linenos"> 928</span></a><span class="sd">    Note that the result is not multiplied by `A` nor `celldm(1)`.</span>
 </span><span id="L-929"><a href="#L-929"><span class="linenos"> 929</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-930"><a href="#L-930"><span class="linenos"> 930</span></a>    <span class="c1">#print(f&#39;COORDINATES: {coordinates}&#39;)</span>
@@ -1111,7 +1111,7 @@
 </span><span id="L-941"><a href="#L-941"><span class="linenos"> 941</span></a><span class="k">def</span><span class="w"> </span><span class="nf">from_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="L-942"><a href="#L-942"><span class="linenos"> 942</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a given `cordinates` from cartesian to the base of lattice vectors.</span>
 </span><span id="L-943"><a href="#L-943"><span class="linenos"> 943</span></a>
-</span><span id="L-944"><a href="#L-944"><span class="linenos"> 944</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters.</span>
+</span><span id="L-944"><a href="#L-944"><span class="linenos"> 944</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters from the input `filepath`.</span>
 </span><span id="L-945"><a href="#L-945"><span class="linenos"> 945</span></a><span class="sd">    Note that the result is not divided by `A` nor `celldm(1)`.</span>
 </span><span id="L-946"><a href="#L-946"><span class="linenos"> 946</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-947"><a href="#L-947"><span class="linenos"> 947</span></a>    <span class="c1">#print(f&#39;COORDINATES: {coordinates}&#39;)  # DEBUG</span>
@@ -1689,7 +1689,7 @@ and updating 'ATOMIC_SPECIES' updates 'ntyp'.</p>
     </div>
     <a class="headerlink" href="#add_atom"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="add_atom-576"><a href="#add_atom-576"><span class="linenos">576</span></a><span class="k">def</span><span class="w"> </span><span class="nf">add_atom</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;  &#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="add_atom-577"><a href="#add_atom-577"><span class="linenos">577</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds an atom in a given `filepath` at a specified `position`.</span>
+</span><span id="add_atom-577"><a href="#add_atom-577"><span class="linenos">577</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds an atom in a given input `filepath` at a specified `position`.</span>
 </span><span id="add_atom-578"><a href="#add_atom-578"><span class="linenos">578</span></a>
 </span><span id="add_atom-579"><a href="#add_atom-579"><span class="linenos">579</span></a><span class="sd">    Position must be a string or a list, as follows:</span>
 </span><span id="add_atom-580"><a href="#add_atom-580"><span class="linenos">580</span></a><span class="sd">    `&quot;specie:str float float float&quot;` or `[specie:str, float, float, float]`.</span>
@@ -1737,7 +1737,7 @@ and updating 'ATOMIC_SPECIES' updates 'ntyp'.</p>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Adds an atom in a given <code>filepath</code> at a specified <code>position</code>.</p>
+            <div class="docstring"><p>Adds an atom in a given input <code>filepath</code> at a specified <code>position</code>.</p>
 
 <p>Position must be a string or a list, as follows:
 <code>"specie:str float float float"</code> or <code>[specie:str, float, float, float]</code>.</p>
@@ -1767,7 +1767,7 @@ such as 'ntyp' when updating ATOMIC_SPECIES, etc.</p>
 </span><span id="get_atom-627"><a href="#get_atom-627"><span class="linenos">627</span></a>        <span class="n">precision</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
 </span><span id="get_atom-628"><a href="#get_atom-628"><span class="linenos">628</span></a>        <span class="n">return_anyway</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 </span><span id="get_atom-629"><a href="#get_atom-629"><span class="linenos">629</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="get_atom-630"><a href="#get_atom-630"><span class="linenos">630</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes the approximate `position` of an atom, and returns the full line from the `filepath`.</span>
+</span><span id="get_atom-630"><a href="#get_atom-630"><span class="linenos">630</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes the approximate `position` of an atom, and returns the full line from the input `filepath`.</span>
 </span><span id="get_atom-631"><a href="#get_atom-631"><span class="linenos">631</span></a>
 </span><span id="get_atom-632"><a href="#get_atom-632"><span class="linenos">632</span></a><span class="sd">    It compares the atomic positions rounded up to the specified `precision` decimals.</span>
 </span><span id="get_atom-633"><a href="#get_atom-633"><span class="linenos">633</span></a><span class="sd">    If `return_anyway = True`, ignores errors and returns an empty string.</span>
@@ -1833,7 +1833,7 @@ such as 'ntyp' when updating ATOMIC_SPECIES, etc.</p>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Takes the approximate <code>position</code> of an atom, and returns the full line from the <code>filepath</code>.</p>
+            <div class="docstring"><p>Takes the approximate <code>position</code> of an atom, and returns the full line from the input <code>filepath</code>.</p>
 
 <p>It compares the atomic positions rounded up to the specified <code>precision</code> decimals.
 If <code>return_anyway = True</code>, ignores errors and returns an empty string.</p>
@@ -2011,7 +2011,7 @@ update the names if necessary.</p>
             <div class="pdoc-code codehilite"><pre><span></span><span id="to_cartesian-925"><a href="#to_cartesian-925"><span class="linenos">925</span></a><span class="k">def</span><span class="w"> </span><span class="nf">to_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="to_cartesian-926"><a href="#to_cartesian-926"><span class="linenos">926</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a given `cordinates` from crystal lattice vectors to cartesian.</span>
 </span><span id="to_cartesian-927"><a href="#to_cartesian-927"><span class="linenos">927</span></a>
-</span><span id="to_cartesian-928"><a href="#to_cartesian-928"><span class="linenos">928</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters.</span>
+</span><span id="to_cartesian-928"><a href="#to_cartesian-928"><span class="linenos">928</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters from the input `filepath`.</span>
 </span><span id="to_cartesian-929"><a href="#to_cartesian-929"><span class="linenos">929</span></a><span class="sd">    Note that the result is not multiplied by `A` nor `celldm(1)`.</span>
 </span><span id="to_cartesian-930"><a href="#to_cartesian-930"><span class="linenos">930</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="to_cartesian-931"><a href="#to_cartesian-931"><span class="linenos">931</span></a>    <span class="c1">#print(f&#39;COORDINATES: {coordinates}&#39;)</span>
@@ -2028,7 +2028,7 @@ update the names if necessary.</p>
 
             <div class="docstring"><p>Converts a given <code>cordinates</code> from crystal lattice vectors to cartesian.</p>
 
-<p>Only for <code>ibrav=0</code>. Uses the cell parameters.
+<p>Only for <code>ibrav=0</code>. Uses the cell parameters from the input <code>filepath</code>.
 Note that the result is not multiplied by <code>A</code> nor <code>celldm(1)</code>.</p>
 </div>
 
@@ -2048,7 +2048,7 @@ Note that the result is not multiplied by <code>A</code> nor <code>celldm(1)</co
             <div class="pdoc-code codehilite"><pre><span></span><span id="from_cartesian-942"><a href="#from_cartesian-942"><span class="linenos">942</span></a><span class="k">def</span><span class="w"> </span><span class="nf">from_cartesian</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="from_cartesian-943"><a href="#from_cartesian-943"><span class="linenos">943</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a given `cordinates` from cartesian to the base of lattice vectors.</span>
 </span><span id="from_cartesian-944"><a href="#from_cartesian-944"><span class="linenos">944</span></a>
-</span><span id="from_cartesian-945"><a href="#from_cartesian-945"><span class="linenos">945</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters.</span>
+</span><span id="from_cartesian-945"><a href="#from_cartesian-945"><span class="linenos">945</span></a><span class="sd">    Only for `ibrav=0`. Uses the cell parameters from the input `filepath`.</span>
 </span><span id="from_cartesian-946"><a href="#from_cartesian-946"><span class="linenos">946</span></a><span class="sd">    Note that the result is not divided by `A` nor `celldm(1)`.</span>
 </span><span id="from_cartesian-947"><a href="#from_cartesian-947"><span class="linenos">947</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="from_cartesian-948"><a href="#from_cartesian-948"><span class="linenos">948</span></a>    <span class="c1">#print(f&#39;COORDINATES: {coordinates}&#39;)  # DEBUG</span>
@@ -2066,7 +2066,7 @@ Note that the result is not multiplied by <code>A</code> nor <code>celldm(1)</co
 
             <div class="docstring"><p>Converts a given <code>cordinates</code> from cartesian to the base of lattice vectors.</p>
 
-<p>Only for <code>ibrav=0</code>. Uses the cell parameters.
+<p>Only for <code>ibrav=0</code>. Uses the cell parameters from the input <code>filepath</code>.
 Note that the result is not divided by <code>A</code> nor <code>celldm(1)</code>.</p>
 </div>
 
