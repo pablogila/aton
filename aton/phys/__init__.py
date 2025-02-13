@@ -52,7 +52,7 @@ Isotope `mass`, `mass_number` and `abundance` come from:
 J. R. de Laeter, J. K. Böhlke, P. De Bièvre, H. Hidaka, H. S. Peiser, K. J. R. Rosman
 and P. D. P. Taylor (2003). *"Atomic weights of the elements. Review 2000 (IUPAC Technical Report)"*.
 
-Total bound scattering cross sections $\\sigma_s$ `n_cs` are in barns (1 b = 100 fm$^2$).
+Total bound scattering `cross_sections` $\\sigma_s$ are in barns (1 b = 100 fm$^2$).
 From Felix Fernandez-Alonso, *"Neutron Scattering Fundamentals"*, 2013.
 
 """

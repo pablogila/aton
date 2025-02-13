@@ -61,14 +61,14 @@ def export_atoms(
             "The `atoms` dictionary can be loaded directly as `aton.phys.atoms`, as shown below:\n"
             "```python\n"
             "from aton import phys\n"
-            "aluminium_neutron_cross_section = phys.atoms['Al'].n_cs  # 1.503\n"
+            "aluminium_neutron_cross_section = phys.atoms['Al'].cross_section  # 1.503\n"
             "He4_mass = phys.atoms['H'].isotope[4].mass  # 4.0026032497\n\n"
             "```\n\n"
             "---\n"
             "'''\n\n\n"
             "class Element:\n"
             "    '''Used in the `aton.atoms` megadictionary to store element data.'''\n"
-            "    def __init__(self=None, Z:int=None, symbol:str=None, name:str=None, mass:float=None, n_cs:float=None, isotope:dict=None):\n"
+            "    def __init__(self=None, Z:int=None, symbol:str=None, name:str=None, mass:float=None, cross_section:float=None, isotope:dict=None):\n"
             "        self.Z: int = Z\n"
             "        '''Atomic number (Z). Corresponds to the number of protons / electrons.'''\n"
             "        self.symbol: str = symbol\n"
@@ -77,7 +77,7 @@ def export_atoms(
             "        '''Full name.'''\n"
             "        self.mass: float = mass\n"
             "        '''Atomic mass, in atomic mass units (amu).'''\n"
-            "        self.n_cs: float = n_cs\n"
+            "        self.cross_section: float = cross_section\n"
             "        '''Total bound scattering cross section.'''\n"
             "        self.isotope: dict = isotope\n"
             "        '''Dictionary containing the different `Isotope` of the element.\n"
@@ -85,7 +85,7 @@ def export_atoms(
             "        '''\n\n\n"
             "class Isotope:\n"
             "    '''Used in the `aton.atoms` megadictionary to store isotope data.'''\n"
-            "    def __init__(self, A:int=None, mass:float=None, abundance:float=None, n_cs:float=None):\n"
+            "    def __init__(self, A:int=None, mass:float=None, abundance:float=None, cross_section:float=None):\n"
             "        self.A: int = A\n"
             "        '''Mass number (A) of the isotope.\n"
             "        Corresponds to the total number of protons + neutrons in the core.\n"
@@ -94,7 +94,7 @@ def export_atoms(
             "        '''Atomic mass of the isotope, in atomic mass units (amu).'''\n"
             "        self.abundance: float = abundance\n"
             "        '''Relative abundance of the isotope.'''\n"
-            "        self.n_cs: float = n_cs\n"
+            "        self.cross_section: float = cross_section\n"
             "        '''Total bound scattering cross section of the isotope.'''\n\n\n"
         )
         # Start the atom megadictionary
@@ -106,8 +106,8 @@ def export_atoms(
                     f"        name          = '{element.name}',\n")
             if element.mass:
                 f.write(f"        mass          = {element.mass},\n")
-            if element.n_cs:
-                f.write(f"        n_cs          = {element.n_cs},\n")
+            if element.cross_section:
+                f.write(f"        cross_section = {element.cross_section},\n")
             if element.isotope:
                 f.write("        isotope       = {\n")
                 for iso in element.isotope.values():
@@ -118,8 +118,8 @@ def export_atoms(
                         f.write(f"                mass          = {iso.mass},\n")
                     if iso.abundance:
                         f.write(f"                abundance     = {iso.abundance},\n")
-                    if iso.n_cs:
-                        f.write(f"                n_cs          = {iso.n_cs},\n")
+                    if iso.cross_section:
+                        f.write(f"                cross_section = {iso.cross_section},\n")
                     f.write(f"                ),\n")
                 f.write("            },\n")
             f.write(f"        ),\n")

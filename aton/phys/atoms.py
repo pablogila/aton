@@ -21,7 +21,7 @@ The `atoms` dictionary can be loaded directly as `aton.phys.atoms`.
 
 ```python
 from aton import phys
-aluminium_neutron_cross_section = phys.atoms['Al'].n_cs  # 1.503
+aluminium_neutron_cross_section = phys.atoms['Al'].cross_section  # 1.503
 He4_mass = phys.atoms['H'].isotope[4].mass  # 4.0026032497
 ```
 
@@ -31,7 +31,7 @@ He4_mass = phys.atoms['H'].isotope[4].mass  # 4.0026032497
 
 class Element:
     """Used in the `aton.atoms` megadictionary to store element data."""
-    def __init__(self=None, Z:int=None, symbol:str=None, name:str=None, mass:float=None, n_cs:float=None, isotope:dict=None):
+    def __init__(self=None, Z:int=None, symbol:str=None, name:str=None, mass:float=None, cross_section:float=None, isotope:dict=None):
         self.Z: int = Z
         """Atomic number (Z). Corresponds to the number of protons / electrons."""
         self.symbol: str = symbol
@@ -40,7 +40,7 @@ class Element:
         """Full name."""
         self.mass: float = mass
         """Atomic mass, in atomic mass units (amu)."""
-        self.n_cs: float = n_cs
+        self.cross_section: float = cross_section
         """Total bound scattering cross section."""
         self.isotope: dict = isotope
         """Dictionary containing the different `Isotope` of the element.
@@ -50,7 +50,7 @@ class Element:
 
 class Isotope:
     """Used in the `aton.atoms` megadictionary to store isotope data."""
-    def __init__(self, A:int=None, mass:float=None, abundance:float=None, n_cs:float=None):
+    def __init__(self, A:int=None, mass:float=None, abundance:float=None, cross_section:float=None):
         self.A: int = A
         """Mass number (A) of the isotope.
         Corresponds to the total number of protons + neutrons in the core.
@@ -59,7 +59,7 @@ class Isotope:
         """Atomic mass of the isotope, in atomic mass units (amu)."""
         self.abundance: float = abundance
         """Relative abundance of the isotope."""
-        self.n_cs: float = n_cs
+        self.cross_section: float = cross_section
         """Total bound scattering cross section of the isotope."""
 
 
@@ -69,19 +69,19 @@ atoms = {
         symbol        = 'H',
         name          = 'Hydrogen',
         mass          = 1.00794,
-        n_cs          = 82.02,
+        cross_section = 82.02,
         isotope       = {
             1 : Isotope(
                 A             = 1,
                 mass          = 1.0078250319,
                 abundance     = 0.999885,
-                n_cs          = 81.67,
+                cross_section = 81.67,
                 ),
             2 : Isotope(
                 A             = 2,
                 mass          = 2.0141017779,
                 abundance     = 0.000115,
-                n_cs          = 7.64,
+                cross_section = 7.64,
                 ),
             },
         ),
@@ -90,7 +90,7 @@ atoms = {
         symbol        = 'He',
         name          = 'Helium',
         mass          = 4.002602,
-        n_cs          = 1.34,
+        cross_section = 1.34,
         isotope       = {
             3 : Isotope(
                 A             = 3,
@@ -109,7 +109,7 @@ atoms = {
         symbol        = 'Li',
         name          = 'Lithium',
         mass          = 6.941,
-        n_cs          = 1.37,
+        cross_section = 1.37,
         isotope       = {
             6 : Isotope(
                 A             = 6,
@@ -128,7 +128,7 @@ atoms = {
         symbol        = 'Be',
         name          = 'Beryllium',
         mass          = 9.012182,
-        n_cs          = 7.63,
+        cross_section = 7.63,
         isotope       = {
             9 : Isotope(
                 A             = 9,
@@ -142,7 +142,7 @@ atoms = {
         symbol        = 'B',
         name          = 'Boron',
         mass          = 10.811,
-        n_cs          = 5.24,
+        cross_section = 5.24,
         isotope       = {
             10 : Isotope(
                 A             = 10,
@@ -161,7 +161,7 @@ atoms = {
         symbol        = 'C',
         name          = 'Carbon',
         mass          = 12.0107,
-        n_cs          = 5.551,
+        cross_section = 5.551,
         isotope       = {
             12 : Isotope(
                 A             = 12,
@@ -180,7 +180,7 @@ atoms = {
         symbol        = 'N',
         name          = 'Nitrogen',
         mass          = 14.0067,
-        n_cs          = 11.51,
+        cross_section = 11.51,
         isotope       = {
             14 : Isotope(
                 A             = 14,
@@ -199,7 +199,7 @@ atoms = {
         symbol        = 'O',
         name          = 'Oxygen',
         mass          = 15.9994,
-        n_cs          = 4.232,
+        cross_section = 4.232,
         isotope       = {
             16 : Isotope(
                 A             = 16,
@@ -223,7 +223,7 @@ atoms = {
         symbol        = 'F',
         name          = 'Fluorine',
         mass          = 18.9984032,
-        n_cs          = 4.018,
+        cross_section = 4.018,
         isotope       = {
             19 : Isotope(
                 A             = 19,
@@ -237,7 +237,7 @@ atoms = {
         symbol        = 'Ne',
         name          = 'Neon',
         mass          = 20.1797,
-        n_cs          = 2.628,
+        cross_section = 2.628,
         isotope       = {
             20 : Isotope(
                 A             = 20,
@@ -261,7 +261,7 @@ atoms = {
         symbol        = 'Na',
         name          = 'Sodium',
         mass          = 22.98976928,
-        n_cs          = 3.28,
+        cross_section = 3.28,
         isotope       = {
             23 : Isotope(
                 A             = 23,
@@ -275,7 +275,7 @@ atoms = {
         symbol        = 'Mg',
         name          = 'Magnesium',
         mass          = 24.305,
-        n_cs          = 3.71,
+        cross_section = 3.71,
         isotope       = {
             24 : Isotope(
                 A             = 24,
@@ -299,7 +299,7 @@ atoms = {
         symbol        = 'Al',
         name          = 'Aluminium',
         mass          = 26.9815386,
-        n_cs          = 1.503,
+        cross_section = 1.503,
         isotope       = {
             27 : Isotope(
                 A             = 27,
@@ -313,7 +313,7 @@ atoms = {
         symbol        = 'Si',
         name          = 'Silicon',
         mass          = 28.0855,
-        n_cs          = 2.167,
+        cross_section = 2.167,
         isotope       = {
             28 : Isotope(
                 A             = 28,
@@ -337,7 +337,7 @@ atoms = {
         symbol        = 'P',
         name          = 'Phosphorus',
         mass          = 30.973762,
-        n_cs          = 3.312,
+        cross_section = 3.312,
         isotope       = {
             31 : Isotope(
                 A             = 31,
@@ -351,7 +351,7 @@ atoms = {
         symbol        = 'S',
         name          = 'Sulfur',
         mass          = 32.065,
-        n_cs          = 1.026,
+        cross_section = 1.026,
         isotope       = {
             32 : Isotope(
                 A             = 32,
@@ -380,7 +380,7 @@ atoms = {
         symbol        = 'Cl',
         name          = 'Chlorine',
         mass          = 35.453,
-        n_cs          = 16.8,
+        cross_section = 16.8,
         isotope       = {
             35 : Isotope(
                 A             = 35,
@@ -399,7 +399,7 @@ atoms = {
         symbol        = 'Ar',
         name          = 'Argon',
         mass          = 39.948,
-        n_cs          = 0.683,
+        cross_section = 0.683,
         isotope       = {
             36 : Isotope(
                 A             = 36,
@@ -423,7 +423,7 @@ atoms = {
         symbol        = 'K',
         name          = 'Potassium',
         mass          = 39.0983,
-        n_cs          = 1.96,
+        cross_section = 1.96,
         isotope       = {
             39 : Isotope(
                 A             = 39,
@@ -447,7 +447,7 @@ atoms = {
         symbol        = 'Ca',
         name          = 'Calcium',
         mass          = 40.078,
-        n_cs          = 2.83,
+        cross_section = 2.83,
         isotope       = {
             40 : Isotope(
                 A             = 40,
@@ -486,7 +486,7 @@ atoms = {
         symbol        = 'Sc',
         name          = 'Scandium',
         mass          = 44.955912,
-        n_cs          = 23.5,
+        cross_section = 23.5,
         isotope       = {
             45 : Isotope(
                 A             = 45,
@@ -500,7 +500,7 @@ atoms = {
         symbol        = 'Ti',
         name          = 'Titanium',
         mass          = 47.867,
-        n_cs          = 4.35,
+        cross_section = 4.35,
         isotope       = {
             46 : Isotope(
                 A             = 46,
@@ -534,7 +534,7 @@ atoms = {
         symbol        = 'V',
         name          = 'Vanadium',
         mass          = 50.9415,
-        n_cs          = 5.1,
+        cross_section = 5.1,
         isotope       = {
             50 : Isotope(
                 A             = 50,
@@ -553,7 +553,7 @@ atoms = {
         symbol        = 'Cr',
         name          = 'Chromium',
         mass          = 51.9961,
-        n_cs          = 3.49,
+        cross_section = 3.49,
         isotope       = {
             50 : Isotope(
                 A             = 50,
@@ -582,7 +582,7 @@ atoms = {
         symbol        = 'Mn',
         name          = 'Manganese',
         mass          = 54.938045,
-        n_cs          = 2.15,
+        cross_section = 2.15,
         isotope       = {
             55 : Isotope(
                 A             = 55,
@@ -596,7 +596,7 @@ atoms = {
         symbol        = 'Fe',
         name          = 'Iron',
         mass          = 55.845,
-        n_cs          = 11.62,
+        cross_section = 11.62,
         isotope       = {
             54 : Isotope(
                 A             = 54,
@@ -625,7 +625,7 @@ atoms = {
         symbol        = 'Co',
         name          = 'Cobalt',
         mass          = 58.933195,
-        n_cs          = 5.6,
+        cross_section = 5.6,
         isotope       = {
             59 : Isotope(
                 A             = 59,
@@ -639,7 +639,7 @@ atoms = {
         symbol        = 'Ni',
         name          = 'Nickel',
         mass          = 58.6934,
-        n_cs          = 18.5,
+        cross_section = 18.5,
         isotope       = {
             58 : Isotope(
                 A             = 58,
@@ -673,7 +673,7 @@ atoms = {
         symbol        = 'Cu',
         name          = 'Copper',
         mass          = 63.546,
-        n_cs          = 8.03,
+        cross_section = 8.03,
         isotope       = {
             63 : Isotope(
                 A             = 63,
@@ -692,7 +692,7 @@ atoms = {
         symbol        = 'Zn',
         name          = 'Zinc',
         mass          = 65.38,
-        n_cs          = 4.131,
+        cross_section = 4.131,
         isotope       = {
             64 : Isotope(
                 A             = 64,
@@ -726,7 +726,7 @@ atoms = {
         symbol        = 'Ga',
         name          = 'Gallium',
         mass          = 69.723,
-        n_cs          = 6.83,
+        cross_section = 6.83,
         isotope       = {
             69 : Isotope(
                 A             = 69,
@@ -745,7 +745,7 @@ atoms = {
         symbol        = 'Ge',
         name          = 'Germanium',
         mass          = 72.64,
-        n_cs          = 8.6,
+        cross_section = 8.6,
         isotope       = {
             70 : Isotope(
                 A             = 70,
@@ -779,7 +779,7 @@ atoms = {
         symbol        = 'As',
         name          = 'Arsenic',
         mass          = 74.9216,
-        n_cs          = 5.5,
+        cross_section = 5.5,
         isotope       = {
             75 : Isotope(
                 A             = 75,
@@ -793,7 +793,7 @@ atoms = {
         symbol        = 'Se',
         name          = 'Selenium',
         mass          = 78.96,
-        n_cs          = 8.3,
+        cross_section = 8.3,
         isotope       = {
             74 : Isotope(
                 A             = 74,
@@ -832,7 +832,7 @@ atoms = {
         symbol        = 'Br',
         name          = 'Bromine',
         mass          = 79.904,
-        n_cs          = 5.9,
+        cross_section = 5.9,
         isotope       = {
             79 : Isotope(
                 A             = 79,
@@ -851,7 +851,7 @@ atoms = {
         symbol        = 'Kr',
         name          = 'Krypton',
         mass          = 83.798,
-        n_cs          = 7.68,
+        cross_section = 7.68,
         isotope       = {
             78 : Isotope(
                 A             = 78,
@@ -890,7 +890,7 @@ atoms = {
         symbol        = 'Rb',
         name          = 'Rubidium',
         mass          = 85.4678,
-        n_cs          = 6.8,
+        cross_section = 6.8,
         isotope       = {
             85 : Isotope(
                 A             = 85,
@@ -909,7 +909,7 @@ atoms = {
         symbol        = 'Sr',
         name          = 'Strontium',
         mass          = 87.62,
-        n_cs          = 6.25,
+        cross_section = 6.25,
         isotope       = {
             84 : Isotope(
                 A             = 84,
@@ -938,7 +938,7 @@ atoms = {
         symbol        = 'Y',
         name          = 'Yttrium',
         mass          = 88.90585,
-        n_cs          = 7.7,
+        cross_section = 7.7,
         isotope       = {
             89 : Isotope(
                 A             = 89,
@@ -952,7 +952,7 @@ atoms = {
         symbol        = 'Zr',
         name          = 'Zirconium',
         mass          = 91.224,
-        n_cs          = 6.46,
+        cross_section = 6.46,
         isotope       = {
             90 : Isotope(
                 A             = 90,
@@ -986,7 +986,7 @@ atoms = {
         symbol        = 'Nb',
         name          = 'Niobium',
         mass          = 92.90638,
-        n_cs          = 6.255,
+        cross_section = 6.255,
         isotope       = {
             93 : Isotope(
                 A             = 93,
@@ -1000,7 +1000,7 @@ atoms = {
         symbol        = 'Mo',
         name          = 'Molybdenum',
         mass          = 95.96,
-        n_cs          = 5.71,
+        cross_section = 5.71,
         isotope       = {
             92 : Isotope(
                 A             = 92,
@@ -1044,14 +1044,14 @@ atoms = {
         symbol        = 'Tc',
         name          = 'Technetium',
         mass          = 98,
-        n_cs          = 6.3,
+        cross_section = 6.3,
         ),
     'Ru': Element(
         Z             = 44,
         symbol        = 'Ru',
         name          = 'Ruthenium',
         mass          = 101.07,
-        n_cs          = 6.6,
+        cross_section = 6.6,
         isotope       = {
             96 : Isotope(
                 A             = 96,
@@ -1095,7 +1095,7 @@ atoms = {
         symbol        = 'Rh',
         name          = 'Rhodium',
         mass          = 102.9055,
-        n_cs          = 4.39,
+        cross_section = 4.39,
         isotope       = {
             103 : Isotope(
                 A             = 103,
@@ -1109,7 +1109,7 @@ atoms = {
         symbol        = 'Pd',
         name          = 'Palladium',
         mass          = 106.42,
-        n_cs          = 4.48,
+        cross_section = 4.48,
         isotope       = {
             102 : Isotope(
                 A             = 102,
@@ -1148,7 +1148,7 @@ atoms = {
         symbol        = 'Ag',
         name          = 'Silver',
         mass          = 107.8682,
-        n_cs          = 4.99,
+        cross_section = 4.99,
         isotope       = {
             107 : Isotope(
                 A             = 107,
@@ -1167,7 +1167,7 @@ atoms = {
         symbol        = 'Cd',
         name          = 'Cadmium',
         mass          = 112.411,
-        n_cs          = 6.5,
+        cross_section = 6.5,
         isotope       = {
             106 : Isotope(
                 A             = 106,
@@ -1216,7 +1216,7 @@ atoms = {
         symbol        = 'In',
         name          = 'Indium',
         mass          = 114.818,
-        n_cs          = 2.62,
+        cross_section = 2.62,
         isotope       = {
             113 : Isotope(
                 A             = 113,
@@ -1235,7 +1235,7 @@ atoms = {
         symbol        = 'Sn',
         name          = 'Tin',
         mass          = 118.71,
-        n_cs          = 4.892,
+        cross_section = 4.892,
         isotope       = {
             112 : Isotope(
                 A             = 112,
@@ -1294,7 +1294,7 @@ atoms = {
         symbol        = 'Sb',
         name          = 'Antimony',
         mass          = 121.76,
-        n_cs          = 3.9,
+        cross_section = 3.9,
         isotope       = {
             121 : Isotope(
                 A             = 121,
@@ -1313,7 +1313,7 @@ atoms = {
         symbol        = 'Te',
         name          = 'Tellurium',
         mass          = 127.6,
-        n_cs          = 4.32,
+        cross_section = 4.32,
         isotope       = {
             120 : Isotope(
                 A             = 120,
@@ -1362,7 +1362,7 @@ atoms = {
         symbol        = 'I',
         name          = 'Iodine',
         mass          = 126.90447,
-        n_cs          = 3.81,
+        cross_section = 3.81,
         isotope       = {
             127 : Isotope(
                 A             = 127,
@@ -1429,7 +1429,7 @@ atoms = {
         symbol        = 'Cs',
         name          = 'Caesium',
         mass          = 132.9054519,
-        n_cs          = 3.9,
+        cross_section = 3.9,
         isotope       = {
             133 : Isotope(
                 A             = 133,
@@ -1443,7 +1443,7 @@ atoms = {
         symbol        = 'Ba',
         name          = 'Barium',
         mass          = 137.327,
-        n_cs          = 3.38,
+        cross_section = 3.38,
         isotope       = {
             130 : Isotope(
                 A             = 130,
@@ -1487,7 +1487,7 @@ atoms = {
         symbol        = 'La',
         name          = 'Lanthanum',
         mass          = 138.90547,
-        n_cs          = 9.66,
+        cross_section = 9.66,
         isotope       = {
             138 : Isotope(
                 A             = 138,
@@ -1506,7 +1506,7 @@ atoms = {
         symbol        = 'Ce',
         name          = 'Cerium',
         mass          = 140.116,
-        n_cs          = 2.94,
+        cross_section = 2.94,
         isotope       = {
             136 : Isotope(
                 A             = 136,
@@ -1535,7 +1535,7 @@ atoms = {
         symbol        = 'Pr',
         name          = 'Praseodymium',
         mass          = 140.90765,
-        n_cs          = 2.66,
+        cross_section = 2.66,
         isotope       = {
             141 : Isotope(
                 A             = 141,
@@ -1549,7 +1549,7 @@ atoms = {
         symbol        = 'Nd',
         name          = 'Neodymium',
         mass          = 144.242,
-        n_cs          = 16.6,
+        cross_section = 16.6,
         isotope       = {
             142 : Isotope(
                 A             = 142,
@@ -1593,14 +1593,14 @@ atoms = {
         symbol        = 'Pm',
         name          = 'Promethium',
         mass          = 145,
-        n_cs          = 21.3,
+        cross_section = 21.3,
         ),
     'Sm': Element(
         Z             = 62,
         symbol        = 'Sm',
         name          = 'Samarium',
         mass          = 150.36,
-        n_cs          = 39.4,
+        cross_section = 39.4,
         isotope       = {
             144 : Isotope(
                 A             = 144,
@@ -1644,7 +1644,7 @@ atoms = {
         symbol        = 'Eu',
         name          = 'Europium',
         mass          = 151.964,
-        n_cs          = 9.2,
+        cross_section = 9.2,
         isotope       = {
             151 : Isotope(
                 A             = 151,
@@ -1663,7 +1663,7 @@ atoms = {
         symbol        = 'Gd',
         name          = 'Gadolinium',
         mass          = 157.25,
-        n_cs          = 180.0,
+        cross_section = 180.0,
         isotope       = {
             152 : Isotope(
                 A             = 152,
@@ -1707,7 +1707,7 @@ atoms = {
         symbol        = 'Tb',
         name          = 'Terbium',
         mass          = 158.92535,
-        n_cs          = 6.84,
+        cross_section = 6.84,
         isotope       = {
             159 : Isotope(
                 A             = 159,
@@ -1721,7 +1721,7 @@ atoms = {
         symbol        = 'Dy',
         name          = 'Dysprosium',
         mass          = 162.5,
-        n_cs          = 90.3,
+        cross_section = 90.3,
         isotope       = {
             156 : Isotope(
                 A             = 156,
@@ -1765,7 +1765,7 @@ atoms = {
         symbol        = 'Ho',
         name          = 'Holmium',
         mass          = 164.93032,
-        n_cs          = 8.42,
+        cross_section = 8.42,
         isotope       = {
             165 : Isotope(
                 A             = 165,
@@ -1779,7 +1779,7 @@ atoms = {
         symbol        = 'Er',
         name          = 'Erbium',
         mass          = 167.259,
-        n_cs          = 8.7,
+        cross_section = 8.7,
         isotope       = {
             162 : Isotope(
                 A             = 162,
@@ -1818,7 +1818,7 @@ atoms = {
         symbol        = 'Tm',
         name          = 'Thulium',
         mass          = 168.93421,
-        n_cs          = 6.38,
+        cross_section = 6.38,
         isotope       = {
             169 : Isotope(
                 A             = 169,
@@ -1832,7 +1832,7 @@ atoms = {
         symbol        = 'Yb',
         name          = 'Ytterbium',
         mass          = 173.054,
-        n_cs          = 23.4,
+        cross_section = 23.4,
         isotope       = {
             168 : Isotope(
                 A             = 168,
@@ -1876,7 +1876,7 @@ atoms = {
         symbol        = 'Lu',
         name          = 'Lutetium',
         mass          = 174.9668,
-        n_cs          = 7.2,
+        cross_section = 7.2,
         isotope       = {
             175 : Isotope(
                 A             = 175,
@@ -1895,7 +1895,7 @@ atoms = {
         symbol        = 'Hf',
         name          = 'Hafnium',
         mass          = 178.49,
-        n_cs          = 10.2,
+        cross_section = 10.2,
         isotope       = {
             174 : Isotope(
                 A             = 174,
@@ -1934,7 +1934,7 @@ atoms = {
         symbol        = 'Ta',
         name          = 'Tantalum',
         mass          = 180.94788,
-        n_cs          = 6.01,
+        cross_section = 6.01,
         isotope       = {
             180 : Isotope(
                 A             = 180,
@@ -1986,7 +1986,7 @@ atoms = {
         symbol        = 'Re',
         name          = 'Rhenium',
         mass          = 186.207,
-        n_cs          = 11.5,
+        cross_section = 11.5,
         isotope       = {
             185 : Isotope(
                 A             = 185,
@@ -2005,7 +2005,7 @@ atoms = {
         symbol        = 'Os',
         name          = 'Osmium',
         mass          = 190.23,
-        n_cs          = 14.7,
+        cross_section = 14.7,
         isotope       = {
             184 : Isotope(
                 A             = 184,
@@ -2049,7 +2049,7 @@ atoms = {
         symbol        = 'Ir',
         name          = 'Iridium',
         mass          = 192.217,
-        n_cs          = 14.0,
+        cross_section = 14.0,
         isotope       = {
             191 : Isotope(
                 A             = 191,
@@ -2068,7 +2068,7 @@ atoms = {
         symbol        = 'Pt',
         name          = 'Platinum',
         mass          = 195.084,
-        n_cs          = 11.71,
+        cross_section = 11.71,
         isotope       = {
             190 : Isotope(
                 A             = 190,
@@ -2107,7 +2107,7 @@ atoms = {
         symbol        = 'Au',
         name          = 'Gold',
         mass          = 196.966569,
-        n_cs          = 7.75,
+        cross_section = 7.75,
         isotope       = {
             197 : Isotope(
                 A             = 197,
@@ -2121,7 +2121,7 @@ atoms = {
         symbol        = 'Hg',
         name          = 'Mercury',
         mass          = 200.59,
-        n_cs          = 26.8,
+        cross_section = 26.8,
         isotope       = {
             196 : Isotope(
                 A             = 196,
@@ -2165,7 +2165,7 @@ atoms = {
         symbol        = 'Tl',
         name          = 'Thallium',
         mass          = 204.3833,
-        n_cs          = 9.89,
+        cross_section = 9.89,
         isotope       = {
             203 : Isotope(
                 A             = 203,
@@ -2184,7 +2184,7 @@ atoms = {
         symbol        = 'Pb',
         name          = 'Lead',
         mass          = 207.2,
-        n_cs          = 11.118,
+        cross_section = 11.118,
         isotope       = {
             204 : Isotope(
                 A             = 204,
@@ -2213,7 +2213,7 @@ atoms = {
         symbol        = 'Bi',
         name          = 'Bismuth',
         mass          = 208.9804,
-        n_cs          = 9.156,
+        cross_section = 9.156,
         isotope       = {
             209 : Isotope(
                 A             = 209,
@@ -2246,7 +2246,7 @@ atoms = {
         Z             = 88,
         symbol        = 'Ra',
         name          = 'Radium',
-        n_cs          = 13.0,
+        cross_section = 13.0,
         ),
     'Ac': Element(
         Z             = 89,
@@ -2259,7 +2259,7 @@ atoms = {
         symbol        = 'Th',
         name          = 'Thorium',
         mass          = 232.03806,
-        n_cs          = 13.36,
+        cross_section = 13.36,
         isotope       = {
             232 : Isotope(
                 A             = 232,
@@ -2273,7 +2273,7 @@ atoms = {
         symbol        = 'Pa',
         name          = 'Protactinium',
         mass          = 231.03588,
-        n_cs          = 10.5,
+        cross_section = 10.5,
         isotope       = {
             231 : Isotope(
                 A             = 231,
@@ -2310,7 +2310,7 @@ atoms = {
         symbol        = 'Np',
         name          = 'Neptunium',
         mass          = 237,
-        n_cs          = 14.5,
+        cross_section = 14.5,
         ),
     'Pu': Element(
         Z             = 94,
@@ -2321,7 +2321,7 @@ atoms = {
         Z             = 95,
         symbol        = 'Am',
         name          = 'Americium',
-        n_cs          = 9.0,
+        cross_section = 9.0,
         ),
     'Cm': Element(
         Z             = 96,
