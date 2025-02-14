@@ -86,7 +86,9 @@ def schrodinger(system:System) -> System:
     system.potential_max = max(V)
     system.potential_min = min(V)
     system.energy_barrier = max(V) - min(eigenvalues)
-    system.first_transition = eigenvalues[1] - eigenvalues[0]
+    system.transitions = []
+    for i in range(len(eigenvalues)-1):
+        system.transitions.append(eigenvalues[i+1] - eigenvalues[0])
     if system.save_eigenvectors == True:
         system.eigenvectors = np.transpose(eigenvectors)
     return system

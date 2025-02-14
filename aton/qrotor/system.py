@@ -26,7 +26,7 @@ class System:
             E_levels: int = 15,
             correct_potential_offset: bool = True,
             save_eigenvectors: bool = True,
-            gridsize: int = None,
+            gridsize: int = 200000,
             grid = [],
             B: float = None,
             potential_name: str = '',
@@ -86,8 +86,8 @@ class System:
         """Eigenvectors, if `save_eigenvectors` is True. Beware of the file size."""
         self.energy_barrier: float = None
         """`max(V) - min(eigenvalues)`"""
-        self.first_transition: float = None
-        """eigenvalues[1] - eigenvalues[0]"""
+        self.transitions: list = None
+        """eigenvalues[i+1] - eigenvalues[0]"""
         self.runtime: float = None
         """Time taken to solve the eigenvalues."""
 
@@ -105,7 +105,7 @@ class System:
             'potential_max': self.potential_max,
             'eigenvalues': self.eigenvalues.tolist() if isinstance(self.eigenvalues, np.ndarray) else self.eigenvalues,
             'energy_barrier': self.energy_barrier,
-            'first_transition': self.first_transition,
+            'transitions': self.transitions,
             'runtime': self.runtime,
         }
 
