@@ -33,7 +33,7 @@ To modify values from an input file,
 ```python
 from aton.interface import qe
 # Add a hydrogen atom to a specific position
-qe.add_atom('H  0.10  0.20  0.30')
+qe.add_atom('relax.in', 'H  0.10  0.20  0.30')
 # Set the input ecutwfc value
 qe.set_value('relax.in', 'ecutwfc', 60.0)
 ```
