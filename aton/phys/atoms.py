@@ -22,7 +22,7 @@ The `atoms` dictionary can be loaded directly as `aton.phys.atoms`.
 ```python
 from aton import phys
 aluminium_neutron_cross_section = phys.atoms['Al'].cross_section  # 1.503
-He4_mass = phys.atoms['H'].isotope[4].mass  # 4.0026032497
+He4_mass = phys.atoms['He'].isotope[4].mass  # 4.0026032497
 ```
 
 ---

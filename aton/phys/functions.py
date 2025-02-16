@@ -62,7 +62,7 @@ def export_atoms(
             "```python\n"
             "from aton import phys\n"
             "aluminium_neutron_cross_section = phys.atoms['Al'].cross_section  # 1.503\n"
-            "He4_mass = phys.atoms['H'].isotope[4].mass  # 4.0026032497\n\n"
+            "He4_mass = phys.atoms['He'].isotope[4].mass  # 4.0026032497\n\n"
             "```\n\n"
             "---\n"
             "'''\n\n\n"
