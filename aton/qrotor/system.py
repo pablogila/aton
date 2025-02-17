@@ -91,23 +91,52 @@ class System:
         self.runtime: float = None
         """Time taken to solve the eigenvalues."""
 
-    def summary(self):
-        return {
-            'version': self.version,
-            'comment': self.comment,
-            'group': self.group,
-            'gridsize': self.gridsize,
-            'B': self.B,
-            'potential_name': self.potential_name,
-            'potential_constants': self.potential_constants.tolist() if isinstance(self.potential_constants, np.ndarray) else self.potential_constants,
-            'potential_offset': self.corrected_potential_offset,
-            'potential_min': self.potential_min,
-            'potential_max': self.potential_max,
-            'eigenvalues': self.eigenvalues.tolist() if isinstance(self.eigenvalues, np.ndarray) else self.eigenvalues,
-            'energy_barrier': self.energy_barrier,
-            'transitions': self.transitions,
-            'runtime': self.runtime,
-        }
+    def solve(self, new_gridsize:int=None):
+        """Solves the quantum system.
+
+        The potential can be interpolated to a `new_gridsize`.
+    
+        Same as running `aton.qrotor.solve.energies(System)`.
+        """
+        from .solve import energies
+        if new_gridsize:
+            self.gridsize = new_gridsize
+        return energies(self)
+
+    def change_phase(self, phase:float, calculate:bool=True):
+        """Apply a phase shift to the grid and potential values.
+
+        The `phase` should be a multiple of $\pi$ (e.g., 3/2 for $3\pi/2$).
+        The resulting grid will be expressed between $-2\pi$ and $2\pi$.
+
+        The System is solved immediately after the phase change.
+        This last step ensures that all eigenvalues and wavefunctions are correct.
+        You can override this step with `calculate = False`,
+        but remember to solve the System later!
+        """
+        if not any(self.potential_values) or not any(self.grid):
+            raise ValueError("System.potential_values and System.grid must be set before applying a phase shift.")
+        # Normalise the phase between 0 and 2
+        if abs(phase) >= 2:
+            phase = phase % 2
+        while phase < 0:
+            phase = phase + 2
+        # Shift the grid, between -2pi and 2pi
+        self.grid = (self.grid + (phase * np.pi))
+        # Apply the phase shift to potential values
+        phase_points = int((phase / 2) * self.gridsize)
+        self.potential_values = np.roll(self.potential_values, phase_points)
+        # Check that the grid is still within -2pi and 2pi, otherwise normalise it for a final time
+        while self.grid[0] <= (-2 * np.pi + 0.1):  # With a small tolerance
+            self.grid = self.grid + 2 * np.pi
+            print('plus 2')
+        while self.grid[-1] >= 2.5 * np.pi:  # It was not a problem until reaching 5/2 pi
+            self.grid = self.grid -2 * np.pi
+            print('minus 2')
+        print(f'Potential shifted by {phase}π')
+        if calculate:
+            self.solve()
+        return self
 
     def set_grid(self, gridsize:int=None):
         """Sets the `System.grid` to the specified `gridsize` from 0 to $2\\pi$.
@@ -163,37 +192,6 @@ class System:
                 return self
         self.group = group  # No match was found
         return self
-    
-    def shift_potential(self, phase: float):
-        """Apply a phase shift to the potential values and grid.
-        
-        The phase should be given as a multiple of π (e.g., 3/2 for 3π/2).
-        """
-        if not any(self.potential_values) or not any(self.grid):
-            raise ValueError("System.potential_values and System.grid must be set before applying a phase shift.")
-        # Normalise the phase between 0 and 2
-        if abs(phase) > 2:
-            phase = phase % 2
-        if phase < 0:
-            phase = phase + 2
-        # Shift the grid, between -2pi and 2pi
-        self.grid = (self.grid - (phase * np.pi))
-        # Apply the phase shift to potential values
-        phase_points = -int((phase / 2) * self.gridsize)
-        self.potential_values = np.roll(self.potential_values, phase_points)
-        return self
-
-    def solve(self, new_gridsize:int=None):
-        """Solves the quantum system.
-
-        The potential can be interpolated to a `new_gridsize`.
-    
-        Same as running `aton.qrotor.solve.energies(System)`.
-        """
-        from .solve import energies
-        if new_gridsize:
-            self.gridsize = new_gridsize
-        return energies(self)
 
     def reduce_size(self):
         """Discard data that takes too much space,
@@ -202,4 +200,22 @@ class System:
         self.potential_values = []
         self.grid = []
         return self
+
+    def summary(self):
+        return {
+            'version': self.version,
+            'comment': self.comment,
+            'group': self.group,
+            'gridsize': self.gridsize,
+            'B': self.B,
+            'potential_name': self.potential_name,
+            'potential_constants': self.potential_constants.tolist() if isinstance(self.potential_constants, np.ndarray) else self.potential_constants,
+            'potential_offset': self.potential_offset,
+            'potential_min': self.potential_min,
+            'potential_max': self.potential_max,
+            'eigenvalues': self.eigenvalues.tolist() if isinstance(self.eigenvalues, np.ndarray) else self.eigenvalues,
+            'energy_barrier': self.energy_barrier,
+            'transitions': self.transitions,
+            'runtime': self.runtime,
+        }
 
