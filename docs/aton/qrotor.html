@@ -88,7 +88,7 @@
             </ul>
 
 
-            <footer>ATON v0.2.1 documentation</footer>
+            <footer>ATON v0.2.2a1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -161,7 +161,7 @@ which are used to solve the quantum system.</p>
 <p>A basic calculation of the eigenvalues for a zero potential goes as follows:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn"><a href="">aton.qrotor</a></span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qr</span>
+<pre><span></span><code><span class="kn">import</span> <span class="nn"><a href="">aton.qrotor</a></span> <span class="k">as</span> <span class="nn">qr</span>
 <span class="n">system</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">System</span><span class="p">()</span>
 <span class="n">system</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="mi">200000</span>  <span class="c1"># Size of the potential grid</span>
 <span class="n">system</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Rotational inertia</span>
@@ -179,7 +179,7 @@ but note that the runtime increases exponentially.</p>
 in a cosine potential of amplitude 30 meV:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn"><a href="">aton.qrotor</a></span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qr</span>
+<pre><span></span><code><span class="kn">import</span> <span class="nn"><a href="">aton.qrotor</a></span> <span class="k">as</span> <span class="nn">qr</span>
 <span class="n">system</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">System</span><span class="p">()</span>
 <span class="n">system</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="mi">200000</span>  <span class="c1"># Size of the potential grid</span>
 <span class="n">system</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">B_CH3</span>  <span class="c1"># Rotational inertia of a methyl group</span>
@@ -199,8 +199,8 @@ in a cosine potential of amplitude 30 meV:</p>
 Using Quantum ESPRESSO, running an SCF calculation for a methyl rotation every 10 degrees:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn"><a href="">aton.qrotor</a></span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">aton</span><span class="w"> </span><span class="kn">import</span> <span class="n">interface</span>
+<pre><span></span><code><span class="kn">import</span> <span class="nn"><a href="">aton.qrotor</a></span> <span class="k">as</span> <span class="nn">qr</span>
+<span class="kn">from</span> <span class="nn">aton</span> <span class="kn">import</span> <span class="n">interface</span>
 <span class="c1"># Approx crystal positions of the atoms to rotate</span>
 <span class="n">atoms</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;1.101   1.204   1.307&#39;</span>
@@ -336,13 +336,13 @@ Using Quantum ESPRESSO, running an SCF calculation for a methyl rotation every 1
 </span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>
 </span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.system</span><span class="w"> </span><span class="kn">import</span> <span class="n">System</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.constants</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">systems</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">rotate</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">potential</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="kn">from</span> <span class="nn">.system</span> <span class="kn">import</span> <span class="n">System</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">systems</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">rotate</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">potential</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">solve</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">plot</span>
 </span></pre></div>
 
 

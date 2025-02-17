@@ -25,7 +25,12 @@ import numpy as np
 from copy import deepcopy
 
 
-def potential(data, title:str=None, marker='', linestyle='-') -> None:
+def potential(
+        data,
+        title:str=None,
+        marker='',
+        linestyle='-',
+        ) -> None:
     """Plot the potential values of `data` (System object, or list of systems).
 
     Title can be customized with `title`.
@@ -63,7 +68,10 @@ def potential(data, title:str=None, marker='', linestyle='-') -> None:
     plt.show()
 
 
-def energies(data, title:str=None) -> None:
+def energies(
+        data,
+        title:str=None,
+        ) -> None:
     """Plot the eigenvalues of `data` (System or a list of System objects)."""
     if isinstance(data, System):
         var = [data]
@@ -119,7 +127,12 @@ def energies(data, title:str=None) -> None:
     plt.show()
 
 
-def reduced_energies(data:list, title:str=None, values:list=[], legend:list=[]) -> None:
+def reduced_energies(
+        data:list,
+        title:str=None,
+        values:list=[],
+        legend:list=[],
+        ) -> None:
     """Plots the reduced energy of the system E/B vs the reduced potential energy V/B.
 
     Takes a `data` list of System objects as input.
@@ -167,7 +180,14 @@ def reduced_energies(data:list, title:str=None, values:list=[], legend:list=[]) 
     plt.show()
 
 
-def wavefunction(system:System, title:str=None, square:bool=True, levels=[0, 1, 2], overlap=False):
+def wavefunction(
+        system:System,
+        title:str=None,
+        square:bool=True,
+        levels=[0, 1, 2],
+        overlap=False,
+        yticks:bool=False,
+        ) -> None:
     """Plot the wavefunction of a `system` for the specified `levels`.
 
     Wavefunctions are squared by default, showing the probabilities;
@@ -181,6 +201,8 @@ def wavefunction(system:System, title:str=None, square:bool=True, levels=[0, 1, 
     but note that this overlap is limited by the number of System.E_levels,
     that must be specified before solving the system.
     Setting `overlap` will ignore the `levels` argument.
+
+    Set `yticks = True` to plot the wavefunction yticks.
     """
     data = deepcopy(system)
     eigenvectors = data.eigenvectors
@@ -190,10 +212,11 @@ def wavefunction(system:System, title:str=None, square:bool=True, levels=[0, 1, 
     plt.title(title)
     ax1.set_xlabel('Angle / radians')
     ax1.set_ylabel('Potential / meV')
-    ax1.set_xticks([0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], ['0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
+    ax1.set_xticks([-2*np.pi, -3*np.pi/2, -np.pi, -np.pi/2, 0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], [r'$-2\pi$', r'$-\frac{3\pi}{2}$', r'$-\pi$', r'$-\frac{\pi}{2}$', '0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
     ax1.plot(data.grid, data.potential_values, color='blue', linestyle='-')
     ax2 = ax1.twinx()
-    ax2.set_yticks([])
+    if not yticks:
+        ax2.set_yticks([])
     ax2.set_ylabel('Squared wavefunction' if square else 'Wavefunction')
 
     # Set levels list

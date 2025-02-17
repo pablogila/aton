@@ -79,7 +79,7 @@
     </ul>
 
 
-            <footer>ATON v0.2.1 documentation</footer>
+            <footer>ATON v0.2.2a1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -121,11 +121,11 @@ containing optional <code><a href="classes.html#Plotting">aton.spx.classes.Plott
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a>
 </span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>
-</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.classes</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="kn">from</span> <span class="nn">.classes</span> <span class="kn">import</span> <span class="o">*</span>
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>
 </span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>
-</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">spectra</span><span class="p">:</span><span class="n">Spectra</span><span class="p">):</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">spectra</span><span class="p">:</span><span class="n">Spectra</span><span class="p">):</span>
 </span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots a `spectra`.</span>
 </span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>
 </span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a><span class="sd">    Optional `aton.spectra.classes.Plotting` attributes can be used.</span>
@@ -235,7 +235,7 @@ containing optional <code><a href="classes.html#Plotting">aton.spx.classes.Plott
 </span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>
 </span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>
-</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_get_ylimits</span><span class="p">(</span><span class="n">spectrum</span><span class="p">:</span><span class="n">Spectra</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a><span class="k">def</span> <span class="nf">_get_ylimits</span><span class="p">(</span><span class="n">spectrum</span><span class="p">:</span><span class="n">Spectra</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 </span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Private function to obtain the ylimits to plot.&quot;&quot;&quot;</span>
 </span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>    <span class="c1"># Optional scaling factor</span>
 </span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>    <span class="n">scale_factor</span> <span class="o">=</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">scaling</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="s1">&#39;plotting&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">spectrum</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">scaling</span> <span class="k">else</span> <span class="mf">1.0</span>
@@ -266,7 +266,7 @@ containing optional <code><a href="classes.html#Plotting">aton.spx.classes.Plott
 
     </div>
     <a class="headerlink" href="#plot"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="plot-19"><a href="#plot-19"><span class="linenos"> 19</span></a><span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">spectra</span><span class="p">:</span><span class="n">Spectra</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="plot-19"><a href="#plot-19"><span class="linenos"> 19</span></a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">spectra</span><span class="p">:</span><span class="n">Spectra</span><span class="p">):</span>
 </span><span id="plot-20"><a href="#plot-20"><span class="linenos"> 20</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots a `spectra`.</span>
 </span><span id="plot-21"><a href="#plot-21"><span class="linenos"> 21</span></a>
 </span><span id="plot-22"><a href="#plot-22"><span class="linenos"> 22</span></a><span class="sd">    Optional `aton.spectra.classes.Plotting` attributes can be used.</span>

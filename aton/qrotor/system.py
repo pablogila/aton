@@ -164,6 +164,25 @@ class System:
         self.group = group  # No match was found
         return self
     
+    def shift_potential(self, phase: float):
+        """Apply a phase shift to the potential values and grid.
+        
+        The phase should be given as a multiple of π (e.g., 3/2 for 3π/2).
+        """
+        if not any(self.potential_values) or not any(self.grid):
+            raise ValueError("System.potential_values and System.grid must be set before applying a phase shift.")
+        # Normalise the phase between 0 and 2
+        if abs(phase) > 2:
+            phase = phase % 2
+        if phase < 0:
+            phase = phase + 2
+        # Shift the grid, between -2pi and 2pi
+        self.grid = (self.grid - (phase * np.pi))
+        # Apply the phase shift to potential values
+        phase_points = -int((phase / 2) * self.gridsize)
+        self.potential_values = np.roll(self.potential_values, phase_points)
+        return self
+
     def solve(self, new_gridsize:int=None):
         """Solves the quantum system.
 

@@ -87,7 +87,7 @@
     </ul>
 
 
-            <footer>ATON v0.2.1 documentation</footer>
+            <footer>ATON v0.2.2a1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -139,7 +139,7 @@ automatically update said megadictionary.</p>
 <p>All functions can be called from the phys subpackage directly, as:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">aton</span><span class="w"> </span><span class="kn">import</span> <span class="n">phys</span>
+<pre><span></span><code><span class="kn">from</span> <span class="nn">aton</span> <span class="kn">import</span> <span class="n">phys</span>
 <span class="n">phys</span><span class="o">.</span><span class="n">split_isotope</span><span class="p">(</span><span class="s1">&#39;He4&#39;</span><span class="p">)</span>    <span class="c1"># (He, 4)</span>
 <span class="n">phys</span><span class="o">.</span><span class="n">allowed_isotopes</span><span class="p">(</span><span class="s1">&#39;Li&#39;</span><span class="p">)</span>  <span class="c1"># (6, 7)</span>
 </code></pre>
@@ -184,10 +184,10 @@ automatically update said megadictionary.</p>
 </span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>
 </span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.atoms</span><span class="w"> </span><span class="kn">import</span> <span class="n">atoms</span> <span class="k">as</span> <span class="n">atoms_megadict</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="kn">from</span> <span class="nn">.atoms</span> <span class="kn">import</span> <span class="n">atoms</span> <span class="k">as</span> <span class="n">atoms_megadict</span>
 </span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>
 </span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>
-</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a><span class="k">def</span><span class="w"> </span><span class="nf">export_atoms</span><span class="p">(</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a><span class="k">def</span> <span class="nf">export_atoms</span><span class="p">(</span>
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>        <span class="n">atoms</span><span class="p">:</span><span class="nb">dict</span><span class="o">=</span><span class="n">atoms_megadict</span><span class="p">,</span>
 </span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>        <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;exported_atoms.py&#39;</span>
 </span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -282,7 +282,7 @@ automatically update said megadictionary.</p>
 </span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>
 </span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>
-</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a><span class="k">def</span><span class="w"> </span><span class="nf">split_isotope</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a><span class="k">def</span> <span class="nf">split_isotope</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 </span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Split the `name` of an isotope into the element and the mass number, eg. He4 -&gt; He, 4.</span>
 </span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>
 </span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a><span class="sd">    If the isotope is not found in the `aton.atoms` megadictionary it raises an error,</span>
@@ -296,12 +296,12 @@ automatically update said megadictionary.</p>
 </span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>    <span class="k">return</span> <span class="n">element</span><span class="p">,</span> <span class="n">isotope</span>
 </span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>
 </span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>
-</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a><span class="k">def</span><span class="w"> </span><span class="nf">allowed_isotopes</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a><span class="k">def</span> <span class="nf">allowed_isotopes</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 </span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a list with the allowed mass numbers (A) of a given `element`.</span>
 </span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>
 </span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="sd">    These mass numbers are used as isotope keys in the `aton.atoms` megadictionary.</span>
 </span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">.atoms</span><span class="w"> </span><span class="kn">import</span> <span class="n">atoms</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>    <span class="kn">from</span> <span class="nn">.atoms</span> <span class="kn">import</span> <span class="n">atoms</span>
 </span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">atoms</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>        <span class="k">try</span><span class="p">:</span>
 </span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>            <span class="n">element</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">split_isotope</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
@@ -324,7 +324,7 @@ automatically update said megadictionary.</p>
 
     </div>
     <a class="headerlink" href="#export_atoms"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="export_atoms-37"><a href="#export_atoms-37"><span class="linenos"> 37</span></a><span class="k">def</span><span class="w"> </span><span class="nf">export_atoms</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="export_atoms-37"><a href="#export_atoms-37"><span class="linenos"> 37</span></a><span class="k">def</span> <span class="nf">export_atoms</span><span class="p">(</span>
 </span><span id="export_atoms-38"><a href="#export_atoms-38"><span class="linenos"> 38</span></a>        <span class="n">atoms</span><span class="p">:</span><span class="nb">dict</span><span class="o">=</span><span class="n">atoms_megadict</span><span class="p">,</span>
 </span><span id="export_atoms-39"><a href="#export_atoms-39"><span class="linenos"> 39</span></a>        <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;exported_atoms.py&#39;</span>
 </span><span id="export_atoms-40"><a href="#export_atoms-40"><span class="linenos"> 40</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -440,7 +440,7 @@ The <code>atoms.py</code> file must be modified here.</p>
 
     </div>
     <a class="headerlink" href="#split_isotope"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="split_isotope-132"><a href="#split_isotope-132"><span class="linenos">132</span></a><span class="k">def</span><span class="w"> </span><span class="nf">split_isotope</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="split_isotope-132"><a href="#split_isotope-132"><span class="linenos">132</span></a><span class="k">def</span> <span class="nf">split_isotope</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 </span><span id="split_isotope-133"><a href="#split_isotope-133"><span class="linenos">133</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Split the `name` of an isotope into the element and the mass number, eg. He4 -&gt; He, 4.</span>
 </span><span id="split_isotope-134"><a href="#split_isotope-134"><span class="linenos">134</span></a>
 </span><span id="split_isotope-135"><a href="#split_isotope-135"><span class="linenos">135</span></a><span class="sd">    If the isotope is not found in the `aton.atoms` megadictionary it raises an error,</span>
@@ -474,12 +474,12 @@ informing of the allowed mass numbers (A) values for the given element.</p>
 
     </div>
     <a class="headerlink" href="#allowed_isotopes"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="allowed_isotopes-146"><a href="#allowed_isotopes-146"><span class="linenos">146</span></a><span class="k">def</span><span class="w"> </span><span class="nf">allowed_isotopes</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="allowed_isotopes-146"><a href="#allowed_isotopes-146"><span class="linenos">146</span></a><span class="k">def</span> <span class="nf">allowed_isotopes</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 </span><span id="allowed_isotopes-147"><a href="#allowed_isotopes-147"><span class="linenos">147</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a list with the allowed mass numbers (A) of a given `element`.</span>
 </span><span id="allowed_isotopes-148"><a href="#allowed_isotopes-148"><span class="linenos">148</span></a>
 </span><span id="allowed_isotopes-149"><a href="#allowed_isotopes-149"><span class="linenos">149</span></a><span class="sd">    These mass numbers are used as isotope keys in the `aton.atoms` megadictionary.</span>
 </span><span id="allowed_isotopes-150"><a href="#allowed_isotopes-150"><span class="linenos">150</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="allowed_isotopes-151"><a href="#allowed_isotopes-151"><span class="linenos">151</span></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">.atoms</span><span class="w"> </span><span class="kn">import</span> <span class="n">atoms</span>
+</span><span id="allowed_isotopes-151"><a href="#allowed_isotopes-151"><span class="linenos">151</span></a>    <span class="kn">from</span> <span class="nn">.atoms</span> <span class="kn">import</span> <span class="n">atoms</span>
 </span><span id="allowed_isotopes-152"><a href="#allowed_isotopes-152"><span class="linenos">152</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">atoms</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
 </span><span id="allowed_isotopes-153"><a href="#allowed_isotopes-153"><span class="linenos">153</span></a>        <span class="k">try</span><span class="p">:</span>
 </span><span id="allowed_isotopes-154"><a href="#allowed_isotopes-154"><span class="linenos">154</span></a>            <span class="n">element</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">split_isotope</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
