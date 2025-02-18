@@ -26,7 +26,7 @@ alat_lines = txt.find.lines('relax.out', 'Lattice parameter =')
 # Extract the numerical value of the last match
 alat = txt.extract.number(alat_lines[-1], 'Lattice parameter')
 # Paste it into another file
-txt.edit.replace_line('scf.in', 'Lattice parameter =', f'Lattice parameter ='{alat})
+txt.edit.replace_line('scf.in', 'Lattice parameter =', f'Lattice parameter = {alat}')
 ```
 
 Advanced usage such as regular expression matching or
