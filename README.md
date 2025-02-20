@@ -8,10 +8,11 @@ or [ATON](https://pablogila.github.io/ATON/),
 provides powerful and comprehensive tools
 for cutting-edge materials research,
 focused on (but not limited to) neutron science.
-Designed to streamline and simplify workflows in the study of advanced materials, ATON bridges the gap between theoretical modeling and experimental validation, empowering researchers to push the boundaries of materials science.
+Designed to bridge the gap between theoretical modeling and experimental validation,
+ATON allows researchers to streamline and simplify workflows in the study of advanced materials.
 
 Just like its [ancient Egyptian deity](https://en.wikipedia.org/wiki/Aten) counterpart,
-this all-in-one Python package contains a range of tools
+this all-in-one Python package comprises a range of utility tools
 from INS spectra analysis to *ab-initio* interfaces
 for [Quantum ESPRESSO](https://www.quantum-espresso.org/),
 [Phonopy](https://phonopy.github.io/phonopy/) and
