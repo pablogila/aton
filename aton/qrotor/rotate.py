@@ -51,6 +51,11 @@ def structure_qe(
     To override this and instead use the vector between the first two atoms
     as the rotation axis, set `use_centroid = False`.
 
+    **WARNING: The `positions` list is order-sensitive**.
+    If you rotate more than one chemical group in a structure,
+    be sure to follow the same direction for each group (e.g. all clockwise)
+    to ensure that all axes of rotation point in the same direction.
+
     To debug, `show_axis = True` adds two additional helium atoms as the rotation vector.
     """
     print('Rotating Quantum ESPRESSO input structure with QRotor...')
@@ -106,13 +111,21 @@ def rotate_coords(
     Then rotates said coordinates by a given `angle` in degrees.
     Returns a list with the updated positions.
 
-    By default, the rotation axis is defined by the perpendicular vector
+    By default, the rotation vector is defined by the perpendicular
     passing through the geometrical center of the first three points.
     To override this and use the vector between the first two atoms
     as the rotation axis, set `use_centroid = False`.
 
+    **WARNING: The `positions` list is order-sensitive**.
+    If you rotate more than one chemical group in a structure,
+    be sure to follow the same direction for each group (e.g. all clockwise)
+    to ensure that all rotation vectors point in the same direction.
+
     If `show_axis = True` it returns two additional coordinates at the end of the list,
     with the centroid and the rotation vector. Only works with `use_centroid = True`.
+
+    The rotation uses Rodrigues' rotation formula,
+    powered by [`scipy.spatial.transform.Rotation.from_rotvec`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.from_rotvec.html#scipy.spatial.transform.Rotation.from_rotvec).
     """
     if len(positions) < 3:
         raise ValueError("At least three atoms must be rotated.")

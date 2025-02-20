@@ -129,10 +129,8 @@ class System:
         # Check that the grid is still within -2pi and 2pi, otherwise normalise it for a final time
         while self.grid[0] <= (-2 * np.pi + 0.1):  # With a small tolerance
             self.grid = self.grid + 2 * np.pi
-            print('plus 2')
         while self.grid[-1] >= 2.5 * np.pi:  # It was not a problem until reaching 5/2 pi
             self.grid = self.grid -2 * np.pi
-            print('minus 2')
         print(f'Potential shifted by {phase}π')
         if calculate:
             self.solve()
