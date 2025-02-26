@@ -1,12 +1,11 @@
 """
 # Description
 
-This module is used to solve the hamiltonian eigenvalues and eigenvectors for a given quantum system.
-Sparse matrices are used to achieve optimal performance.
+This module is used to solve any given quantum system.
 
 Although the functions of this module can be used independently,
-it is highly recommended to use the [`System.solve()`](`aton.qrotor.system.System.solve()`) method instead,
-which does all the solving automatically.
+it is highly recommended to use the `System.solve()` method instead,
+which does all the solving automatically (see `aton.qrotor.system.System.solve()`).
 However, advanced users might want to use some of these functions independently;
 for example, if your system energy levels are not degenerated in triplets,
 you might want to use `excitations()` to solve the energy excitations and tunnel splittings with the proper degeneracy.
@@ -93,7 +92,7 @@ def schrodinger(system:System) -> System:
     system.eigenvalues = eigenvalues
     system.potential_max = max(V)
     system.potential_min = min(V)
-    system.E_act = max(V) - min(eigenvalues)
+    system.energy_barrier = max(V) - min(eigenvalues)
     # Solve excitations and tunnel splittings, assuming triplet degeneracy
     system = excitations(system, deg=3)
     # Do we really need to save eigenvectors?
@@ -103,7 +102,7 @@ def schrodinger(system:System) -> System:
 
 
 def hamiltonian_matrix(system:System):
-    """Calculates the Hamiltonian matrix for a given `system`."""
+    """Calculates the Hamiltonian sparse matrix for a given `system`."""
     print(f'Creating Hamiltonian matrix of size {system.gridsize}...')
     V = system.potential_values.tolist()
     potential = sparse.diags(V, format='lil')
@@ -144,7 +143,7 @@ def excitations(
     i = 0
     while (i + deg-1) <= len(eigenvalues):
         # Get the eigenvalues corresponding to this triplet (or whatever degeneracy)
-        i_max = i + deg-1  # Last index of this triplet
+        i_max = i + deg  # Index indicating the end of this triplet
         triplet = eigenvalues[i:i_max]
         # Check that we are still below the potential max
         if any(triplet) > V_max:

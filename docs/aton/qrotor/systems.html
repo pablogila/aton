@@ -104,7 +104,7 @@
     </ul>
 
 
-            <footer>ATON v0.2.4a1 documentation</footer>
+            <footer>ATON v0.2.4 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -316,7 +316,7 @@
 </span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="k">def</span> <span class="nf">splittings</span><span class="p">(</span>
 </span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>        <span class="n">systems</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
 </span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>        <span class="n">comment</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;tunnel_splittings.dat&#39;</span><span class="p">,</span>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;tunnel_splittings.csv&#39;</span><span class="p">,</span>
 </span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 </span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the tunnel splitting energies for all `systems` to a tunnel_splittings.csv file.</span>
 </span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>
@@ -324,14 +324,14 @@
 </span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>
 </span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a><span class="sd">    The output file can be changed with `filepath`,</span>
 </span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a><span class="sd">    or set to null to avoid saving the dataset.</span>
-</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a><span class="sd">    A `comment` can be included.</span>
-</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="sd">    Note that `System.comment` must not include commas `,`.</span>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a><span class="sd">    A `comment` can be included at the top of the file.</span>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="sd">    Note that `System.comment` must not include commas (`,`).</span>
 </span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>    <span class="n">as_list</span><span class="p">(</span><span class="n">systems</span><span class="p">)</span>
 </span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>    <span class="n">version</span> <span class="o">=</span> <span class="n">systems</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">version</span>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>    <span class="n">tunnelling_E</span> <span class="o">=</span> <span class="p">{}</span>
 </span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">systems</span><span class="p">:</span>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>        <span class="n">tunnelling_E</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">comment</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">transitions</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>        <span class="n">tunnelling_E</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">comment</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">splittings</span>
 </span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tunnelling_E</span><span class="p">)</span>
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">filepath</span><span class="p">:</span>
 </span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>        <span class="k">return</span> <span class="n">df</span>
@@ -341,9 +341,9 @@
 </span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>    <span class="n">file_comment</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;# </span><span class="si">{</span><span class="n">comment</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">comment</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;&#39;</span>
 </span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>    <span class="n">file_comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;# Tunnel splitting energies</span><span class="se">\n</span><span class="s1">&#39;</span>
 </span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>    <span class="n">file_comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;# Calculated with ATON </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
-</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>    <span class="n">file_comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;# https://pablogila.github.io/ATON</span><span class="se">\n</span><span class="s1">#</span><span class="se">\n</span><span class="s1">&#39;</span>
+</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>    <span class="n">file_comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;# https://pablogila.github.io/ATON</span><span class="se">\n</span><span class="s1">#&#39;</span>
 </span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>    <span class="n">txt</span><span class="o">.</span><span class="n">edit</span><span class="o">.</span><span class="n">insert_at</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">file_comment</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Tunnelling energies saved to </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Tunnel splitting energies saved to </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>    <span class="k">return</span> <span class="n">df</span>
 </span></pre></div>
 
@@ -612,7 +612,7 @@ for all System values inside the <code>systems</code> list.</p>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">splittings</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">systems</span><span class="p">:</span> <span class="nb">list</span>,</span><span class="param">	<span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>,</span><span class="param">	<span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;tunnel_splittings.dat&#39;</span></span><span class="return-annotation">) -> <span class="n">pandas</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">DataFrame</span>:</span></span>
+        <span class="name">splittings</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">systems</span><span class="p">:</span> <span class="nb">list</span>,</span><span class="param">	<span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>,</span><span class="param">	<span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;tunnel_splittings.csv&#39;</span></span><span class="return-annotation">) -> <span class="n">pandas</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">DataFrame</span>:</span></span>
 
                 <label class="view-source-button" for="splittings-view-source"><span>View Source</span></label>
 
@@ -621,7 +621,7 @@ for all System values inside the <code>systems</code> list.</p>
             <div class="pdoc-code codehilite"><pre><span></span><span id="splittings-137"><a href="#splittings-137"><span class="linenos">137</span></a><span class="k">def</span> <span class="nf">splittings</span><span class="p">(</span>
 </span><span id="splittings-138"><a href="#splittings-138"><span class="linenos">138</span></a>        <span class="n">systems</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
 </span><span id="splittings-139"><a href="#splittings-139"><span class="linenos">139</span></a>        <span class="n">comment</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-</span><span id="splittings-140"><a href="#splittings-140"><span class="linenos">140</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;tunnel_splittings.dat&#39;</span><span class="p">,</span>
+</span><span id="splittings-140"><a href="#splittings-140"><span class="linenos">140</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;tunnel_splittings.csv&#39;</span><span class="p">,</span>
 </span><span id="splittings-141"><a href="#splittings-141"><span class="linenos">141</span></a>        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 </span><span id="splittings-142"><a href="#splittings-142"><span class="linenos">142</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the tunnel splitting energies for all `systems` to a tunnel_splittings.csv file.</span>
 </span><span id="splittings-143"><a href="#splittings-143"><span class="linenos">143</span></a>
@@ -629,14 +629,14 @@ for all System values inside the <code>systems</code> list.</p>
 </span><span id="splittings-145"><a href="#splittings-145"><span class="linenos">145</span></a>
 </span><span id="splittings-146"><a href="#splittings-146"><span class="linenos">146</span></a><span class="sd">    The output file can be changed with `filepath`,</span>
 </span><span id="splittings-147"><a href="#splittings-147"><span class="linenos">147</span></a><span class="sd">    or set to null to avoid saving the dataset.</span>
-</span><span id="splittings-148"><a href="#splittings-148"><span class="linenos">148</span></a><span class="sd">    A `comment` can be included.</span>
-</span><span id="splittings-149"><a href="#splittings-149"><span class="linenos">149</span></a><span class="sd">    Note that `System.comment` must not include commas `,`.</span>
+</span><span id="splittings-148"><a href="#splittings-148"><span class="linenos">148</span></a><span class="sd">    A `comment` can be included at the top of the file.</span>
+</span><span id="splittings-149"><a href="#splittings-149"><span class="linenos">149</span></a><span class="sd">    Note that `System.comment` must not include commas (`,`).</span>
 </span><span id="splittings-150"><a href="#splittings-150"><span class="linenos">150</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="splittings-151"><a href="#splittings-151"><span class="linenos">151</span></a>    <span class="n">as_list</span><span class="p">(</span><span class="n">systems</span><span class="p">)</span>
 </span><span id="splittings-152"><a href="#splittings-152"><span class="linenos">152</span></a>    <span class="n">version</span> <span class="o">=</span> <span class="n">systems</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">version</span>
 </span><span id="splittings-153"><a href="#splittings-153"><span class="linenos">153</span></a>    <span class="n">tunnelling_E</span> <span class="o">=</span> <span class="p">{}</span>
 </span><span id="splittings-154"><a href="#splittings-154"><span class="linenos">154</span></a>    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">systems</span><span class="p">:</span>
-</span><span id="splittings-155"><a href="#splittings-155"><span class="linenos">155</span></a>        <span class="n">tunnelling_E</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">comment</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">transitions</span>
+</span><span id="splittings-155"><a href="#splittings-155"><span class="linenos">155</span></a>        <span class="n">tunnelling_E</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">comment</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">splittings</span>
 </span><span id="splittings-156"><a href="#splittings-156"><span class="linenos">156</span></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tunnelling_E</span><span class="p">)</span>
 </span><span id="splittings-157"><a href="#splittings-157"><span class="linenos">157</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">filepath</span><span class="p">:</span>
 </span><span id="splittings-158"><a href="#splittings-158"><span class="linenos">158</span></a>        <span class="k">return</span> <span class="n">df</span>
@@ -646,9 +646,9 @@ for all System values inside the <code>systems</code> list.</p>
 </span><span id="splittings-162"><a href="#splittings-162"><span class="linenos">162</span></a>    <span class="n">file_comment</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;# </span><span class="si">{</span><span class="n">comment</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">comment</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;&#39;</span>
 </span><span id="splittings-163"><a href="#splittings-163"><span class="linenos">163</span></a>    <span class="n">file_comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;# Tunnel splitting energies</span><span class="se">\n</span><span class="s1">&#39;</span>
 </span><span id="splittings-164"><a href="#splittings-164"><span class="linenos">164</span></a>    <span class="n">file_comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;# Calculated with ATON </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
-</span><span id="splittings-165"><a href="#splittings-165"><span class="linenos">165</span></a>    <span class="n">file_comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;# https://pablogila.github.io/ATON</span><span class="se">\n</span><span class="s1">#</span><span class="se">\n</span><span class="s1">&#39;</span>
+</span><span id="splittings-165"><a href="#splittings-165"><span class="linenos">165</span></a>    <span class="n">file_comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;# https://pablogila.github.io/ATON</span><span class="se">\n</span><span class="s1">#&#39;</span>
 </span><span id="splittings-166"><a href="#splittings-166"><span class="linenos">166</span></a>    <span class="n">txt</span><span class="o">.</span><span class="n">edit</span><span class="o">.</span><span class="n">insert_at</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">file_comment</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="splittings-167"><a href="#splittings-167"><span class="linenos">167</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Tunnelling energies saved to </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="splittings-167"><a href="#splittings-167"><span class="linenos">167</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Tunnel splitting energies saved to </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </span><span id="splittings-168"><a href="#splittings-168"><span class="linenos">168</span></a>    <span class="k">return</span> <span class="n">df</span>
 </span></pre></div>
 
@@ -659,8 +659,8 @@ for all System values inside the <code>systems</code> list.</p>
 
 <p>The output file can be changed with <code>filepath</code>,
 or set to null to avoid saving the dataset.
-A <code>comment</code> can be included.
-Note that <code>System.comment</code> must not include commas <code>,</code>.</p>
+A <code>comment</code> can be included at the top of the file.
+Note that <code>System.comment</code> must not include commas (<code>,</code>).</p>
 </div>
 
 

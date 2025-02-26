@@ -18,6 +18,8 @@ class System:
     """Quantum system.
 
     Contains all the data for a single QRotor calculation, with both inputs and outputs.
+
+    Energy units are in meV and angles are in radians, unless stated otherwise.
     """
     def __init__(
             self,
@@ -84,20 +86,20 @@ class System:
         """Calculated eigenvalues of the system. Should be in meV."""
         self.eigenvectors = []
         """Eigenvectors, if `save_eigenvectors` is True. Beware of the file size."""
-        self.E_act: float = None
-        """$E_{act}$, Activation energy from the ground torsional state to the top of the barrier  (a.k.a. energy barrier), `max(V) - min(eigenvalues)`"""
+        self.energy_barrier: float = None
+        """Activation energy or energy barrier, from the ground torsional state to the top of the potential barrier, `max(V) - min(eigenvalues)`"""
         self.excitations: list = None
         """Torsional excitations, as eigenvalues with respect to the ground state.
 
         Considers the lowest eigenvalue from each degenerated energy level.
         """
         self.splittings: list = None
-        """Tunnel splittings, for every degenerated energy level. In meV units."""
+        """Tunnel splitting energies, for every degenerated energy level."""
         self.runtime: float = None
         """Time taken to solve the eigenvalues."""
 
     def solve(self, new_gridsize:int=None):
-        """Solves the quantum system.
+        """Default method to solve the quantum system.
 
         The potential can be interpolated to a `new_gridsize`.
     
@@ -217,7 +219,7 @@ class System:
             'potential_min': self.potential_min,
             'potential_max': self.potential_max,
             'eigenvalues': self.eigenvalues.tolist() if isinstance(self.eigenvalues, np.ndarray) else self.eigenvalues,
-            'E_act': self.E_act,
+            'energy_barrier': self.energy_barrier,
             'excitations': self.excitations,
             'splittings': self.splittings,
             'runtime': self.runtime,

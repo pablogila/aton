@@ -136,7 +136,7 @@ def get_ideal_E(E_level:int) -> int:
 def splittings(
         systems:list,
         comment:str='',
-        filepath:str='tunnel_splittings.dat',
+        filepath:str='tunnel_splittings.csv',
         ) -> pd.DataFrame:
     """Save the tunnel splitting energies for all `systems` to a tunnel_splittings.csv file.
 
@@ -144,14 +144,14 @@ def splittings(
 
     The output file can be changed with `filepath`,
     or set to null to avoid saving the dataset.
-    A `comment` can be included.
-    Note that `System.comment` must not include commas `,`.
+    A `comment` can be included at the top of the file.
+    Note that `System.comment` must not include commas (`,`).
     """
     as_list(systems)
     version = systems[0].version
     tunnelling_E = {}
     for s in systems:
-        tunnelling_E[s.comment] = s.transitions
+        tunnelling_E[s.comment] = s.splittings
     df = pd.DataFrame(tunnelling_E)
     if not filepath:
         return df
@@ -161,8 +161,8 @@ def splittings(
     file_comment = f'# {comment}\n' if comment else f''
     file_comment += f'# Tunnel splitting energies\n'
     file_comment += f'# Calculated with ATON {version}\n'
-    file_comment += f'# https://pablogila.github.io/ATON\n#\n'
+    file_comment += f'# https://pablogila.github.io/ATON\n#'
     txt.edit.insert_at(filepath, file_comment, 0)
-    print(f'Tunnelling energies saved to {filepath}')
+    print(f'Tunnel splitting energies saved to {filepath}')
     return df
 
