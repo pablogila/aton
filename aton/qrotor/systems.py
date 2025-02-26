@@ -16,12 +16,15 @@ This module contains utility functions to handle multiple `aton.qrotor.system` c
 | `sort_by_gridsize()` | Sort systems by gridsize |
 | `reduce_size()`      | Discard data that takes too much space |
 | `get_ideal_E()`      | Calculate the ideal energy for a specified level |
+| `splittings()`       | Get the first tunnel splitting energies for all systems |
 
 ---
 """
 
 
 from .system import System
+from aton import txt
+import pandas as pd
 
 
 def as_list(systems) -> None:
@@ -128,4 +131,38 @@ def get_ideal_E(E_level:int) -> int:
         real_E_level = (E_level + 1) / 2
     ideal_E = int(real_E_level ** 2)
     return ideal_E
+
+
+def splittings(
+        systems:list,
+        comment:str='',
+        filepath:str='tunnel_splittings.dat',
+        ) -> pd.DataFrame:
+    """Save the tunnel splitting energies for all `systems` to a tunnel_splittings.csv file.
+
+    Returns a Pandas Dataset with `System.comment` columns and `System.splittings` values.
+
+    The output file can be changed with `filepath`,
+    or set to null to avoid saving the dataset.
+    A `comment` can be included.
+    Note that `System.comment` must not include commas `,`.
+    """
+    as_list(systems)
+    version = systems[0].version
+    tunnelling_E = {}
+    for s in systems:
+        tunnelling_E[s.comment] = s.transitions
+    df = pd.DataFrame(tunnelling_E)
+    if not filepath:
+        return df
+    # Else save to file
+    df.to_csv(filepath, sep=',', index=False)
+    # Include a comment at the top of the file
+    file_comment = f'# {comment}\n' if comment else f''
+    file_comment += f'# Tunnel splitting energies\n'
+    file_comment += f'# Calculated with ATON {version}\n'
+    file_comment += f'# https://pablogila.github.io/ATON\n#\n'
+    txt.edit.insert_at(filepath, file_comment, 0)
+    print(f'Tunnelling energies saved to {filepath}')
+    return df
 

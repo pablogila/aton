@@ -4,6 +4,13 @@
 This module is used to solve the hamiltonian eigenvalues and eigenvectors for a given quantum system.
 Sparse matrices are used to achieve optimal performance.
 
+Although the functions of this module can be used independently,
+it is highly recommended to use the [`System.solve()`](`aton.qrotor.system.System.solve()`) method instead,
+which does all the solving automatically.
+However, advanced users might want to use some of these functions independently;
+for example, if your system energy levels are not degenerated in triplets,
+you might want to use `excitations()` to solve the energy excitations and tunnel splittings with the proper degeneracy.
+
 
 # Index
 
@@ -14,6 +21,7 @@ Sparse matrices are used to achieve optimal performance.
 | `schrodinger()`           | Solve the Schrödiger equation for the system |
 | `hamiltonian_matrix()`    | Calculate the hamiltonian matrix of the system |
 | `laplacian_matrix()`      | Calculate the second derivative matrix for a given grid |
+| `excitations()`           | Get excitation levels and tunnel splitting energies for a set of eigenvalues |
 
 ---
 """
@@ -85,10 +93,10 @@ def schrodinger(system:System) -> System:
     system.eigenvalues = eigenvalues
     system.potential_max = max(V)
     system.potential_min = min(V)
-    system.energy_barrier = max(V) - min(eigenvalues)
-    system.transitions = []
-    for i in range(len(eigenvalues)-1):
-        system.transitions.append(eigenvalues[i+1] - eigenvalues[0])
+    system.E_act = max(V) - min(eigenvalues)
+    # Solve excitations and tunnel splittings, assuming triplet degeneracy
+    system = excitations(system, deg=3)
+    # Do we really need to save eigenvectors?
     if system.save_eigenvectors == True:
         system.eigenvectors = np.transpose(eigenvectors)
     return system
@@ -116,4 +124,50 @@ def laplacian_matrix(grid):
     dx = x[1] - x[0]
     laplacian_matrix /= dx**2
     return laplacian_matrix
+
+
+def excitations(
+        system:System,
+        deg:int=3,
+        ) -> tuple:
+    """Calculate the excitation levels and the tunnel splitting energies of a system.
+
+    Stops the calculation when energies reach the maximum potential.
+    Assumes that eigenvalues are degenerated in triplets;
+    this degeneracy can be specified with `deg`.
+    """
+    eigenvalues = system.eigenvalues
+    V_max = system.potential_max
+    ground_energy = min(eigenvalues)
+    excitations = []
+    tunnel_splittings = []
+    i = 0
+    while (i + deg-1) <= len(eigenvalues):
+        # Get the eigenvalues corresponding to this triplet (or whatever degeneracy)
+        i_max = i + deg-1  # Last index of this triplet
+        triplet = eigenvalues[i:i_max]
+        # Check that we are still below the potential max
+        if any(triplet) > V_max:
+            break
+        # Check that all eigenvalues are valid, and not None
+        if any(triplet) is None:
+            break
+        # Get the excitation energy, by comparing with the ground state
+        if i != 0:  # Skip the ground energy level
+            excitations.append(min(triplet) - ground_energy)
+        # Check the energy differences inside each triplet (or whatever degeneracy)
+        E_diff = []
+        for j in range(deg-1):  # 0, 1 (not 2)
+            E_0 = triplet[j]
+            E_1 = triplet[j+1]
+            diff = E_1 - E_0
+            E_diff.append(diff)
+        # Get the maximum energy difference inside the triplet, which is the tunnel splitting
+        tunnel_splittings.append(max(E_diff))
+        # Move to the next triplet
+        i += deg
+    # Set the energy excitations and tunnel splittings
+    system.excitations = excitations
+    system.splittings = tunnel_splittings
+    return system
 

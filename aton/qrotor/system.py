@@ -84,10 +84,15 @@ class System:
         """Calculated eigenvalues of the system. Should be in meV."""
         self.eigenvectors = []
         """Eigenvectors, if `save_eigenvectors` is True. Beware of the file size."""
-        self.energy_barrier: float = None
-        """`max(V) - min(eigenvalues)`"""
-        self.transitions: list = None
-        """eigenvalues[i+1] - eigenvalues[0]"""
+        self.E_act: float = None
+        """$E_{act}$, Activation energy from the ground torsional state to the top of the barrier  (a.k.a. energy barrier), `max(V) - min(eigenvalues)`"""
+        self.excitations: list = None
+        """Torsional excitations, as eigenvalues with respect to the ground state.
+
+        Considers the lowest eigenvalue from each degenerated energy level.
+        """
+        self.splittings: list = None
+        """Tunnel splittings, for every degenerated energy level. In meV units."""
         self.runtime: float = None
         """Time taken to solve the eigenvalues."""
 
@@ -212,8 +217,9 @@ class System:
             'potential_min': self.potential_min,
             'potential_max': self.potential_max,
             'eigenvalues': self.eigenvalues.tolist() if isinstance(self.eigenvalues, np.ndarray) else self.eigenvalues,
-            'energy_barrier': self.energy_barrier,
-            'transitions': self.transitions,
+            'E_act': self.E_act,
+            'excitations': self.excitations,
+            'splittings': self.splittings,
             'runtime': self.runtime,
         }
 

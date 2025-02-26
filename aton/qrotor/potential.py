@@ -205,13 +205,13 @@ def from_qe(
     potential_data += '# https://pablogila.github.io/ATON\n'
     potential_data += '#\n'
     if energy.lower() in alias.units['eV']:
-        potential_data += '# Angle/deg    Potential/eV\n'
+        potential_data += '# Angle/deg,    Potential/eV\n'
     elif energy.lower() in alias.units['meV']:
-        potential_data += '# Angle/deg    Potential/meV\n'
+        potential_data += '# Angle/deg,    Potential/meV\n'
     elif energy.lower() in alias.units['Ry']:
-        potential_data += '# Angle/deg    Potential/Ry\n'
+        potential_data += '# Angle/deg,    Potential/Ry\n'
     else:
-        potential_data += '# Angle/deg    Potential/meV\n'
+        potential_data += '# Angle/deg,    Potential/meV\n'
     potential_data += '#\n'
     potential_data_list = []
     print('Extracting the potential as a function of the angle...')
@@ -248,7 +248,7 @@ def from_qe(
     potential_data_list_sorted = sorted(potential_data_list, key=lambda x: x[0])
     # Append the sorted values as a string
     for angle_value, energy_value in potential_data_list_sorted:
-        potential_data += f'{angle_value}    {energy_value}\n'
+        potential_data += f'{angle_value},    {energy_value}\n'
     with open(filepath, 'w') as f:
         f.write(potential_data)
     print('----------------------------------')
