@@ -25,7 +25,7 @@ class System:
             self,
             comment: str = None,
             group: str = 'CH3',
-            E_levels: int = 15,
+            searched_E: int = 21,
             correct_potential_offset: bool = True,
             save_eigenvectors: bool = True,
             gridsize: int = 200000,
@@ -43,8 +43,8 @@ class System:
         self.group: str = group
         """Chemical group, methyl or amine: `'CH3'`, `'CD3'`, `'NH3'`, `'ND3'`."""
         self.set_group(group)  # Normalise the group name, and set the value of B
-        self.E_levels: int = E_levels
-        """Number of energy levels to be studied."""
+        self.searched_E: int = searched_E
+        """Number of energy eigenvalues to be searched."""
         self.correct_potential_offset: bool = correct_potential_offset
         """Correct the potential offset as `V - min(V)` or not."""
         self.save_eigenvectors: bool = save_eigenvectors
@@ -88,13 +88,23 @@ class System:
         """Eigenvectors, if `save_eigenvectors` is True. Beware of the file size."""
         self.energy_barrier: float = None
         """Activation energy or energy barrier, from the ground torsional state to the top of the potential barrier, `max(V) - min(eigenvalues)`"""
+        self.E_levels: list = None
+        """Eigenvalues grouped by energy levels, found below `potential_max`."""
+        self.deg: float = None
+        """Estimated degeneracy of the `E_levels` found below `potential_max`."""
         self.excitations: list = None
-        """Torsional excitations, as eigenvalues with respect to the ground state.
+        """Torsional excitations, as the difference between each energy level with respect to the ground state.
 
-        Considers the lowest eigenvalue from each degenerated energy level.
+        Considers the means between degenerated eigenvalues for all energy levels below `potential_max`.
         """
         self.splittings: list = None
-        """Tunnel splitting energies, for every degenerated energy level."""
+        """Tunnel splitting energies, for every degenerated energy level.
+        
+        Calculated for all energy levels below `potential_max`
+        as the difference between the mean of the eigenvalues from A
+        and the mean of the eigenvalues from Es
+        see [R. M. Dimeo, American Journal of Physics 71, 885–893 (2003)](https://doi.org/10.1119/1.1538575).
+        """
         self.runtime: float = None
         """Time taken to solve the eigenvalues."""
 

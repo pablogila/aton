@@ -151,7 +151,7 @@ def reduced_energies(
 
     systems.as_list(data)
     title = title if title else (data[0].comment if data[0].comment else 'Reduced energies')
-    number_of_levels = data[0].E_levels
+    number_of_levels = data[0].searched_E
     x = []
     for system in data:
         potential_max_B = system.potential_max / system.B
@@ -198,7 +198,7 @@ def wavefunction(
     Specific wavefunctions can be overlapped with `overlap` as a list with the target indexes.
     The `overlap` value can also be the max number of wavefunctions to add.
     All found wavefunctions can be added together with `overlap = True`;
-    but note that this overlap is limited by the number of System.E_levels,
+    but note that this overlap is limited by the number of System.searched_E,
     that must be specified before solving the system.
     Setting `overlap` will ignore the `levels` argument.
 
@@ -258,7 +258,7 @@ def convergence(data:list) -> None:
     gridsizes = [system.gridsize for system in data]
     runtimes = [system.runtime for system in data]
     deviations = []  # List of lists, containing all eigenvalue deviations for every system
-    E_levels = data[0].E_levels
+    searched_E = data[0].searched_E
     for system in data:
         deviation_list = []
         for i, eigenvalue in enumerate(system.eigenvalues):
@@ -277,8 +277,8 @@ def convergence(data:list) -> None:
     ax2.set_ylabel('Runtime / s')
     ax2.set_yscale('log')
     ax2.plot(gridsizes, runtimes, color='tab:grey', label='Runtime', linestyle='--')
-    colors = plt.cm.viridis(np.linspace(0, 1, E_levels))  # Should be E_levels-1 but we want to avoid lighter colors
-    for i in range(E_levels-1):
+    colors = plt.cm.viridis(np.linspace(0, 1, searched_E))  # Should be searched_E-1 but we want to avoid lighter colors
+    for i in range(searched_E-1):
         if i % 2 == 0:  # Ignore even numbers, since those levels are degenerated.
             continue
         ax1.plot(gridsizes, [dev[i] for dev in deviations], label=f'$E_{{{int((i+1)/2)}}}$', color=colors[i])

@@ -2,6 +2,7 @@
 # Description
 
 This module contains utility functions to handle multiple `aton.qrotor.system` calculations.
+These are commonly used as a list of `System` objects.
 
 
 # Index
@@ -9,14 +10,15 @@ This module contains utility functions to handle multiple `aton.qrotor.system` c
 | | |
 | --- | --- |
 | `as_list()`          | Ensures that a list only contains System objects |
+| `save_splittings()`  | Save the tunnel splitting energies for all systems to a CSV |
+| `save_energies()`    | Save the energy eigenvalues for all systems to a CSV |
 | `get_energies()`     | Get the eigenvalues from all systems |
 | `get_gridsizes()`    | Get all gridsizes |
 | `get_runtimes()`     | Get all runtimes |
 | `get_groups()`       | Get the chemical groups in use |
+| `get_ideal_E()`      | Calculate the ideal energy for a specified level |
 | `sort_by_gridsize()` | Sort systems by gridsize |
 | `reduce_size()`      | Discard data that takes too much space |
-| `get_ideal_E()`      | Calculate the ideal energy for a specified level |
-| `splittings()`       | Get the first tunnel splitting energies for all systems |
 
 ---
 """
@@ -45,8 +47,88 @@ def as_list(systems) -> None:
     return systems
 
 
+def save_splittings(
+    systems:list,
+    comment:str='',
+    filepath:str='tunnel_splittings.csv',
+    ) -> pd.DataFrame:
+    """Save the tunnel splitting energies for all `systems` to a tunnel_splittings.csv file.
+
+    Returns a Pandas Dataset with `System.comment` columns and `System.splittings` values.
+
+    The output file can be changed with `filepath`,
+    or set to null to avoid saving the dataset.
+    A `comment` can be included at the top of the file.
+    Note that `System.comment` must not include commas (`,`).
+    Different splitting lengths across systems are allowed - missing values will be NaN.
+    """
+    as_list(systems)
+    version = systems[0].version
+    tunnelling_E = {}
+    # Find max length of splittings
+    max_len = max(len(s.splittings) for s in systems)
+    for s in systems:  # Pad shorter splittings with NaN
+        padded_splittings = s.splittings + [float('nan')] * (max_len - len(s.splittings))
+        tunnelling_E[s.comment] = padded_splittings
+    df = pd.DataFrame(tunnelling_E)
+    if not filepath:
+        return df
+    # Else save to file
+    df.to_csv(filepath, sep=',', index=False)
+    # Include a comment at the top of the file 
+    file_comment = f'# {comment}\n' if comment else f''
+    file_comment += f'# Tunnel splitting energies\n'
+    file_comment += f'# Calculated with ATON {version}\n'
+    file_comment += f'# https://pablogila.github.io/ATON\n#'
+    txt.edit.insert_at(filepath, file_comment, 0)
+    print(f'Tunnel splitting energies saved to {filepath}')
+    return df
+
+
+def save_energies(
+        systems:list,
+        comment:str='',
+        filepath:str='eigenvalues.csv',
+        ) -> pd.DataFrame:
+    """Save the energy eigenvalues for all `systems` to a eigenvalues.csv file.
+
+    Returns a Pandas Dataset with `System.comment` columns and `System.eigenvalues` values.
+
+    The output file can be changed with `filepath`,
+    or set to null to avoid saving the dataset.
+    A `comment` can be included at the top of the file.
+    Note that `System.comment` must not include commas (`,`).
+    """
+    as_list(systems)
+    version = systems[0].version
+    E = {}
+    # Find max length of eigenvalues
+    max_len = max((len(s.eigenvalues) if s.eigenvalues is not None else 0) for s in systems)
+    for s in systems:
+        if s.eigenvalues is not None:
+            # Filter out None values and replace with NaN
+            valid_eigenvalues = [float('nan') if e is None else e for e in s.eigenvalues]
+            padded_eigenvalues = valid_eigenvalues + [float('nan')] * (max_len - len(s.eigenvalues))
+        else:
+            padded_eigenvalues = [float('nan')] * max_len
+        E[s.comment] = padded_eigenvalues
+    df = pd.DataFrame(E)
+    if not filepath:
+        return df
+    # Else save to file
+    df.to_csv(filepath, sep=',', index=False)
+    # Include a comment at the top of the file
+    file_comment = f'# {comment}\n' if comment else f''
+    file_comment += f'# Energy eigenvalues\n'
+    file_comment += f'# Calculated with ATON {version}\n'
+    file_comment += f'# https://pablogila.github.io/ATON\n#'
+    txt.edit.insert_at(filepath, file_comment, 0)
+    print(f'Energy eigenvalues saved to {filepath}')
+    return df
+
+
 def get_energies(systems:list) -> list:
-    """Get a list with all eigenvalues from all systems.
+    """Get a list with all lists of eigenvalues from all systems.
 
     If no eigenvalues are present for a particular system, appends None.
     """
@@ -100,6 +182,20 @@ def get_groups(systems:list) -> list:
     return groups
 
 
+def get_ideal_E(E_level:int) -> int:
+    """Calculates the ideal energy for a specified `E_level`.
+
+    To be used in convergence tests with `potential_name = 'zero'`.
+    """
+    real_E_level = None
+    if E_level % 2 == 0:
+        real_E_level = E_level / 2
+    else:
+        real_E_level = (E_level + 1) / 2
+    ideal_E = int(real_E_level ** 2)
+    return ideal_E
+
+
 def sort_by_gridsize(systems:list) -> list:
     """Sorts a list of System objects by `System.gridsize`."""
     as_list(systems)
@@ -117,52 +213,4 @@ def reduce_size(systems:list) -> list:
     for dataset in systems:
         dataset = dataset.reduce_size()
     return systems
-
-
-def get_ideal_E(E_level:int) -> int:
-    """Calculates the ideal energy for a specified `E_level`.
-
-    To be used in convergence tests with `potential_name = 'zero'`.
-    """
-    real_E_level = None
-    if E_level % 2 == 0:
-        real_E_level = E_level / 2
-    else:
-        real_E_level = (E_level + 1) / 2
-    ideal_E = int(real_E_level ** 2)
-    return ideal_E
-
-
-def splittings(
-        systems:list,
-        comment:str='',
-        filepath:str='tunnel_splittings.csv',
-        ) -> pd.DataFrame:
-    """Save the tunnel splitting energies for all `systems` to a tunnel_splittings.csv file.
-
-    Returns a Pandas Dataset with `System.comment` columns and `System.splittings` values.
-
-    The output file can be changed with `filepath`,
-    or set to null to avoid saving the dataset.
-    A `comment` can be included at the top of the file.
-    Note that `System.comment` must not include commas (`,`).
-    """
-    as_list(systems)
-    version = systems[0].version
-    tunnelling_E = {}
-    for s in systems:
-        tunnelling_E[s.comment] = s.splittings
-    df = pd.DataFrame(tunnelling_E)
-    if not filepath:
-        return df
-    # Else save to file
-    df.to_csv(filepath, sep=',', index=False)
-    # Include a comment at the top of the file
-    file_comment = f'# {comment}\n' if comment else f''
-    file_comment += f'# Tunnel splitting energies\n'
-    file_comment += f'# Calculated with ATON {version}\n'
-    file_comment += f'# https://pablogila.github.io/ATON\n#'
-    txt.edit.insert_at(filepath, file_comment, 0)
-    print(f'Tunnel splitting energies saved to {filepath}')
-    return df
 

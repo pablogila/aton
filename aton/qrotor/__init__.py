@@ -97,16 +97,15 @@ qr.plot.energies(system)
 
 ## Tunnel splittings and excitations
 
-By default, energy eigenvalues are assumed to present triplet degeneracy,
-see [A. J. Horsewill, Progress in Nuclear Magnetic Resonance Spectroscopy 35, 359–389 (1999)](https://doi.org/10.1016/S0079-6565(99)00016-3).
-If this is not the case, check `aton.qrotor.solve.excitations()`.
-
-When the quantum System is solved, tunnel splittings and excitations are also calculated:
+When the quantum System is solved, tunnel splittings,
+excitations and energy level degeneracy
+below the potential maximum are also calculated:
 
 ```python
 system.solve()
 system.splittings
 system.excitations
+system.deg
 ```
 
 To export the tunnel splittings of several calculations to a CSV file:
@@ -115,6 +114,14 @@ To export the tunnel splittings of several calculations to a CSV file:
 calculations = [system1, system2, system3]
 qr.systems.splittings(calculations)
 ```
+
+Excitations are calculated using the mean for each energy level
+with respect to the ground state.
+Tunnel splittings for each level are calculated as the difference between A and E
+using the mean for each sublevel,
+see [R. M. Dimeo, American Journal of Physics 71, 885–893 (2003)](https://doi.org/10.1119/1.1538575)
+and [A. J. Horsewill, Progress in Nuclear Magnetic Resonance Spectroscopy 35, 359–389 (1999)](https://doi.org/10.1016/S0079-6565(99)00016-3)
+for reference.
 
 
 Check the API documentation for more details.
