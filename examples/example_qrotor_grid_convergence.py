@@ -14,7 +14,7 @@ for gridsize in gridsizes:
     system = aton.qrotor.System()
     system.potential_name = 'zero'
     system.B = 1
-    system.E_levels = E_levels_to_calculate
+    system.searched_E = E_levels_to_calculate
     system.gridsize = gridsize
     system.solve()
     system_list.append(system)

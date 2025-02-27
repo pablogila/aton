@@ -108,20 +108,21 @@ system.excitations
 system.deg
 ```
 
-To export the tunnel splittings of several calculations to a CSV file:
+To export the energies and the tunnel splittings of several calculations to a CSV file:
 
 ```python
 calculations = [system1, system2, system3]
-qr.systems.splittings(calculations)
+qr.systems.save_energies(calculations)
+qr.systems.save_splittings(calculations)
 ```
 
 Excitations are calculated using the mean for each energy level
 with respect to the ground state.
-Tunnel splittings for each level are calculated as the difference between A and E
-using the mean for each sublevel,
-see [R. M. Dimeo, American Journal of Physics 71, 885–893 (2003)](https://doi.org/10.1119/1.1538575)
+Tunnel splittings for each level are calculated as the difference between A and E,
+considering the mean of the eigenvalues for each sublevel.
+See [R. M. Dimeo, American Journal of Physics 71, 885–893 (2003)](https://doi.org/10.1119/1.1538575)
 and [A. J. Horsewill, Progress in Nuclear Magnetic Resonance Spectroscopy 35, 359–389 (1999)](https://doi.org/10.1016/S0079-6565(99)00016-3)
-for reference.
+for further reference.
 
 
 Check the API documentation for more details.

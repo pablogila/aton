@@ -10,8 +10,8 @@ These are commonly used as a list of `System` objects.
 | | |
 | --- | --- |
 | `as_list()`          | Ensures that a list only contains System objects |
-| `save_splittings()`  | Save the tunnel splitting energies for all systems to a CSV |
 | `save_energies()`    | Save the energy eigenvalues for all systems to a CSV |
+| `save_splittings()`  | Save the tunnel splitting energies for all systems to a CSV |
 | `get_energies()`     | Get the eigenvalues from all systems |
 | `get_gridsizes()`    | Get all gridsizes |
 | `get_runtimes()`     | Get all runtimes |
@@ -45,44 +45,6 @@ def as_list(systems) -> None:
         if not isinstance(i, System):
             raise TypeError(f"All items in the list must be System objects, found instead: {type(i)}")
     return systems
-
-
-def save_splittings(
-    systems:list,
-    comment:str='',
-    filepath:str='tunnel_splittings.csv',
-    ) -> pd.DataFrame:
-    """Save the tunnel splitting energies for all `systems` to a tunnel_splittings.csv file.
-
-    Returns a Pandas Dataset with `System.comment` columns and `System.splittings` values.
-
-    The output file can be changed with `filepath`,
-    or set to null to avoid saving the dataset.
-    A `comment` can be included at the top of the file.
-    Note that `System.comment` must not include commas (`,`).
-    Different splitting lengths across systems are allowed - missing values will be NaN.
-    """
-    as_list(systems)
-    version = systems[0].version
-    tunnelling_E = {}
-    # Find max length of splittings
-    max_len = max(len(s.splittings) for s in systems)
-    for s in systems:  # Pad shorter splittings with NaN
-        padded_splittings = s.splittings + [float('nan')] * (max_len - len(s.splittings))
-        tunnelling_E[s.comment] = padded_splittings
-    df = pd.DataFrame(tunnelling_E)
-    if not filepath:
-        return df
-    # Else save to file
-    df.to_csv(filepath, sep=',', index=False)
-    # Include a comment at the top of the file 
-    file_comment = f'# {comment}\n' if comment else f''
-    file_comment += f'# Tunnel splitting energies\n'
-    file_comment += f'# Calculated with ATON {version}\n'
-    file_comment += f'# https://pablogila.github.io/ATON\n#'
-    txt.edit.insert_at(filepath, file_comment, 0)
-    print(f'Tunnel splitting energies saved to {filepath}')
-    return df
 
 
 def save_energies(
@@ -124,6 +86,44 @@ def save_energies(
     file_comment += f'# https://pablogila.github.io/ATON\n#'
     txt.edit.insert_at(filepath, file_comment, 0)
     print(f'Energy eigenvalues saved to {filepath}')
+    return df
+
+
+def save_splittings(
+    systems:list,
+    comment:str='',
+    filepath:str='tunnel_splittings.csv',
+    ) -> pd.DataFrame:
+    """Save the tunnel splitting energies for all `systems` to a tunnel_splittings.csv file.
+
+    Returns a Pandas Dataset with `System.comment` columns and `System.splittings` values.
+
+    The output file can be changed with `filepath`,
+    or set to null to avoid saving the dataset.
+    A `comment` can be included at the top of the file.
+    Note that `System.comment` must not include commas (`,`).
+    Different splitting lengths across systems are allowed - missing values will be NaN.
+    """
+    as_list(systems)
+    version = systems[0].version
+    tunnelling_E = {}
+    # Find max length of splittings
+    max_len = max(len(s.splittings) for s in systems)
+    for s in systems:  # Pad shorter splittings with NaN
+        padded_splittings = s.splittings + [float('nan')] * (max_len - len(s.splittings))
+        tunnelling_E[s.comment] = padded_splittings
+    df = pd.DataFrame(tunnelling_E)
+    if not filepath:
+        return df
+    # Else save to file
+    df.to_csv(filepath, sep=',', index=False)
+    # Include a comment at the top of the file 
+    file_comment = f'# {comment}\n' if comment else f''
+    file_comment += f'# Tunnel splitting energies\n'
+    file_comment += f'# Calculated with ATON {version}\n'
+    file_comment += f'# https://pablogila.github.io/ATON\n#'
+    txt.edit.insert_at(filepath, file_comment, 0)
+    print(f'Tunnel splitting energies saved to {filepath}')
     return df
 
 

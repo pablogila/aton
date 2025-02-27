@@ -11,7 +11,7 @@ import aton.qrotor as qr
 system = qr.System()
 system.potential_name = 'titov2023'
 system.B = 0.573  # Titov uses a custom B value, a more accurate one is qr.B_CH3
-system.E_levels = 5
+system.searched_E = 5
 system.gridsize = 200000
 
 system = qr.solve.energies(system)

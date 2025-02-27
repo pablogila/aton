@@ -214,7 +214,7 @@ def E_levels(eigenvalues, vmax:float=None) -> list:
     if not (degeneracy > 1) and not (degeneracy % 1) == 0:
         return levels, degeneracy  # I give up
     # Correct the last two levels
-    if len(levels[-2]) != degeneracy:
+    if len(levels) >= 2 and len(levels[-2]) != degeneracy:
         levels[-2] = np.concatenate((levels[-2], levels[-1]))
         levels.pop(-1)
     # Split last level into groups of size = degeneracy
@@ -244,8 +244,11 @@ def _get_E_levels_by_gap(eigenvalues, scale:float=2) -> tuple:
     med_gap = np.mean(gaps)
     level_breaks = np.where(gaps > scale * med_gap)[0] + 1
     levels = np.split(eigenvalues, level_breaks)
-    # Calculate average degeneracy excluding last level
-    avg_degeneracy = float(np.mean([len(level) for level in levels[:-2]]))
+    # Calculate average degeneracy excluding last two levels if possible
+    if len(levels) > 2:
+        avg_degeneracy = float(np.mean([len(level) for level in levels[:-2]]))
+    else:
+        avg_degeneracy = float(len(levels[0]))
     if avg_degeneracy % 1 == 0:
         avg_degeneracy = int(avg_degeneracy)
     return levels, avg_degeneracy
