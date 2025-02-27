@@ -88,16 +88,16 @@ class System:
         """Eigenvectors, if `save_eigenvectors` is True. Beware of the file size."""
         self.energy_barrier: float = None
         """Activation energy or energy barrier, from the ground torsional state to the top of the potential barrier, `max(V) - min(eigenvalues)`"""
-        self.E_levels: list = None
+        self.E_levels: list = []
         """Eigenvalues grouped by energy levels, found below `potential_max`."""
         self.deg: float = None
         """Estimated degeneracy of the `E_levels` found below `potential_max`."""
-        self.excitations: list = None
+        self.excitations: list = []
         """Torsional excitations, as the difference between each energy level with respect to the ground state.
 
         Considers the means between degenerated eigenvalues for all energy levels below `potential_max`.
         """
-        self.splittings: list = None
+        self.splittings: list = []
         """Tunnel splitting energies, for every degenerated energy level.
         
         Calculated for all energy levels below `potential_max`

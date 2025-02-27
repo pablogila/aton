@@ -139,6 +139,8 @@ def excitations(system: System) -> System:
     """
     # Get eigenvalues, stop before any possible None value
     eigenvalues = system.eigenvalues
+    if not isinstance(eigenvalues, (list, np.ndarray)) or len(eigenvalues) == 0:
+        return system
     if None in eigenvalues:
         none_index = eigenvalues.tolist().index(None)
         eigenvalues = eigenvalues[:none_index]
