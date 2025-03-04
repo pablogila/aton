@@ -172,7 +172,7 @@
     </ul>
 
 
-            <footer>ATON v0.3.0 documentation</footer>
+            <footer>ATON v0.3.1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -208,20 +208,20 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a>
 </span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a>
-</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="o">*</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="kn">from</span> <span class="nn">aton.st</span> <span class="kn">import</span> <span class="n">alias</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="kn">from</span> <span class="nn">aton._version</span> <span class="kn">import</span> <span class="n">__version__</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.constants</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">aton.st</span><span class="w"> </span><span class="kn">import</span> <span class="n">alias</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">aton._version</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
 </span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a>
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>
-</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="k">class</span> <span class="nc">System</span><span class="p">:</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="k">class</span><span class="w"> </span><span class="nc">System</span><span class="p">:</span>
 </span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Quantum system.</span>
 </span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>
 </span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="sd">    Contains all the data for a single QRotor calculation, with both inputs and outputs.</span>
 </span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>
 </span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="sd">    Energy units are in meV and angles are in radians, unless stated otherwise.</span>
 </span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>            <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a>            <span class="n">group</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;CH3&#39;</span><span class="p">,</span>
@@ -307,19 +307,19 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">runtime</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Time taken to solve the eigenvalues.&quot;&quot;&quot;</span>
 </span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Default method to solve the quantum system.</span>
 </span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>
 </span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="sd">        The potential can be interpolated to a `new_gridsize`.</span>
 </span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="sd">    </span>
 </span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="sd">        Same as running `aton.qrotor.solve.energies(System)`.</span>
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>        <span class="kn">from</span> <span class="nn">.solve</span> <span class="kn">import</span> <span class="n">energies</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">.solve</span><span class="w"> </span><span class="kn">import</span> <span class="n">energies</span>
 </span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="k">if</span> <span class="n">new_gridsize</span><span class="p">:</span>
 </span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">new_gridsize</span>
 </span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>        <span class="k">return</span> <span class="n">energies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>    <span class="k">def</span> <span class="nf">change_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">calculate</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">change_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">calculate</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 </span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply a phase shift to the grid and potential values.</span>
 </span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>
 </span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="sd">        The `phase` should be a multiple of $\\pi$ (e.g., 3/2 for $3\\pi/2$).</span>
@@ -352,7 +352,7 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 </span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>
-</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>    <span class="k">def</span> <span class="nf">set_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the `System.grid` to the specified `gridsize` from 0 to $2\\pi$.</span>
 </span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>
 </span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a><span class="sd">        If the system had a previous grid and potential values,</span>
@@ -365,7 +365,7 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">gridsize</span>
 </span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>        <span class="c1"># Should we interpolate?</span>
 </span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">potential_values</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span><span class="p">:</span>
-</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>            <span class="kn">from</span> <span class="nn">.potential</span> <span class="kn">import</span> <span class="n">interpolate</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>            <span class="kn">from</span><span class="w"> </span><span class="nn">.potential</span><span class="w"> </span><span class="kn">import</span> <span class="n">interpolate</span>
 </span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>            <span class="bp">self</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>        <span class="c1"># Should we create the values from zero?</span>
 </span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span><span class="p">:</span>
@@ -374,7 +374,7 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;gridsize must be provided if there is no System.gridsize&#39;</span><span class="p">)</span>
 </span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>    
-</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>    <span class="k">def</span> <span class="nf">set_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">B</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">B</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalise `System.group` name, and set `System.B` based on it.&quot;&quot;&quot;</span>
 </span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">alias</span><span class="o">.</span><span class="n">chemical</span><span class="p">[</span><span class="s1">&#39;CH3&#39;</span><span class="p">]:</span>
 </span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>            <span class="k">if</span> <span class="n">group</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
@@ -407,7 +407,7 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">group</span> <span class="o">=</span> <span class="n">group</span>  <span class="c1"># No match was found</span>
 </span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>
-</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a>    <span class="k">def</span> <span class="nf">reduce_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">reduce_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Discard data that takes too much space,</span>
 </span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a><span class="sd">        like eigenvectors, potential values and grids.&quot;&quot;&quot;</span>
 </span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">eigenvectors</span> <span class="o">=</span> <span class="p">[]</span>
@@ -415,7 +415,7 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>
-</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>        <span class="k">return</span> <span class="p">{</span>
 </span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>            <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
 </span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>            <span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">comment</span><span class="p">,</span>
@@ -448,14 +448,14 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 
     </div>
     <a class="headerlink" href="#System"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="System-18"><a href="#System-18"><span class="linenos"> 18</span></a><span class="k">class</span> <span class="nc">System</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="System-18"><a href="#System-18"><span class="linenos"> 18</span></a><span class="k">class</span><span class="w"> </span><span class="nc">System</span><span class="p">:</span>
 </span><span id="System-19"><a href="#System-19"><span class="linenos"> 19</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Quantum system.</span>
 </span><span id="System-20"><a href="#System-20"><span class="linenos"> 20</span></a>
 </span><span id="System-21"><a href="#System-21"><span class="linenos"> 21</span></a><span class="sd">    Contains all the data for a single QRotor calculation, with both inputs and outputs.</span>
 </span><span id="System-22"><a href="#System-22"><span class="linenos"> 22</span></a>
 </span><span id="System-23"><a href="#System-23"><span class="linenos"> 23</span></a><span class="sd">    Energy units are in meV and angles are in radians, unless stated otherwise.</span>
 </span><span id="System-24"><a href="#System-24"><span class="linenos"> 24</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="System-25"><a href="#System-25"><span class="linenos"> 25</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span><span id="System-25"><a href="#System-25"><span class="linenos"> 25</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="System-26"><a href="#System-26"><span class="linenos"> 26</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="System-27"><a href="#System-27"><span class="linenos"> 27</span></a>            <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="System-28"><a href="#System-28"><span class="linenos"> 28</span></a>            <span class="n">group</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;CH3&#39;</span><span class="p">,</span>
@@ -541,19 +541,19 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="System-108"><a href="#System-108"><span class="linenos">108</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">runtime</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="System-109"><a href="#System-109"><span class="linenos">109</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Time taken to solve the eigenvalues.&quot;&quot;&quot;</span>
 </span><span id="System-110"><a href="#System-110"><span class="linenos">110</span></a>
-</span><span id="System-111"><a href="#System-111"><span class="linenos">111</span></a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span><span id="System-111"><a href="#System-111"><span class="linenos">111</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="System-112"><a href="#System-112"><span class="linenos">112</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Default method to solve the quantum system.</span>
 </span><span id="System-113"><a href="#System-113"><span class="linenos">113</span></a>
 </span><span id="System-114"><a href="#System-114"><span class="linenos">114</span></a><span class="sd">        The potential can be interpolated to a `new_gridsize`.</span>
 </span><span id="System-115"><a href="#System-115"><span class="linenos">115</span></a><span class="sd">    </span>
 </span><span id="System-116"><a href="#System-116"><span class="linenos">116</span></a><span class="sd">        Same as running `aton.qrotor.solve.energies(System)`.</span>
 </span><span id="System-117"><a href="#System-117"><span class="linenos">117</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="System-118"><a href="#System-118"><span class="linenos">118</span></a>        <span class="kn">from</span> <span class="nn">.solve</span> <span class="kn">import</span> <span class="n">energies</span>
+</span><span id="System-118"><a href="#System-118"><span class="linenos">118</span></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">.solve</span><span class="w"> </span><span class="kn">import</span> <span class="n">energies</span>
 </span><span id="System-119"><a href="#System-119"><span class="linenos">119</span></a>        <span class="k">if</span> <span class="n">new_gridsize</span><span class="p">:</span>
 </span><span id="System-120"><a href="#System-120"><span class="linenos">120</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">new_gridsize</span>
 </span><span id="System-121"><a href="#System-121"><span class="linenos">121</span></a>        <span class="k">return</span> <span class="n">energies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="System-122"><a href="#System-122"><span class="linenos">122</span></a>
-</span><span id="System-123"><a href="#System-123"><span class="linenos">123</span></a>    <span class="k">def</span> <span class="nf">change_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">calculate</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+</span><span id="System-123"><a href="#System-123"><span class="linenos">123</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">change_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">calculate</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 </span><span id="System-124"><a href="#System-124"><span class="linenos">124</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply a phase shift to the grid and potential values.</span>
 </span><span id="System-125"><a href="#System-125"><span class="linenos">125</span></a>
 </span><span id="System-126"><a href="#System-126"><span class="linenos">126</span></a><span class="sd">        The `phase` should be a multiple of $\\pi$ (e.g., 3/2 for $3\\pi/2$).</span>
@@ -586,7 +586,7 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="System-153"><a href="#System-153"><span class="linenos">153</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 </span><span id="System-154"><a href="#System-154"><span class="linenos">154</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="System-155"><a href="#System-155"><span class="linenos">155</span></a>
-</span><span id="System-156"><a href="#System-156"><span class="linenos">156</span></a>    <span class="k">def</span> <span class="nf">set_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span><span id="System-156"><a href="#System-156"><span class="linenos">156</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="System-157"><a href="#System-157"><span class="linenos">157</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the `System.grid` to the specified `gridsize` from 0 to $2\\pi$.</span>
 </span><span id="System-158"><a href="#System-158"><span class="linenos">158</span></a>
 </span><span id="System-159"><a href="#System-159"><span class="linenos">159</span></a><span class="sd">        If the system had a previous grid and potential values,</span>
@@ -599,7 +599,7 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="System-166"><a href="#System-166"><span class="linenos">166</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">gridsize</span>
 </span><span id="System-167"><a href="#System-167"><span class="linenos">167</span></a>        <span class="c1"># Should we interpolate?</span>
 </span><span id="System-168"><a href="#System-168"><span class="linenos">168</span></a>        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">potential_values</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span><span class="p">:</span>
-</span><span id="System-169"><a href="#System-169"><span class="linenos">169</span></a>            <span class="kn">from</span> <span class="nn">.potential</span> <span class="kn">import</span> <span class="n">interpolate</span>
+</span><span id="System-169"><a href="#System-169"><span class="linenos">169</span></a>            <span class="kn">from</span><span class="w"> </span><span class="nn">.potential</span><span class="w"> </span><span class="kn">import</span> <span class="n">interpolate</span>
 </span><span id="System-170"><a href="#System-170"><span class="linenos">170</span></a>            <span class="bp">self</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="System-171"><a href="#System-171"><span class="linenos">171</span></a>        <span class="c1"># Should we create the values from zero?</span>
 </span><span id="System-172"><a href="#System-172"><span class="linenos">172</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span><span class="p">:</span>
@@ -608,7 +608,7 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="System-175"><a href="#System-175"><span class="linenos">175</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;gridsize must be provided if there is no System.gridsize&#39;</span><span class="p">)</span>
 </span><span id="System-176"><a href="#System-176"><span class="linenos">176</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="System-177"><a href="#System-177"><span class="linenos">177</span></a>    
-</span><span id="System-178"><a href="#System-178"><span class="linenos">178</span></a>    <span class="k">def</span> <span class="nf">set_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">B</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span><span id="System-178"><a href="#System-178"><span class="linenos">178</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">B</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="System-179"><a href="#System-179"><span class="linenos">179</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalise `System.group` name, and set `System.B` based on it.&quot;&quot;&quot;</span>
 </span><span id="System-180"><a href="#System-180"><span class="linenos">180</span></a>        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">alias</span><span class="o">.</span><span class="n">chemical</span><span class="p">[</span><span class="s1">&#39;CH3&#39;</span><span class="p">]:</span>
 </span><span id="System-181"><a href="#System-181"><span class="linenos">181</span></a>            <span class="k">if</span> <span class="n">group</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
@@ -641,7 +641,7 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="System-208"><a href="#System-208"><span class="linenos">208</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">group</span> <span class="o">=</span> <span class="n">group</span>  <span class="c1"># No match was found</span>
 </span><span id="System-209"><a href="#System-209"><span class="linenos">209</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="System-210"><a href="#System-210"><span class="linenos">210</span></a>
-</span><span id="System-211"><a href="#System-211"><span class="linenos">211</span></a>    <span class="k">def</span> <span class="nf">reduce_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="System-211"><a href="#System-211"><span class="linenos">211</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">reduce_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="System-212"><a href="#System-212"><span class="linenos">212</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Discard data that takes too much space,</span>
 </span><span id="System-213"><a href="#System-213"><span class="linenos">213</span></a><span class="sd">        like eigenvectors, potential values and grids.&quot;&quot;&quot;</span>
 </span><span id="System-214"><a href="#System-214"><span class="linenos">214</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">eigenvectors</span> <span class="o">=</span> <span class="p">[]</span>
@@ -649,7 +649,7 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 </span><span id="System-216"><a href="#System-216"><span class="linenos">216</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="System-217"><a href="#System-217"><span class="linenos">217</span></a>        <span class="k">return</span> <span class="bp">self</span>
 </span><span id="System-218"><a href="#System-218"><span class="linenos">218</span></a>
-</span><span id="System-219"><a href="#System-219"><span class="linenos">219</span></a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="System-219"><a href="#System-219"><span class="linenos">219</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="System-220"><a href="#System-220"><span class="linenos">220</span></a>        <span class="k">return</span> <span class="p">{</span>
 </span><span id="System-221"><a href="#System-221"><span class="linenos">221</span></a>            <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
 </span><span id="System-222"><a href="#System-222"><span class="linenos">222</span></a>            <span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">comment</span><span class="p">,</span>
@@ -688,7 +688,7 @@ This class can be loaded directly as <code><a href="#System">aton.qrotor.System(
 
     </div>
     <a class="headerlink" href="#System.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="System.__init__-25"><a href="#System.__init__-25"><span class="linenos"> 25</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="System.__init__-25"><a href="#System.__init__-25"><span class="linenos"> 25</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="System.__init__-26"><a href="#System.__init__-26"><span class="linenos"> 26</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="System.__init__-27"><a href="#System.__init__-27"><span class="linenos"> 27</span></a>            <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="System.__init__-28"><a href="#System.__init__-28"><span class="linenos"> 28</span></a>            <span class="n">group</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;CH3&#39;</span><span class="p">,</span>
@@ -1103,14 +1103,14 @@ see <a href="https://doi.org/10.1119/1.1538575">R. M. Dimeo, American Journal of
 
     </div>
     <a class="headerlink" href="#System.solve"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="System.solve-111"><a href="#System.solve-111"><span class="linenos">111</span></a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="System.solve-111"><a href="#System.solve-111"><span class="linenos">111</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="System.solve-112"><a href="#System.solve-112"><span class="linenos">112</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Default method to solve the quantum system.</span>
 </span><span id="System.solve-113"><a href="#System.solve-113"><span class="linenos">113</span></a>
 </span><span id="System.solve-114"><a href="#System.solve-114"><span class="linenos">114</span></a><span class="sd">        The potential can be interpolated to a `new_gridsize`.</span>
 </span><span id="System.solve-115"><a href="#System.solve-115"><span class="linenos">115</span></a><span class="sd">    </span>
 </span><span id="System.solve-116"><a href="#System.solve-116"><span class="linenos">116</span></a><span class="sd">        Same as running `aton.qrotor.solve.energies(System)`.</span>
 </span><span id="System.solve-117"><a href="#System.solve-117"><span class="linenos">117</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="System.solve-118"><a href="#System.solve-118"><span class="linenos">118</span></a>        <span class="kn">from</span> <span class="nn">.solve</span> <span class="kn">import</span> <span class="n">energies</span>
+</span><span id="System.solve-118"><a href="#System.solve-118"><span class="linenos">118</span></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">.solve</span><span class="w"> </span><span class="kn">import</span> <span class="n">energies</span>
 </span><span id="System.solve-119"><a href="#System.solve-119"><span class="linenos">119</span></a>        <span class="k">if</span> <span class="n">new_gridsize</span><span class="p">:</span>
 </span><span id="System.solve-120"><a href="#System.solve-120"><span class="linenos">120</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">new_gridsize</span>
 </span><span id="System.solve-121"><a href="#System.solve-121"><span class="linenos">121</span></a>        <span class="k">return</span> <span class="n">energies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -1137,7 +1137,7 @@ see <a href="https://doi.org/10.1119/1.1538575">R. M. Dimeo, American Journal of
 
     </div>
     <a class="headerlink" href="#System.change_phase"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="System.change_phase-123"><a href="#System.change_phase-123"><span class="linenos">123</span></a>    <span class="k">def</span> <span class="nf">change_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">calculate</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="System.change_phase-123"><a href="#System.change_phase-123"><span class="linenos">123</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">change_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">calculate</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 </span><span id="System.change_phase-124"><a href="#System.change_phase-124"><span class="linenos">124</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply a phase shift to the grid and potential values.</span>
 </span><span id="System.change_phase-125"><a href="#System.change_phase-125"><span class="linenos">125</span></a>
 </span><span id="System.change_phase-126"><a href="#System.change_phase-126"><span class="linenos">126</span></a><span class="sd">        The `phase` should be a multiple of $\\pi$ (e.g., 3/2 for $3\\pi/2$).</span>
@@ -1196,7 +1196,7 @@ but remember to solve the System later!</p>
 
     </div>
     <a class="headerlink" href="#System.set_grid"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="System.set_grid-156"><a href="#System.set_grid-156"><span class="linenos">156</span></a>    <span class="k">def</span> <span class="nf">set_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="System.set_grid-156"><a href="#System.set_grid-156"><span class="linenos">156</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gridsize</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="System.set_grid-157"><a href="#System.set_grid-157"><span class="linenos">157</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the `System.grid` to the specified `gridsize` from 0 to $2\\pi$.</span>
 </span><span id="System.set_grid-158"><a href="#System.set_grid-158"><span class="linenos">158</span></a>
 </span><span id="System.set_grid-159"><a href="#System.set_grid-159"><span class="linenos">159</span></a><span class="sd">        If the system had a previous grid and potential values,</span>
@@ -1209,7 +1209,7 @@ but remember to solve the System later!</p>
 </span><span id="System.set_grid-166"><a href="#System.set_grid-166"><span class="linenos">166</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">gridsize</span>
 </span><span id="System.set_grid-167"><a href="#System.set_grid-167"><span class="linenos">167</span></a>        <span class="c1"># Should we interpolate?</span>
 </span><span id="System.set_grid-168"><a href="#System.set_grid-168"><span class="linenos">168</span></a>        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">potential_values</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span><span class="p">:</span>
-</span><span id="System.set_grid-169"><a href="#System.set_grid-169"><span class="linenos">169</span></a>            <span class="kn">from</span> <span class="nn">.potential</span> <span class="kn">import</span> <span class="n">interpolate</span>
+</span><span id="System.set_grid-169"><a href="#System.set_grid-169"><span class="linenos">169</span></a>            <span class="kn">from</span><span class="w"> </span><span class="nn">.potential</span><span class="w"> </span><span class="kn">import</span> <span class="n">interpolate</span>
 </span><span id="System.set_grid-170"><a href="#System.set_grid-170"><span class="linenos">170</span></a>            <span class="bp">self</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="System.set_grid-171"><a href="#System.set_grid-171"><span class="linenos">171</span></a>        <span class="c1"># Should we create the values from zero?</span>
 </span><span id="System.set_grid-172"><a href="#System.set_grid-172"><span class="linenos">172</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span><span class="p">:</span>
@@ -1240,7 +1240,7 @@ using <code><a href="potential.html#interpolate">aton.qrotor.potential.interpola
 
     </div>
     <a class="headerlink" href="#System.set_group"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="System.set_group-178"><a href="#System.set_group-178"><span class="linenos">178</span></a>    <span class="k">def</span> <span class="nf">set_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">B</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="System.set_group-178"><a href="#System.set_group-178"><span class="linenos">178</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">B</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 </span><span id="System.set_group-179"><a href="#System.set_group-179"><span class="linenos">179</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalise `System.group` name, and set `System.B` based on it.&quot;&quot;&quot;</span>
 </span><span id="System.set_group-180"><a href="#System.set_group-180"><span class="linenos">180</span></a>        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">alias</span><span class="o">.</span><span class="n">chemical</span><span class="p">[</span><span class="s1">&#39;CH3&#39;</span><span class="p">]:</span>
 </span><span id="System.set_group-181"><a href="#System.set_group-181"><span class="linenos">181</span></a>            <span class="k">if</span> <span class="n">group</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
@@ -1291,7 +1291,7 @@ using <code><a href="potential.html#interpolate">aton.qrotor.potential.interpola
 
     </div>
     <a class="headerlink" href="#System.reduce_size"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="System.reduce_size-211"><a href="#System.reduce_size-211"><span class="linenos">211</span></a>    <span class="k">def</span> <span class="nf">reduce_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="System.reduce_size-211"><a href="#System.reduce_size-211"><span class="linenos">211</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">reduce_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="System.reduce_size-212"><a href="#System.reduce_size-212"><span class="linenos">212</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Discard data that takes too much space,</span>
 </span><span id="System.reduce_size-213"><a href="#System.reduce_size-213"><span class="linenos">213</span></a><span class="sd">        like eigenvectors, potential values and grids.&quot;&quot;&quot;</span>
 </span><span id="System.reduce_size-214"><a href="#System.reduce_size-214"><span class="linenos">214</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">eigenvectors</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1318,7 +1318,7 @@ like eigenvectors, potential values and grids.</p>
 
     </div>
     <a class="headerlink" href="#System.summary"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="System.summary-219"><a href="#System.summary-219"><span class="linenos">219</span></a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="System.summary-219"><a href="#System.summary-219"><span class="linenos">219</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span id="System.summary-220"><a href="#System.summary-220"><span class="linenos">220</span></a>        <span class="k">return</span> <span class="p">{</span>
 </span><span id="System.summary-221"><a href="#System.summary-221"><span class="linenos">221</span></a>            <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
 </span><span id="System.summary-222"><a href="#System.summary-222"><span class="linenos">222</span></a>            <span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">comment</span><span class="p">,</span>

@@ -32,7 +32,7 @@ def impulse_approx(
     ) -> tuple:
     """Calculate the deuteration levels from INS spectra
     with the *Impulse Approximation*, see
-    https://www.tandfonline.com/doi/full/10.1080/00018732.2017.1317963.
+    [Andreani et al., Advances in Physics 66, 1–73 (2017)](https://www.tandfonline.com/doi/full/10.1080/00018732.2017.1317963).
 
     Protonated and deuterated materials must be specified
     as `aton.spectra.classes.Material` objects.

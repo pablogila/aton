@@ -3,8 +3,8 @@
 
 Common constants and default inertia values used in the QRotor subpackage.
 
-Bond lengths and angles were obtained from MAPbI3,
-see [*Cryst. Growth Des.* 2024, 24, 391−404](https://doi.org/10.1021/acs.cgd.3c01112).
+Bond lengths and angles were obtained from MAPbI3, see
+[K. Drużbicki *et al*., Crystal Growth & Design 24, 391–404 (2024)](https://doi.org/10.1021/acs.cgd.3c01112).
 
 ---
 """

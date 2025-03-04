@@ -89,7 +89,7 @@
             </ul>
 
 
-            <footer>ATON v0.3.0 documentation</footer>
+            <footer>ATON v0.3.1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -162,7 +162,7 @@ which are used to solve the quantum system.</p>
 <p>A basic calculation of the eigenvalues for a zero potential goes as follows:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">import</span> <span class="nn"><a href="">aton.qrotor</a></span> <span class="k">as</span> <span class="nn">qr</span>
+<pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn"><a href="">aton.qrotor</a></span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qr</span>
 <span class="n">system</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">System</span><span class="p">()</span>
 <span class="n">system</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="mi">200000</span>  <span class="c1"># Size of the potential grid</span>
 <span class="n">system</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Rotational inertia</span>
@@ -180,7 +180,7 @@ but note that the runtime increases exponentially.</p>
 in a cosine potential of amplitude 30 meV:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">import</span> <span class="nn"><a href="">aton.qrotor</a></span> <span class="k">as</span> <span class="nn">qr</span>
+<pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn"><a href="">aton.qrotor</a></span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qr</span>
 <span class="n">system</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">System</span><span class="p">()</span>
 <span class="n">system</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="mi">200000</span>  <span class="c1"># Size of the potential grid</span>
 <span class="n">system</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">B_CH3</span>  <span class="c1"># Rotational inertia of a methyl group</span>
@@ -200,8 +200,8 @@ in a cosine potential of amplitude 30 meV:</p>
 Using Quantum ESPRESSO, running an SCF calculation for a methyl rotation every 10 degrees:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">import</span> <span class="nn"><a href="">aton.qrotor</a></span> <span class="k">as</span> <span class="nn">qr</span>
-<span class="kn">from</span> <span class="nn">aton</span> <span class="kn">import</span> <span class="n">interface</span>
+<pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn"><a href="">aton.qrotor</a></span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aton</span><span class="w"> </span><span class="kn">import</span> <span class="n">interface</span>
 <span class="c1"># Approx crystal positions of the atoms to rotate</span>
 <span class="n">atoms</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;1.101   1.204   1.307&#39;</span>
@@ -231,9 +231,8 @@ Using Quantum ESPRESSO, running an SCF calculation for a methyl rotation every 1
 
 <h2 id="tunnel-splittings-and-excitations">Tunnel splittings and excitations</h2>
 
-<p>When the quantum System is solved, tunnel splittings,
-excitations and energy level degeneracy
-below the potential maximum are also calculated:</p>
+<p>Tunnel splittings, excitations and energy level degeneracy
+below the potential maximum are also calculated upon solving the system:</p>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="n">system</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
@@ -242,6 +241,11 @@ below the potential maximum are also calculated:</p>
 <span class="n">system</span><span class="o">.</span><span class="n">deg</span>
 </code></pre>
 </div>
+
+<p>An integer <code>System.deg</code> degeneracy (e.g. 3 for methyls)
+indicates that the energy levels have been properly estimated.
+However, if the degeneracy is a float instead,
+please check the splittings and excitations manually from the system eigenvalues.</p>
 
 <p>To export the energies and the tunnel splittings of several calculations to a CSV file:</p>
 
@@ -366,46 +370,50 @@ for further reference.</p>
 </span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>
 </span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="sd">## Tunnel splittings and excitations</span>
 </span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">When the quantum System is solved, tunnel splittings,</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">excitations and energy level degeneracy</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">below the potential maximum are also calculated:</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="sd">```python</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="sd">system.solve()</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="sd">system.splittings</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="sd">system.excitations</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="sd">system.deg</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="sd">```</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="sd">To export the energies and the tunnel splittings of several calculations to a CSV file:</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="sd">```python</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="sd">calculations = [system1, system2, system3]</span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="sd">qr.systems.save_energies(calculations)</span>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="sd">qr.systems.save_splittings(calculations)</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="sd">```</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="sd">Excitations are calculated using the mean for each energy level</span>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="sd">with respect to the ground state.</span>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="sd">Tunnel splittings for each level are calculated as the difference between A and E,</span>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="sd">considering the mean of the eigenvalues for each sublevel.</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="sd">See [R. M. Dimeo, American Journal of Physics 71, 885–893 (2003)](https://doi.org/10.1119/1.1538575)</span>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a><span class="sd">and [A. J. Horsewill, Progress in Nuclear Magnetic Resonance Spectroscopy 35, 359–389 (1999)](https://doi.org/10.1016/S0079-6565(99)00016-3)</span>
-</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="sd">for further reference.</span>
-</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>
-</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>
-</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a><span class="sd">Check the API documentation for more details.</span>
-</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>
-</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">Tunnel splittings, excitations and energy level degeneracy</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">below the potential maximum are also calculated upon solving the system:</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">```python</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="sd">system.solve()</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="sd">system.splittings</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="sd">system.excitations</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="sd">system.deg</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="sd">```</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="sd">An integer `System.deg` degeneracy (e.g. 3 for methyls)</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="sd">indicates that the energy levels have been properly estimated.</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="sd">However, if the degeneracy is a float instead,</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="sd">please check the splittings and excitations manually from the system eigenvalues.</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="sd">To export the energies and the tunnel splittings of several calculations to a CSV file:</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="sd">```python</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a><span class="sd">calculations = [system1, system2, system3]</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="sd">qr.systems.save_energies(calculations)</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="sd">qr.systems.save_splittings(calculations)</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="sd">```</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="sd">Excitations are calculated using the mean for each energy level</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a><span class="sd">with respect to the ground state.</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="sd">Tunnel splittings for each level are calculated as the difference between A and E,</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a><span class="sd">considering the mean of the eigenvalues for each sublevel.</span>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a><span class="sd">See [R. M. Dimeo, American Journal of Physics 71, 885–893 (2003)](https://doi.org/10.1119/1.1538575)</span>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a><span class="sd">and [A. J. Horsewill, Progress in Nuclear Magnetic Resonance Spectroscopy 35, 359–389 (1999)](https://doi.org/10.1016/S0079-6565(99)00016-3)</span>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a><span class="sd">for further reference.</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>
 </span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>
-</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a><span class="kn">from</span> <span class="nn">.system</span> <span class="kn">import</span> <span class="n">System</span>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a><span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="o">*</span>
-</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">systems</span>
-</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">rotate</span>
-</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">potential</span>
-</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">solve</span>
-</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">plot</span>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="sd">Check the API documentation for more details.</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.system</span><span class="w"> </span><span class="kn">import</span> <span class="n">System</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.constants</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">systems</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">rotate</span>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">potential</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve</span>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot</span>
 </span></pre></div>
 
 

@@ -97,9 +97,8 @@ qr.plot.energies(system)
 
 ## Tunnel splittings and excitations
 
-When the quantum System is solved, tunnel splittings,
-excitations and energy level degeneracy
-below the potential maximum are also calculated:
+Tunnel splittings, excitations and energy level degeneracy
+below the potential maximum are also calculated upon solving the system:
 
 ```python
 system.solve()
@@ -107,6 +106,11 @@ system.splittings
 system.excitations
 system.deg
 ```
+
+An integer `System.deg` degeneracy (e.g. 3 for methyls)
+indicates that the energy levels have been properly estimated.
+However, if the degeneracy is a float instead,
+please check the splittings and excitations manually from the system eigenvalues.
 
 To export the energies and the tunnel splittings of several calculations to a CSV file:
 
