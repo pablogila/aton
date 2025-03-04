@@ -53,7 +53,7 @@ Ac: 227, Np: 237, Pm: 145, Tc: 98.
 Isotope `mass`, `mass_number` and `abundance` come from
 [J. R. de Laeter *et al*., *Atomic weights of the elements 2000*, Pure and Applied Chemistry 75, 683–800 (2003)](https://doi.org/10.1351/pac200375060683).
 
-Total bound scattering `cross_sections` $\\sigma_s$ are in barns (1 b = 100 fm$^2$). From
+Total bound scattering `cross_sections` $\\sigma_s$ are in barns (1 b = 100 fm$^2$ = 10e-28 m$^2$). From
 [David L. Price and Felix Fernandez-Alonso, *Neutron Scattering Fundamentals*, Experimental methods in the physical sciences, Elsevier Academic Press (2013)](https://doi.org/10.1016/B978-0-12-398374-9.00001-2).
 
 """
