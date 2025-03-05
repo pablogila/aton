@@ -24,32 +24,39 @@ class System:
     def __init__(
             self,
             comment: str = None,
-            group: str = 'CH3',
             searched_E: int = 21,
             correct_potential_offset: bool = True,
             save_eigenvectors: bool = True,
+            group: str = 'CH3',
+            B: float = B_CH3,
             gridsize: int = 200000,
             grid = [],
-            B: float = None,
             potential_name: str = '',
             potential_constants: list = None,
             potential_values = [],
             ):
+        """A new quantum system can be instantiated as `system = aton.qrotor.System()`.
+        This new system will contain the default values listed above.
+        """
         ## Technical
         self.version = __version__
         """Version of the package used to generate the data."""
         self.comment: str = comment
         """Custom comment for the dataset."""
-        self.group: str = group
-        """Chemical group, methyl or amine: `'CH3'`, `'CD3'`, `'NH3'`, `'ND3'`."""
-        self.set_group(group)  # Normalise the group name, and set the value of B
         self.searched_E: int = searched_E
         """Number of energy eigenvalues to be searched."""
         self.correct_potential_offset: bool = correct_potential_offset
         """Correct the potential offset as `V - min(V)` or not."""
         self.save_eigenvectors: bool = save_eigenvectors
         """Save or not the eigenvectors. Final file size will be bigger."""
+        self.group: str = group
+        """Chemical group, methyl or amine: `'CH3'`, `'CD3'`, `'NH3'`, `'ND3'`."""
+        self.set_group(group)  # Normalise the group name, and set the value of B
         ## Potential
+        if not B:
+            B = self.B
+        self.B: float = B
+        """Rotational inertia, as in $B=\\frac{\\hbar^2}{2I}$."""
         self.gridsize: int = gridsize
         """Number of points in the grid."""
         self.grid = grid
@@ -58,10 +65,6 @@ class System:
         Can be set automatically over $2 \\pi$ with `System.set_grid()`.
         Units must be in radians.
         """
-        if not B:
-            B = self.B
-        self.B: float = B
-        """Rotational inertia, as in $B=\\frac{\\hbar^2}{2I}$."""
         self.potential_name: str = potential_name
         """Name of the desired potential: `'zero'`, `'titov2023'`, `'test'`...
         If empty or unrecognised, the custom potential values inside `System.potential_values` will be used. 
@@ -69,19 +72,20 @@ class System:
         self.potential_constants: list = potential_constants
         """List of constants to be used in the calculation of the potential energy, in the `aton.qrotor.potential` module."""
         self.potential_values = potential_values
-        """Numpy ndarray with the potential values for each point in the grid.
+        """Numpy [ndarray](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html) with the potential values for each point in the grid.
 
         Can be calculated with a function available in the `qrotor.potential` module,
         or loaded externally with the `qrotor.potential.load()` function.
         Potential energy units must be in meV.
         """
+        # Potential values determined upon solving
         self.potential_offset: float = None
         """`min(V)` before offset correction when `correct_potential_offset = True`"""
         self.potential_min: float = None
         """`min(V)`"""
         self.potential_max: float = None
         """`max(V)`"""
-        # Energies
+        # Energies determined upon solving
         self.eigenvectors = []
         """Eigenvectors, if `save_eigenvectors` is True. Beware of the file size."""
         self.eigenvalues = []
@@ -205,6 +209,7 @@ class System:
                 self.B = B
                 return self
         self.group = group  # No match was found
+        self.B = None
         return self
 
     def reduce_size(self):
@@ -216,21 +221,24 @@ class System:
         return self
 
     def summary(self):
+        """Returns a dict with a summary of the System data."""
         return {
             'version': self.version,
             'comment': self.comment,
+            'B': self.B,
             'group': self.group,
             'gridsize': self.gridsize,
-            'B': self.B,
             'potential_name': self.potential_name,
             'potential_constants': self.potential_constants.tolist() if isinstance(self.potential_constants, np.ndarray) else self.potential_constants,
             'potential_offset': self.potential_offset,
             'potential_min': self.potential_min,
             'potential_max': self.potential_max,
             'eigenvalues': self.eigenvalues.tolist() if isinstance(self.eigenvalues, np.ndarray) else self.eigenvalues,
-            'energy_barrier': self.energy_barrier,
+            'E_levels': self.E_levels,
+            'deg': self.deg,
             'excitations': self.excitations,
             'splittings': self.splittings,
+            'energy_barrier': self.energy_barrier,
             'runtime': self.runtime,
         }
 

@@ -7,7 +7,6 @@ https://link.aps.org/doi/10.1103/PhysRevMaterials.7.073402
 
 import aton.qrotor as qr
 
-
 system = qr.System()
 system.potential_name = 'titov2023'
 system.B = 0.573  # Titov uses a custom B value, a more accurate one is qr.B_CH3
@@ -16,8 +15,11 @@ system.gridsize = 200000
 
 system = qr.solve.energies(system)
 system.comment = 'Reproduced eigenvalues from titov2023 with ATON.QRotor'
-print('Eigenvalues:')
+
 precision = 4
+print('Degeneracy:', system.deg)
+print('Tunnel splitting energy (meV):', round(system.splittings[0], precision))
+print('Eigenvalues (meV):')
 for value in system.eigenvalues:
     print(round(value, precision))
 
