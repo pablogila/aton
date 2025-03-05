@@ -99,7 +99,7 @@ def save(
     potential_data += '#\n'
     # Save all values
     for angle_value, energy_value in zip(grid, potential_values):
-        potential_data += f'{angle_value}    {energy_value}\n'
+        potential_data += f'{angle_value},    {energy_value}\n'
     with open(filepath, 'w') as f:
         f.write(potential_data)
     print(f'Saved to {filepath}')
