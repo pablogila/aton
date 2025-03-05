@@ -107,7 +107,7 @@
     </ul>
 
 
-            <footer>ATON v0.3.1 documentation</footer>
+            <footer>ATON v0.3.2 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -280,9 +280,9 @@ These are commonly used as a list of <code>System</code> objects.</p>
 </span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="k">def</span><span class="w"> </span><span class="nf">save_splittings</span><span class="p">(</span>
 </span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>    <span class="n">systems</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
 </span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>    <span class="n">comment</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>    <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;tunnel_splittings.csv&#39;</span><span class="p">,</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>    <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;splittings.csv&#39;</span><span class="p">,</span>
 </span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the tunnel splitting energies for all `systems` to a tunnel_splittings.csv file.</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the tunnel splitting energies for all `systems` to a splittings.csv file.</span>
 </span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
 </span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">    Returns a Pandas Dataset with `System.comment` columns and `System.splittings` values.</span>
 </span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>
@@ -516,7 +516,7 @@ Note that <code>System.comment</code> must not include commas (<code>,</code>).<
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">save_splittings</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">systems</span><span class="p">:</span> <span class="nb">list</span>,</span><span class="param">	<span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>,</span><span class="param">	<span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;tunnel_splittings.csv&#39;</span></span><span class="return-annotation">) -> <span class="n">pandas</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">DataFrame</span>:</span></span>
+        <span class="name">save_splittings</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">systems</span><span class="p">:</span> <span class="nb">list</span>,</span><span class="param">	<span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>,</span><span class="param">	<span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;splittings.csv&#39;</span></span><span class="return-annotation">) -> <span class="n">pandas</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">DataFrame</span>:</span></span>
 
                 <label class="view-source-button" for="save_splittings-view-source"><span>View Source</span></label>
 
@@ -525,9 +525,9 @@ Note that <code>System.comment</code> must not include commas (<code>,</code>).<
             <div class="pdoc-code codehilite"><pre><span></span><span id="save_splittings-93"><a href="#save_splittings-93"><span class="linenos"> 93</span></a><span class="k">def</span><span class="w"> </span><span class="nf">save_splittings</span><span class="p">(</span>
 </span><span id="save_splittings-94"><a href="#save_splittings-94"><span class="linenos"> 94</span></a>    <span class="n">systems</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
 </span><span id="save_splittings-95"><a href="#save_splittings-95"><span class="linenos"> 95</span></a>    <span class="n">comment</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-</span><span id="save_splittings-96"><a href="#save_splittings-96"><span class="linenos"> 96</span></a>    <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;tunnel_splittings.csv&#39;</span><span class="p">,</span>
+</span><span id="save_splittings-96"><a href="#save_splittings-96"><span class="linenos"> 96</span></a>    <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;splittings.csv&#39;</span><span class="p">,</span>
 </span><span id="save_splittings-97"><a href="#save_splittings-97"><span class="linenos"> 97</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-</span><span id="save_splittings-98"><a href="#save_splittings-98"><span class="linenos"> 98</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the tunnel splitting energies for all `systems` to a tunnel_splittings.csv file.</span>
+</span><span id="save_splittings-98"><a href="#save_splittings-98"><span class="linenos"> 98</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the tunnel splitting energies for all `systems` to a splittings.csv file.</span>
 </span><span id="save_splittings-99"><a href="#save_splittings-99"><span class="linenos"> 99</span></a>
 </span><span id="save_splittings-100"><a href="#save_splittings-100"><span class="linenos">100</span></a><span class="sd">    Returns a Pandas Dataset with `System.comment` columns and `System.splittings` values.</span>
 </span><span id="save_splittings-101"><a href="#save_splittings-101"><span class="linenos">101</span></a>
@@ -561,7 +561,7 @@ Note that <code>System.comment</code> must not include commas (<code>,</code>).<
 </span></pre></div>
 
 
-            <div class="docstring"><p>Save the tunnel splitting energies for all <code>systems</code> to a tunnel_splittings.csv file.</p>
+            <div class="docstring"><p>Save the tunnel splitting energies for all <code>systems</code> to a splittings.csv file.</p>
 
 <p>Returns a Pandas Dataset with <code>System.comment</code> columns and <code>System.splittings</code> values.</p>
 

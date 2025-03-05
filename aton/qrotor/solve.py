@@ -114,8 +114,9 @@ def hamiltonian_matrix(system:System):
 def laplacian_matrix(grid):
     """Calculates the Laplacian (second derivative) matrix for a given `grid`."""
     x = grid
-    diagonals = [-2*np.ones(len(x)), np.ones(len(x)), np.ones(len(x))]
-    laplacian_matrix = sparse.spdiags(diagonals, [0, -1, 1], format='lil')
+    n = len(x)
+    diagonals = [-2*np.ones(n), np.ones(n), np.ones(n)]
+    laplacian_matrix = sparse.spdiags(diagonals, [0, -1, 1], m=n, n=n, format='lil')
     # Periodic boundary conditions
     laplacian_matrix[0, -1] = 1
     laplacian_matrix[-1, 0] = 1

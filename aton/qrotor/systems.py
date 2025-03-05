@@ -92,9 +92,9 @@ def save_energies(
 def save_splittings(
     systems:list,
     comment:str='',
-    filepath:str='tunnel_splittings.csv',
+    filepath:str='splittings.csv',
     ) -> pd.DataFrame:
-    """Save the tunnel splitting energies for all `systems` to a tunnel_splittings.csv file.
+    """Save the tunnel splitting energies for all `systems` to a splittings.csv file.
 
     Returns a Pandas Dataset with `System.comment` columns and `System.splittings` values.
 

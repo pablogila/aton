@@ -44,7 +44,8 @@ from aton._version import __version__
 
 def save(
         system:System,
-        filepath:str='potential.dat',
+        comment:str='',
+        filepath:str='potential.csv',
         angle:str='deg',
         energy:str='meV',
         ) -> None:
@@ -65,7 +66,7 @@ def save(
             print("Aborted.")
             return None
     # Set header
-    potential_data = f'# {system.comment}\n' if system.comment else ''
+    potential_data = f'# {comment}\n' if comment else f'# {system.comment}\n' if system.comment else ''
     potential_data += '# Rotational potential dataset\n'
     potential_data += f'# Saved with ATON {__version__}\n'
     potential_data += '# https://pablogila.github.io/ATON\n'
@@ -77,10 +78,10 @@ def save(
     potential_values = system.potential_values
     # Convert angle units
     if angle.lower() in alias.units['rad']:
-        potential_data += '# Angle/rad    '
+        potential_data += '# Angle/rad,    '
     else:
         grid = np.degrees(grid)
-        potential_data += '# Angle/deg    '
+        potential_data += '# Angle/deg,    '
         if not angle.lower() in alias.units['deg']:
             print(f"WARNING: Unrecognised '{angle}' angle units, using degrees instead")
     # Convert energy units
@@ -110,7 +111,7 @@ def save(
 
 
 def load(
-        filepath:str='potential.dat',
+        filepath:str='potential.csv',
         comment:str=None,
         system:System=None,
         angle:str='deg',
@@ -136,7 +137,7 @@ def load(
         if line.startswith('#'):
             continue
         position, potential = line.split()
-        positions.append(float(position.strip()))
+        positions.append(float(position.strip().strip(',').strip()))
         potentials.append(float(potential.strip()))
     # Save angles to numpy arrays
     if angle.lower() in alias.units['deg']:
@@ -166,7 +167,7 @@ def load(
 
 def from_qe(
         folder=None,
-        filepath:str='potential.dat',
+        filepath:str='potential.csv',
         include:list=['.out'],
         exclude:list=['slurm-'],
         energy:str='meV',
