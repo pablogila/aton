@@ -1,8 +1,10 @@
 """
 # QRotor
  
-The QRotor module is used to study the energy levels and wavefunctions of quantum rotations,
+The QRotor module is used to study molecular rotations,
 such as those of methyl and amine groups.
+It can calculate their quantum energy levels and wavefunctions,
+along with excitations and tunnel splittings.
 These quantum systems are represented by the `qrotor.System()` object.
 
 QRotor can obtain custom potentials from DFT,
@@ -18,7 +20,7 @@ This module uses meV as the default unit in the calculations.
 | `aton.qrotor.system`    | Definition of the quantum `System` object |
 | `aton.qrotor.systems`   | Functions to manage several System objects, such as a list of systems |
 | `aton.qrotor.rotate`    | Rotate specific atoms from structural files |
-| `aton.qrotor.constants` | Bond lengths and inertias |
+| `aton.qrotor.constants` | Common bond lengths and inertias |
 | `aton.qrotor.potential` | Potential definitions and loading functions |
 | `aton.qrotor.solve`     | Solve rotation eigenvalues and eigenvectors |
 | `aton.qrotor.plot`      | Plotting functions |

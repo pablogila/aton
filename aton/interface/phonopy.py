@@ -28,10 +28,9 @@ interface.slurm.sbatch('supercell-', 'scf.slurm')
 
 
 import os
-import re
 from aton._version import __version__
-import aton.st.file as file
-import aton.st.call as call
+import aton.file as file
+import aton.call as call
 import aton.txt.find as find
 import aton.txt.edit as edit # text
 import aton.txt.extract as extract

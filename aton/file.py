@@ -8,6 +8,8 @@ Functions to move files around.
 
 | | |
 | --- | --- |
+| `save()`              | Save a Python object to a compressed binary file, as `.aton` |
+| `load()`              | Load a Python object from a compressed binary file, as `.aton` |
 | `get()`               | Check that a file exists, and return the full path |
 | `get_list()`          | Get a list of the files inside a folder, applying optional filters |
 | `get_dir()`           | Get the full path of a folder or the cwd |
@@ -17,8 +19,6 @@ Functions to move files around.
 | `rename_on_folder()`  | Batch rename files from a folder |
 | `rename_on_folders()` | Barch rename files from subfolders |
 | `copy_to_folders()`   | Copy files to individual subfolders |
-| `save()`              | Save a Python object to a binary file, as `.aton` |
-| `load()`              | Load a Python object from a binary file, as `.aton` |
 
 ---
 """
@@ -28,6 +28,32 @@ import os
 import shutil
 import pickle
 import gzip
+
+
+def save(object, filename:str=None):
+    """Save a Python object in the current working directory as a compressed binary `*.aton` file."""
+    filename = 'data' if filename is None else filename
+    if not filename.endswith('.aton'):
+        filename += '.aton'
+    file = os.path.join(os.getcwd(), filename)
+    with gzip.open(file, 'wb') as f:
+        pickle.dump(object, f)
+    print(f"Data saved and compressed to {file}")
+
+
+def load(filepath:str='data.aton'):
+    """Load a Python object from a compressed binary `*.aton` file.
+
+    Use only if you trust the person who sent you the file!
+    """
+    file_path = get(filepath, return_anyway=True)
+    if not file_path:
+        file_path = get(filepath + '.aton', return_anyway=True)
+    if not file_path:
+        raise FileNotFoundError(f"Missing file {filepath}")
+    with gzip.open(file_path, 'rb') as f:
+        data = pickle.load(f)
+    return data
 
 
 def get(
@@ -255,30 +281,4 @@ def copy_to_folders(
         new_file_path = os.path.join(path, new_file)
         copy(old_file, new_file_path)
     return None
-
-
-def save(object, filename:str=None):
-    """Save a Python object in the current working directory as a binary `*.aton` file."""
-    filename = 'data' if filename is None else filename
-    if not filename.endswith('.aton'):
-        filename += '.aton'
-    file = os.path.join(os.getcwd(), filename)
-    with gzip.open(file, 'wb') as f:
-        pickle.dump(object, f)
-    print(f"Data saved and compressed to {file}")
-
-
-def load(filepath:str='data.aton'):
-    """Load a Python object from a binary `*.aton` file.
-    
-    Use only if you trust the person who sent you the file!
-    """
-    file_path = get(filepath, return_anyway=True)
-    if not file_path:
-        file_path = get(filepath + '.aton', return_anyway=True)
-    if not file_path:
-        raise FileNotFoundError(f"Missing file {filepath}")
-    with gzip.open(file_path, 'rb') as f:
-        data = pickle.load(f)
-    return data
 

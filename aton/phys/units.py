@@ -63,7 +63,7 @@ phys.mnc2  # neutron mass energy equivalent
 # meV to 1/cm
 energy_in_cm1 = energy_in_meV * phys.meV_to_cm1
 # Bohr to Angstroms
-distance_in_angstroms = distance_in_bohr * phys.bohr_to_A
+distance_in_angstroms = distance_in_bohr * phys.bohr_to_AA
 # m/s to rad/s  (used in neutron scattering)
 velocity_in_rads = velocity_in_ms * phys.ms_to_rads
 ```
@@ -254,8 +254,8 @@ eV_to_meV     = 1000.0
 meV_to_eV     = 1e-3
 meV_to_Ry     = 1.0 / Ry_to_meV
 meV_to_J      = 1.602176634e-22
-meV_to_A      = 9.045
-meV_to_A1     = 0.6947
+meV_to_AA     = 9.045
+meV_to_AA1    = 0.6947
 meV_to_ms     = 437.4 
 meV_to_K      = 11.604
 meV_to_THz    = 0.2418
@@ -272,8 +272,8 @@ J_to_Ry       = 1.0 / Ry_to_J
 J_to_cal      = 1.0 / cal_to_J
 J_to_kcal     = 1.0 / kcal_to_J
 
-kJmol_to_A    = 2.809
-kJmol_to_A1   = 2.237
+kJmol_to_AA   = 2.809
+kJmol_to_AA1  = 2.237
 kJmol_to_ms   = 1.408e3
 kJmol_to_K    = 120.3
 kJmol_to_THz  = 2.506 
@@ -285,14 +285,14 @@ kJmol_to_meV  = 10.36
 ## Distance
 """
 
-bohr_to_A   = 5.29177210544e-1
+bohr_to_AA  = 5.29177210544e-1
 bohr_to_m   = 5.29177210544e-11
 
-A_to_bohr   = 1.0 / bohr_to_A
-A_to_m      = 1.0e-10
+AA_to_bohr  = 1.0 / bohr_to_AA
+AA_to_m     = 1.0e-10
 
 m_to_bohr   = 1.0 / bohr_to_m
-m_to_A      = 1.0e10
+m_to_AA     = 1.0e10
 
 """---
 ## Mass
@@ -352,55 +352,55 @@ mTorr_to_Torr = 0.001
 """---
 ## Time
 """
-H_to_s      = 3600.0
-s_to_H      = 1.0 / H_to_s
+H_to_s = 3600.0
+s_to_H = 1.0 / H_to_s
 
 """---
 ## Wavelength
 """
-A_to_A1 = 6.28318
-A_to_ms = 3956
-A_to_K = 949.3
-A_to_THz = 19.78
-A_to_rads = 1.243e14
-A_to_cm1 = 659.8
-A_to_meV = 81.805
-A_to_kJmol = 7.893
+AA_to_AA1   = 6.28318
+AA_to_ms    = 3956
+AA_to_K     = 949.3
+AA_to_THz   = 19.78
+AA_to_rads  = 1.243e14
+AA_to_cm1   = 659.8
+AA_to_meV   = 81.805
+AA_to_kJmol = 7.893
 
 """---
 ## Wavevector
 """
-A1_to_A = 6.28318
-A1_to_ms = 629.6
-A1_to_K = 24.046
-A1_to_THz = 0.5010
-A1_to_rads = 3.148e12
-A1_to_cm1 = 16.71
-A1_to_meV = 2.072
-A1_to_kJmol = 0.1999
+AA1_to_AA    = 6.28318
+AA1_to_ms    = 629.6
+AA1_to_K     = 24.046
+AA1_to_THz   = 0.5010
+AA1_to_rads  = 3.148e12
+AA1_to_cm1   = 16.71
+AA1_to_meV   = 2.072
+AA1_to_kJmol = 0.1999
 
 """---
 ## Velocity
 """
-ms_to_A = 3956 
-ms_to_A1 = 1.589e-3
-ms_to_K = 6.066e5
-ms_to_THz = 1.265e-6
-ms_to_rads = 7.948e6
-ms_to_cm1 = 4.216e-5
-ms_to_meV = 5.227e-6
+ms_to_AA    = 3956 
+ms_to_AA1   = 1.589e-3
+ms_to_K     = 6.066e5
+ms_to_THz   = 1.265e-6
+ms_to_rads  = 7.948e6
+ms_to_cm1   = 4.216e-5
+ms_to_meV   = 5.227e-6
 ms_to_kJmol = 5.044e-7
 
 """---
 ## Temperature
 """
-K_to_A = 30.81 
-K_to_A1 = 0.2039 
-K_to_ms = 128.4 
-K_to_THz = 0.02084 
-K_to_rads = 1.309e11
-K_to_cm1 = 0.6950
-K_to_meV = 8.617e-2
+K_to_AA    = 30.81 
+K_to_AA1   = 0.2039 
+K_to_ms    = 128.4 
+K_to_THz   = 0.02084 
+K_to_rads  = 1.309e11
+K_to_cm1   = 0.6950
+K_to_meV   = 8.617e-2
 K_to_kJmol = 8.314e-3
 
 """---
@@ -414,36 +414,36 @@ K_to_C_scale = -C_to_K_scale
 """---
 ## Frequency
 """
-THz_to_A = 4.4475
-THz_to_A1 = 1.4127 
-THz_to_ms = 889.5 
-THz_to_K = 48.0
-THz_to_rads = 6.283e12
-THz_to_cm1 = 33.36 
-THz_to_meV = 4.136
+THz_to_AA    = 4.4475
+THz_to_AA1   = 1.4127 
+THz_to_ms    = 889.5 
+THz_to_K     = 48.0
+THz_to_rads  = 6.283e12
+THz_to_cm1   = 33.36 
+THz_to_meV   = 4.136
 THz_to_kJmol = 0.3990
 
 """---
 ## Angular frequency
 """
-rads_to_A = 11.15e6
-rads_to_A1 = 5.64e-7
-rads_to_ms = 3.549e-4
-rads_to_K = 7.64e-12
-rads_to_THz = 0.1592e-12
-rads_to_cm1 = 5.309e-12
-rads_to_meV = 6.582e-13
+rads_to_AA    = 11.15e6
+rads_to_AA1   = 5.64e-7
+rads_to_ms    = 3.549e-4
+rads_to_K     = 7.64e-12
+rads_to_THz   = 0.1592e-12
+rads_to_cm1   = 5.309e-12
+rads_to_meV   = 6.582e-13
 rads_to_kJmol = 6.351e-14
 
 """---
 ## Wavenumber
 """ 
-cm1_to_A = 25.69 
-cm1_to_A1 = 0.2446
-cm1_to_ms = 154.01
-cm1_to_K = 1.439
-cm1_to_THz = 0.02998
-cm1_to_rads = 1.884e11
-cm1_to_meV  = 1.0 / meV_to_cm1
+cm1_to_AA    = 25.69 
+cm1_to_AA1   = 0.2446
+cm1_to_ms    = 154.01
+cm1_to_K     = 1.439
+cm1_to_THz   = 0.02998
+cm1_to_rads  = 1.884e11
+cm1_to_meV   = 1.0 / meV_to_cm1
 cm1_to_kJmol = 1.196e-2
 

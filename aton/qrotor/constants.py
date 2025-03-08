@@ -31,9 +31,9 @@ angle_NH = 180 - angle_NH_external
 """Internal angle of the X-N-H bond, in degrees."""
 
 # Rotation radius (calculated from distance and angle)
-r_CH = distance_CH * np.sin(np.deg2rad(angle_CH)) * phys.A_to_m
+r_CH = distance_CH * np.sin(np.deg2rad(angle_CH)) * phys.AA_to_m
 """Rotation radius of the methyl group, in meters."""
-r_NH = distance_NH * np.sin(np.deg2rad(angle_NH)) * phys.A_to_m
+r_NH = distance_NH * np.sin(np.deg2rad(angle_NH)) * phys.AA_to_m
 """Rotation radius of the amine group, in meters."""
 
 # Inertia, SI units

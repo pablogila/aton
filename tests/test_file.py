@@ -1,4 +1,4 @@
-from aton.st import file
+from aton import file
 
 
 folder = 'tests/samples/'

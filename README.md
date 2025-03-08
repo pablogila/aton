@@ -86,7 +86,8 @@ These are powered by the [aton.txt](#general-text-edition) module and can be eas
 
 ## Physico-chemical constants
 
-The **phys** module contains physico-chemical definitions.
+The **phys** module contains physical constants and conversion factors,
+as well as chemical information from all known elements.
 Values are accessed directly as `phys.value` or `phys.function()`.
 
 ### [aton.phys](https://pablogila.github.io/ATON/aton/phys.html)
@@ -99,18 +100,18 @@ Values are accessed directly as `phys.value` or `phys.function()`.
 
 
 ## Quantum rotations
- 
-The **QRotor** module is used to study quantum rotations,
-such as those of methyl and amine groups.
+
+The **QRotor** module is used to study energy excitations and tunnel splittings
+from molecular rotations, such as those of methyl and amine groups.
 
 ### [aton.qrotor](https://pablogila.github.io/ATON/aton/qrotor.html)
 
 | | |
 | --- | --- |
-| [qrotor.rotate](https://pablogila.github.io/ATON/aton/qrotor/rotate.html)       | Rotate specific atoms from structural files |
-| [qrotor.constants](https://pablogila.github.io/ATON/aton/qrotor/constants.html) | Bond lengths and inertias |
 | [qrotor.system](https://pablogila.github.io/ATON/aton/qrotor/system.html)       | Definition of the quantum `System` object |
 | [qrotor.systems](https://pablogila.github.io/ATON/aton/qrotor/systems.html)     | Functions to manage several System objects |
+| [qrotor.rotate](https://pablogila.github.io/ATON/aton/qrotor/rotate.html)       | Rotate specific atoms from structural files |
+| [qrotor.constants](https://pablogila.github.io/ATON/aton/qrotor/constants.html) | Common bond lengths and inertias |
 | [qrotor.potential](https://pablogila.github.io/ATON/aton/qrotor/potential.html) | Potential definitions and loading functions |
 | [qrotor.solve](https://pablogila.github.io/ATON/aton/qrotor/solve.html)         | Solve rotation eigenvalues and eigenvectors |
 | [qrotor.plot](https://pablogila.github.io/ATON/aton/qrotor/plot.html)           | Plotting functions |
@@ -150,15 +151,13 @@ such as [aton.interface](#interfaces-for-ab-initio-codes).
 
 ## System tools
 
-The **st** module contains System Tools for common system tasks across subpackages.
-
-### [aton.st](https://pablogila.github.io/ATON/aton/st.html)
+Additional utility tools are available for common system tasks across subpackages.
 
 | | |  
 | --- | --- |  
-| [st.file](https://pablogila.github.io/ATON/aton/st/file.html)   | File manipulation |  
-| [st.call](https://pablogila.github.io/ATON/aton/st/call.html)   | Run bash scripts and related |  
-| [st.alias](https://pablogila.github.io/ATON/aton/st/alias.html) | Useful dictionaries for user input correction |  
+| [aton.file](https://pablogila.github.io/ATON/aton/file.html)   | File manipulation |  
+| [aton.alias](https://pablogila.github.io/ATON/aton/alias.html) | Useful dictionaries for user input correction |  
+| [aton.call](https://pablogila.github.io/ATON/aton/call.html)   | Run bash scripts and related |   
 
 
 ---

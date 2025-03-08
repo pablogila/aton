@@ -40,7 +40,7 @@ import numpy as np
 import pandas as pd
 from copy import deepcopy
 import os
-import aton.st.alias as alias
+import aton.alias as alias
 import aton.phys as phys
 
 
@@ -263,7 +263,7 @@ class Spectra:
         cm = 'cm-1'
         unit_format={
                 mev: alias.units['meV'],
-                cm: alias.units['cm-1'] + alias.units['cm'],
+                cm: alias.units['cm1'] + alias.units['cm'],
             }
         if self.units is not None:
             units_in = deepcopy(self.units)

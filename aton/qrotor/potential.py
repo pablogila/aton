@@ -35,8 +35,8 @@ import numpy as np
 import os
 from copy import deepcopy
 from scipy.interpolate import CubicSpline
-import aton.st.alias as alias
-import aton.st.file as file
+import aton.alias as alias
+import aton.file as file
 import aton.interface.qe as qe
 import aton.phys as phys
 from aton._version import __version__

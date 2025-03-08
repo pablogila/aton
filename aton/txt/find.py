@@ -49,7 +49,7 @@ txt.find.between(filepath=file, key1='first', key2='second')
 
 import mmap
 import re
-import aton.st.file as file
+import aton.file as file
 
 
 def lines(

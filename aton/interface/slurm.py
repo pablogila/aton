@@ -20,8 +20,8 @@ Functions to handle Slurm calls, to run calculations in clusters.
 
 import os
 import pandas as pd
-import aton.st.call as call
-import aton.st.file as file
+import aton.call as call
+import aton.file as file
 import aton.txt.find as find
 import aton.txt.edit as edit
 from aton._version import __version__

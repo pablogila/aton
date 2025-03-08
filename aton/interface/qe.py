@@ -36,7 +36,7 @@ import pandas as pd
 import numpy as np
 import os
 from aton._version import __version__
-import aton.st.file as file
+import aton.file as file
 import aton.phys.atoms
 import aton.txt.find as find
 import aton.txt.edit as edit

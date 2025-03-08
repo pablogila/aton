@@ -22,7 +22,7 @@ import scipy
 import numpy as np
 from copy import deepcopy
 from .classes import Spectra
-import aton.st.alias as alias
+import aton.alias as alias
 
 
 def plateau(

@@ -13,7 +13,7 @@ Functions to work with [CASTEP](https://castep-docs.github.io/castep-docs/) calc
 """
 
 
-import aton.st.file as file
+import aton.file as file
 import aton.txt.find as find
 import aton.txt.extract as extract
 

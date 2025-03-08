@@ -13,10 +13,9 @@ temp_readme = './_README_temp.md'
 # Update links from the README
 fix_dict ={
     '[ATON](https://pablogila.github.io/ATON/)'                                         : '**ATON**',
-    '[aton.st](https://pablogila.github.io/ATON/aton/st.html)'                          : '`aton.st`',
-    '[st.call](https://pablogila.github.io/ATON/aton/st/call.html)'                     : '`aton.st.call`',
-    '[st.file](https://pablogila.github.io/ATON/aton/st/file.html)'                     : '`aton.st.file`',
-    '[st.alias](https://pablogila.github.io/ATON/aton/st/alias.html)'                   : '`aton.st.alias`',
+    '[aton.call](https://pablogila.github.io/ATON/aton/call.html)'                      : '`aton.call`',
+    '[aton.file](https://pablogila.github.io/ATON/aton/file.html)'                      : '`aton.file`',
+    '[aton.alias](https://pablogila.github.io/ATON/aton/alias.html)'                    : '`aton.alias`',
     '[aton.phys](https://pablogila.github.io/ATON/aton/phys.html)'                      : '`aton.phys`',
     '[phys.units](https://pablogila.github.io/ATON/aton/phys/units.html)'               : '`aton.phys.units`',
     '[phys.atoms](https://pablogila.github.io/ATON/aton/phys/atoms.html)'               : '`aton.phys.atoms`',
@@ -39,7 +38,7 @@ fix_dict ={
     '[spx.samples](https://pablogila.github.io/ATON/aton/spx/samples.html)'             : '`aton.spx.samples`',
     '[aton.qrotor](https://pablogila.github.io/ATON/aton/qrotor.html)'                  : '`aton.qrotor`',
     '[qrotor.system](https://pablogila.github.io/ATON/aton/qrotor/system.html)'         : '`aton.qrotor.system`',
-    '[qrotor.systems](https://pablogila.github.io/ATON/aton/qrotor/systems.html)'         : '`aton.qrotor.systems`',
+    '[qrotor.systems](https://pablogila.github.io/ATON/aton/qrotor/systems.html)'       : '`aton.qrotor.systems`',
     '[qrotor.constants](https://pablogila.github.io/ATON/aton/qrotor/constants.html)'   : '`aton.qrotor.constants`',
     '[qrotor.rotate](https://pablogila.github.io/ATON/aton/qrotor/rotate.html)'         : '`aton.qrotor.rotate`',
     '[qrotor.potential](https://pablogila.github.io/ATON/aton/qrotor/potential.html)'   : '`aton.qrotor.potential`',
@@ -56,8 +55,8 @@ shutil.copytree('pics', 'docs/pics', dirs_exist_ok=True)
 # Fix the README
 aton.txt.edit.from_template(readme, temp_readme, fix_dict)
 # Run Pdoc with the dark theme template from the ./css/ folder
-aton.st.call.bash(f"pdoc ./aton/ -o ./docs/ --mermaid --math --footer-text='ATON {__version__} documentation' -t ./css/")
-aton.st.file.remove(temp_readme)
+aton.call.bash(f"pdoc ./aton/ -o ./docs/ --mermaid --math --footer-text='ATON {__version__} documentation' -t ./css/")
+aton.file.remove(temp_readme)
 # Include google search verification
 search_verification_tag = '    <meta name="google-site-verification" content="u0Be1NUH4ztGm5rr5f_YFt6hqoqMJ-j9h7rk3wEJAUo" />'
 aton.txt.edit.insert_under('docs/aton.html', '<head>', search_verification_tag)

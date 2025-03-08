@@ -3,6 +3,8 @@
 
 This module contains common dictionaries to normalise and correct user inputs.
 All values can be found in lowercase, to allow comparison with the `string.lower()` method.
+Inverse of an unit X, as in 1/X or X$^{-1}$, is expressed as `X1`.
+See all available options with `dict.keys()`.
 
 
 # Index
@@ -38,9 +40,10 @@ units: dict = {
     'cal'  : ['cal', 'calorie', 'calories'],
     'kcal' : ['kcal', 'kilocalorie', 'kilocalories'],
     'Ry'   : ['Ry', 'ry', 'rydberg', 'rydbergs'],
-    'cm-1' : ['cm^{-1}', 'cm1', 'cm-1', 'cm^-1'],
     'cm'   : ['cm', 'centimeter', 'centimeters'],
-    'A'    : ['A', 'a', 'aa', 'angstrom', 'angstroms', 'armstrong', 'armstrongs'],
+    'cm1'  : ['cm^{-1}', 'cm1', 'cm-1', 'cm^-1'],
+    'AA'   : ['A', 'AA', 'a', 'aa', 'angstrom', 'angstroms', 'armstrong', 'armstrongs'],
+    'AA1'  : ['AA1', 'A1', 'AA-1', 'A-1', 'aa1', 'a1', 'aa-1', 'a-1'],
     'bohr' : ['bohr', 'bohrs', 'bohrradii'],
     'm'    : ['m', 'meter', 'meters'],
     'deg'  : ['deg', 'degree', 'degrees'],

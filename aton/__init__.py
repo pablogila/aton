@@ -4,7 +4,9 @@
 
 
 from ._version import __version__ as version
-from . import st
+from . import file
+from . import alias
+from . import call
 from . import phys
 from . import txt
 from . import interface

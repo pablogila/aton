@@ -127,7 +127,7 @@
     </ul>
 
 
-            <footer>ATON v0.3.4 documentation</footer>
+            <footer>ATON v0.4.0 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -188,9 +188,9 @@
 </span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">&quot;&quot;&quot;Internal angle of the X-N-H bond, in degrees.&quot;&quot;&quot;</span>
 </span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
 </span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="c1"># Rotation radius (calculated from distance and angle)</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="n">r_CH</span> <span class="o">=</span> <span class="n">distance_CH</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">angle_CH</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">A_to_m</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="n">r_CH</span> <span class="o">=</span> <span class="n">distance_CH</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">angle_CH</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">AA_to_m</span>
 </span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">&quot;&quot;&quot;Rotation radius of the methyl group, in meters.&quot;&quot;&quot;</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="n">r_NH</span> <span class="o">=</span> <span class="n">distance_NH</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">angle_NH</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">A_to_m</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="n">r_NH</span> <span class="o">=</span> <span class="n">distance_NH</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">angle_NH</span><span class="p">))</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">AA_to_m</span>
 </span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">&quot;&quot;&quot;Rotation radius of the amine group, in meters.&quot;&quot;&quot;</span>
 </span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>
 </span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="c1"># Inertia, SI units</span>

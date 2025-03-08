@@ -1,9 +1,8 @@
 import aton.qrotor as qr
 import aton.interface as interface
 import aton.txt.extract as extract
-import aton.st.file as file
+import aton.file as file
 import numpy as np
-import warnings
 
 
 folder = 'tests/samples/'

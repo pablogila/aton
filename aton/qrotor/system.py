@@ -10,7 +10,7 @@ This class can be loaded directly as `aton.qrotor.System()`.
 
 import numpy as np
 from .constants import *
-from aton.st import alias
+from aton import alias
 from aton._version import __version__
 
 
