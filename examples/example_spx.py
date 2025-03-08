@@ -1,5 +1,5 @@
 from aton import spx
-from aton.st.call import here
+from aton.call import here
 
 # Run in the current folder
 here()

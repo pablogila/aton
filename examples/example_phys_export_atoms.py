@@ -1,4 +1,4 @@
 import aton
 
-aton.st.call.here()
+aton.call.here()
 aton.phys.export_atoms()
