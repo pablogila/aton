@@ -42,8 +42,6 @@ def energies(system:System, filename:str=None) -> System:
 
     The resulting System object is saved with pickle to `filename` if specified.
     """
-    if not any(system.grid):
-        system.set_grid()
     system = potential(system)
     system = schrodinger(system)
     if filename:
@@ -51,15 +49,21 @@ def energies(system:System, filename:str=None) -> System:
     return system
 
 
-def potential(system:System) -> System:
+def potential(system:System, gridsize:int=None) -> System:
     """Solves the potential values of the `system`.
 
-    It interpolates the potential if `system.gridsize` is larger than the current grid.
-    It solves the potential according to the potential name,
-    by calling `aton.qrotor.potential.solve()`.
+    Creates a grid if not yet present.
+    It also interpolates the potential if `system.gridsize` is larger than the current grid;
+    optionally, an alternative `gridsize` can be specified.
+
+    It then solves the potential according to the potential name.
     Then it applies extra operations, such as removing the potential offset
     if `system.correct_potential_offset = True`.
     """
+    if gridsize:
+        system.gridsize = gridsize
+    if not any(system.grid):
+        system.set_grid()
     if system.gridsize and any(system.grid):
         if system.gridsize > len(system.grid):
             system = interpolate(system)

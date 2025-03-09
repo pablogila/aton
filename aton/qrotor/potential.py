@@ -11,10 +11,17 @@ This module contains functions to calculate the actual `potential_values` of the
 | `save()`        | Save the potential from a System to a data file |
 | `load()`        | Load a System with a custom potential from a potential data file |
 | `from_qe()`     | Creates a potential data file from Quantum ESPRESSO outputs |
+| `add()`         | Add and subtract potentials from systems |
+
+To solve or interpolate a potential, use `aton.qrotor.solve.potential()`.
+This will run several checks before applying the following functions automatically:
+
+| | |
+| --- | --- |
 | `interpolate()` | Interpolates the current `System.potential_values` to a new `System.gridsize` |
 | `solve()`       | Solve the potential values based on the potential name |
 
-A sinthetic potential can be created by specifying its name in `System.potential_name`,
+A synthetic potential can be created by specifying its name in `System.potential_name`,
 along with the corresponding `System.potential_constants` if required.
 Available potentials are:
 
@@ -31,6 +38,7 @@ Available potentials are:
 
 from .system import System
 from . import constants
+from . import systems
 import numpy as np
 import os
 from copy import deepcopy
@@ -263,9 +271,56 @@ def from_qe(
     return None
 
 
+def add(plus:list=[], minus:list=[], comment:str=None) -> System:
+    """Add or subtract potentials from different systems.
+
+    Adds the potentials from the systems in `plus`,
+    removes the ones from `minus`.
+    All systems will be interpolated to the bigger gridsize if needed.
+
+    The first System will be returned with the resulting potential values,
+    with an optional `comment` if indicated.
+    """
+    plus = systems.as_list(plus)
+    minus = systems.as_list(minus)
+    gridsizes = systems.get_gridsizes(plus)
+    gridsizes.extend(systems.get_gridsizes(minus))
+    max_gridsize = max(gridsizes)
+    # All gridsizes should be max_gridsize
+    for p in plus:
+        if p.gridsize != max_gridsize:
+            p.gridsize = max_gridsize
+            p = interpolate(p)
+    for m in minus:
+        if m.gridsize != max_gridsize:
+            m.gridsize = max_gridsize
+            m = m.interpolate(p)
+
+    if len(plus) == 0:
+        if len(minus) == 0:
+            raise ValueError('No systems were provided!')
+        result = deepcopy(minus[0])
+        result.potential_values = -result.potential_values
+        minus.pop(0)
+    else:
+        result = deepcopy(plus[0])
+        plus.pop(0)
+
+    for system in plus:
+        result.potential_values = np.sum([result.potential_values, system.potential_values], axis=0)
+    for system in minus:
+        result.potential_values = np.sum([result.potential_values, -system.potential_values], axis=0)
+    if comment != None:
+        result.comment = comment
+    return result
+
+
 def interpolate(system:System) -> System:
     """Interpolates the current `System.potential_values`
     to a new grid of size `System.gridsize`.
+
+    This basic function is called by `aton.qrotor.solve.potential()`,
+    which is the recommended way to interpolate potentials.
     """
     print(f"Interpolating potential to a grid of size {system.gridsize}...")
     V = system.potential_values
@@ -279,7 +334,6 @@ def interpolate(system:System) -> System:
     return system
 
 
-# Redirect to the desired potential energy function
 def solve(system:System):
     """Solves `System.potential_values`
     according to the `System.potential_name`,
@@ -289,9 +343,8 @@ def solve(system:System):
     If `System.potential_name` is not present or not recognised,
     the current `System.potential_values` are used.
 
-    This function provides basic solving of the potential energy function.
-    To interpolate to a new gridsize and correct the potential offset after solving,
-    check `aton.qrotor.solve.potential()`.
+    This basic function is called by `aton.qrotor.solve.potential()`,
+    which is the recommended way to solve potentials.
     """
     data = deepcopy(system)
     # Is there a potential_name?
@@ -318,7 +371,7 @@ def zero(system:System):
     $V(x) = 0$
     """
     x = system.grid
-    return 0 * x
+    return 0 * np.array(x)
 
 
 def sine(system:System):
@@ -345,7 +398,7 @@ def sine(system:System):
             C2 = C[2]
         if len(C) > 3:
             C3 = C[3]
-    return C0 + (C1 / 2) * np.sin(x * C2 + C3)
+    return C0 + (C1 / 2) * np.sin(np.array(x) * C2 + C3)
 
 
 def cosine(system:System):
@@ -372,7 +425,7 @@ def cosine(system:System):
             C2 = C[2]
         if len(C) > 3:
             C3 = C[3]
-    return C0 + (C1 / 2) * np.cos(x * C2 + C3)
+    return C0 + (C1 / 2) * np.cos(np.array(x) * C2 + C3)
 
 
 def titov2023(system:System):

@@ -152,6 +152,8 @@ def get_gridsizes(systems:list) -> list:
     for i in systems:
         if i.gridsize:
             gridsizes.append(i.gridsize)
+        elif any(i.potential_values):
+            gridsizes.append(len(potential_values))
         else:
             gridsizes.append(None)
     return gridsizes
