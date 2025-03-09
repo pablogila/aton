@@ -8,7 +8,7 @@ Recommended Values of the Fundamental Physical Constants.
 It also contains useful conversion factors for neutron scattering, from
 [David L. Price and Felix Fernandez-Alonso, *Neutron Scattering Fundamentals*, Experimental methods in the physical sciences, Elsevier Academic Press (2013)](https://doi.org/10.1016/B978-0-12-398374-9.00001-2),
 and from
-[M. Bée, "Quasielastic Neutron scattering", Adam Hilger, Bristol and Philadelphia (1988)](https://www.ncnr.nist.gov/instruments/dcs/dcs_usersguide/Conversion_Factors.pdf);
+[M. Bée, "Quasielastic Neutron scattering", Adam Hilger, Bristol and Philadelphia (1988)](https://www.ncnr.nist.gov/instruments/dcs/dcs_usersguide/Conversion_Factors.pdf).
 
 
 # Index
