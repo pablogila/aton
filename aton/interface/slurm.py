@@ -58,7 +58,7 @@ def sbatch(
     If `testing = True` it skips the final sbatching,
     just printing the commands on the screen.
     """
-    print(f'\naton.interface.slurm {__version__}\n'
+    print(f'ATON {__version__}\n'
           'Sbatching all calculations...\n')
     key_input = 'INPUT_FILE'
     key_output = 'OUTPUT_FILE'
@@ -106,7 +106,7 @@ def sbatch(
         else:
             call.bash(f"sbatch {slurm_id}", folder, True, False)
         call.bash(f"mv {slurm_id} {slurm_folder}", folder, False, True)  # Do not raise error if we can't move the file
-    print(f'\nDone! Temporary slurm files were moved to ./{slurm_folder}/\n')
+    print(f'Done! Temporary slurm files were moved to ./{slurm_folder}/\n')
 
 
 def scancel(
