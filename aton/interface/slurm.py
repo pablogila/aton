@@ -58,8 +58,7 @@ def sbatch(
     If `testing = True` it skips the final sbatching,
     just printing the commands on the screen.
     """
-    print(f'ATON {__version__}\n'
-          'Sbatching all calculations...\n')
+    print('Sbatching all calculations...\n')
     key_input = 'INPUT_FILE'
     key_output = 'OUTPUT_FILE'
     key_jobname = 'JOB_NAME'
