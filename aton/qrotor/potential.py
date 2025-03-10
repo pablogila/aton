@@ -11,7 +11,7 @@ This module contains functions to calculate the actual `potential_values` of the
 | `save()`        | Save the potential from a System to a data file |
 | `load()`        | Load a System with a custom potential from a potential data file |
 | `from_qe()`     | Creates a potential data file from Quantum ESPRESSO outputs |
-| `add()`         | Add and subtract potentials from systems |
+| `merge()`       | Add and subtract potentials from systems |
 
 To solve or interpolate a potential, use `aton.qrotor.solve.potential()`.
 This will run several checks before applying the following functions automatically:
@@ -271,44 +271,44 @@ def from_qe(
     return None
 
 
-def add(plus:list=[], minus:list=[], comment:str=None) -> System:
+def merge(add=[], subtract=[], comment:str=None) -> System:
     """Add or subtract potentials from different systems.
 
-    Adds the potentials from the systems in `plus`,
-    removes the ones from `minus`.
+    Adds the potentials from the systems in `add`,
+    removes the ones from `subtract`.
     All systems will be interpolated to the bigger gridsize if needed.
 
     The first System will be returned with the resulting potential values,
     with an optional `comment` if indicated.
     """
-    plus = systems.as_list(plus)
-    minus = systems.as_list(minus)
-    gridsizes = systems.get_gridsizes(plus)
-    gridsizes.extend(systems.get_gridsizes(minus))
+    add = systems.as_list(add)
+    subtract = systems.as_list(subtract)
+    gridsizes = systems.get_gridsizes(add)
+    gridsizes.extend(systems.get_gridsizes(subtract))
     max_gridsize = max(gridsizes)
     # All gridsizes should be max_gridsize
-    for p in plus:
-        if p.gridsize != max_gridsize:
-            p.gridsize = max_gridsize
-            p = interpolate(p)
-    for m in minus:
-        if m.gridsize != max_gridsize:
-            m.gridsize = max_gridsize
-            m = m.interpolate(p)
+    for s in add:
+        if s.gridsize != max_gridsize:
+            s.gridsize = max_gridsize
+            s = interpolate(s)
+    for s in subtract:
+        if s.gridsize != max_gridsize:
+            s.gridsize = max_gridsize
+            s = interpolate(s)
 
-    if len(plus) == 0:
-        if len(minus) == 0:
+    if len(add) == 0:
+        if len(subtract) == 0:
             raise ValueError('No systems were provided!')
-        result = deepcopy(minus[0])
+        result = deepcopy(subtract[0])
         result.potential_values = -result.potential_values
-        minus.pop(0)
+        subtract.pop(0)
     else:
-        result = deepcopy(plus[0])
-        plus.pop(0)
+        result = deepcopy(add[0])
+        add.pop(0)
 
-    for system in plus:
+    for system in add:
         result.potential_values = np.sum([result.potential_values, system.potential_values], axis=0)
-    for system in minus:
+    for system in subtract:
         result.potential_values = np.sum([result.potential_values, -system.potential_values], axis=0)
     if comment != None:
         result.comment = comment

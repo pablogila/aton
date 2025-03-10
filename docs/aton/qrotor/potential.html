@@ -84,7 +84,7 @@
                     <a class="function" href="#from_qe">from_qe</a>
             </li>
             <li>
-                    <a class="function" href="#add">add</a>
+                    <a class="function" href="#merge">merge</a>
             </li>
             <li>
                     <a class="function" href="#interpolate">interpolate</a>
@@ -107,7 +107,7 @@
     </ul>
 
 
-            <footer>ATON v0.4.3 documentation</footer>
+            <footer>ATON v0.4.4 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -148,7 +148,7 @@
   <td>Creates a potential data file from Quantum ESPRESSO outputs</td>
 </tr>
 <tr>
-  <td><code><a href="#add">add()</a></code></td>
+  <td><code><a href="#merge">merge()</a></code></td>
   <td>Add and subtract potentials from systems</td>
 </tr>
 </tbody>
@@ -227,7 +227,7 @@ Available potentials are:</p>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="sd">| `save()`        | Save the potential from a System to a data file |</span>
 </span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="sd">| `load()`        | Load a System with a custom potential from a potential data file |</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="sd">| `from_qe()`     | Creates a potential data file from Quantum ESPRESSO outputs |</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="sd">| `add()`         | Add and subtract potentials from systems |</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="sd">| `merge()`       | Add and subtract potentials from systems |</span>
 </span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a>
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="sd">To solve or interpolate a potential, use `aton.qrotor.solve.potential()`.</span>
 </span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="sd">This will run several checks before applying the following functions automatically:</span>
@@ -487,44 +487,44 @@ Available potentials are:</p>
 </span><span id="L-271"><a href="#L-271"><span class="linenos">271</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-272"><a href="#L-272"><span class="linenos">272</span></a>
 </span><span id="L-273"><a href="#L-273"><span class="linenos">273</span></a>
-</span><span id="L-274"><a href="#L-274"><span class="linenos">274</span></a><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">plus</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="p">[],</span> <span class="n">minus</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="p">[],</span> <span class="n">comment</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="p">:</span>
+</span><span id="L-274"><a href="#L-274"><span class="linenos">274</span></a><span class="k">def</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">add</span><span class="o">=</span><span class="p">[],</span> <span class="n">subtract</span><span class="o">=</span><span class="p">[],</span> <span class="n">comment</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="p">:</span>
 </span><span id="L-275"><a href="#L-275"><span class="linenos">275</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add or subtract potentials from different systems.</span>
 </span><span id="L-276"><a href="#L-276"><span class="linenos">276</span></a>
-</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a><span class="sd">    Adds the potentials from the systems in `plus`,</span>
-</span><span id="L-278"><a href="#L-278"><span class="linenos">278</span></a><span class="sd">    removes the ones from `minus`.</span>
+</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a><span class="sd">    Adds the potentials from the systems in `add`,</span>
+</span><span id="L-278"><a href="#L-278"><span class="linenos">278</span></a><span class="sd">    removes the ones from `subtract`.</span>
 </span><span id="L-279"><a href="#L-279"><span class="linenos">279</span></a><span class="sd">    All systems will be interpolated to the bigger gridsize if needed.</span>
 </span><span id="L-280"><a href="#L-280"><span class="linenos">280</span></a>
 </span><span id="L-281"><a href="#L-281"><span class="linenos">281</span></a><span class="sd">    The first System will be returned with the resulting potential values,</span>
 </span><span id="L-282"><a href="#L-282"><span class="linenos">282</span></a><span class="sd">    with an optional `comment` if indicated.</span>
 </span><span id="L-283"><a href="#L-283"><span class="linenos">283</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-284"><a href="#L-284"><span class="linenos">284</span></a>    <span class="n">plus</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">as_list</span><span class="p">(</span><span class="n">plus</span><span class="p">)</span>
-</span><span id="L-285"><a href="#L-285"><span class="linenos">285</span></a>    <span class="n">minus</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">as_list</span><span class="p">(</span><span class="n">minus</span><span class="p">)</span>
-</span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a>    <span class="n">gridsizes</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">get_gridsizes</span><span class="p">(</span><span class="n">plus</span><span class="p">)</span>
-</span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a>    <span class="n">gridsizes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">systems</span><span class="o">.</span><span class="n">get_gridsizes</span><span class="p">(</span><span class="n">minus</span><span class="p">))</span>
+</span><span id="L-284"><a href="#L-284"><span class="linenos">284</span></a>    <span class="n">add</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">as_list</span><span class="p">(</span><span class="n">add</span><span class="p">)</span>
+</span><span id="L-285"><a href="#L-285"><span class="linenos">285</span></a>    <span class="n">subtract</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">as_list</span><span class="p">(</span><span class="n">subtract</span><span class="p">)</span>
+</span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a>    <span class="n">gridsizes</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">get_gridsizes</span><span class="p">(</span><span class="n">add</span><span class="p">)</span>
+</span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a>    <span class="n">gridsizes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">systems</span><span class="o">.</span><span class="n">get_gridsizes</span><span class="p">(</span><span class="n">subtract</span><span class="p">))</span>
 </span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a>    <span class="n">max_gridsize</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">gridsizes</span><span class="p">)</span>
 </span><span id="L-289"><a href="#L-289"><span class="linenos">289</span></a>    <span class="c1"># All gridsizes should be max_gridsize</span>
-</span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a>    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">plus</span><span class="p">:</span>
-</span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a>        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">!=</span> <span class="n">max_gridsize</span><span class="p">:</span>
-</span><span id="L-292"><a href="#L-292"><span class="linenos">292</span></a>            <span class="n">p</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">max_gridsize</span>
-</span><span id="L-293"><a href="#L-293"><span class="linenos">293</span></a>            <span class="n">p</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-</span><span id="L-294"><a href="#L-294"><span class="linenos">294</span></a>    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">minus</span><span class="p">:</span>
-</span><span id="L-295"><a href="#L-295"><span class="linenos">295</span></a>        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">!=</span> <span class="n">max_gridsize</span><span class="p">:</span>
-</span><span id="L-296"><a href="#L-296"><span class="linenos">296</span></a>            <span class="n">m</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">max_gridsize</span>
-</span><span id="L-297"><a href="#L-297"><span class="linenos">297</span></a>            <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a>    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">add</span><span class="p">:</span>
+</span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a>        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">!=</span> <span class="n">max_gridsize</span><span class="p">:</span>
+</span><span id="L-292"><a href="#L-292"><span class="linenos">292</span></a>            <span class="n">s</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">max_gridsize</span>
+</span><span id="L-293"><a href="#L-293"><span class="linenos">293</span></a>            <span class="n">s</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span id="L-294"><a href="#L-294"><span class="linenos">294</span></a>    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subtract</span><span class="p">:</span>
+</span><span id="L-295"><a href="#L-295"><span class="linenos">295</span></a>        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">!=</span> <span class="n">max_gridsize</span><span class="p">:</span>
+</span><span id="L-296"><a href="#L-296"><span class="linenos">296</span></a>            <span class="n">s</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">max_gridsize</span>
+</span><span id="L-297"><a href="#L-297"><span class="linenos">297</span></a>            <span class="n">s</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 </span><span id="L-298"><a href="#L-298"><span class="linenos">298</span></a>
-</span><span id="L-299"><a href="#L-299"><span class="linenos">299</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plus</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-300"><a href="#L-300"><span class="linenos">300</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">minus</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-299"><a href="#L-299"><span class="linenos">299</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">add</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-300"><a href="#L-300"><span class="linenos">300</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subtract</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 </span><span id="L-301"><a href="#L-301"><span class="linenos">301</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No systems were provided!&#39;</span><span class="p">)</span>
-</span><span id="L-302"><a href="#L-302"><span class="linenos">302</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">minus</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span id="L-302"><a href="#L-302"><span class="linenos">302</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">subtract</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </span><span id="L-303"><a href="#L-303"><span class="linenos">303</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="o">-</span><span class="n">result</span><span class="o">.</span><span class="n">potential_values</span>
-</span><span id="L-304"><a href="#L-304"><span class="linenos">304</span></a>        <span class="n">minus</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="L-304"><a href="#L-304"><span class="linenos">304</span></a>        <span class="n">subtract</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </span><span id="L-305"><a href="#L-305"><span class="linenos">305</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="L-306"><a href="#L-306"><span class="linenos">306</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">plus</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span id="L-307"><a href="#L-307"><span class="linenos">307</span></a>        <span class="n">plus</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="L-306"><a href="#L-306"><span class="linenos">306</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">add</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span id="L-307"><a href="#L-307"><span class="linenos">307</span></a>        <span class="n">add</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </span><span id="L-308"><a href="#L-308"><span class="linenos">308</span></a>
-</span><span id="L-309"><a href="#L-309"><span class="linenos">309</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">plus</span><span class="p">:</span>
+</span><span id="L-309"><a href="#L-309"><span class="linenos">309</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">add</span><span class="p">:</span>
 </span><span id="L-310"><a href="#L-310"><span class="linenos">310</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">result</span><span class="o">.</span><span class="n">potential_values</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="L-311"><a href="#L-311"><span class="linenos">311</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">minus</span><span class="p">:</span>
+</span><span id="L-311"><a href="#L-311"><span class="linenos">311</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">subtract</span><span class="p">:</span>
 </span><span id="L-312"><a href="#L-312"><span class="linenos">312</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">result</span><span class="o">.</span><span class="n">potential_values</span><span class="p">,</span> <span class="o">-</span><span class="n">system</span><span class="o">.</span><span class="n">potential_values</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span><span id="L-313"><a href="#L-313"><span class="linenos">313</span></a>    <span class="k">if</span> <span class="n">comment</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-314"><a href="#L-314"><span class="linenos">314</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="n">comment</span>
@@ -957,66 +957,66 @@ remember that default energy units in QRotor are meV!</p>
 
 
                 </section>
-                <section id="add">
-                            <input id="add-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                <section id="merge">
+                            <input id="merge-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">add</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">plus</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>,</span><span class="param">	<span class="n">minus</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>,</span><span class="param">	<span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="n"><a href="system.html#System">aton.qrotor.system.System</a></span>:</span></span>
+        <span class="name">merge</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">add</span><span class="o">=</span><span class="p">[]</span>, </span><span class="param"><span class="n">subtract</span><span class="o">=</span><span class="p">[]</span>, </span><span class="param"><span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="n"><a href="system.html#System">aton.qrotor.system.System</a></span>:</span></span>
 
-                <label class="view-source-button" for="add-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="merge-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#add"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="add-275"><a href="#add-275"><span class="linenos">275</span></a><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">plus</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="p">[],</span> <span class="n">minus</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="p">[],</span> <span class="n">comment</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="p">:</span>
-</span><span id="add-276"><a href="#add-276"><span class="linenos">276</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add or subtract potentials from different systems.</span>
-</span><span id="add-277"><a href="#add-277"><span class="linenos">277</span></a>
-</span><span id="add-278"><a href="#add-278"><span class="linenos">278</span></a><span class="sd">    Adds the potentials from the systems in `plus`,</span>
-</span><span id="add-279"><a href="#add-279"><span class="linenos">279</span></a><span class="sd">    removes the ones from `minus`.</span>
-</span><span id="add-280"><a href="#add-280"><span class="linenos">280</span></a><span class="sd">    All systems will be interpolated to the bigger gridsize if needed.</span>
-</span><span id="add-281"><a href="#add-281"><span class="linenos">281</span></a>
-</span><span id="add-282"><a href="#add-282"><span class="linenos">282</span></a><span class="sd">    The first System will be returned with the resulting potential values,</span>
-</span><span id="add-283"><a href="#add-283"><span class="linenos">283</span></a><span class="sd">    with an optional `comment` if indicated.</span>
-</span><span id="add-284"><a href="#add-284"><span class="linenos">284</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="add-285"><a href="#add-285"><span class="linenos">285</span></a>    <span class="n">plus</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">as_list</span><span class="p">(</span><span class="n">plus</span><span class="p">)</span>
-</span><span id="add-286"><a href="#add-286"><span class="linenos">286</span></a>    <span class="n">minus</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">as_list</span><span class="p">(</span><span class="n">minus</span><span class="p">)</span>
-</span><span id="add-287"><a href="#add-287"><span class="linenos">287</span></a>    <span class="n">gridsizes</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">get_gridsizes</span><span class="p">(</span><span class="n">plus</span><span class="p">)</span>
-</span><span id="add-288"><a href="#add-288"><span class="linenos">288</span></a>    <span class="n">gridsizes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">systems</span><span class="o">.</span><span class="n">get_gridsizes</span><span class="p">(</span><span class="n">minus</span><span class="p">))</span>
-</span><span id="add-289"><a href="#add-289"><span class="linenos">289</span></a>    <span class="n">max_gridsize</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">gridsizes</span><span class="p">)</span>
-</span><span id="add-290"><a href="#add-290"><span class="linenos">290</span></a>    <span class="c1"># All gridsizes should be max_gridsize</span>
-</span><span id="add-291"><a href="#add-291"><span class="linenos">291</span></a>    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">plus</span><span class="p">:</span>
-</span><span id="add-292"><a href="#add-292"><span class="linenos">292</span></a>        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">!=</span> <span class="n">max_gridsize</span><span class="p">:</span>
-</span><span id="add-293"><a href="#add-293"><span class="linenos">293</span></a>            <span class="n">p</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">max_gridsize</span>
-</span><span id="add-294"><a href="#add-294"><span class="linenos">294</span></a>            <span class="n">p</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-</span><span id="add-295"><a href="#add-295"><span class="linenos">295</span></a>    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">minus</span><span class="p">:</span>
-</span><span id="add-296"><a href="#add-296"><span class="linenos">296</span></a>        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">!=</span> <span class="n">max_gridsize</span><span class="p">:</span>
-</span><span id="add-297"><a href="#add-297"><span class="linenos">297</span></a>            <span class="n">m</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">max_gridsize</span>
-</span><span id="add-298"><a href="#add-298"><span class="linenos">298</span></a>            <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-</span><span id="add-299"><a href="#add-299"><span class="linenos">299</span></a>
-</span><span id="add-300"><a href="#add-300"><span class="linenos">300</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plus</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="add-301"><a href="#add-301"><span class="linenos">301</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">minus</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="add-302"><a href="#add-302"><span class="linenos">302</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No systems were provided!&#39;</span><span class="p">)</span>
-</span><span id="add-303"><a href="#add-303"><span class="linenos">303</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">minus</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span id="add-304"><a href="#add-304"><span class="linenos">304</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="o">-</span><span class="n">result</span><span class="o">.</span><span class="n">potential_values</span>
-</span><span id="add-305"><a href="#add-305"><span class="linenos">305</span></a>        <span class="n">minus</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="add-306"><a href="#add-306"><span class="linenos">306</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="add-307"><a href="#add-307"><span class="linenos">307</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">plus</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span id="add-308"><a href="#add-308"><span class="linenos">308</span></a>        <span class="n">plus</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="add-309"><a href="#add-309"><span class="linenos">309</span></a>
-</span><span id="add-310"><a href="#add-310"><span class="linenos">310</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">plus</span><span class="p">:</span>
-</span><span id="add-311"><a href="#add-311"><span class="linenos">311</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">result</span><span class="o">.</span><span class="n">potential_values</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="add-312"><a href="#add-312"><span class="linenos">312</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">minus</span><span class="p">:</span>
-</span><span id="add-313"><a href="#add-313"><span class="linenos">313</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">result</span><span class="o">.</span><span class="n">potential_values</span><span class="p">,</span> <span class="o">-</span><span class="n">system</span><span class="o">.</span><span class="n">potential_values</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="add-314"><a href="#add-314"><span class="linenos">314</span></a>    <span class="k">if</span> <span class="n">comment</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="add-315"><a href="#add-315"><span class="linenos">315</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="n">comment</span>
-</span><span id="add-316"><a href="#add-316"><span class="linenos">316</span></a>    <span class="k">return</span> <span class="n">result</span>
+    <a class="headerlink" href="#merge"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="merge-275"><a href="#merge-275"><span class="linenos">275</span></a><span class="k">def</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">add</span><span class="o">=</span><span class="p">[],</span> <span class="n">subtract</span><span class="o">=</span><span class="p">[],</span> <span class="n">comment</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="p">:</span>
+</span><span id="merge-276"><a href="#merge-276"><span class="linenos">276</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add or subtract potentials from different systems.</span>
+</span><span id="merge-277"><a href="#merge-277"><span class="linenos">277</span></a>
+</span><span id="merge-278"><a href="#merge-278"><span class="linenos">278</span></a><span class="sd">    Adds the potentials from the systems in `add`,</span>
+</span><span id="merge-279"><a href="#merge-279"><span class="linenos">279</span></a><span class="sd">    removes the ones from `subtract`.</span>
+</span><span id="merge-280"><a href="#merge-280"><span class="linenos">280</span></a><span class="sd">    All systems will be interpolated to the bigger gridsize if needed.</span>
+</span><span id="merge-281"><a href="#merge-281"><span class="linenos">281</span></a>
+</span><span id="merge-282"><a href="#merge-282"><span class="linenos">282</span></a><span class="sd">    The first System will be returned with the resulting potential values,</span>
+</span><span id="merge-283"><a href="#merge-283"><span class="linenos">283</span></a><span class="sd">    with an optional `comment` if indicated.</span>
+</span><span id="merge-284"><a href="#merge-284"><span class="linenos">284</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="merge-285"><a href="#merge-285"><span class="linenos">285</span></a>    <span class="n">add</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">as_list</span><span class="p">(</span><span class="n">add</span><span class="p">)</span>
+</span><span id="merge-286"><a href="#merge-286"><span class="linenos">286</span></a>    <span class="n">subtract</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">as_list</span><span class="p">(</span><span class="n">subtract</span><span class="p">)</span>
+</span><span id="merge-287"><a href="#merge-287"><span class="linenos">287</span></a>    <span class="n">gridsizes</span> <span class="o">=</span> <span class="n">systems</span><span class="o">.</span><span class="n">get_gridsizes</span><span class="p">(</span><span class="n">add</span><span class="p">)</span>
+</span><span id="merge-288"><a href="#merge-288"><span class="linenos">288</span></a>    <span class="n">gridsizes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">systems</span><span class="o">.</span><span class="n">get_gridsizes</span><span class="p">(</span><span class="n">subtract</span><span class="p">))</span>
+</span><span id="merge-289"><a href="#merge-289"><span class="linenos">289</span></a>    <span class="n">max_gridsize</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">gridsizes</span><span class="p">)</span>
+</span><span id="merge-290"><a href="#merge-290"><span class="linenos">290</span></a>    <span class="c1"># All gridsizes should be max_gridsize</span>
+</span><span id="merge-291"><a href="#merge-291"><span class="linenos">291</span></a>    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">add</span><span class="p">:</span>
+</span><span id="merge-292"><a href="#merge-292"><span class="linenos">292</span></a>        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">!=</span> <span class="n">max_gridsize</span><span class="p">:</span>
+</span><span id="merge-293"><a href="#merge-293"><span class="linenos">293</span></a>            <span class="n">s</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">max_gridsize</span>
+</span><span id="merge-294"><a href="#merge-294"><span class="linenos">294</span></a>            <span class="n">s</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span id="merge-295"><a href="#merge-295"><span class="linenos">295</span></a>    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subtract</span><span class="p">:</span>
+</span><span id="merge-296"><a href="#merge-296"><span class="linenos">296</span></a>        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">!=</span> <span class="n">max_gridsize</span><span class="p">:</span>
+</span><span id="merge-297"><a href="#merge-297"><span class="linenos">297</span></a>            <span class="n">s</span><span class="o">.</span><span class="n">gridsize</span> <span class="o">=</span> <span class="n">max_gridsize</span>
+</span><span id="merge-298"><a href="#merge-298"><span class="linenos">298</span></a>            <span class="n">s</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span id="merge-299"><a href="#merge-299"><span class="linenos">299</span></a>
+</span><span id="merge-300"><a href="#merge-300"><span class="linenos">300</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">add</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="merge-301"><a href="#merge-301"><span class="linenos">301</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subtract</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="merge-302"><a href="#merge-302"><span class="linenos">302</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No systems were provided!&#39;</span><span class="p">)</span>
+</span><span id="merge-303"><a href="#merge-303"><span class="linenos">303</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">subtract</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span id="merge-304"><a href="#merge-304"><span class="linenos">304</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="o">-</span><span class="n">result</span><span class="o">.</span><span class="n">potential_values</span>
+</span><span id="merge-305"><a href="#merge-305"><span class="linenos">305</span></a>        <span class="n">subtract</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="merge-306"><a href="#merge-306"><span class="linenos">306</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="merge-307"><a href="#merge-307"><span class="linenos">307</span></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">add</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span id="merge-308"><a href="#merge-308"><span class="linenos">308</span></a>        <span class="n">add</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="merge-309"><a href="#merge-309"><span class="linenos">309</span></a>
+</span><span id="merge-310"><a href="#merge-310"><span class="linenos">310</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">add</span><span class="p">:</span>
+</span><span id="merge-311"><a href="#merge-311"><span class="linenos">311</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">result</span><span class="o">.</span><span class="n">potential_values</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">potential_values</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="merge-312"><a href="#merge-312"><span class="linenos">312</span></a>    <span class="k">for</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">subtract</span><span class="p">:</span>
+</span><span id="merge-313"><a href="#merge-313"><span class="linenos">313</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">potential_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">result</span><span class="o">.</span><span class="n">potential_values</span><span class="p">,</span> <span class="o">-</span><span class="n">system</span><span class="o">.</span><span class="n">potential_values</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="merge-314"><a href="#merge-314"><span class="linenos">314</span></a>    <span class="k">if</span> <span class="n">comment</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="merge-315"><a href="#merge-315"><span class="linenos">315</span></a>        <span class="n">result</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="n">comment</span>
+</span><span id="merge-316"><a href="#merge-316"><span class="linenos">316</span></a>    <span class="k">return</span> <span class="n">result</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Add or subtract potentials from different systems.</p>
 
-<p>Adds the potentials from the systems in <code>plus</code>,
-removes the ones from <code>minus</code>.
+<p>Adds the potentials from the systems in <code>add</code>,
+removes the ones from <code>subtract</code>.
 All systems will be interpolated to the bigger gridsize if needed.</p>
 
 <p>The first System will be returned with the resulting potential values,
