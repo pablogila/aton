@@ -57,7 +57,7 @@ def save(
         angle:str='deg',
         energy:str='meV',
         ) -> None:
-    """Save the rotational potential from a `system` to a potential data file.
+    """Save the rotational potential from a `system` to a CSV file.
 
     The output `filepath` contains angle and energy columns,
     in degrees and meVs by default.
@@ -125,7 +125,7 @@ def load(
         angle:str='deg',
         energy:str='meV',
         ) -> System:
-    """Read a rotational potential energy dataset.
+    """Read a rotational potential energy datafile.
 
     The input file in `filepath` should contain two columns with angle and potential energy values.
     Degrees and meV are assumed as default units unless stated in `angle` and `energy`.
@@ -181,8 +181,8 @@ def from_qe(
         energy:str='meV',
         comment:str=None,
         ) -> None:
-    """Creates a rotational potential CSV file from Quantum ESPRESSO outputs,
-    performed with `aton.qrotor.rotate.structure_qe()`.
+    """Compiles a rotational potential CSV file from Quantum ESPRESSO outputs,
+    created with `aton.qrotor.rotate.structure_qe()`.
 
     The angle in degrees is extracted from the output filenames,
     which must follow `whatever_ANGLE.out`.
