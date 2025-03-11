@@ -182,7 +182,7 @@ def from_qe(
         comment:str=None,
         ) -> None:
     """Creates a rotational potential CSV file from Quantum ESPRESSO outputs,
-    created with `aton.qrotor.rotate.structure_qe()`.
+    performed with `aton.qrotor.rotate.structure_qe()`.
 
     The angle in degrees is extracted from the output filenames,
     which must follow `whatever_ANGLE.out`.
