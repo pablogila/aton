@@ -86,7 +86,7 @@ interface.slurm.sbatch(files=scf_files)
 
 To load the calculated potential to a QRotor System,
 ```python
-# Create a 'potential.dat' file with the potential as a function of the angle
+# Compile a 'potential.csv' file with the calculated potential as a function of the angle
 qr.potential.from_qe()
 # Load to the system
 system = qr.potential.load()

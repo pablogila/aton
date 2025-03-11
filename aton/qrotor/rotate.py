@@ -57,6 +57,8 @@ def structure_qe(
     to ensure that all axes of rotation point in the same direction.
 
     To debug, `show_axis = True` adds two additional helium atoms as the rotation vector.
+
+    The resulting rotational potential can be compiled to a csv file with `aton.qrotor.potential.from_qe()`
     """
     print('Rotating Quantum ESPRESSO input structure with QRotor...')
     if len(positions) < 3:

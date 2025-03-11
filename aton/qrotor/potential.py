@@ -181,7 +181,8 @@ def from_qe(
         energy:str='meV',
         comment:str=None,
         ) -> None:
-    """Creates a potential data file from Quantum ESPRESSO outputs.
+    """Creates a rotational potential CSV file from Quantum ESPRESSO outputs,
+    created with `aton.qrotor.rotate.structure_qe()`.
 
     The angle in degrees is extracted from the output filenames,
     which must follow `whatever_ANGLE.out`.
