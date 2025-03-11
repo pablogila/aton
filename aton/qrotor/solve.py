@@ -202,8 +202,11 @@ def E_levels(eigenvalues, vmax:float=None) -> list:
     ```
     """
     if vmax:  # Include all eigenvalues below Vmax plus 3 more eigenvalues
-        index_first_above_Vmax = np.where(eigenvalues > vmax)[0][0]
-        eigenvalues = eigenvalues[:(index_first_above_Vmax + 2)]
+        # Check if any values are above vmax
+        eigenvalues_above_vmax = eigenvalues > vmax
+        if np.any(eigenvalues_above_vmax):
+            index_first_above_vmax = np.where(eigenvalues_above_vmax)[0][0]
+            eigenvalues = eigenvalues[:(index_first_above_vmax + 2)]
     # Group degenerated eigenvalues into energy levels
     for scale in np.arange(2, 4, 0.25):  # First search going to bigger scales
         levels, degeneracy = _get_E_levels_by_gap(eigenvalues, scale)
