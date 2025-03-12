@@ -1,7 +1,7 @@
 """
 # Physico-chemical constants
 
-This subpackage contains universal physical constants,
+This subpackage contains universal physical constants and conversion factors,
 as well as chemical data from all known elements.
 It also includes functions to manage this data.
 
