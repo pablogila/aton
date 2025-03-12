@@ -9,7 +9,7 @@ and from
 It also contains the constants from the 
 [2022 CODATA](https://doi.org/10.48550/arXiv.2409.03787)
 Recommended Values of the Fundamental Physical Constants,
-as a shorthand alternative to [SciPy.constants](https://docs.scipy.org/doc/scipy/reference/constants.html)
+as a shorthand alternative to [SciPy.constants](https://docs.scipy.org/doc/scipy/reference/constants.html).
 
 
 # Index
