@@ -287,7 +287,13 @@
                     <a class="variable" href="#eV_to_meV">eV_to_meV</a>
             </li>
             <li>
+                    <a class="variable" href="#eV_to_ueV">eV_to_ueV</a>
+            </li>
+            <li>
                     <a class="variable" href="#meV_to_eV">meV_to_eV</a>
+            </li>
+            <li>
+                    <a class="variable" href="#meV_to_ueV">meV_to_ueV</a>
             </li>
             <li>
                     <a class="variable" href="#meV_to_Ry">meV_to_Ry</a>
@@ -318,6 +324,12 @@
             </li>
             <li>
                     <a class="variable" href="#meV_to_kJmol">meV_to_kJmol</a>
+            </li>
+            <li>
+                    <a class="variable" href="#ueV_to_eV">ueV_to_eV</a>
+            </li>
+            <li>
+                    <a class="variable" href="#ueV_to_meV">ueV_to_meV</a>
             </li>
             <li>
                     <a class="variable" href="#cal_to_J">cal_to_J</a>
@@ -679,7 +691,7 @@
     </ul>
 
 
-            <footer>ATON v0.4.5 documentation</footer>
+            <footer>ATON v0.4.6 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -1035,202 +1047,207 @@ except for $\mu$ which is used as <code>u</code>.</p>
 </span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a><span class="n">eV_to_Ry</span>      <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">Ry_to_eV</span>
 </span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a><span class="n">eV_to_J</span>       <span class="o">=</span> <span class="mf">1.602176634e-19</span>
 </span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a><span class="n">eV_to_meV</span>     <span class="o">=</span> <span class="mf">1000.0</span>
-</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a>
-</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a><span class="n">meV_to_eV</span>     <span class="o">=</span> <span class="mf">1e-3</span>
-</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a><span class="n">meV_to_Ry</span>     <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">Ry_to_meV</span>
-</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a><span class="n">meV_to_J</span>      <span class="o">=</span> <span class="mf">1.602176634e-22</span>
-</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a><span class="n">meV_to_AA</span>     <span class="o">=</span> <span class="mf">9.045</span>
-</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a><span class="n">meV_to_AA1</span>    <span class="o">=</span> <span class="mf">0.6947</span>
-</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a><span class="n">meV_to_ms</span>     <span class="o">=</span> <span class="mf">437.4</span> 
-</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a><span class="n">meV_to_K</span>      <span class="o">=</span> <span class="mf">11.604</span>
-</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a><span class="n">meV_to_THz</span>    <span class="o">=</span> <span class="mf">0.2418</span>
-</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a><span class="n">meV_to_rads</span>   <span class="o">=</span> <span class="mf">1.519e12</span>
-</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a><span class="n">meV_to_cm1</span>    <span class="o">=</span> <span class="mf">8.0655</span>
-</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a><span class="n">meV_to_kJmol</span>  <span class="o">=</span> <span class="mf">0.0965</span>
-</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a>
-</span><span id="L-266"><a href="#L-266"><span class="linenos">266</span></a><span class="n">cal_to_J</span>      <span class="o">=</span> <span class="mf">4.184</span>
-</span><span id="L-267"><a href="#L-267"><span class="linenos">267</span></a><span class="n">kcal_to_J</span>     <span class="o">=</span> <span class="n">cal_to_J</span> <span class="o">*</span> <span class="mf">1000.0</span>
-</span><span id="L-268"><a href="#L-268"><span class="linenos">268</span></a>
-</span><span id="L-269"><a href="#L-269"><span class="linenos">269</span></a><span class="n">J_to_eV</span>       <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">eV_to_J</span>
-</span><span id="L-270"><a href="#L-270"><span class="linenos">270</span></a><span class="n">J_to_meV</span>      <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">meV_to_J</span>
-</span><span id="L-271"><a href="#L-271"><span class="linenos">271</span></a><span class="n">J_to_Ry</span>       <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">Ry_to_J</span>
-</span><span id="L-272"><a href="#L-272"><span class="linenos">272</span></a><span class="n">J_to_cal</span>      <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">cal_to_J</span>
-</span><span id="L-273"><a href="#L-273"><span class="linenos">273</span></a><span class="n">J_to_kcal</span>     <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">kcal_to_J</span>
-</span><span id="L-274"><a href="#L-274"><span class="linenos">274</span></a>
-</span><span id="L-275"><a href="#L-275"><span class="linenos">275</span></a><span class="n">kJmol_to_AA</span>   <span class="o">=</span> <span class="mf">2.809</span>
-</span><span id="L-276"><a href="#L-276"><span class="linenos">276</span></a><span class="n">kJmol_to_AA1</span>  <span class="o">=</span> <span class="mf">2.237</span>
-</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a><span class="n">kJmol_to_ms</span>   <span class="o">=</span> <span class="mf">1.408e3</span>
-</span><span id="L-278"><a href="#L-278"><span class="linenos">278</span></a><span class="n">kJmol_to_K</span>    <span class="o">=</span> <span class="mf">120.3</span>
-</span><span id="L-279"><a href="#L-279"><span class="linenos">279</span></a><span class="n">kJmol_to_THz</span>  <span class="o">=</span> <span class="mf">2.506</span> 
-</span><span id="L-280"><a href="#L-280"><span class="linenos">280</span></a><span class="n">kJmol_to_rads</span> <span class="o">=</span> <span class="mf">1.575e13</span>
-</span><span id="L-281"><a href="#L-281"><span class="linenos">281</span></a><span class="n">kJmol_to_cm1</span>  <span class="o">=</span> <span class="mf">83.59</span> 
-</span><span id="L-282"><a href="#L-282"><span class="linenos">282</span></a><span class="n">kJmol_to_meV</span>  <span class="o">=</span> <span class="mf">10.36</span> 
-</span><span id="L-283"><a href="#L-283"><span class="linenos">283</span></a>
-</span><span id="L-284"><a href="#L-284"><span class="linenos">284</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-285"><a href="#L-285"><span class="linenos">285</span></a><span class="sd">## Distance</span>
-</span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a>
-</span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a><span class="n">bohr_to_AA</span>  <span class="o">=</span> <span class="mf">5.29177210544e-1</span>
-</span><span id="L-289"><a href="#L-289"><span class="linenos">289</span></a><span class="n">bohr_to_m</span>   <span class="o">=</span> <span class="mf">5.29177210544e-11</span>
-</span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a>
-</span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a><span class="n">AA_to_bohr</span>  <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">bohr_to_AA</span>
-</span><span id="L-292"><a href="#L-292"><span class="linenos">292</span></a><span class="n">AA_to_m</span>     <span class="o">=</span> <span class="mf">1.0e-10</span>
-</span><span id="L-293"><a href="#L-293"><span class="linenos">293</span></a>
-</span><span id="L-294"><a href="#L-294"><span class="linenos">294</span></a><span class="n">m_to_bohr</span>   <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">bohr_to_m</span>
-</span><span id="L-295"><a href="#L-295"><span class="linenos">295</span></a><span class="n">m_to_AA</span>     <span class="o">=</span> <span class="mf">1.0e10</span>
-</span><span id="L-296"><a href="#L-296"><span class="linenos">296</span></a>
-</span><span id="L-297"><a href="#L-297"><span class="linenos">297</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-298"><a href="#L-298"><span class="linenos">298</span></a><span class="sd">## Mass</span>
-</span><span id="L-299"><a href="#L-299"><span class="linenos">299</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-300"><a href="#L-300"><span class="linenos">300</span></a><span class="n">amu_to_kg</span>   <span class="o">=</span> <span class="mf">1.66053906660e-27</span>
-</span><span id="L-301"><a href="#L-301"><span class="linenos">301</span></a><span class="n">amu_to_g</span>    <span class="o">=</span> <span class="mf">1.66053906660e-24</span>
-</span><span id="L-302"><a href="#L-302"><span class="linenos">302</span></a>
-</span><span id="L-303"><a href="#L-303"><span class="linenos">303</span></a><span class="n">kg_to_g</span>     <span class="o">=</span> <span class="mf">1000.0</span>
-</span><span id="L-304"><a href="#L-304"><span class="linenos">304</span></a><span class="n">kg_to_amu</span>   <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">amu_to_kg</span>
-</span><span id="L-305"><a href="#L-305"><span class="linenos">305</span></a>
-</span><span id="L-306"><a href="#L-306"><span class="linenos">306</span></a><span class="n">g_to_kg</span>     <span class="o">=</span> <span class="mf">1.0e-3</span>
-</span><span id="L-307"><a href="#L-307"><span class="linenos">307</span></a><span class="n">g_to_amu</span>    <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">amu_to_g</span>
-</span><span id="L-308"><a href="#L-308"><span class="linenos">308</span></a>
-</span><span id="L-309"><a href="#L-309"><span class="linenos">309</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-310"><a href="#L-310"><span class="linenos">310</span></a><span class="sd">## Pressure</span>
-</span><span id="L-311"><a href="#L-311"><span class="linenos">311</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-312"><a href="#L-312"><span class="linenos">312</span></a><span class="n">Pa_to_bar</span>     <span class="o">=</span> <span class="mf">1.0e-5</span>
-</span><span id="L-313"><a href="#L-313"><span class="linenos">313</span></a><span class="n">Pa_to_kbar</span>    <span class="o">=</span> <span class="mf">1.0e-8</span>
-</span><span id="L-314"><a href="#L-314"><span class="linenos">314</span></a><span class="n">Pa_to_atm</span>     <span class="o">=</span> <span class="mf">101325.0</span>
-</span><span id="L-315"><a href="#L-315"><span class="linenos">315</span></a><span class="n">Pa_to_Torr</span>    <span class="o">=</span> <span class="mf">760.0</span> <span class="o">/</span> <span class="mf">101325.0</span>
-</span><span id="L-316"><a href="#L-316"><span class="linenos">316</span></a><span class="n">Pa_to_kPa</span>     <span class="o">=</span> <span class="mf">1.0e-3</span>
-</span><span id="L-317"><a href="#L-317"><span class="linenos">317</span></a><span class="n">Pa_to_mTorr</span>   <span class="o">=</span> <span class="mf">760000.0</span> <span class="o">/</span> <span class="mf">101325.0</span>
-</span><span id="L-318"><a href="#L-318"><span class="linenos">318</span></a><span class="n">Pa_to_GPa</span>     <span class="o">=</span> <span class="mf">1.0e-9</span>
-</span><span id="L-319"><a href="#L-319"><span class="linenos">319</span></a>
-</span><span id="L-320"><a href="#L-320"><span class="linenos">320</span></a><span class="n">kPa_to_bar</span>    <span class="o">=</span> <span class="mf">0.01</span>
-</span><span id="L-321"><a href="#L-321"><span class="linenos">321</span></a><span class="n">kPa_to_Pa</span>     <span class="o">=</span> <span class="mf">1000.0</span>
-</span><span id="L-322"><a href="#L-322"><span class="linenos">322</span></a>
-</span><span id="L-323"><a href="#L-323"><span class="linenos">323</span></a><span class="n">GPa_to_bar</span>    <span class="o">=</span> <span class="mf">10000.0</span>
-</span><span id="L-324"><a href="#L-324"><span class="linenos">324</span></a><span class="n">GPa_to_kbar</span>   <span class="o">=</span> <span class="mf">10.0</span>
-</span><span id="L-325"><a href="#L-325"><span class="linenos">325</span></a><span class="n">GPa_to_Pa</span>     <span class="o">=</span> <span class="mf">1.0e9</span>
-</span><span id="L-326"><a href="#L-326"><span class="linenos">326</span></a>
-</span><span id="L-327"><a href="#L-327"><span class="linenos">327</span></a><span class="n">bar_to_Pa</span>     <span class="o">=</span> <span class="mf">1.0e5</span>
-</span><span id="L-328"><a href="#L-328"><span class="linenos">328</span></a><span class="n">bar_to_GPa</span>    <span class="o">=</span> <span class="mf">1.0e-4</span>
-</span><span id="L-329"><a href="#L-329"><span class="linenos">329</span></a><span class="n">bar_to_atm</span>    <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">1.01325</span>
-</span><span id="L-330"><a href="#L-330"><span class="linenos">330</span></a><span class="n">bar_to_Torr</span>   <span class="o">=</span> <span class="mf">760.0</span> <span class="o">/</span> <span class="mf">1.01325</span>
-</span><span id="L-331"><a href="#L-331"><span class="linenos">331</span></a><span class="n">bar_to_kbar</span>   <span class="o">=</span> <span class="mf">1.0e-3</span>
-</span><span id="L-332"><a href="#L-332"><span class="linenos">332</span></a><span class="n">bar_to_mTorr</span>  <span class="o">=</span> <span class="mf">760000.0</span> <span class="o">/</span> <span class="mf">1.01325</span>
-</span><span id="L-333"><a href="#L-333"><span class="linenos">333</span></a>
-</span><span id="L-334"><a href="#L-334"><span class="linenos">334</span></a><span class="n">kbar_to_GPa</span>   <span class="o">=</span> <span class="mf">0.1</span>
-</span><span id="L-335"><a href="#L-335"><span class="linenos">335</span></a><span class="n">kbar_to_bar</span>   <span class="o">=</span> <span class="mf">1000.0</span>
-</span><span id="L-336"><a href="#L-336"><span class="linenos">336</span></a>
-</span><span id="L-337"><a href="#L-337"><span class="linenos">337</span></a><span class="n">atm_to_Pa</span>     <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">101325.0</span>
-</span><span id="L-338"><a href="#L-338"><span class="linenos">338</span></a><span class="n">atm_to_bar</span>    <span class="o">=</span> <span class="mf">1.01325</span>
-</span><span id="L-339"><a href="#L-339"><span class="linenos">339</span></a><span class="n">atm_to_Torr</span>   <span class="o">=</span> <span class="mf">760.0</span>
-</span><span id="L-340"><a href="#L-340"><span class="linenos">340</span></a><span class="n">atm_to_mTorr</span>  <span class="o">=</span> <span class="mf">760000.0</span>
+</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a><span class="n">eV_to_ueV</span>     <span class="o">=</span> <span class="mf">1e6</span>
+</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a>
+</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a><span class="n">meV_to_eV</span>     <span class="o">=</span> <span class="mf">1e-3</span>
+</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a><span class="n">meV_to_ueV</span>    <span class="o">=</span> <span class="mf">1000.0</span>
+</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a><span class="n">meV_to_Ry</span>     <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">Ry_to_meV</span>
+</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a><span class="n">meV_to_J</span>      <span class="o">=</span> <span class="mf">1.602176634e-22</span>
+</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a><span class="n">meV_to_AA</span>     <span class="o">=</span> <span class="mf">9.045</span>
+</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a><span class="n">meV_to_AA1</span>    <span class="o">=</span> <span class="mf">0.6947</span>
+</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a><span class="n">meV_to_ms</span>     <span class="o">=</span> <span class="mf">437.4</span> 
+</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a><span class="n">meV_to_K</span>      <span class="o">=</span> <span class="mf">11.604</span>
+</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a><span class="n">meV_to_THz</span>    <span class="o">=</span> <span class="mf">0.2418</span>
+</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a><span class="n">meV_to_rads</span>   <span class="o">=</span> <span class="mf">1.519e12</span>
+</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a><span class="n">meV_to_cm1</span>    <span class="o">=</span> <span class="mf">8.0655</span>
+</span><span id="L-266"><a href="#L-266"><span class="linenos">266</span></a><span class="n">meV_to_kJmol</span>  <span class="o">=</span> <span class="mf">0.0965</span>
+</span><span id="L-267"><a href="#L-267"><span class="linenos">267</span></a>
+</span><span id="L-268"><a href="#L-268"><span class="linenos">268</span></a><span class="n">ueV_to_eV</span>     <span class="o">=</span> <span class="mf">1e-6</span>
+</span><span id="L-269"><a href="#L-269"><span class="linenos">269</span></a><span class="n">ueV_to_meV</span>    <span class="o">=</span> <span class="mf">1e-3</span>
+</span><span id="L-270"><a href="#L-270"><span class="linenos">270</span></a>
+</span><span id="L-271"><a href="#L-271"><span class="linenos">271</span></a><span class="n">cal_to_J</span>      <span class="o">=</span> <span class="mf">4.184</span>
+</span><span id="L-272"><a href="#L-272"><span class="linenos">272</span></a><span class="n">kcal_to_J</span>     <span class="o">=</span> <span class="n">cal_to_J</span> <span class="o">*</span> <span class="mf">1000.0</span>
+</span><span id="L-273"><a href="#L-273"><span class="linenos">273</span></a>
+</span><span id="L-274"><a href="#L-274"><span class="linenos">274</span></a><span class="n">J_to_eV</span>       <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">eV_to_J</span>
+</span><span id="L-275"><a href="#L-275"><span class="linenos">275</span></a><span class="n">J_to_meV</span>      <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">meV_to_J</span>
+</span><span id="L-276"><a href="#L-276"><span class="linenos">276</span></a><span class="n">J_to_Ry</span>       <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">Ry_to_J</span>
+</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a><span class="n">J_to_cal</span>      <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">cal_to_J</span>
+</span><span id="L-278"><a href="#L-278"><span class="linenos">278</span></a><span class="n">J_to_kcal</span>     <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">kcal_to_J</span>
+</span><span id="L-279"><a href="#L-279"><span class="linenos">279</span></a>
+</span><span id="L-280"><a href="#L-280"><span class="linenos">280</span></a><span class="n">kJmol_to_AA</span>   <span class="o">=</span> <span class="mf">2.809</span>
+</span><span id="L-281"><a href="#L-281"><span class="linenos">281</span></a><span class="n">kJmol_to_AA1</span>  <span class="o">=</span> <span class="mf">2.237</span>
+</span><span id="L-282"><a href="#L-282"><span class="linenos">282</span></a><span class="n">kJmol_to_ms</span>   <span class="o">=</span> <span class="mf">1.408e3</span>
+</span><span id="L-283"><a href="#L-283"><span class="linenos">283</span></a><span class="n">kJmol_to_K</span>    <span class="o">=</span> <span class="mf">120.3</span>
+</span><span id="L-284"><a href="#L-284"><span class="linenos">284</span></a><span class="n">kJmol_to_THz</span>  <span class="o">=</span> <span class="mf">2.506</span> 
+</span><span id="L-285"><a href="#L-285"><span class="linenos">285</span></a><span class="n">kJmol_to_rads</span> <span class="o">=</span> <span class="mf">1.575e13</span>
+</span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a><span class="n">kJmol_to_cm1</span>  <span class="o">=</span> <span class="mf">83.59</span> 
+</span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a><span class="n">kJmol_to_meV</span>  <span class="o">=</span> <span class="mf">10.36</span> 
+</span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a>
+</span><span id="L-289"><a href="#L-289"><span class="linenos">289</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a><span class="sd">## Distance</span>
+</span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-292"><a href="#L-292"><span class="linenos">292</span></a>
+</span><span id="L-293"><a href="#L-293"><span class="linenos">293</span></a><span class="n">bohr_to_AA</span>  <span class="o">=</span> <span class="mf">5.29177210544e-1</span>
+</span><span id="L-294"><a href="#L-294"><span class="linenos">294</span></a><span class="n">bohr_to_m</span>   <span class="o">=</span> <span class="mf">5.29177210544e-11</span>
+</span><span id="L-295"><a href="#L-295"><span class="linenos">295</span></a>
+</span><span id="L-296"><a href="#L-296"><span class="linenos">296</span></a><span class="n">AA_to_bohr</span>  <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">bohr_to_AA</span>
+</span><span id="L-297"><a href="#L-297"><span class="linenos">297</span></a><span class="n">AA_to_m</span>     <span class="o">=</span> <span class="mf">1.0e-10</span>
+</span><span id="L-298"><a href="#L-298"><span class="linenos">298</span></a>
+</span><span id="L-299"><a href="#L-299"><span class="linenos">299</span></a><span class="n">m_to_bohr</span>   <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">bohr_to_m</span>
+</span><span id="L-300"><a href="#L-300"><span class="linenos">300</span></a><span class="n">m_to_AA</span>     <span class="o">=</span> <span class="mf">1.0e10</span>
+</span><span id="L-301"><a href="#L-301"><span class="linenos">301</span></a>
+</span><span id="L-302"><a href="#L-302"><span class="linenos">302</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-303"><a href="#L-303"><span class="linenos">303</span></a><span class="sd">## Mass</span>
+</span><span id="L-304"><a href="#L-304"><span class="linenos">304</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-305"><a href="#L-305"><span class="linenos">305</span></a><span class="n">amu_to_kg</span>   <span class="o">=</span> <span class="mf">1.66053906660e-27</span>
+</span><span id="L-306"><a href="#L-306"><span class="linenos">306</span></a><span class="n">amu_to_g</span>    <span class="o">=</span> <span class="mf">1.66053906660e-24</span>
+</span><span id="L-307"><a href="#L-307"><span class="linenos">307</span></a>
+</span><span id="L-308"><a href="#L-308"><span class="linenos">308</span></a><span class="n">kg_to_g</span>     <span class="o">=</span> <span class="mf">1000.0</span>
+</span><span id="L-309"><a href="#L-309"><span class="linenos">309</span></a><span class="n">kg_to_amu</span>   <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">amu_to_kg</span>
+</span><span id="L-310"><a href="#L-310"><span class="linenos">310</span></a>
+</span><span id="L-311"><a href="#L-311"><span class="linenos">311</span></a><span class="n">g_to_kg</span>     <span class="o">=</span> <span class="mf">1.0e-3</span>
+</span><span id="L-312"><a href="#L-312"><span class="linenos">312</span></a><span class="n">g_to_amu</span>    <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">amu_to_g</span>
+</span><span id="L-313"><a href="#L-313"><span class="linenos">313</span></a>
+</span><span id="L-314"><a href="#L-314"><span class="linenos">314</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-315"><a href="#L-315"><span class="linenos">315</span></a><span class="sd">## Pressure</span>
+</span><span id="L-316"><a href="#L-316"><span class="linenos">316</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-317"><a href="#L-317"><span class="linenos">317</span></a><span class="n">Pa_to_bar</span>     <span class="o">=</span> <span class="mf">1.0e-5</span>
+</span><span id="L-318"><a href="#L-318"><span class="linenos">318</span></a><span class="n">Pa_to_kbar</span>    <span class="o">=</span> <span class="mf">1.0e-8</span>
+</span><span id="L-319"><a href="#L-319"><span class="linenos">319</span></a><span class="n">Pa_to_atm</span>     <span class="o">=</span> <span class="mf">101325.0</span>
+</span><span id="L-320"><a href="#L-320"><span class="linenos">320</span></a><span class="n">Pa_to_Torr</span>    <span class="o">=</span> <span class="mf">760.0</span> <span class="o">/</span> <span class="mf">101325.0</span>
+</span><span id="L-321"><a href="#L-321"><span class="linenos">321</span></a><span class="n">Pa_to_kPa</span>     <span class="o">=</span> <span class="mf">1.0e-3</span>
+</span><span id="L-322"><a href="#L-322"><span class="linenos">322</span></a><span class="n">Pa_to_mTorr</span>   <span class="o">=</span> <span class="mf">760000.0</span> <span class="o">/</span> <span class="mf">101325.0</span>
+</span><span id="L-323"><a href="#L-323"><span class="linenos">323</span></a><span class="n">Pa_to_GPa</span>     <span class="o">=</span> <span class="mf">1.0e-9</span>
+</span><span id="L-324"><a href="#L-324"><span class="linenos">324</span></a>
+</span><span id="L-325"><a href="#L-325"><span class="linenos">325</span></a><span class="n">kPa_to_bar</span>    <span class="o">=</span> <span class="mf">0.01</span>
+</span><span id="L-326"><a href="#L-326"><span class="linenos">326</span></a><span class="n">kPa_to_Pa</span>     <span class="o">=</span> <span class="mf">1000.0</span>
+</span><span id="L-327"><a href="#L-327"><span class="linenos">327</span></a>
+</span><span id="L-328"><a href="#L-328"><span class="linenos">328</span></a><span class="n">GPa_to_bar</span>    <span class="o">=</span> <span class="mf">10000.0</span>
+</span><span id="L-329"><a href="#L-329"><span class="linenos">329</span></a><span class="n">GPa_to_kbar</span>   <span class="o">=</span> <span class="mf">10.0</span>
+</span><span id="L-330"><a href="#L-330"><span class="linenos">330</span></a><span class="n">GPa_to_Pa</span>     <span class="o">=</span> <span class="mf">1.0e9</span>
+</span><span id="L-331"><a href="#L-331"><span class="linenos">331</span></a>
+</span><span id="L-332"><a href="#L-332"><span class="linenos">332</span></a><span class="n">bar_to_Pa</span>     <span class="o">=</span> <span class="mf">1.0e5</span>
+</span><span id="L-333"><a href="#L-333"><span class="linenos">333</span></a><span class="n">bar_to_GPa</span>    <span class="o">=</span> <span class="mf">1.0e-4</span>
+</span><span id="L-334"><a href="#L-334"><span class="linenos">334</span></a><span class="n">bar_to_atm</span>    <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">1.01325</span>
+</span><span id="L-335"><a href="#L-335"><span class="linenos">335</span></a><span class="n">bar_to_Torr</span>   <span class="o">=</span> <span class="mf">760.0</span> <span class="o">/</span> <span class="mf">1.01325</span>
+</span><span id="L-336"><a href="#L-336"><span class="linenos">336</span></a><span class="n">bar_to_kbar</span>   <span class="o">=</span> <span class="mf">1.0e-3</span>
+</span><span id="L-337"><a href="#L-337"><span class="linenos">337</span></a><span class="n">bar_to_mTorr</span>  <span class="o">=</span> <span class="mf">760000.0</span> <span class="o">/</span> <span class="mf">1.01325</span>
+</span><span id="L-338"><a href="#L-338"><span class="linenos">338</span></a>
+</span><span id="L-339"><a href="#L-339"><span class="linenos">339</span></a><span class="n">kbar_to_GPa</span>   <span class="o">=</span> <span class="mf">0.1</span>
+</span><span id="L-340"><a href="#L-340"><span class="linenos">340</span></a><span class="n">kbar_to_bar</span>   <span class="o">=</span> <span class="mf">1000.0</span>
 </span><span id="L-341"><a href="#L-341"><span class="linenos">341</span></a>
-</span><span id="L-342"><a href="#L-342"><span class="linenos">342</span></a><span class="n">Torr_to_Pa</span>    <span class="o">=</span> <span class="mf">101325.0</span> <span class="o">/</span> <span class="mf">760.0</span>
-</span><span id="L-343"><a href="#L-343"><span class="linenos">343</span></a><span class="n">Torr_to_bar</span>   <span class="o">=</span> <span class="mf">1.01325</span> <span class="o">/</span> <span class="mf">760.0</span>
-</span><span id="L-344"><a href="#L-344"><span class="linenos">344</span></a><span class="n">Torr_to_atm</span>   <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">760.0</span>
-</span><span id="L-345"><a href="#L-345"><span class="linenos">345</span></a><span class="n">Torr_to_mTorr</span> <span class="o">=</span> <span class="mf">1000.0</span>
+</span><span id="L-342"><a href="#L-342"><span class="linenos">342</span></a><span class="n">atm_to_Pa</span>     <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">101325.0</span>
+</span><span id="L-343"><a href="#L-343"><span class="linenos">343</span></a><span class="n">atm_to_bar</span>    <span class="o">=</span> <span class="mf">1.01325</span>
+</span><span id="L-344"><a href="#L-344"><span class="linenos">344</span></a><span class="n">atm_to_Torr</span>   <span class="o">=</span> <span class="mf">760.0</span>
+</span><span id="L-345"><a href="#L-345"><span class="linenos">345</span></a><span class="n">atm_to_mTorr</span>  <span class="o">=</span> <span class="mf">760000.0</span>
 </span><span id="L-346"><a href="#L-346"><span class="linenos">346</span></a>
-</span><span id="L-347"><a href="#L-347"><span class="linenos">347</span></a><span class="n">mTorr_to_Pa</span>   <span class="o">=</span> <span class="mf">101325000.0</span> <span class="o">/</span> <span class="mf">760.0</span>
-</span><span id="L-348"><a href="#L-348"><span class="linenos">348</span></a><span class="n">mTorr_to_bar</span>  <span class="o">=</span> <span class="mf">1013.25</span> <span class="o">/</span> <span class="mf">760.0</span>
-</span><span id="L-349"><a href="#L-349"><span class="linenos">349</span></a><span class="n">mTorr_to_atm</span>  <span class="o">=</span> <span class="mf">1000.0</span> <span class="o">/</span> <span class="mf">760.0</span>
-</span><span id="L-350"><a href="#L-350"><span class="linenos">350</span></a><span class="n">mTorr_to_Torr</span> <span class="o">=</span> <span class="mf">0.001</span>
+</span><span id="L-347"><a href="#L-347"><span class="linenos">347</span></a><span class="n">Torr_to_Pa</span>    <span class="o">=</span> <span class="mf">101325.0</span> <span class="o">/</span> <span class="mf">760.0</span>
+</span><span id="L-348"><a href="#L-348"><span class="linenos">348</span></a><span class="n">Torr_to_bar</span>   <span class="o">=</span> <span class="mf">1.01325</span> <span class="o">/</span> <span class="mf">760.0</span>
+</span><span id="L-349"><a href="#L-349"><span class="linenos">349</span></a><span class="n">Torr_to_atm</span>   <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">760.0</span>
+</span><span id="L-350"><a href="#L-350"><span class="linenos">350</span></a><span class="n">Torr_to_mTorr</span> <span class="o">=</span> <span class="mf">1000.0</span>
 </span><span id="L-351"><a href="#L-351"><span class="linenos">351</span></a>
-</span><span id="L-352"><a href="#L-352"><span class="linenos">352</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-353"><a href="#L-353"><span class="linenos">353</span></a><span class="sd">## Time</span>
-</span><span id="L-354"><a href="#L-354"><span class="linenos">354</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-355"><a href="#L-355"><span class="linenos">355</span></a><span class="n">H_to_s</span> <span class="o">=</span> <span class="mf">3600.0</span>
-</span><span id="L-356"><a href="#L-356"><span class="linenos">356</span></a><span class="n">s_to_H</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">H_to_s</span>
-</span><span id="L-357"><a href="#L-357"><span class="linenos">357</span></a>
-</span><span id="L-358"><a href="#L-358"><span class="linenos">358</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-359"><a href="#L-359"><span class="linenos">359</span></a><span class="sd">## Wavelength</span>
-</span><span id="L-360"><a href="#L-360"><span class="linenos">360</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-361"><a href="#L-361"><span class="linenos">361</span></a><span class="n">AA_to_AA1</span>   <span class="o">=</span> <span class="mf">6.28318</span>
-</span><span id="L-362"><a href="#L-362"><span class="linenos">362</span></a><span class="n">AA_to_ms</span>    <span class="o">=</span> <span class="mi">3956</span>
-</span><span id="L-363"><a href="#L-363"><span class="linenos">363</span></a><span class="n">AA_to_K</span>     <span class="o">=</span> <span class="mf">949.3</span>
-</span><span id="L-364"><a href="#L-364"><span class="linenos">364</span></a><span class="n">AA_to_THz</span>   <span class="o">=</span> <span class="mf">19.78</span>
-</span><span id="L-365"><a href="#L-365"><span class="linenos">365</span></a><span class="n">AA_to_rads</span>  <span class="o">=</span> <span class="mf">1.243e14</span>
-</span><span id="L-366"><a href="#L-366"><span class="linenos">366</span></a><span class="n">AA_to_cm1</span>   <span class="o">=</span> <span class="mf">659.8</span>
-</span><span id="L-367"><a href="#L-367"><span class="linenos">367</span></a><span class="n">AA_to_meV</span>   <span class="o">=</span> <span class="mf">81.805</span>
-</span><span id="L-368"><a href="#L-368"><span class="linenos">368</span></a><span class="n">AA_to_kJmol</span> <span class="o">=</span> <span class="mf">7.893</span>
-</span><span id="L-369"><a href="#L-369"><span class="linenos">369</span></a>
-</span><span id="L-370"><a href="#L-370"><span class="linenos">370</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-371"><a href="#L-371"><span class="linenos">371</span></a><span class="sd">## Wavevector</span>
-</span><span id="L-372"><a href="#L-372"><span class="linenos">372</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-373"><a href="#L-373"><span class="linenos">373</span></a><span class="n">AA1_to_AA</span>    <span class="o">=</span> <span class="mf">6.28318</span>
-</span><span id="L-374"><a href="#L-374"><span class="linenos">374</span></a><span class="n">AA1_to_ms</span>    <span class="o">=</span> <span class="mf">629.6</span>
-</span><span id="L-375"><a href="#L-375"><span class="linenos">375</span></a><span class="n">AA1_to_K</span>     <span class="o">=</span> <span class="mf">24.046</span>
-</span><span id="L-376"><a href="#L-376"><span class="linenos">376</span></a><span class="n">AA1_to_THz</span>   <span class="o">=</span> <span class="mf">0.5010</span>
-</span><span id="L-377"><a href="#L-377"><span class="linenos">377</span></a><span class="n">AA1_to_rads</span>  <span class="o">=</span> <span class="mf">3.148e12</span>
-</span><span id="L-378"><a href="#L-378"><span class="linenos">378</span></a><span class="n">AA1_to_cm1</span>   <span class="o">=</span> <span class="mf">16.71</span>
-</span><span id="L-379"><a href="#L-379"><span class="linenos">379</span></a><span class="n">AA1_to_meV</span>   <span class="o">=</span> <span class="mf">2.072</span>
-</span><span id="L-380"><a href="#L-380"><span class="linenos">380</span></a><span class="n">AA1_to_kJmol</span> <span class="o">=</span> <span class="mf">0.1999</span>
-</span><span id="L-381"><a href="#L-381"><span class="linenos">381</span></a>
-</span><span id="L-382"><a href="#L-382"><span class="linenos">382</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-383"><a href="#L-383"><span class="linenos">383</span></a><span class="sd">## Velocity</span>
-</span><span id="L-384"><a href="#L-384"><span class="linenos">384</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-385"><a href="#L-385"><span class="linenos">385</span></a><span class="n">ms_to_AA</span>    <span class="o">=</span> <span class="mi">3956</span> 
-</span><span id="L-386"><a href="#L-386"><span class="linenos">386</span></a><span class="n">ms_to_AA1</span>   <span class="o">=</span> <span class="mf">1.589e-3</span>
-</span><span id="L-387"><a href="#L-387"><span class="linenos">387</span></a><span class="n">ms_to_K</span>     <span class="o">=</span> <span class="mf">6.066e5</span>
-</span><span id="L-388"><a href="#L-388"><span class="linenos">388</span></a><span class="n">ms_to_THz</span>   <span class="o">=</span> <span class="mf">1.265e-6</span>
-</span><span id="L-389"><a href="#L-389"><span class="linenos">389</span></a><span class="n">ms_to_rads</span>  <span class="o">=</span> <span class="mf">7.948e6</span>
-</span><span id="L-390"><a href="#L-390"><span class="linenos">390</span></a><span class="n">ms_to_cm1</span>   <span class="o">=</span> <span class="mf">4.216e-5</span>
-</span><span id="L-391"><a href="#L-391"><span class="linenos">391</span></a><span class="n">ms_to_meV</span>   <span class="o">=</span> <span class="mf">5.227e-6</span>
-</span><span id="L-392"><a href="#L-392"><span class="linenos">392</span></a><span class="n">ms_to_kJmol</span> <span class="o">=</span> <span class="mf">5.044e-7</span>
-</span><span id="L-393"><a href="#L-393"><span class="linenos">393</span></a>
-</span><span id="L-394"><a href="#L-394"><span class="linenos">394</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-395"><a href="#L-395"><span class="linenos">395</span></a><span class="sd">## Temperature</span>
-</span><span id="L-396"><a href="#L-396"><span class="linenos">396</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-397"><a href="#L-397"><span class="linenos">397</span></a><span class="n">K_to_AA</span>    <span class="o">=</span> <span class="mf">30.81</span> 
-</span><span id="L-398"><a href="#L-398"><span class="linenos">398</span></a><span class="n">K_to_AA1</span>   <span class="o">=</span> <span class="mf">0.2039</span> 
-</span><span id="L-399"><a href="#L-399"><span class="linenos">399</span></a><span class="n">K_to_ms</span>    <span class="o">=</span> <span class="mf">128.4</span> 
-</span><span id="L-400"><a href="#L-400"><span class="linenos">400</span></a><span class="n">K_to_THz</span>   <span class="o">=</span> <span class="mf">0.02084</span> 
-</span><span id="L-401"><a href="#L-401"><span class="linenos">401</span></a><span class="n">K_to_rads</span>  <span class="o">=</span> <span class="mf">1.309e11</span>
-</span><span id="L-402"><a href="#L-402"><span class="linenos">402</span></a><span class="n">K_to_cm1</span>   <span class="o">=</span> <span class="mf">0.6950</span>
-</span><span id="L-403"><a href="#L-403"><span class="linenos">403</span></a><span class="n">K_to_meV</span>   <span class="o">=</span> <span class="mf">8.617e-2</span>
-</span><span id="L-404"><a href="#L-404"><span class="linenos">404</span></a><span class="n">K_to_kJmol</span> <span class="o">=</span> <span class="mf">8.314e-3</span>
-</span><span id="L-405"><a href="#L-405"><span class="linenos">405</span></a>
-</span><span id="L-406"><a href="#L-406"><span class="linenos">406</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-407"><a href="#L-407"><span class="linenos">407</span></a><span class="sd">## Temperature scales</span>
-</span><span id="L-408"><a href="#L-408"><span class="linenos">408</span></a><span class="sd">Note that to change between temperature scales,</span>
-</span><span id="L-409"><a href="#L-409"><span class="linenos">409</span></a><span class="sd">these constants must be added instead of multiplied.</span>
-</span><span id="L-410"><a href="#L-410"><span class="linenos">410</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-411"><a href="#L-411"><span class="linenos">411</span></a><span class="n">C_to_K_scale</span> <span class="o">=</span> <span class="mf">273.15</span>
-</span><span id="L-412"><a href="#L-412"><span class="linenos">412</span></a><span class="n">K_to_C_scale</span> <span class="o">=</span> <span class="o">-</span><span class="n">C_to_K_scale</span>
-</span><span id="L-413"><a href="#L-413"><span class="linenos">413</span></a>
-</span><span id="L-414"><a href="#L-414"><span class="linenos">414</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-415"><a href="#L-415"><span class="linenos">415</span></a><span class="sd">## Frequency</span>
-</span><span id="L-416"><a href="#L-416"><span class="linenos">416</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-417"><a href="#L-417"><span class="linenos">417</span></a><span class="n">THz_to_AA</span>    <span class="o">=</span> <span class="mf">4.4475</span>
-</span><span id="L-418"><a href="#L-418"><span class="linenos">418</span></a><span class="n">THz_to_AA1</span>   <span class="o">=</span> <span class="mf">1.4127</span> 
-</span><span id="L-419"><a href="#L-419"><span class="linenos">419</span></a><span class="n">THz_to_ms</span>    <span class="o">=</span> <span class="mf">889.5</span> 
-</span><span id="L-420"><a href="#L-420"><span class="linenos">420</span></a><span class="n">THz_to_K</span>     <span class="o">=</span> <span class="mf">48.0</span>
-</span><span id="L-421"><a href="#L-421"><span class="linenos">421</span></a><span class="n">THz_to_rads</span>  <span class="o">=</span> <span class="mf">6.283e12</span>
-</span><span id="L-422"><a href="#L-422"><span class="linenos">422</span></a><span class="n">THz_to_cm1</span>   <span class="o">=</span> <span class="mf">33.36</span> 
-</span><span id="L-423"><a href="#L-423"><span class="linenos">423</span></a><span class="n">THz_to_meV</span>   <span class="o">=</span> <span class="mf">4.136</span>
-</span><span id="L-424"><a href="#L-424"><span class="linenos">424</span></a><span class="n">THz_to_kJmol</span> <span class="o">=</span> <span class="mf">0.3990</span>
-</span><span id="L-425"><a href="#L-425"><span class="linenos">425</span></a>
-</span><span id="L-426"><a href="#L-426"><span class="linenos">426</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-427"><a href="#L-427"><span class="linenos">427</span></a><span class="sd">## Angular frequency</span>
-</span><span id="L-428"><a href="#L-428"><span class="linenos">428</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-429"><a href="#L-429"><span class="linenos">429</span></a><span class="n">rads_to_AA</span>    <span class="o">=</span> <span class="mf">11.15e6</span>
-</span><span id="L-430"><a href="#L-430"><span class="linenos">430</span></a><span class="n">rads_to_AA1</span>   <span class="o">=</span> <span class="mf">5.64e-7</span>
-</span><span id="L-431"><a href="#L-431"><span class="linenos">431</span></a><span class="n">rads_to_ms</span>    <span class="o">=</span> <span class="mf">3.549e-4</span>
-</span><span id="L-432"><a href="#L-432"><span class="linenos">432</span></a><span class="n">rads_to_K</span>     <span class="o">=</span> <span class="mf">7.64e-12</span>
-</span><span id="L-433"><a href="#L-433"><span class="linenos">433</span></a><span class="n">rads_to_THz</span>   <span class="o">=</span> <span class="mf">0.1592e-12</span>
-</span><span id="L-434"><a href="#L-434"><span class="linenos">434</span></a><span class="n">rads_to_cm1</span>   <span class="o">=</span> <span class="mf">5.309e-12</span>
-</span><span id="L-435"><a href="#L-435"><span class="linenos">435</span></a><span class="n">rads_to_meV</span>   <span class="o">=</span> <span class="mf">6.582e-13</span>
-</span><span id="L-436"><a href="#L-436"><span class="linenos">436</span></a><span class="n">rads_to_kJmol</span> <span class="o">=</span> <span class="mf">6.351e-14</span>
-</span><span id="L-437"><a href="#L-437"><span class="linenos">437</span></a>
-</span><span id="L-438"><a href="#L-438"><span class="linenos">438</span></a><span class="sd">&quot;&quot;&quot;---</span>
-</span><span id="L-439"><a href="#L-439"><span class="linenos">439</span></a><span class="sd">## Wavenumber</span>
-</span><span id="L-440"><a href="#L-440"><span class="linenos">440</span></a><span class="sd">&quot;&quot;&quot;</span> 
-</span><span id="L-441"><a href="#L-441"><span class="linenos">441</span></a><span class="n">cm1_to_AA</span>    <span class="o">=</span> <span class="mf">25.69</span> 
-</span><span id="L-442"><a href="#L-442"><span class="linenos">442</span></a><span class="n">cm1_to_AA1</span>   <span class="o">=</span> <span class="mf">0.2446</span>
-</span><span id="L-443"><a href="#L-443"><span class="linenos">443</span></a><span class="n">cm1_to_ms</span>    <span class="o">=</span> <span class="mf">154.01</span>
-</span><span id="L-444"><a href="#L-444"><span class="linenos">444</span></a><span class="n">cm1_to_K</span>     <span class="o">=</span> <span class="mf">1.439</span>
-</span><span id="L-445"><a href="#L-445"><span class="linenos">445</span></a><span class="n">cm1_to_THz</span>   <span class="o">=</span> <span class="mf">0.02998</span>
-</span><span id="L-446"><a href="#L-446"><span class="linenos">446</span></a><span class="n">cm1_to_rads</span>  <span class="o">=</span> <span class="mf">1.884e11</span>
-</span><span id="L-447"><a href="#L-447"><span class="linenos">447</span></a><span class="n">cm1_to_meV</span>   <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">meV_to_cm1</span>
-</span><span id="L-448"><a href="#L-448"><span class="linenos">448</span></a><span class="n">cm1_to_kJmol</span> <span class="o">=</span> <span class="mf">1.196e-2</span>
+</span><span id="L-352"><a href="#L-352"><span class="linenos">352</span></a><span class="n">mTorr_to_Pa</span>   <span class="o">=</span> <span class="mf">101325000.0</span> <span class="o">/</span> <span class="mf">760.0</span>
+</span><span id="L-353"><a href="#L-353"><span class="linenos">353</span></a><span class="n">mTorr_to_bar</span>  <span class="o">=</span> <span class="mf">1013.25</span> <span class="o">/</span> <span class="mf">760.0</span>
+</span><span id="L-354"><a href="#L-354"><span class="linenos">354</span></a><span class="n">mTorr_to_atm</span>  <span class="o">=</span> <span class="mf">1000.0</span> <span class="o">/</span> <span class="mf">760.0</span>
+</span><span id="L-355"><a href="#L-355"><span class="linenos">355</span></a><span class="n">mTorr_to_Torr</span> <span class="o">=</span> <span class="mf">0.001</span>
+</span><span id="L-356"><a href="#L-356"><span class="linenos">356</span></a>
+</span><span id="L-357"><a href="#L-357"><span class="linenos">357</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-358"><a href="#L-358"><span class="linenos">358</span></a><span class="sd">## Time</span>
+</span><span id="L-359"><a href="#L-359"><span class="linenos">359</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-360"><a href="#L-360"><span class="linenos">360</span></a><span class="n">H_to_s</span> <span class="o">=</span> <span class="mf">3600.0</span>
+</span><span id="L-361"><a href="#L-361"><span class="linenos">361</span></a><span class="n">s_to_H</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">H_to_s</span>
+</span><span id="L-362"><a href="#L-362"><span class="linenos">362</span></a>
+</span><span id="L-363"><a href="#L-363"><span class="linenos">363</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-364"><a href="#L-364"><span class="linenos">364</span></a><span class="sd">## Wavelength</span>
+</span><span id="L-365"><a href="#L-365"><span class="linenos">365</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-366"><a href="#L-366"><span class="linenos">366</span></a><span class="n">AA_to_AA1</span>   <span class="o">=</span> <span class="mf">6.28318</span>
+</span><span id="L-367"><a href="#L-367"><span class="linenos">367</span></a><span class="n">AA_to_ms</span>    <span class="o">=</span> <span class="mi">3956</span>
+</span><span id="L-368"><a href="#L-368"><span class="linenos">368</span></a><span class="n">AA_to_K</span>     <span class="o">=</span> <span class="mf">949.3</span>
+</span><span id="L-369"><a href="#L-369"><span class="linenos">369</span></a><span class="n">AA_to_THz</span>   <span class="o">=</span> <span class="mf">19.78</span>
+</span><span id="L-370"><a href="#L-370"><span class="linenos">370</span></a><span class="n">AA_to_rads</span>  <span class="o">=</span> <span class="mf">1.243e14</span>
+</span><span id="L-371"><a href="#L-371"><span class="linenos">371</span></a><span class="n">AA_to_cm1</span>   <span class="o">=</span> <span class="mf">659.8</span>
+</span><span id="L-372"><a href="#L-372"><span class="linenos">372</span></a><span class="n">AA_to_meV</span>   <span class="o">=</span> <span class="mf">81.805</span>
+</span><span id="L-373"><a href="#L-373"><span class="linenos">373</span></a><span class="n">AA_to_kJmol</span> <span class="o">=</span> <span class="mf">7.893</span>
+</span><span id="L-374"><a href="#L-374"><span class="linenos">374</span></a>
+</span><span id="L-375"><a href="#L-375"><span class="linenos">375</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-376"><a href="#L-376"><span class="linenos">376</span></a><span class="sd">## Wavevector</span>
+</span><span id="L-377"><a href="#L-377"><span class="linenos">377</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-378"><a href="#L-378"><span class="linenos">378</span></a><span class="n">AA1_to_AA</span>    <span class="o">=</span> <span class="mf">6.28318</span>
+</span><span id="L-379"><a href="#L-379"><span class="linenos">379</span></a><span class="n">AA1_to_ms</span>    <span class="o">=</span> <span class="mf">629.6</span>
+</span><span id="L-380"><a href="#L-380"><span class="linenos">380</span></a><span class="n">AA1_to_K</span>     <span class="o">=</span> <span class="mf">24.046</span>
+</span><span id="L-381"><a href="#L-381"><span class="linenos">381</span></a><span class="n">AA1_to_THz</span>   <span class="o">=</span> <span class="mf">0.5010</span>
+</span><span id="L-382"><a href="#L-382"><span class="linenos">382</span></a><span class="n">AA1_to_rads</span>  <span class="o">=</span> <span class="mf">3.148e12</span>
+</span><span id="L-383"><a href="#L-383"><span class="linenos">383</span></a><span class="n">AA1_to_cm1</span>   <span class="o">=</span> <span class="mf">16.71</span>
+</span><span id="L-384"><a href="#L-384"><span class="linenos">384</span></a><span class="n">AA1_to_meV</span>   <span class="o">=</span> <span class="mf">2.072</span>
+</span><span id="L-385"><a href="#L-385"><span class="linenos">385</span></a><span class="n">AA1_to_kJmol</span> <span class="o">=</span> <span class="mf">0.1999</span>
+</span><span id="L-386"><a href="#L-386"><span class="linenos">386</span></a>
+</span><span id="L-387"><a href="#L-387"><span class="linenos">387</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-388"><a href="#L-388"><span class="linenos">388</span></a><span class="sd">## Velocity</span>
+</span><span id="L-389"><a href="#L-389"><span class="linenos">389</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-390"><a href="#L-390"><span class="linenos">390</span></a><span class="n">ms_to_AA</span>    <span class="o">=</span> <span class="mi">3956</span> 
+</span><span id="L-391"><a href="#L-391"><span class="linenos">391</span></a><span class="n">ms_to_AA1</span>   <span class="o">=</span> <span class="mf">1.589e-3</span>
+</span><span id="L-392"><a href="#L-392"><span class="linenos">392</span></a><span class="n">ms_to_K</span>     <span class="o">=</span> <span class="mf">6.066e5</span>
+</span><span id="L-393"><a href="#L-393"><span class="linenos">393</span></a><span class="n">ms_to_THz</span>   <span class="o">=</span> <span class="mf">1.265e-6</span>
+</span><span id="L-394"><a href="#L-394"><span class="linenos">394</span></a><span class="n">ms_to_rads</span>  <span class="o">=</span> <span class="mf">7.948e6</span>
+</span><span id="L-395"><a href="#L-395"><span class="linenos">395</span></a><span class="n">ms_to_cm1</span>   <span class="o">=</span> <span class="mf">4.216e-5</span>
+</span><span id="L-396"><a href="#L-396"><span class="linenos">396</span></a><span class="n">ms_to_meV</span>   <span class="o">=</span> <span class="mf">5.227e-6</span>
+</span><span id="L-397"><a href="#L-397"><span class="linenos">397</span></a><span class="n">ms_to_kJmol</span> <span class="o">=</span> <span class="mf">5.044e-7</span>
+</span><span id="L-398"><a href="#L-398"><span class="linenos">398</span></a>
+</span><span id="L-399"><a href="#L-399"><span class="linenos">399</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-400"><a href="#L-400"><span class="linenos">400</span></a><span class="sd">## Temperature</span>
+</span><span id="L-401"><a href="#L-401"><span class="linenos">401</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-402"><a href="#L-402"><span class="linenos">402</span></a><span class="n">K_to_AA</span>    <span class="o">=</span> <span class="mf">30.81</span> 
+</span><span id="L-403"><a href="#L-403"><span class="linenos">403</span></a><span class="n">K_to_AA1</span>   <span class="o">=</span> <span class="mf">0.2039</span> 
+</span><span id="L-404"><a href="#L-404"><span class="linenos">404</span></a><span class="n">K_to_ms</span>    <span class="o">=</span> <span class="mf">128.4</span> 
+</span><span id="L-405"><a href="#L-405"><span class="linenos">405</span></a><span class="n">K_to_THz</span>   <span class="o">=</span> <span class="mf">0.02084</span> 
+</span><span id="L-406"><a href="#L-406"><span class="linenos">406</span></a><span class="n">K_to_rads</span>  <span class="o">=</span> <span class="mf">1.309e11</span>
+</span><span id="L-407"><a href="#L-407"><span class="linenos">407</span></a><span class="n">K_to_cm1</span>   <span class="o">=</span> <span class="mf">0.6950</span>
+</span><span id="L-408"><a href="#L-408"><span class="linenos">408</span></a><span class="n">K_to_meV</span>   <span class="o">=</span> <span class="mf">8.617e-2</span>
+</span><span id="L-409"><a href="#L-409"><span class="linenos">409</span></a><span class="n">K_to_kJmol</span> <span class="o">=</span> <span class="mf">8.314e-3</span>
+</span><span id="L-410"><a href="#L-410"><span class="linenos">410</span></a>
+</span><span id="L-411"><a href="#L-411"><span class="linenos">411</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-412"><a href="#L-412"><span class="linenos">412</span></a><span class="sd">## Temperature scales</span>
+</span><span id="L-413"><a href="#L-413"><span class="linenos">413</span></a><span class="sd">Note that to change between temperature scales,</span>
+</span><span id="L-414"><a href="#L-414"><span class="linenos">414</span></a><span class="sd">these constants must be added instead of multiplied.</span>
+</span><span id="L-415"><a href="#L-415"><span class="linenos">415</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-416"><a href="#L-416"><span class="linenos">416</span></a><span class="n">C_to_K_scale</span> <span class="o">=</span> <span class="mf">273.15</span>
+</span><span id="L-417"><a href="#L-417"><span class="linenos">417</span></a><span class="n">K_to_C_scale</span> <span class="o">=</span> <span class="o">-</span><span class="n">C_to_K_scale</span>
+</span><span id="L-418"><a href="#L-418"><span class="linenos">418</span></a>
+</span><span id="L-419"><a href="#L-419"><span class="linenos">419</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-420"><a href="#L-420"><span class="linenos">420</span></a><span class="sd">## Frequency</span>
+</span><span id="L-421"><a href="#L-421"><span class="linenos">421</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-422"><a href="#L-422"><span class="linenos">422</span></a><span class="n">THz_to_AA</span>    <span class="o">=</span> <span class="mf">4.4475</span>
+</span><span id="L-423"><a href="#L-423"><span class="linenos">423</span></a><span class="n">THz_to_AA1</span>   <span class="o">=</span> <span class="mf">1.4127</span> 
+</span><span id="L-424"><a href="#L-424"><span class="linenos">424</span></a><span class="n">THz_to_ms</span>    <span class="o">=</span> <span class="mf">889.5</span> 
+</span><span id="L-425"><a href="#L-425"><span class="linenos">425</span></a><span class="n">THz_to_K</span>     <span class="o">=</span> <span class="mf">48.0</span>
+</span><span id="L-426"><a href="#L-426"><span class="linenos">426</span></a><span class="n">THz_to_rads</span>  <span class="o">=</span> <span class="mf">6.283e12</span>
+</span><span id="L-427"><a href="#L-427"><span class="linenos">427</span></a><span class="n">THz_to_cm1</span>   <span class="o">=</span> <span class="mf">33.36</span> 
+</span><span id="L-428"><a href="#L-428"><span class="linenos">428</span></a><span class="n">THz_to_meV</span>   <span class="o">=</span> <span class="mf">4.136</span>
+</span><span id="L-429"><a href="#L-429"><span class="linenos">429</span></a><span class="n">THz_to_kJmol</span> <span class="o">=</span> <span class="mf">0.3990</span>
+</span><span id="L-430"><a href="#L-430"><span class="linenos">430</span></a>
+</span><span id="L-431"><a href="#L-431"><span class="linenos">431</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-432"><a href="#L-432"><span class="linenos">432</span></a><span class="sd">## Angular frequency</span>
+</span><span id="L-433"><a href="#L-433"><span class="linenos">433</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-434"><a href="#L-434"><span class="linenos">434</span></a><span class="n">rads_to_AA</span>    <span class="o">=</span> <span class="mf">11.15e6</span>
+</span><span id="L-435"><a href="#L-435"><span class="linenos">435</span></a><span class="n">rads_to_AA1</span>   <span class="o">=</span> <span class="mf">5.64e-7</span>
+</span><span id="L-436"><a href="#L-436"><span class="linenos">436</span></a><span class="n">rads_to_ms</span>    <span class="o">=</span> <span class="mf">3.549e-4</span>
+</span><span id="L-437"><a href="#L-437"><span class="linenos">437</span></a><span class="n">rads_to_K</span>     <span class="o">=</span> <span class="mf">7.64e-12</span>
+</span><span id="L-438"><a href="#L-438"><span class="linenos">438</span></a><span class="n">rads_to_THz</span>   <span class="o">=</span> <span class="mf">0.1592e-12</span>
+</span><span id="L-439"><a href="#L-439"><span class="linenos">439</span></a><span class="n">rads_to_cm1</span>   <span class="o">=</span> <span class="mf">5.309e-12</span>
+</span><span id="L-440"><a href="#L-440"><span class="linenos">440</span></a><span class="n">rads_to_meV</span>   <span class="o">=</span> <span class="mf">6.582e-13</span>
+</span><span id="L-441"><a href="#L-441"><span class="linenos">441</span></a><span class="n">rads_to_kJmol</span> <span class="o">=</span> <span class="mf">6.351e-14</span>
+</span><span id="L-442"><a href="#L-442"><span class="linenos">442</span></a>
+</span><span id="L-443"><a href="#L-443"><span class="linenos">443</span></a><span class="sd">&quot;&quot;&quot;---</span>
+</span><span id="L-444"><a href="#L-444"><span class="linenos">444</span></a><span class="sd">## Wavenumber</span>
+</span><span id="L-445"><a href="#L-445"><span class="linenos">445</span></a><span class="sd">&quot;&quot;&quot;</span> 
+</span><span id="L-446"><a href="#L-446"><span class="linenos">446</span></a><span class="n">cm1_to_AA</span>    <span class="o">=</span> <span class="mf">25.69</span> 
+</span><span id="L-447"><a href="#L-447"><span class="linenos">447</span></a><span class="n">cm1_to_AA1</span>   <span class="o">=</span> <span class="mf">0.2446</span>
+</span><span id="L-448"><a href="#L-448"><span class="linenos">448</span></a><span class="n">cm1_to_ms</span>    <span class="o">=</span> <span class="mf">154.01</span>
+</span><span id="L-449"><a href="#L-449"><span class="linenos">449</span></a><span class="n">cm1_to_K</span>     <span class="o">=</span> <span class="mf">1.439</span>
+</span><span id="L-450"><a href="#L-450"><span class="linenos">450</span></a><span class="n">cm1_to_THz</span>   <span class="o">=</span> <span class="mf">0.02998</span>
+</span><span id="L-451"><a href="#L-451"><span class="linenos">451</span></a><span class="n">cm1_to_rads</span>  <span class="o">=</span> <span class="mf">1.884e11</span>
+</span><span id="L-452"><a href="#L-452"><span class="linenos">452</span></a><span class="n">cm1_to_meV</span>   <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">meV_to_cm1</span>
+</span><span id="L-453"><a href="#L-453"><span class="linenos">453</span></a><span class="n">cm1_to_kJmol</span> <span class="o">=</span> <span class="mf">1.196e-2</span>
 </span></pre></div>
 
 
@@ -2229,6 +2246,18 @@ except for $\mu$ which is used as <code>u</code>.</p>
     
 
                 </section>
+                <section id="eV_to_ueV">
+                    <div class="attr variable">
+            <span class="name">eV_to_ueV</span>        =
+<span class="default_value">1000000.0</span>
+
+        
+    </div>
+    <a class="headerlink" href="#eV_to_ueV"></a>
+    
+    
+
+                </section>
                 <section id="meV_to_eV">
                     <div class="attr variable">
             <span class="name">meV_to_eV</span>        =
@@ -2237,6 +2266,18 @@ except for $\mu$ which is used as <code>u</code>.</p>
         
     </div>
     <a class="headerlink" href="#meV_to_eV"></a>
+    
+    
+
+                </section>
+                <section id="meV_to_ueV">
+                    <div class="attr variable">
+            <span class="name">meV_to_ueV</span>        =
+<span class="default_value">1000.0</span>
+
+        
+    </div>
+    <a class="headerlink" href="#meV_to_ueV"></a>
     
     
 
@@ -2357,6 +2398,30 @@ except for $\mu$ which is used as <code>u</code>.</p>
         
     </div>
     <a class="headerlink" href="#meV_to_kJmol"></a>
+    
+    
+
+                </section>
+                <section id="ueV_to_eV">
+                    <div class="attr variable">
+            <span class="name">ueV_to_eV</span>        =
+<span class="default_value">1e-06</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ueV_to_eV"></a>
+    
+    
+
+                </section>
+                <section id="ueV_to_meV">
+                    <div class="attr variable">
+            <span class="name">ueV_to_meV</span>        =
+<span class="default_value">0.001</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ueV_to_meV"></a>
     
     
 

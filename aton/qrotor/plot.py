@@ -12,6 +12,7 @@ This module provides straightforward functions to plot QRotor data.
 | `energies()`         | Calculated eigenvalues |
 | `reduced_energies()` | Reduced energies E/B as a function of the reduced potential V/B |
 | `wavefunction()`     | Selected wavefunctions or squared wavefunctions of a system |
+| `splittings()`       | Tunnel splitting energies of a list of systems |
 | `convergence()`      | Energy convergence |
 
 ---
@@ -23,6 +24,8 @@ from . import systems
 import matplotlib.pyplot as plt
 import numpy as np
 from copy import deepcopy
+import aton.alias as alias
+import aton.phys as phys
 
 
 def potential(
@@ -136,7 +139,7 @@ def reduced_energies(
     """Plots the reduced energy of the system E/B vs the reduced potential energy V/B.
 
     Takes a `data` list of System objects as input.
-    An optional `title` can be included.
+    An optional `title` can be specified.
 
     Optional maximum reduced potential `values` are plotted
     as vertical lines (floats or ints) or regions
@@ -148,7 +151,6 @@ def reduced_energies(
     else:
         plot_legend = False
         legend = [''] * len(values)
-
     systems.as_list(data)
     title = title if title else (data[0].comment if data[0].comment else 'Reduced energies')
     number_of_levels = data[0].searched_E
@@ -206,7 +208,6 @@ def wavefunction(
     """
     data = deepcopy(system)
     eigenvectors = data.eigenvectors
-
     title = title if title else (data.comment if data.comment else 'System wavefunction')
     fig, ax1 = plt.subplots()
     plt.title(title)
@@ -218,7 +219,6 @@ def wavefunction(
     if not yticks:
         ax2.set_yticks([])
     ax2.set_ylabel('Squared wavefunction' if square else 'Wavefunction')
-
     # Set levels list
     if isinstance(levels, int) or isinstance(levels, float):
         levels = [x for x in range(int(levels))]
@@ -248,7 +248,46 @@ def wavefunction(
         ax2.plot(data.grid, eigenvectors[i], linestyle='--', label=f'{i}')
     if show_legend:
         fig.legend(loc='upper right', bbox_to_anchor=(0.9, 0.88), fontsize='small', title='Index')
+    plt.show()
 
+
+def splittings(
+        data:list,
+        title:str=None,
+        units:str='ueV'
+        ) -> None:
+    """Plot the tunnel splitting energies of a `data` list of systems.
+
+    The different `System.comment` are shown in the horizontal axis.
+    An optional `title` can be specified.
+    Default units shown are $\\mu$eV (`'ueV'`).
+    Available units are: `'ueV'`, `'meV'`, `'Ry'`.
+    """
+    title = title if title != None else 'Tunnel splitting energies'
+    calcs = deepcopy(data)
+    calcs = systems.as_list(calcs)
+
+    fig, ax = plt.subplots()
+    ax.set_ylabel("Energy / meV")
+
+    y = [c.splittings[0] for c in calcs]
+    x = [c.comment for c in calcs]
+    # What units do we want?
+    if units.lower() in alias.units['ueV']:
+        y = [j * phys.meV_to_ueV for j in y]
+        ax.set_ylabel("Energy / $\\mu$eV")
+    elif units.lower() in alias.units['Ry']:
+        y = [j * phys.meV_to_Ry for j in y]
+        ax.set_ylabel("Energy / Ry")
+    #else:  # It's okay let's use meV
+
+    ax.bar(range(len(y)), y)
+    for i, comment in enumerate(x):
+        ax.text(x=i, y=0, s=comment+' ', rotation=45, verticalalignment='top', horizontalalignment='right')
+    ax.set_xlabel("")
+    ax.set_title(title)
+    ax.set_xticks([])
+    fig.tight_layout()
     plt.show()
 
 

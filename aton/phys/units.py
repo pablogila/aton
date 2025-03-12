@@ -250,8 +250,10 @@ Ry_to_J       = 2.1798723611030e-18
 eV_to_Ry      = 1.0 / Ry_to_eV
 eV_to_J       = 1.602176634e-19
 eV_to_meV     = 1000.0
+eV_to_ueV     = 1e6
 
 meV_to_eV     = 1e-3
+meV_to_ueV    = 1000.0
 meV_to_Ry     = 1.0 / Ry_to_meV
 meV_to_J      = 1.602176634e-22
 meV_to_AA     = 9.045
@@ -262,6 +264,9 @@ meV_to_THz    = 0.2418
 meV_to_rads   = 1.519e12
 meV_to_cm1    = 8.0655
 meV_to_kJmol  = 0.0965
+
+ueV_to_eV     = 1e-6
+ueV_to_meV    = 1e-3
 
 cal_to_J      = 4.184
 kcal_to_J     = cal_to_J * 1000.0

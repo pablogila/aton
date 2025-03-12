@@ -225,8 +225,11 @@ class System:
         return {
             'version': self.version,
             'comment': self.comment,
-            'B': self.B,
+            'searched_E': self.searched_E,
+            'correct_potential_offset': self.correct_potential_offset,
+            'save_eigenvectors': self.save_eigenvectors,
             'group': self.group,
+            'B': self.B,
             'gridsize': self.gridsize,
             'potential_name': self.potential_name,
             'potential_constants': self.potential_constants.tolist() if isinstance(self.potential_constants, np.ndarray) else self.potential_constants,

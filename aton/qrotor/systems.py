@@ -19,6 +19,7 @@ These are commonly used as a list of `System` objects.
 | `get_ideal_E()`      | Calculate the ideal energy for a specified level |
 | `sort_by_gridsize()` | Sort systems by gridsize |
 | `reduce_size()`      | Discard data that takes too much space |
+| `summary()`          | Print a summary of a System or list of Systems |
 
 ---
 """
@@ -153,7 +154,7 @@ def get_gridsizes(systems:list) -> list:
         if i.gridsize:
             gridsizes.append(i.gridsize)
         elif any(i.potential_values):
-            gridsizes.append(len(potential_values))
+            gridsizes.append(len(i.potential_values))
         else:
             gridsizes.append(None)
     return gridsizes
@@ -215,4 +216,30 @@ def reduce_size(systems:list) -> list:
     for dataset in systems:
         dataset = dataset.reduce_size()
     return systems
+
+
+def summary(systems, verbose:bool=False) -> None:
+    """Print a summary of a System or list of Systems.
+    
+    Print extra info with `verbose=True`
+    """
+    print('--------------------')
+    systems = as_list(systems)
+    for system in systems:
+        dictionary = system.summary()
+        if verbose:
+            for key, value in dictionary.items():
+                print(f'{key:<24}', value)
+        else:
+            eigenvalues = system.eigenvalues if any(system.eigenvalues) else []
+            extra = ''
+            if len(system.eigenvalues) > 6:
+                eigenvalues = eigenvalues[:6]
+                extra = '...'
+            print('comment     ' + str(system.comment))
+            print('B           ' + str(system.B))
+            print('eigenvalues ' + str([float(round(e, 4)) for e in eigenvalues]) + extra)
+            print('version     ' + str(system.version))
+        print('--------------------')
+    return None
 

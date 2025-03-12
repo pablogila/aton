@@ -36,6 +36,7 @@ units: dict = {
     'amu'  : ['amu', 'atomicmassunit', 'atomicmassunits'],
     'eV'   : ['eV', 'ev', 'electronvolt', 'electronvolts'],
     'meV'  : ['meV', 'mev', 'millielectronvolt', 'millielectronvolts'],
+    'ueV'  : ['ueV', 'uev', 'microelectronvolts', 'mueV', 'muev'],
     'J'    : ['J', 'j', 'joule', 'joules'],
     'cal'  : ['cal', 'calorie', 'calories'],
     'kcal' : ['kcal', 'kilocalorie', 'kilocalories'],
