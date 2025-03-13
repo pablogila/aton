@@ -42,13 +42,13 @@ def sbatch(
     with `prefix` as the common name across calculations,
     followed by the calculation ID, used as JOB_NAME.
     The extensions from `in_ext` and `out_ext` ('.in' and '.out' by default)
-    will be used for the INPUT_FILE and OUTPUT_FILE of the slurm template.
+    will be used for the INPUT and OUTPUT filenames of the slurm template.
 
     The slurm template, `template.slurm` by default,
-    must contain the keywords JOB_ID, INPUT_FILE and OUTPUT_FILE:
+    must contain the keywords `JOBNAME`, `INPUT` and `OUTPUT`:
     ```
-    #SBATCH --job-name=JOB_NAME
-    mpirun pw.x -inp INPUT_FILE > OUTPUT_FILE
+    #SBATCH --job-name=JOBNAME
+    srun --cpu_bind=cores pw.x -inp INPUT > OUTPUT
     ```
 
     Runs from the specified `folder`, current working directory if empty.
@@ -59,9 +59,9 @@ def sbatch(
     just printing the commands on the screen.
     """
     print('Sbatching all calculations...\n')
-    key_input = 'INPUT_FILE'
-    key_output = 'OUTPUT_FILE'
-    key_jobname = 'JOB_NAME'
+    key_input = 'INPUT'
+    key_output = 'OUTPUT'
+    key_jobname = 'JOBNAME'
     slurm_folder = 'slurms'
     folder = call.here(folder)
     # Get input files and abort if not found
@@ -192,7 +192,7 @@ def check_template(
         template:str='template.slurm',
         folder=None,
     ) -> str:
-    """Check the slurm `template` inside `folder`.
+    """Check the slurm `template` inside `folder`, to be used by `sbatch()`.
 
     The current working directory is used if `folder` is not provided.
     If the file does not exist or is invalid, creates a `template_EXAMPLE.slurm` file for reference.
@@ -205,7 +205,7 @@ def check_template(
 #!/bin/bash
 #SBATCH --partition=general
 #SBATCH --qos=regular
-#SBATCH --job-name=JOB_NAME
+#SBATCH --job-name=JOBNAME
 #SBATCH --ntasks=32
 #SBATCH --time=1-00:00:00
 #SBATCH --mem=128G
@@ -215,35 +215,35 @@ def check_template(
 module purge
 module load QuantumESPRESSO/7.3-foss-2023a
 
-mpirun pw.x -inp INPUT_FILE > OUTPUT_FILE
+srun --cpu_bind=cores pw.x -inp INPUT > OUTPUT
 '''
     # If the slurm template does not exist, create one
     slurm_file = file.get(folder, template, True)
     if not slurm_file:
         with open(new_slurm_file, 'w') as f:
             f.write(content)
-        print(f'!!! WARNING:  Slurm template missing, so an example was generated automatically:\n'
+        print(f'!!! WARNING:  Slurm template missing, an example was generated automatically:\n'
               f'{slurm_example}\n'
               f'PLEASE CHECK it, UPDATE it and RENAME it to {template}\n'
-              'before running aton.api.phonopy.sbatch()\n')
+              'before using aton.api.slurm.sbatch()\n')
         return None
     # Check that the slurm file contains the INPUT_FILE, OUTPUT_FILE and JOB_NAME keywords
-    key_input = find.lines(slurm_file, 'INPUT_FILE')
-    key_output = find.lines(slurm_file, 'OUTPUT_FILE')
-    key_jobname = find.lines(slurm_file, 'JOB_NAME')
+    key_input = find.lines(slurm_file, 'INPUT')
+    key_output = find.lines(slurm_file, 'OUTPUT')
+    key_jobname = find.lines(slurm_file, 'JOBNAME')
     missing = []
     if not key_input:
-        missing.append('INPUT_FILE')
+        missing.append('INPUT')
     if not key_output:
-        missing.append('OUTPUT_FILE')
+        missing.append('OUTPUT')
     if not key_jobname:
-        missing.append('JOB_NAME')
+        missing.append('JOBNAME')
     if len(missing) > 0:
         with open(new_slurm_file, 'w') as f:
             f.write(content)
         print('!!! WARNING:  Some keywords were missing from your slurm template,\n'
               f'PLEASE CHECK the example at {slurm_example}\n'
-              'before running aton.api.slurm.sbatch()\n'
+              'before using aton.api.slurm.sbatch()\n'
               f'The following keywords were missing from your {template}:')
         for key in missing:
             print(key)

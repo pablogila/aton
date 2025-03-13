@@ -92,7 +92,7 @@
     </ul>
 
 
-            <footer>ATON v0.5.0 documentation</footer>
+            <footer>ATON v0.5.1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -194,13 +194,13 @@
 </span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="sd">    with `prefix` as the common name across calculations,</span>
 </span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="sd">    followed by the calculation ID, used as JOB_NAME.</span>
 </span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="sd">    The extensions from `in_ext` and `out_ext` (&#39;.in&#39; and &#39;.out&#39; by default)</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a><span class="sd">    will be used for the INPUT_FILE and OUTPUT_FILE of the slurm template.</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a><span class="sd">    will be used for the INPUT and OUTPUT filenames of the slurm template.</span>
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="sd">    The slurm template, `template.slurm` by default,</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="sd">    must contain the keywords JOB_ID, INPUT_FILE and OUTPUT_FILE:</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="sd">    must contain the keywords `JOBNAME`, `INPUT` and `OUTPUT`:</span>
 </span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a><span class="sd">    ```</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="sd">    #SBATCH --job-name=JOB_NAME</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="sd">    mpirun pw.x -inp INPUT_FILE &gt; OUTPUT_FILE</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="sd">    #SBATCH --job-name=JOBNAME</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="sd">    srun --cpu_bind=cores pw.x -inp INPUT &gt; OUTPUT</span>
 </span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="sd">    ```</span>
 </span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>
 </span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="sd">    Runs from the specified `folder`, current working directory if empty.</span>
@@ -211,9 +211,9 @@
 </span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd">    just printing the commands on the screen.</span>
 </span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sbatching all calculations...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>    <span class="n">key_input</span> <span class="o">=</span> <span class="s1">&#39;INPUT_FILE&#39;</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>    <span class="n">key_output</span> <span class="o">=</span> <span class="s1">&#39;OUTPUT_FILE&#39;</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>    <span class="n">key_jobname</span> <span class="o">=</span> <span class="s1">&#39;JOB_NAME&#39;</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>    <span class="n">key_input</span> <span class="o">=</span> <span class="s1">&#39;INPUT&#39;</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>    <span class="n">key_output</span> <span class="o">=</span> <span class="s1">&#39;OUTPUT&#39;</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>    <span class="n">key_jobname</span> <span class="o">=</span> <span class="s1">&#39;JOBNAME&#39;</span>
 </span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>    <span class="n">slurm_folder</span> <span class="o">=</span> <span class="s1">&#39;slurms&#39;</span>
 </span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>    <span class="n">folder</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">here</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
 </span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>    <span class="c1"># Get input files and abort if not found</span>
@@ -344,7 +344,7 @@
 </span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>        <span class="n">template</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;template.slurm&#39;</span><span class="p">,</span>
 </span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a>        <span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the slurm `template` inside `folder`.</span>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the slurm `template` inside `folder`, to be used by `sbatch()`.</span>
 </span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>
 </span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a><span class="sd">    The current working directory is used if `folder` is not provided.</span>
 </span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a><span class="sd">    If the file does not exist or is invalid, creates a `template_EXAMPLE.slurm` file for reference.</span>
@@ -357,7 +357,7 @@
 </span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a><span class="s1">#!/bin/bash</span>
 </span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a><span class="s1">#SBATCH --partition=general</span>
 </span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a><span class="s1">#SBATCH --qos=regular</span>
-</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="s1">#SBATCH --job-name=JOB_NAME</span>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="s1">#SBATCH --job-name=JOBNAME</span>
 </span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="s1">#SBATCH --ntasks=32</span>
 </span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="s1">#SBATCH --time=1-00:00:00</span>
 </span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a><span class="s1">#SBATCH --mem=128G</span>
@@ -367,35 +367,35 @@
 </span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a><span class="s1">module purge</span>
 </span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a><span class="s1">module load QuantumESPRESSO/7.3-foss-2023a</span>
 </span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>
-</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a><span class="s1">mpirun pw.x -inp INPUT_FILE &gt; OUTPUT_FILE</span>
+</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a><span class="s1">srun --cpu_bind=cores pw.x -inp INPUT &gt; OUTPUT</span>
 </span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a><span class="s1">&#39;&#39;&#39;</span>
 </span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>    <span class="c1"># If the slurm template does not exist, create one</span>
 </span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>    <span class="n">slurm_file</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 </span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">slurm_file</span><span class="p">:</span>
 </span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">new_slurm_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 </span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;!!! WARNING:  Slurm template missing, so an example was generated automatically:</span><span class="se">\n</span><span class="s1">&#39;</span>
+</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;!!! WARNING:  Slurm template missing, an example was generated automatically:</span><span class="se">\n</span><span class="s1">&#39;</span>
 </span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a>              <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">slurm_example</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
 </span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a>              <span class="sa">f</span><span class="s1">&#39;PLEASE CHECK it, UPDATE it and RENAME it to </span><span class="si">{</span><span class="n">template</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
-</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a>              <span class="s1">&#39;before running aton.api.phonopy.sbatch()</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a>              <span class="s1">&#39;before using aton.api.slurm.sbatch()</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a>        <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a>    <span class="c1"># Check that the slurm file contains the INPUT_FILE, OUTPUT_FILE and JOB_NAME keywords</span>
-</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a>    <span class="n">key_input</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;INPUT_FILE&#39;</span><span class="p">)</span>
-</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a>    <span class="n">key_output</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;OUTPUT_FILE&#39;</span><span class="p">)</span>
-</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>    <span class="n">key_jobname</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;JOB_NAME&#39;</span><span class="p">)</span>
+</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a>    <span class="n">key_input</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;INPUT&#39;</span><span class="p">)</span>
+</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a>    <span class="n">key_output</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;OUTPUT&#39;</span><span class="p">)</span>
+</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>    <span class="n">key_jobname</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;JOBNAME&#39;</span><span class="p">)</span>
 </span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a>    <span class="n">missing</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key_input</span><span class="p">:</span>
-</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;INPUT_FILE&#39;</span><span class="p">)</span>
+</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;INPUT&#39;</span><span class="p">)</span>
 </span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key_output</span><span class="p">:</span>
-</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;OUTPUT_FILE&#39;</span><span class="p">)</span>
+</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;OUTPUT&#39;</span><span class="p">)</span>
 </span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key_jobname</span><span class="p">:</span>
-</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;JOB_NAME&#39;</span><span class="p">)</span>
+</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;JOBNAME&#39;</span><span class="p">)</span>
 </span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 </span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">new_slurm_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 </span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 </span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;!!! WARNING:  Some keywords were missing from your slurm template,</span><span class="se">\n</span><span class="s1">&#39;</span>
 </span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a>              <span class="sa">f</span><span class="s1">&#39;PLEASE CHECK the example at </span><span class="si">{</span><span class="n">slurm_example</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
-</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>              <span class="s1">&#39;before running aton.api.slurm.sbatch()</span><span class="se">\n</span><span class="s1">&#39;</span>
+</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>              <span class="s1">&#39;before using aton.api.slurm.sbatch()</span><span class="se">\n</span><span class="s1">&#39;</span>
 </span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>              <span class="sa">f</span><span class="s1">&#39;The following keywords were missing from your </span><span class="si">{</span><span class="n">template</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
 </span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">missing</span><span class="p">:</span>
 </span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>            <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -432,13 +432,13 @@
 </span><span id="sbatch-43"><a href="#sbatch-43"><span class="linenos"> 43</span></a><span class="sd">    with `prefix` as the common name across calculations,</span>
 </span><span id="sbatch-44"><a href="#sbatch-44"><span class="linenos"> 44</span></a><span class="sd">    followed by the calculation ID, used as JOB_NAME.</span>
 </span><span id="sbatch-45"><a href="#sbatch-45"><span class="linenos"> 45</span></a><span class="sd">    The extensions from `in_ext` and `out_ext` (&#39;.in&#39; and &#39;.out&#39; by default)</span>
-</span><span id="sbatch-46"><a href="#sbatch-46"><span class="linenos"> 46</span></a><span class="sd">    will be used for the INPUT_FILE and OUTPUT_FILE of the slurm template.</span>
+</span><span id="sbatch-46"><a href="#sbatch-46"><span class="linenos"> 46</span></a><span class="sd">    will be used for the INPUT and OUTPUT filenames of the slurm template.</span>
 </span><span id="sbatch-47"><a href="#sbatch-47"><span class="linenos"> 47</span></a>
 </span><span id="sbatch-48"><a href="#sbatch-48"><span class="linenos"> 48</span></a><span class="sd">    The slurm template, `template.slurm` by default,</span>
-</span><span id="sbatch-49"><a href="#sbatch-49"><span class="linenos"> 49</span></a><span class="sd">    must contain the keywords JOB_ID, INPUT_FILE and OUTPUT_FILE:</span>
+</span><span id="sbatch-49"><a href="#sbatch-49"><span class="linenos"> 49</span></a><span class="sd">    must contain the keywords `JOBNAME`, `INPUT` and `OUTPUT`:</span>
 </span><span id="sbatch-50"><a href="#sbatch-50"><span class="linenos"> 50</span></a><span class="sd">    ```</span>
-</span><span id="sbatch-51"><a href="#sbatch-51"><span class="linenos"> 51</span></a><span class="sd">    #SBATCH --job-name=JOB_NAME</span>
-</span><span id="sbatch-52"><a href="#sbatch-52"><span class="linenos"> 52</span></a><span class="sd">    mpirun pw.x -inp INPUT_FILE &gt; OUTPUT_FILE</span>
+</span><span id="sbatch-51"><a href="#sbatch-51"><span class="linenos"> 51</span></a><span class="sd">    #SBATCH --job-name=JOBNAME</span>
+</span><span id="sbatch-52"><a href="#sbatch-52"><span class="linenos"> 52</span></a><span class="sd">    srun --cpu_bind=cores pw.x -inp INPUT &gt; OUTPUT</span>
 </span><span id="sbatch-53"><a href="#sbatch-53"><span class="linenos"> 53</span></a><span class="sd">    ```</span>
 </span><span id="sbatch-54"><a href="#sbatch-54"><span class="linenos"> 54</span></a>
 </span><span id="sbatch-55"><a href="#sbatch-55"><span class="linenos"> 55</span></a><span class="sd">    Runs from the specified `folder`, current working directory if empty.</span>
@@ -449,9 +449,9 @@
 </span><span id="sbatch-60"><a href="#sbatch-60"><span class="linenos"> 60</span></a><span class="sd">    just printing the commands on the screen.</span>
 </span><span id="sbatch-61"><a href="#sbatch-61"><span class="linenos"> 61</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="sbatch-62"><a href="#sbatch-62"><span class="linenos"> 62</span></a>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sbatching all calculations...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="sbatch-63"><a href="#sbatch-63"><span class="linenos"> 63</span></a>    <span class="n">key_input</span> <span class="o">=</span> <span class="s1">&#39;INPUT_FILE&#39;</span>
-</span><span id="sbatch-64"><a href="#sbatch-64"><span class="linenos"> 64</span></a>    <span class="n">key_output</span> <span class="o">=</span> <span class="s1">&#39;OUTPUT_FILE&#39;</span>
-</span><span id="sbatch-65"><a href="#sbatch-65"><span class="linenos"> 65</span></a>    <span class="n">key_jobname</span> <span class="o">=</span> <span class="s1">&#39;JOB_NAME&#39;</span>
+</span><span id="sbatch-63"><a href="#sbatch-63"><span class="linenos"> 63</span></a>    <span class="n">key_input</span> <span class="o">=</span> <span class="s1">&#39;INPUT&#39;</span>
+</span><span id="sbatch-64"><a href="#sbatch-64"><span class="linenos"> 64</span></a>    <span class="n">key_output</span> <span class="o">=</span> <span class="s1">&#39;OUTPUT&#39;</span>
+</span><span id="sbatch-65"><a href="#sbatch-65"><span class="linenos"> 65</span></a>    <span class="n">key_jobname</span> <span class="o">=</span> <span class="s1">&#39;JOBNAME&#39;</span>
 </span><span id="sbatch-66"><a href="#sbatch-66"><span class="linenos"> 66</span></a>    <span class="n">slurm_folder</span> <span class="o">=</span> <span class="s1">&#39;slurms&#39;</span>
 </span><span id="sbatch-67"><a href="#sbatch-67"><span class="linenos"> 67</span></a>    <span class="n">folder</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">here</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
 </span><span id="sbatch-68"><a href="#sbatch-68"><span class="linenos"> 68</span></a>    <span class="c1"># Get input files and abort if not found</span>
@@ -505,13 +505,13 @@
 with <code>prefix</code> as the common name across calculations,
 followed by the calculation ID, used as JOB_NAME.
 The extensions from <code>in_ext</code> and <code>out_ext</code> ('.in' and '.out' by default)
-will be used for the INPUT_FILE and OUTPUT_FILE of the slurm template.</p>
+will be used for the INPUT and OUTPUT filenames of the slurm template.</p>
 
 <p>The slurm template, <code>template.slurm</code> by default,
-must contain the keywords JOB_ID, INPUT_FILE and OUTPUT_FILE:</p>
+must contain the keywords <code>JOBNAME</code>, <code>INPUT</code> and <code>OUTPUT</code>:</p>
 
-<pre><code>#SBATCH --job-name=JOB_NAME
-mpirun pw.x -inp INPUT_FILE &gt; OUTPUT_FILE
+<pre><code>#SBATCH --job-name=JOBNAME
+srun --cpu_bind=cores pw.x -inp INPUT &gt; OUTPUT
 </code></pre>
 
 <p>Runs from the specified <code>folder</code>, current working directory if empty.</p>
@@ -684,7 +684,7 @@ The jobs will be detected from the <code>&lt;prefix&gt;JOBID&lt;sufix&gt;</code>
 </span><span id="check_template-193"><a href="#check_template-193"><span class="linenos">193</span></a>        <span class="n">template</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;template.slurm&#39;</span><span class="p">,</span>
 </span><span id="check_template-194"><a href="#check_template-194"><span class="linenos">194</span></a>        <span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="check_template-195"><a href="#check_template-195"><span class="linenos">195</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="check_template-196"><a href="#check_template-196"><span class="linenos">196</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the slurm `template` inside `folder`.</span>
+</span><span id="check_template-196"><a href="#check_template-196"><span class="linenos">196</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the slurm `template` inside `folder`, to be used by `sbatch()`.</span>
 </span><span id="check_template-197"><a href="#check_template-197"><span class="linenos">197</span></a>
 </span><span id="check_template-198"><a href="#check_template-198"><span class="linenos">198</span></a><span class="sd">    The current working directory is used if `folder` is not provided.</span>
 </span><span id="check_template-199"><a href="#check_template-199"><span class="linenos">199</span></a><span class="sd">    If the file does not exist or is invalid, creates a `template_EXAMPLE.slurm` file for reference.</span>
@@ -697,7 +697,7 @@ The jobs will be detected from the <code>&lt;prefix&gt;JOBID&lt;sufix&gt;</code>
 </span><span id="check_template-206"><a href="#check_template-206"><span class="linenos">206</span></a><span class="s1">#!/bin/bash</span>
 </span><span id="check_template-207"><a href="#check_template-207"><span class="linenos">207</span></a><span class="s1">#SBATCH --partition=general</span>
 </span><span id="check_template-208"><a href="#check_template-208"><span class="linenos">208</span></a><span class="s1">#SBATCH --qos=regular</span>
-</span><span id="check_template-209"><a href="#check_template-209"><span class="linenos">209</span></a><span class="s1">#SBATCH --job-name=JOB_NAME</span>
+</span><span id="check_template-209"><a href="#check_template-209"><span class="linenos">209</span></a><span class="s1">#SBATCH --job-name=JOBNAME</span>
 </span><span id="check_template-210"><a href="#check_template-210"><span class="linenos">210</span></a><span class="s1">#SBATCH --ntasks=32</span>
 </span><span id="check_template-211"><a href="#check_template-211"><span class="linenos">211</span></a><span class="s1">#SBATCH --time=1-00:00:00</span>
 </span><span id="check_template-212"><a href="#check_template-212"><span class="linenos">212</span></a><span class="s1">#SBATCH --mem=128G</span>
@@ -707,35 +707,35 @@ The jobs will be detected from the <code>&lt;prefix&gt;JOBID&lt;sufix&gt;</code>
 </span><span id="check_template-216"><a href="#check_template-216"><span class="linenos">216</span></a><span class="s1">module purge</span>
 </span><span id="check_template-217"><a href="#check_template-217"><span class="linenos">217</span></a><span class="s1">module load QuantumESPRESSO/7.3-foss-2023a</span>
 </span><span id="check_template-218"><a href="#check_template-218"><span class="linenos">218</span></a>
-</span><span id="check_template-219"><a href="#check_template-219"><span class="linenos">219</span></a><span class="s1">mpirun pw.x -inp INPUT_FILE &gt; OUTPUT_FILE</span>
+</span><span id="check_template-219"><a href="#check_template-219"><span class="linenos">219</span></a><span class="s1">srun --cpu_bind=cores pw.x -inp INPUT &gt; OUTPUT</span>
 </span><span id="check_template-220"><a href="#check_template-220"><span class="linenos">220</span></a><span class="s1">&#39;&#39;&#39;</span>
 </span><span id="check_template-221"><a href="#check_template-221"><span class="linenos">221</span></a>    <span class="c1"># If the slurm template does not exist, create one</span>
 </span><span id="check_template-222"><a href="#check_template-222"><span class="linenos">222</span></a>    <span class="n">slurm_file</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 </span><span id="check_template-223"><a href="#check_template-223"><span class="linenos">223</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">slurm_file</span><span class="p">:</span>
 </span><span id="check_template-224"><a href="#check_template-224"><span class="linenos">224</span></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">new_slurm_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 </span><span id="check_template-225"><a href="#check_template-225"><span class="linenos">225</span></a>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-</span><span id="check_template-226"><a href="#check_template-226"><span class="linenos">226</span></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;!!! WARNING:  Slurm template missing, so an example was generated automatically:</span><span class="se">\n</span><span class="s1">&#39;</span>
+</span><span id="check_template-226"><a href="#check_template-226"><span class="linenos">226</span></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;!!! WARNING:  Slurm template missing, an example was generated automatically:</span><span class="se">\n</span><span class="s1">&#39;</span>
 </span><span id="check_template-227"><a href="#check_template-227"><span class="linenos">227</span></a>              <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">slurm_example</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
 </span><span id="check_template-228"><a href="#check_template-228"><span class="linenos">228</span></a>              <span class="sa">f</span><span class="s1">&#39;PLEASE CHECK it, UPDATE it and RENAME it to </span><span class="si">{</span><span class="n">template</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
-</span><span id="check_template-229"><a href="#check_template-229"><span class="linenos">229</span></a>              <span class="s1">&#39;before running aton.api.phonopy.sbatch()</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="check_template-229"><a href="#check_template-229"><span class="linenos">229</span></a>              <span class="s1">&#39;before using aton.api.slurm.sbatch()</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </span><span id="check_template-230"><a href="#check_template-230"><span class="linenos">230</span></a>        <span class="k">return</span> <span class="kc">None</span>
 </span><span id="check_template-231"><a href="#check_template-231"><span class="linenos">231</span></a>    <span class="c1"># Check that the slurm file contains the INPUT_FILE, OUTPUT_FILE and JOB_NAME keywords</span>
-</span><span id="check_template-232"><a href="#check_template-232"><span class="linenos">232</span></a>    <span class="n">key_input</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;INPUT_FILE&#39;</span><span class="p">)</span>
-</span><span id="check_template-233"><a href="#check_template-233"><span class="linenos">233</span></a>    <span class="n">key_output</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;OUTPUT_FILE&#39;</span><span class="p">)</span>
-</span><span id="check_template-234"><a href="#check_template-234"><span class="linenos">234</span></a>    <span class="n">key_jobname</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;JOB_NAME&#39;</span><span class="p">)</span>
+</span><span id="check_template-232"><a href="#check_template-232"><span class="linenos">232</span></a>    <span class="n">key_input</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;INPUT&#39;</span><span class="p">)</span>
+</span><span id="check_template-233"><a href="#check_template-233"><span class="linenos">233</span></a>    <span class="n">key_output</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;OUTPUT&#39;</span><span class="p">)</span>
+</span><span id="check_template-234"><a href="#check_template-234"><span class="linenos">234</span></a>    <span class="n">key_jobname</span> <span class="o">=</span> <span class="n">find</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">slurm_file</span><span class="p">,</span> <span class="s1">&#39;JOBNAME&#39;</span><span class="p">)</span>
 </span><span id="check_template-235"><a href="#check_template-235"><span class="linenos">235</span></a>    <span class="n">missing</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="check_template-236"><a href="#check_template-236"><span class="linenos">236</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key_input</span><span class="p">:</span>
-</span><span id="check_template-237"><a href="#check_template-237"><span class="linenos">237</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;INPUT_FILE&#39;</span><span class="p">)</span>
+</span><span id="check_template-237"><a href="#check_template-237"><span class="linenos">237</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;INPUT&#39;</span><span class="p">)</span>
 </span><span id="check_template-238"><a href="#check_template-238"><span class="linenos">238</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key_output</span><span class="p">:</span>
-</span><span id="check_template-239"><a href="#check_template-239"><span class="linenos">239</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;OUTPUT_FILE&#39;</span><span class="p">)</span>
+</span><span id="check_template-239"><a href="#check_template-239"><span class="linenos">239</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;OUTPUT&#39;</span><span class="p">)</span>
 </span><span id="check_template-240"><a href="#check_template-240"><span class="linenos">240</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">key_jobname</span><span class="p">:</span>
-</span><span id="check_template-241"><a href="#check_template-241"><span class="linenos">241</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;JOB_NAME&#39;</span><span class="p">)</span>
+</span><span id="check_template-241"><a href="#check_template-241"><span class="linenos">241</span></a>        <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;JOBNAME&#39;</span><span class="p">)</span>
 </span><span id="check_template-242"><a href="#check_template-242"><span class="linenos">242</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 </span><span id="check_template-243"><a href="#check_template-243"><span class="linenos">243</span></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">new_slurm_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 </span><span id="check_template-244"><a href="#check_template-244"><span class="linenos">244</span></a>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 </span><span id="check_template-245"><a href="#check_template-245"><span class="linenos">245</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;!!! WARNING:  Some keywords were missing from your slurm template,</span><span class="se">\n</span><span class="s1">&#39;</span>
 </span><span id="check_template-246"><a href="#check_template-246"><span class="linenos">246</span></a>              <span class="sa">f</span><span class="s1">&#39;PLEASE CHECK the example at </span><span class="si">{</span><span class="n">slurm_example</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
-</span><span id="check_template-247"><a href="#check_template-247"><span class="linenos">247</span></a>              <span class="s1">&#39;before running aton.api.slurm.sbatch()</span><span class="se">\n</span><span class="s1">&#39;</span>
+</span><span id="check_template-247"><a href="#check_template-247"><span class="linenos">247</span></a>              <span class="s1">&#39;before using aton.api.slurm.sbatch()</span><span class="se">\n</span><span class="s1">&#39;</span>
 </span><span id="check_template-248"><a href="#check_template-248"><span class="linenos">248</span></a>              <span class="sa">f</span><span class="s1">&#39;The following keywords were missing from your </span><span class="si">{</span><span class="n">template</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
 </span><span id="check_template-249"><a href="#check_template-249"><span class="linenos">249</span></a>        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">missing</span><span class="p">:</span>
 </span><span id="check_template-250"><a href="#check_template-250"><span class="linenos">250</span></a>            <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -745,7 +745,7 @@ The jobs will be detected from the <code>&lt;prefix&gt;JOBID&lt;sufix&gt;</code>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Check the slurm <code>template</code> inside <code>folder</code>.</p>
+            <div class="docstring"><p>Check the slurm <code>template</code> inside <code>folder</code>, to be used by <code><a href="#sbatch">sbatch()</a></code>.</p>
 
 <p>The current working directory is used if <code>folder</code> is not provided.
 If the file does not exist or is invalid, creates a <code>template_EXAMPLE.slurm</code> file for reference.</p>
