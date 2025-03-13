@@ -890,7 +890,7 @@ def scf_from_relax(
     update the names if necessary.
     """
     # Terminal feedback
-    print(f'\naton.interface.qe {__version__}\n'
+    print(f'\naton.api.qe {__version__}\n'
           f'Creating Quantum ESPRESSO SCF input from previous relax calculation:\n'
           f'{relax_in}\n{relax_out}\n')
     folder_path = folder
@@ -901,7 +901,7 @@ def scf_from_relax(
     data = read_dir(folder_path, relax_in, relax_out)
     # Create the scf.in from the previous relax.in
     scf_in = os.path.join(folder_path, 'scf.in')
-    comment = f'! Automatic SCF input made with aton.interface.qe {__version__}. https://github.com/pablogila/ThotPy'
+    comment = f'! Automatic SCF input made with ATON {__version__}. https://pablogila.github.io/ATON'
     edit.from_template(relax_in, scf_in, None, comment)
     scf_in = file.get(folder_path, scf_in)
     # Replace CELL_PARAMETERS, ATOMIC_POSITIONS, ATOMIC_SPECIES, alat, ibrav and calculation

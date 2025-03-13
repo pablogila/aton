@@ -89,7 +89,7 @@
             </ul>
 
 
-            <footer>ATON v0.4.6 documentation</footer>
+            <footer>ATON v0.5.0 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -203,7 +203,7 @@ Using Quantum ESPRESSO, running an SCF calculation for a methyl rotation every 1
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn"><a href="">aton.qrotor</a></span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">aton</span><span class="w"> </span><span class="kn">import</span> <span class="n">interface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">aton</span><span class="w"> </span><span class="kn">import</span> <span class="n">api</span>
 <span class="c1"># Approx crystal positions of the atoms to rotate</span>
 <span class="n">atoms</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;1.101   1.204   1.307&#39;</span>
@@ -213,7 +213,7 @@ Using Quantum ESPRESSO, running an SCF calculation for a methyl rotation every 1
 <span class="c1"># Create the input SCF files, saving the filenames to a list</span>
 <span class="n">scf_files</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">rotate</span><span class="o">.</span><span class="n">structure_qe</span><span class="p">(</span><span class="s1">&#39;molecule.in&#39;</span><span class="p">,</span> <span class="n">positions</span><span class="o">=</span><span class="n">atoms</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="c1"># Run the Quantum ESPRESSO calculations</span>
-<span class="n">interface</span><span class="o">.</span><span class="n">slurm</span><span class="o">.</span><span class="n">sbatch</span><span class="p">(</span><span class="n">files</span><span class="o">=</span><span class="n">scf_files</span><span class="p">)</span>
+<span class="n">api</span><span class="o">.</span><span class="n">slurm</span><span class="o">.</span><span class="n">sbatch</span><span class="p">(</span><span class="n">files</span><span class="o">=</span><span class="n">scf_files</span><span class="p">)</span>
 </code></pre>
 </div>
 
@@ -346,7 +346,7 @@ for further reference.</p>
 </span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>
 </span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">```python</span>
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">import aton.qrotor as qr</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">from aton import interface</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">from aton import api</span>
 </span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd"># Approx crystal positions of the atoms to rotate</span>
 </span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="sd">atoms = [</span>
 </span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">    &#39;1.101   1.204   1.307&#39;</span>
@@ -356,7 +356,7 @@ for further reference.</p>
 </span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd"># Create the input SCF files, saving the filenames to a list</span>
 </span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd">scf_files = qr.rotate.structure_qe(&#39;molecule.in&#39;, positions=atoms, angle=10, repeat=True)</span>
 </span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="sd"># Run the Quantum ESPRESSO calculations</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">interface.slurm.sbatch(files=scf_files)</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">api.slurm.sbatch(files=scf_files)</span>
 </span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="sd">```</span>
 </span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>
 </span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">To load the calculated potential to a QRotor System,</span>

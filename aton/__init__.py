@@ -9,7 +9,7 @@ from . import alias
 from . import call
 from . import phys
 from . import txt
-from . import interface
+from . import api
 from . import spx
 from . import qrotor
 

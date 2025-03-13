@@ -71,17 +71,17 @@ Code examples are included in the [`examples/`](https://github.com/pablogila/ATO
 
 ## Interfaces for *ab-initio* codes
 
-The **interface** module contains Python interfaces for several *ab-initio* codes.
+The **api** module contains Python interfaces for several *ab-initio* codes and related.
 These are powered by the [aton.txt](#general-text-edition) module and can be easily extended.
 
-### [aton.interface](https://pablogila.github.io/ATON/aton/interface.html)
+### [aton.api](https://pablogila.github.io/ATON/aton/api.html)
 
 | | |  
 | --- | --- |  
-| [interface.qe](https://pablogila.github.io/ATON/aton/interface/qe.html)           | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
-| [interface.phonopy](https://pablogila.github.io/ATON/aton/interface/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
-| [interface.castep](https://pablogila.github.io/ATON/aton/interface/castep.html)   | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
-| [interface.slurm](https://pablogila.github.io/ATON/aton/interface/slurm.html) | Batch jobs via [Slurm](https://slurm.schedmd.com/) |
+| [api.qe](https://pablogila.github.io/ATON/aton/api/qe.html)           | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
+| [api.phonopy](https://pablogila.github.io/ATON/aton/api/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
+| [api.castep](https://pablogila.github.io/ATON/aton/api/castep.html)   | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
+| [api.slurm](https://pablogila.github.io/ATON/aton/api/slurm.html) | Batch jobs via [Slurm](https://slurm.schedmd.com/) |
 
 
 ## Physico-chemical constants
@@ -138,7 +138,7 @@ Inelastic Neutron Scattering, Raman, Infrared, etc.
 
 The **txt** module handles text files.
 It powers more complex subpackages,
-such as [aton.interface](#interfaces-for-ab-initio-codes).
+such as [aton.api](#interfaces-for-ab-initio-codes).
 
 ### [aton.txt](https://pablogila.github.io/ATON/aton/txt.html)
 

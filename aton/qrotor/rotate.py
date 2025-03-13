@@ -21,7 +21,7 @@ import os
 import shutil
 from scipy.spatial.transform import Rotation
 from .constants import *
-import aton.interface as interface
+import aton.api as api
 import aton.txt.extract as extract
 import aton.txt.edit as edit
 
@@ -66,13 +66,13 @@ def structure_qe(
     lines = []
     full_positions = []
     for position in positions:
-        line = interface.qe.get_atom(filepath, position, precision)
+        line = api.qe.get_atom(filepath, position, precision)
         lines.append(line)
         pos = extract.coords(line)
         if len(pos) > 3:  # Keep only the first three coordinates
             pos = pos[:3]
         # Convert to cartesian
-        pos_cartesian = interface.qe.to_cartesian(filepath, pos)
+        pos_cartesian = api.qe.to_cartesian(filepath, pos)
         full_positions.append(pos_cartesian)
         print(f'Found atom: "{line}"')
     # Set the angles to rotate
@@ -92,7 +92,7 @@ def structure_qe(
         rotated_positions_cartesian = rotate_coords(full_positions, angle, use_centroid, show_axis)
         rotated_positions = []
         for coord in rotated_positions_cartesian:
-            pos = interface.qe.from_cartesian(filepath, coord)
+            pos = api.qe.from_cartesian(filepath, coord)
             rotated_positions.append(pos)
         _save_qe(filepath, output, lines, rotated_positions)
         outputs.append(output)
@@ -184,7 +184,7 @@ def _save_qe(
         additional_positions = positions[-2:]
         for pos in additional_positions:
             pos.insert(0, 'He')
-            interface.qe.add_atom(output, pos)
+            api.qe.add_atom(output, pos)
     elif len(lines) != len(positions):
         raise ValueError(f"What?!  len(lines)={len(lines)} and len(positions)={len(positions)}")
     # Add angle to calculation prefix
@@ -192,11 +192,11 @@ def _save_qe(
     splits = output_name.split('_')
     angle_str = splits[-1].replace('.in', '')
     prefix = ''
-    content = interface.qe.read_in(output)
+    content = api.qe.read_in(output)
     if 'prefix' in content.keys():
         prefix = content['prefix']
         prefix = prefix.strip("'")
     prefix = "'" + prefix + angle_str + "'"
-    interface.qe.set_value(output, 'prefix', prefix)
+    api.qe.set_value(output, 'prefix', prefix)
     return output
 

@@ -3,7 +3,7 @@
 
 This subpackage contains tools for general text operations.
 It provides the basic functionality that powers more complex subpackages,
-such as `aton.interface`.
+such as `aton.api`.
 
 
 # Index

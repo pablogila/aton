@@ -132,7 +132,7 @@ def scancel(
     """
     df = squeue(user)
     if testing:
-        print('aton.interface.slurm.scancel(testing=True):')
+        print('aton.api.slurm.scancel(testing=True):')
         print(f'The following calculations would be deleted for the user {user}')
         print(f'{key_jobid}   {key_status}   {key_name}')
     jobid_list = df[key_jobid].tolist()
@@ -201,7 +201,7 @@ def check_template(
     slurm_example = 'template_EXAMPLE.slurm'
     new_slurm_file = os.path.join(folder, slurm_example)
     # Default slurm template
-    content =f'''# Automatic slurm template created with aton.interface.slurm {__version__}\n# https://github.com/pablogila/ATON
+    content =f'''# Automatic slurm template created with ATON {__version__}\n# https://pablogila.github.io/ATON
 #!/bin/bash
 #SBATCH --partition=general
 #SBATCH --qos=regular
@@ -225,7 +225,7 @@ mpirun pw.x -inp INPUT_FILE > OUTPUT_FILE
         print(f'!!! WARNING:  Slurm template missing, so an example was generated automatically:\n'
               f'{slurm_example}\n'
               f'PLEASE CHECK it, UPDATE it and RENAME it to {template}\n'
-              'before running aton.interface.phonopy.sbatch()\n')
+              'before running aton.api.phonopy.sbatch()\n')
         return None
     # Check that the slurm file contains the INPUT_FILE, OUTPUT_FILE and JOB_NAME keywords
     key_input = find.lines(slurm_file, 'INPUT_FILE')
@@ -243,7 +243,7 @@ mpirun pw.x -inp INPUT_FILE > OUTPUT_FILE
             f.write(content)
         print('!!! WARNING:  Some keywords were missing from your slurm template,\n'
               f'PLEASE CHECK the example at {slurm_example}\n'
-              'before running aton.interface.slurm.sbatch()\n'
+              'before running aton.api.slurm.sbatch()\n'
               f'The following keywords were missing from your {template}:')
         for key in missing:
             print(key)

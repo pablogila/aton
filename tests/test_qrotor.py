@@ -1,5 +1,5 @@
 import aton.qrotor as qr
-import aton.interface as interface
+import aton.api as api
 import aton.txt.extract as extract
 import aton.file as file
 import numpy as np
@@ -20,7 +20,7 @@ def test_rotate():
     # 120 degrees (it should remain the same)
     qr.rotate.structure_qe(filepath=structure, positions=CH3, angle=120, precision=2)
     for coord in CH3:
-        rotated_coord = interface.qe.get_atom(filepath=structure_120, position=coord, precision=2)
+        rotated_coord = api.qe.get_atom(filepath=structure_120, position=coord, precision=2)
         rotated_coord = extract.coords(rotated_coord)
         coord = extract.coords(coord)
         rotated_coord_rounded = []
@@ -40,7 +40,7 @@ def test_rotate():
     ]
     qr.rotate.structure_qe(filepath=structure, positions=CH3, angle=60, precision=2)
     for coord in ideal:
-        rotated_coord = interface.qe.get_atom(filepath=structure_60, position=coord, precision=3)
+        rotated_coord = api.qe.get_atom(filepath=structure_60, position=coord, precision=3)
         rotated_coord = extract.coords(rotated_coord)
         coord = extract.coords(coord)
         rotated_coord_rounded = []

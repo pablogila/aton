@@ -18,9 +18,9 @@ To create the supercells and run the phonon calculations
 from a folder with `relax.in` and `relax.out` files,
 using a `template.slurm` file,
 ```python
-from aton import interface
-interface.phonopy.make_supercells()
-interface.slurm.sbatch('supercell-', 'scf.slurm')
+from aton import api
+api.phonopy.make_supercells()
+api.slurm.sbatch('supercell-', 'scf.slurm')
 ```
 
 ---
@@ -34,8 +34,8 @@ import aton.call as call
 import aton.txt.find as find
 import aton.txt.edit as edit # text
 import aton.txt.extract as extract
-import aton.interface.qe as qe
-import aton.interface.slurm as slurm
+import aton.api.qe as qe
+import aton.api.slurm as slurm
 
 
 def make_supercells(
@@ -52,7 +52,7 @@ def make_supercells(
     needed for the Phonopy calculations with Quantum ESPRESSO.
 
     If `slurm_template` is present,
-    it checks it with `aton.interface.slurm.check_template()`.
+    it checks it with `aton.api.slurm.check_template()`.
     """
     print(f'\nWelcome to thotpy.phonopy {__version__}\n'
           'Creating all supercell inputs with Phonopy for Quantum ESPRESSO...\n')
@@ -82,7 +82,7 @@ def _supercells_from_scf(
     Creates supercells of a given `dimension` (`2 2 2` by default) inside a `folder`,
     from a Quantum ESPRESSO `scf` input (`scf.in` by default).
     """
-    print(f'\naton.interface.phonopy {__version__}\n')
+    print(f'\naton.api.phonopy {__version__}\n')
     folder = call.here(folder)
     scf_in = file.get(folder, scf, True)
     if scf_in is None:
@@ -96,7 +96,7 @@ def _copy_scf_header_to_supercells(
         scf:str='scf.in',
     ) -> None:
     """Paste the header from the `scf` file in `folder` to the supercells created by Phonopy."""
-    print(f'\naton.interface.phonopy {__version__}\n'
+    print(f'\naton.api.phonopy {__version__}\n'
           f'Adding headers to Phonopy supercells for Quantum ESPRESSO...\n')
     folder = call.here(folder)
     # Check if the header file, the scf.in, exists

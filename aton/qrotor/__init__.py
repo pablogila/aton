@@ -71,7 +71,7 @@ Using Quantum ESPRESSO, running an SCF calculation for a methyl rotation every 1
 
 ```python
 import aton.qrotor as qr
-from aton import interface
+from aton import api
 # Approx crystal positions of the atoms to rotate
 atoms = [
     '1.101   1.204   1.307'
@@ -81,7 +81,7 @@ atoms = [
 # Create the input SCF files, saving the filenames to a list
 scf_files = qr.rotate.structure_qe('molecule.in', positions=atoms, angle=10, repeat=True)
 # Run the Quantum ESPRESSO calculations
-interface.slurm.sbatch(files=scf_files)
+api.slurm.sbatch(files=scf_files)
 ```
 
 To load the calculated potential to a QRotor System,

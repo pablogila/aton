@@ -91,9 +91,9 @@
             <h2>Submodules</h2>
             <ul>
                     <li><a href="aton/alias.html">alias</a></li>
+                    <li><a href="aton/api.html">api</a></li>
                     <li><a href="aton/call.html">call</a></li>
                     <li><a href="aton/file.html">file</a></li>
-                    <li><a href="aton/interface.html">interface</a></li>
                     <li><a href="aton/phys.html">phys</a></li>
                     <li><a href="aton/qrotor.html">qrotor</a></li>
                     <li><a href="aton/spx.html">spx</a></li>
@@ -101,7 +101,7 @@
             </ul>
 
 
-            <footer>ATON v0.4.6 documentation</footer>
+            <footer>ATON v0.5.0 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -187,10 +187,10 @@ Code examples are included in the <a href="https://github.com/pablogila/ATON/tre
 
 <h2 id="interfaces-for-ab-initio-codes">Interfaces for <em>ab-initio</em> codes</h2>
 
-<p>The <strong>interface</strong> module contains Python interfaces for several <em>ab-initio</em> codes.
+<p>The <strong>api</strong> module contains Python interfaces for several <em>ab-initio</em> codes and related.
 These are powered by the <a href="#general-text-edition">aton.txt</a> module and can be easily extended.</p>
 
-<h3 id="atoninterface"><code><a href="aton/interface.html">aton.interface</a></code></h3>
+<h3 id="atonapi"><code><a href="aton/api.html">aton.api</a></code></h3>
 
 <table>
 <thead>
@@ -201,19 +201,19 @@ These are powered by the <a href="#general-text-edition">aton.txt</a> module and
 </thead>
 <tbody>
 <tr>
-  <td><code><a href="aton/interface/qe.html">aton.interface.qe</a></code></td>
+  <td><code><a href="aton/api/qe.html">aton.api.qe</a></code></td>
   <td>Interface for <a href="https://www.quantum-espresso.org/">Quantum ESPRESSO</a>'s <a href="https://www.quantum-espresso.org/Doc/INPUT_PW.html">pw.x</a> module</td>
 </tr>
 <tr>
-  <td><code><a href="aton/interface/phonopy.html">aton.interface.phonopy</a></code></td>
+  <td><code><a href="aton/api/phonopy.html">aton.api.phonopy</a></code></td>
   <td>Interface for <a href="https://phonopy.github.io/phonopy/">Phonopy</a> calculations</td>
 </tr>
 <tr>
-  <td><code><a href="aton/interface/castep.html">aton.interface.castep</a></code></td>
+  <td><code><a href="aton/api/castep.html">aton.api.castep</a></code></td>
   <td>Interface for <a href="https://castep-docs.github.io/castep-docs/">CASTEP</a> calculations</td>
 </tr>
 <tr>
-  <td><code><a href="aton/interface/slurm.html">aton.interface.slurm</a></code></td>
+  <td><code><a href="aton/api/slurm.html">aton.api.slurm</a></code></td>
   <td>Batch jobs via <a href="https://slurm.schedmd.com/">Slurm</a></td>
 </tr>
 </tbody>
@@ -342,7 +342,7 @@ Inelastic Neutron Scattering, Raman, Infrared, etc.</p>
 
 <p>The <strong>txt</strong> module handles text files.
 It powers more complex subpackages,
-such as <a href="#interfaces-for-ab-initio-codes">aton.interface</a>.</p>
+such as <a href="#interfaces-for-ab-initio-codes">aton.api</a>.</p>
 
 <h3 id="atontxt"><code><a href="aton/txt.html">aton.txt</a></code></h3>
 
@@ -477,7 +477,7 @@ See the attached GNU Affero General Public License for more details.  </p>
 </span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">call</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">phys</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">txt</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">interface</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">api</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">spx</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">qrotor</span>
 </span></pre></div>
