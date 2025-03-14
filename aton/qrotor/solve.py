@@ -106,7 +106,7 @@ def schrodinger(system:System) -> System:
 
 def hamiltonian_matrix(system:System):
     """Calculates the Hamiltonian sparse matrix for a given `system`."""
-    print(f'Creating Hamiltonian matrix of size {system.gridsize}...')
+    print(f'Creating Hamiltonian sparse matrix of size {system.gridsize}...')
     V = system.potential_values.tolist()
     potential = sparse.diags(V, format='lil')
     B = system.B
