@@ -4,7 +4,7 @@
 # Welcome to ATON
 
 The **A**b-ini**T**i**O** & **N**eutron research toolbox,
-or [ATON](https://pablogila.github.io/ATON/),
+or [ATON](https://pablogila.github.io/aton/),
 provides powerful and comprehensive tools
 for cutting-edge materials research,
 focused on (but not limited to) neutron science.
@@ -20,8 +20,8 @@ for [Quantum ESPRESSO](https://www.quantum-espresso.org/),
 Conversion factors and universal constants from the [2022 CODATA](https://doi.org/10.48550/arXiv.2409.03787)
 Recommended Values of the Fundamental Physical Constants are also included.  
 
-The source code is available on [GitHub](https://github.com/pablogila/ATON/).   
-Check the [full documentation online](https://pablogila.github.io/ATON/).  
+The source code is available on [GitHub](https://github.com/pablogila/aton/).   
+Check the [full documentation online](https://pablogila.github.io/aton/).  
 
 
 ---
@@ -51,8 +51,8 @@ pip install aton -U
 
 ## From source
 
-Optionally, you can install ATON from the [GitHub repo](https://github.com/pablogila/ATON/).
-Clone the repository or download the [latest stable release](https://github.com/pablogila/ATON/tags)
+Optionally, you can install ATON from the [GitHub repo](https://github.com/pablogila/aton/).
+Clone the repository or download the [latest stable release](https://github.com/pablogila/aton/tags)
 as a ZIP, unzip it, and run inside the `ATON/` directory:  
 ```bash
 pip install .
@@ -64,9 +64,9 @@ pip install .
 
 # Documentation
 
-The full ATON documentation is available [online](https://pablogila.github.io/ATON/).  
+The full ATON documentation is available [online](https://pablogila.github.io/aton/).  
 An offline version is found at `docs/aton.html`.  
-Code examples are included in the [`examples/`](https://github.com/pablogila/ATON/tree/main/examples) folder.    
+Code examples are included in the [`examples/`](https://github.com/pablogila/aton/tree/main/examples) folder.    
 
 
 ## Interfaces for *ab-initio* codes
@@ -74,14 +74,14 @@ Code examples are included in the [`examples/`](https://github.com/pablogila/ATO
 The **api** module contains Python interfaces for several *ab-initio* codes and related.
 These are powered by the [aton.txt](#general-text-edition) module and can be easily extended.
 
-### [aton.api](https://pablogila.github.io/ATON/aton/api.html)
+### [aton.api](https://pablogila.github.io/aton/aton/api.html)
 
 | | |  
 | --- | --- |  
-| [api.qe](https://pablogila.github.io/ATON/aton/api/qe.html)           | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
-| [api.phonopy](https://pablogila.github.io/ATON/aton/api/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
-| [api.castep](https://pablogila.github.io/ATON/aton/api/castep.html)   | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
-| [api.slurm](https://pablogila.github.io/ATON/aton/api/slurm.html) | Batch jobs via [Slurm](https://slurm.schedmd.com/) |
+| [api.qe](https://pablogila.github.io/aton/aton/api/qe.html)           | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
+| [api.phonopy](https://pablogila.github.io/aton/aton/api/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
+| [api.castep](https://pablogila.github.io/aton/aton/api/castep.html)   | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
+| [api.slurm](https://pablogila.github.io/aton/aton/api/slurm.html) | Batch jobs via [Slurm](https://slurm.schedmd.com/) |
 
 
 ## Physico-chemical constants
@@ -90,13 +90,13 @@ The **phys** module contains physical constants and conversion factors,
 as well as chemical information from all known elements.
 Values are accessed directly as `phys.value` or `phys.function()`.
 
-### [aton.phys](https://pablogila.github.io/ATON/aton/phys.html)
+### [aton.phys](https://pablogila.github.io/aton/aton/phys.html)
 
 | | |  
 | --- | --- |  
-| [phys.units](https://pablogila.github.io/ATON/aton/phys/units.html)         | Physical constants and conversion factors |  
-| [phys.atoms](https://pablogila.github.io/ATON/aton/phys/atoms.html)         | Megadictionary with data for all chemical elements |  
-| [phys.functions](https://pablogila.github.io/ATON/aton/phys/functions.html) | Functions to sort and analyse element data |  
+| [phys.units](https://pablogila.github.io/aton/aton/phys/units.html)         | Physical constants and conversion factors |  
+| [phys.atoms](https://pablogila.github.io/aton/aton/phys/atoms.html)         | Megadictionary with data for all chemical elements |  
+| [phys.functions](https://pablogila.github.io/aton/aton/phys/functions.html) | Functions to sort and analyse element data |  
 
 
 ## Quantum rotations
@@ -104,17 +104,17 @@ Values are accessed directly as `phys.value` or `phys.function()`.
 The **QRotor** module is used to study energy excitations and tunnel splittings
 from molecular rotations, such as those of methyl and amine groups.
 
-### [aton.qrotor](https://pablogila.github.io/ATON/aton/qrotor.html)
+### [aton.qrotor](https://pablogila.github.io/aton/aton/qrotor.html)
 
 | | |
 | --- | --- |
-| [qrotor.system](https://pablogila.github.io/ATON/aton/qrotor/system.html)       | Definition of the quantum `System` object |
-| [qrotor.systems](https://pablogila.github.io/ATON/aton/qrotor/systems.html)     | Functions to manage several System objects |
-| [qrotor.rotate](https://pablogila.github.io/ATON/aton/qrotor/rotate.html)       | Rotate specific atoms from structural files |
-| [qrotor.constants](https://pablogila.github.io/ATON/aton/qrotor/constants.html) | Common bond lengths and inertias |
-| [qrotor.potential](https://pablogila.github.io/ATON/aton/qrotor/potential.html) | Potential definitions and loading functions |
-| [qrotor.solve](https://pablogila.github.io/ATON/aton/qrotor/solve.html)         | Solve rotation eigenvalues and eigenvectors |
-| [qrotor.plot](https://pablogila.github.io/ATON/aton/qrotor/plot.html)           | Plotting functions |
+| [qrotor.system](https://pablogila.github.io/aton/aton/qrotor/system.html)       | Definition of the quantum `System` object |
+| [qrotor.systems](https://pablogila.github.io/aton/aton/qrotor/systems.html)     | Functions to manage several System objects |
+| [qrotor.rotate](https://pablogila.github.io/aton/aton/qrotor/rotate.html)       | Rotate specific atoms from structural files |
+| [qrotor.constants](https://pablogila.github.io/aton/aton/qrotor/constants.html) | Common bond lengths and inertias |
+| [qrotor.potential](https://pablogila.github.io/aton/aton/qrotor/potential.html) | Potential definitions and loading functions |
+| [qrotor.solve](https://pablogila.github.io/aton/aton/qrotor/solve.html)         | Solve rotation eigenvalues and eigenvectors |
+| [qrotor.plot](https://pablogila.github.io/aton/aton/qrotor/plot.html)           | Plotting functions |
 
 
 ## Spectra analysis
@@ -122,16 +122,16 @@ from molecular rotations, such as those of methyl and amine groups.
 The **spx** module includes tools for spectral analysis from
 Inelastic Neutron Scattering, Raman, Infrared, etc.
 
-### [aton.spx](https://pablogila.github.io/ATON/aton/spx.html)
+### [aton.spx](https://pablogila.github.io/aton/aton/spx.html)
 
 | | |  
 | --- | --- |  
-| [spx.classes](https://pablogila.github.io/ATON/aton/spx/classes.html)     | Class definitions for the spectra module |  
-| [spx.fit](https://pablogila.github.io/ATON/aton/spx/fit.html)             | Spectra fitting functions |  
-| [spx.normalize](https://pablogila.github.io/ATON/aton/spx/normalize.html) | Spectra normalization |  
-| [spx.plot](https://pablogila.github.io/ATON/aton/spx/plot.html)           | Plotting |  
-| [spx.deuterium](https://pablogila.github.io/ATON/aton/spx/deuterium.html) | Deuteration estimations via INS |  
-| [spx.samples](https://pablogila.github.io/ATON/aton/spx/samples.html)     | Sample materials for testing |  
+| [spx.classes](https://pablogila.github.io/aton/aton/spx/classes.html)     | Class definitions for the spectra module |  
+| [spx.fit](https://pablogila.github.io/aton/aton/spx/fit.html)             | Spectra fitting functions |  
+| [spx.normalize](https://pablogila.github.io/aton/aton/spx/normalize.html) | Spectra normalization |  
+| [spx.plot](https://pablogila.github.io/aton/aton/spx/plot.html)           | Plotting |  
+| [spx.deuterium](https://pablogila.github.io/aton/aton/spx/deuterium.html) | Deuteration estimations via INS |  
+| [spx.samples](https://pablogila.github.io/aton/aton/spx/samples.html)     | Sample materials for testing |  
 
 
 ## General text edition
@@ -140,13 +140,13 @@ The **txt** module handles text files.
 It powers more complex subpackages,
 such as [aton.api](#interfaces-for-ab-initio-codes).
 
-### [aton.txt](https://pablogila.github.io/ATON/aton/txt.html)
+### [aton.txt](https://pablogila.github.io/aton/aton/txt.html)
 
 | | |  
 | --- | --- |  
-| [txt.find](https://pablogila.github.io/ATON/aton/txt/find.html)       | Search for specific content in text files |  
-| [txt.edit](https://pablogila.github.io/ATON/aton/txt/edit.html)       | Manipulate text files |  
-| [txt.extract](https://pablogila.github.io/ATON/aton/txt/extract.html) | Extract data from raw text strings |  
+| [txt.find](https://pablogila.github.io/aton/aton/txt/find.html)       | Search for specific content in text files |  
+| [txt.edit](https://pablogila.github.io/aton/aton/txt/edit.html)       | Manipulate text files |  
+| [txt.extract](https://pablogila.github.io/aton/aton/txt/extract.html) | Extract data from raw text strings |  
 
 
 ## System tools
@@ -155,9 +155,9 @@ Additional utility tools are available for common system tasks across subpackage
 
 | | |  
 | --- | --- |  
-| [aton.file](https://pablogila.github.io/ATON/aton/file.html)   | File manipulation |  
-| [aton.alias](https://pablogila.github.io/ATON/aton/alias.html) | Useful dictionaries for user input correction |  
-| [aton.call](https://pablogila.github.io/ATON/aton/call.html)   | Run bash scripts and related |   
+| [aton.file](https://pablogila.github.io/aton/aton/file.html)   | File manipulation |  
+| [aton.alias](https://pablogila.github.io/aton/aton/alias.html) | Useful dictionaries for user input correction |  
+| [aton.call](https://pablogila.github.io/aton/aton/call.html)   | Run bash scripts and related |   
 
 
 ---
@@ -165,7 +165,7 @@ Additional utility tools are available for common system tasks across subpackage
 
 # Contributing
 
-If you are interested in opening an issue or a pull request, please feel free to do so on [GitHub](https://github.com/pablogila/ATON/).  
+If you are interested in opening an issue or a pull request, please feel free to do so on [GitHub](https://github.com/pablogila/aton/).  
 For major changes, please get in touch first to discuss the details.  
 
 
@@ -180,7 +180,7 @@ Please try to follow some general guidelines:
 
 ## Automated testing
 
-If you are modifying the source code, you should run the automated tests of the [`ATON/tests/`](https://github.com/pablogila/ATON/tree/main/tests) folder to check that everything works as intended.
+If you are modifying the source code, you should run the automated tests of the [`ATON/tests/`](https://github.com/pablogila/aton/tree/main/tests) folder to check that everything works as intended.
 To do so, first install PyTest in your environment,
 ```bash
 pip install pytest

@@ -3,9 +3,8 @@
 
 This module contains the `atoms` megadictionary,
 which contains the properties of all elements.
+It can be loaded directly as `aton.phys.atoms`.
 It is managed and updated automatically with `aton.phys.functions`.
-
-The `atoms` dictionary can be loaded directly as `aton.phys.atoms`.
 
 
 # Index
@@ -20,9 +19,9 @@ The `atoms` dictionary can be loaded directly as `aton.phys.atoms`.
 # Examples
 
 ```python
-from aton import phys
-aluminium_neutron_cross_section = phys.atoms['Al'].cross_section  # 1.503
-He4_mass = phys.atoms['He'].isotope[4].mass  # 4.0026032497
+from aton.phys import atoms
+aluminium_neutron_cross_section = atoms['Al'].cross_section  # 1.503
+He4_mass = atoms['He'].isotope[4].mass  # 4.0026032497
 ```
 
 ---
@@ -30,7 +29,7 @@ He4_mass = phys.atoms['He'].isotope[4].mass  # 4.0026032497
 
 
 class Element:
-    """Used in the `aton.atoms` megadictionary to store element data."""
+    """Used as values in the `aton.phys.atoms` megadictionary to store element data."""
     def __init__(self=None, Z:int=None, symbol:str=None, name:str=None, mass:float=None, cross_section:float=None, isotope:dict=None):
         self.Z: int = Z
         """Atomic number (Z). Corresponds to the number of protons / electrons."""
@@ -49,7 +48,7 @@ class Element:
 
 
 class Isotope:
-    """Used in the `aton.atoms` megadictionary to store isotope data."""
+    """Used as values in `Element.isotope` to store isotope data."""
     def __init__(self, A:int=None, mass:float=None, abundance:float=None, cross_section:float=None):
         self.A: int = A
         """Mass number (A) of the isotope.
