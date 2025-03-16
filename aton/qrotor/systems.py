@@ -84,7 +84,7 @@ def save_energies(
     file_comment = f'# {comment}\n' if comment else f''
     file_comment += f'# Energy eigenvalues\n'
     file_comment += f'# Calculated with ATON {version}\n'
-    file_comment += f'# https://pablogila.github.io/ATON\n#'
+    file_comment += f'# https://pablogila.github.io/aton\n#'
     txt.edit.insert_at(filepath, file_comment, 0)
     print(f'Energy eigenvalues saved to {filepath}')
     return df
@@ -122,7 +122,7 @@ def save_splittings(
     file_comment = f'# {comment}\n' if comment else f''
     file_comment += f'# Tunnel splitting energies\n'
     file_comment += f'# Calculated with ATON {version}\n'
-    file_comment += f'# https://pablogila.github.io/ATON\n#'
+    file_comment += f'# https://pablogila.github.io/aton\n#'
     txt.edit.insert_at(filepath, file_comment, 0)
     print(f'Tunnel splitting energies saved to {filepath}')
     return df

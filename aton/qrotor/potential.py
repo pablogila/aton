@@ -77,7 +77,7 @@ def save(
     potential_data = f'# {comment}\n' if comment else f'# {system.comment}\n' if system.comment else ''
     potential_data += '# Rotational potential dataset\n'
     potential_data += f'# Saved with ATON {__version__}\n'
-    potential_data += '# https://pablogila.github.io/ATON\n'
+    potential_data += '# https://pablogila.github.io/aton\n'
     potential_data += '#\n'
     # Check that grid and potential values are the same size
     if len(system.grid) != len(system.potential_values):
@@ -212,7 +212,7 @@ def from_qe(
     potential_data = f'# {comment}\n' if comment else f'# {folder_name}\n'
     potential_data += '# Rotational potential dataset\n'
     potential_data += f'# Calculated with QE using ATON {__version__}\n'
-    potential_data += '# https://pablogila.github.io/ATON\n'
+    potential_data += '# https://pablogila.github.io/aton\n'
     potential_data += '#\n'
     if energy.lower() in alias.units['eV']:
         potential_data += '# Angle/deg,    Potential/eV\n'
