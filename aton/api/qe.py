@@ -925,8 +925,8 @@ def resume(
     if not atomic_positions:
         raise ValueError(f'Missing atomic positions in output file {output_file}')
     # Backup old files
-    file.backup(input_file, keep=True)
-    file.backup(output_file, keep=False)
+    file.backup(input_file, keep=True, label='resumed')
+    file.backup(output_file, keep=False, label='resumed')
     # Update input file
     set_value(input_file, 'ATOMIC_POSITIONS', atomic_positions)
     if cell_parameters:
