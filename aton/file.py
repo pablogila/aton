@@ -16,6 +16,7 @@ Functions to move files around.
 | `copy()`              | Copy file |
 | `move()`              | Move file |
 | `remove()`            | Remove file or folder |
+| `backup()`            | Backup a file including the current timestamp in the name |
 | `rename_on_folder()`  | Batch rename files from a folder |
 | `rename_on_folders()` | Barch rename files from subfolders |
 | `copy_to_folders()`   | Copy files to individual subfolders |
@@ -28,6 +29,7 @@ import os
 import shutil
 import pickle
 import gzip
+from datetime import datetime
 
 
 def save(object, filename:str=None):
@@ -59,7 +61,8 @@ def load(filepath:str='data.aton'):
 def get(
         filepath,
         include=None,
-        return_anyway:bool=False
+        exclude=None,
+        return_anyway:bool=False,
         ) -> str:
     """Check if `filepath` exists, and returns its full path.
 
@@ -76,7 +79,7 @@ def get(
     if os.path.isfile(filepath):
         return os.path.abspath(filepath)
     elif os.path.isdir(filepath):
-        files = get_list(folder=filepath, include=include, abspath=True)
+        files = get_list(folder=filepath, include=include, exclude=exclude, abspath=True)
     elif return_anyway:
         return None
     else:
@@ -146,7 +149,10 @@ def get_list(
 
 
 def get_dir(folder=None) -> str:
-    """Returns the full path of `folder` or the parent folder if it's a file. If none is provided, the current working directory is returned."""
+    """Returns the full path of `folder` or the parent folder if it's a file.
+
+    If none is provided, the current working directory is returned.
+    """
     if folder == None:
         path = os.getcwd()
     elif os.path.isdir(folder):
@@ -193,6 +199,37 @@ def remove(filepath:str) -> None:
     else:
         return None  # It did not exist in the first place
     return None
+
+
+def backup(
+        filepath:str,
+        keep:bool=True,
+        label:str='backup',
+        timestamp:bool=True,
+        ) -> str:
+    """Backup a file including the current timestamp in the name.
+
+    Keeps the original file by default, unless `keep = False`.
+    Appends a '_backup' `label` at the end of the filename.
+    The timestamp can be optionally disabled with `timestamp = False`.
+    Returns the new backup filepath.
+    """
+    filepath = get(filepath)
+    now = ''
+    if label:
+        label = '_' + label
+    if timestamp:
+        now = '_' + datetime.now().strftime("%y%m%dT%H%M%S")
+    dir_path = os.path.dirname(filepath)
+    basename = os.path.basename(filepath)
+    name, ext = os.path.splitext(basename)
+    new_name = name + label + now + ext
+    new_filepath = os.path.join(dir_path, new_name)
+    if keep:
+        shutil.copy(filepath, new_filepath)
+    else:
+        shutil.move(filepath, new_filepath)
+    return new_filepath
 
 
 def rename_on_folder(

@@ -15,9 +15,10 @@ Input and output reading
 Input file manipulation  
 `set_value()`  
 `add_atom()`  
+`resume()`  
 `scf_from_relax()`  
 
-Data extraction  
+Data analysis  
 `get_atom()`  
 `count_elements()`  
 `normalize_card()`  
@@ -34,6 +35,7 @@ Dicts with input file description
 
 import pandas as pd
 import numpy as np
+import shutil
 import os
 from aton._version import __version__
 import aton.file as file
@@ -169,18 +171,18 @@ def read_out(filepath) -> dict:
         success = True
 
     # CELL_PARAMETERS and ATOMIC_POSITIONS
-    cell_parameters = None
-    atomic_positions = None
     alat = None
     volume = None
     density = None
+    cell_parameters = None
+    atomic_positions = None
+    cell_parameters_raw = []
+    atomic_positions_raw = []
     coordinates_raw = find.between(file_path, 'Begin final coordinates', 'End final coordinates', False, -1, False)
     if coordinates_raw:
         coordinates_raw = coordinates_raw.splitlines()
         append_cell = False
         append_positions = False
-        cell_parameters_raw = []
-        atomic_positions_raw = []
         for line in coordinates_raw:
             line = line.strip()
             if cell_parameters_key in line:
@@ -202,6 +204,19 @@ def read_out(filepath) -> dict:
         cell_parameters = normalize_card(cell_parameters_raw)
         atomic_positions = normalize_card(atomic_positions_raw)
         if cell_parameters:
+            if 'alat' in cell_parameters[0]:
+                alat = extract.number(cell_parameters[0], 'alat')
+    # If not found, at least try to keep the latest iteration
+    else:
+        _nat_raw = find.lines(file_path, 'number of atoms/cell', 1)
+        if _nat_raw:
+            _nat = int(extract.number(_nat_raw[0], 'number of atoms/cell'))
+            atomic_positions_raw = find.lines(file_path, atomic_positions_key, matches=-1, additional=_nat, split=True)
+        if atomic_positions_raw:
+            atomic_positions = normalize_card(atomic_positions_raw)
+        cell_parameters_raw = find.lines(file_path, cell_parameters_key, matches=-1, additional=3, split=True)
+        if cell_parameters_raw:
+            cell_parameters = normalize_card(cell_parameters_raw)
             if 'alat' in cell_parameters[0]:
                 alat = extract.number(cell_parameters[0], 'alat')
 
@@ -226,7 +241,7 @@ def read_out(filepath) -> dict:
 
 
 def read_dir(
-        folder,
+        folder=None,
         in_str:str='.in',
         out_str:str='.out'
     ) -> dict:
@@ -236,6 +251,7 @@ def read_dir(
     but must be specified with `in_str` and `out_str`
     if more than one file ends with `.in` or `.out`.
     """
+    folder = file.get_dir(folder)
     input_file = file.get(folder, in_str)
     output_file = file.get(folder, out_str)
     if not input_file and not output_file:
@@ -880,6 +896,42 @@ def count_elements(atomic_positions) -> dict:
         else:
             elements[element] = 1
     return elements
+
+
+def resume(
+        folder=None,
+        in_str:str='.in',
+        out_str:str='.out',
+    ) -> None:
+    """Update an input file with the atomic coordinates of an output file.
+
+    This can be used to quickly resume an unfinished or interrupted calculation.
+
+    Takes a `folder` from a QE calculation, CWD if empty.
+    Input and output files are determined automatically,
+    but must be specified with `in_str` and `out_str`
+    if more than one file ends with `.in` or `.out`.
+
+    Old input and output files will be renamed automatically.
+    """
+    folder = file.get_dir(folder)
+    input_file = file.get(folder, include=in_str, exclude='resumed')
+    output_file = file.get(folder, out_str, exclude='resumed')
+    if not input_file or not output_file:
+        raise FileNotFoundError('Missing input or output file')
+    dict_out = read_out(output_file)
+    atomic_positions = dict_out.get('ATOMIC_POSITIONS out')
+    cell_parameters = dict_out.get('CELL_PARAMETERS out')
+    if not atomic_positions:
+        raise ValueError(f'Missing atomic positions in output file {output_file}')
+    # Backup old files
+    file.backup(input_file, keep=True)
+    file.backup(output_file, keep=False)
+    # Update input file
+    set_value(input_file, 'ATOMIC_POSITIONS', atomic_positions)
+    if cell_parameters:
+        set_value(input_file, 'CELL_PARAMETERS', cell_parameters)
+    return None
 
 
 def scf_from_relax(
