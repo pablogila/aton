@@ -51,7 +51,7 @@ def read_in(filepath) -> dict:
     title card + parameters in the first item.
     """
     file_path = file.get(filepath)
-    data = {}
+    data: dict = {}
     # First get the values from the namelists
     lines = find.lines(file_path, '=')
     for line in lines:
@@ -82,6 +82,10 @@ def read_in(filepath) -> dict:
         # If found, clean and normalise the card's content
         card_content = card_content.splitlines()
         card_content = normalize_card(card_content)
+        # Ignore OCCUPATIONS card if not required to avoid saving nonsense data
+        if card_lower == 'occupations':
+            if data.get('occupations') is None or 'from_input' not in data.get('occupations'):
+                continue
         data[card] = card_content
     # If there are CELL_PARAMETERS, check if we can extract the alat to celldm(1).
     if 'CELL_PARAMETERS' in data.keys():
