@@ -99,7 +99,7 @@ def read_out(filepath) -> dict:
     The output keys are:
     `'Energy'` (Ry), `'Total force'` (float), `'Total SCF correction'` (float),
     `'Runtime'` (str), `'JOB DONE'` (bool), `'BFGS converged'` (bool), `'BFGS failed'` (bool),
-    `'Maxiter reached'` (bool), `'Error'` (str), `'Success'` (bool), `'CELL_PARAMETERS_out'` (list of str), `'ATOMIC_POSITIONS_out'` (list of str), `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Density'` (g/cm^3).
+    `'Maxiter reached'` (bool), `'Error'` (str), `'Success'` (bool), `'CELL_PARAMETERS out'` (list of str), `'ATOMIC_POSITIONS out'` (list of str), `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Density'` (g/cm^3).
 
     Note that these output keys start with a **C**apital letter.
     """
@@ -113,7 +113,7 @@ def read_out(filepath) -> dict:
     job_done_key         = 'JOB DONE.'
     bfgs_converged_key   = 'bfgs converged'
     bfgs_failed_key      = 'bfgs failed'
-    maxiter_reached_key  = 'Maximum number of iterations reached'
+    maxiter_reached_key  = r'(Maximum number of iterations reached|maximum number of steps has been reached)'
     error_key            = 'Error in routine'
     error_failed_line    = 'pw.x: Failed'
     cell_parameters_key  = 'CELL_PARAMETERS'
@@ -125,7 +125,7 @@ def read_out(filepath) -> dict:
     job_done_line        = find.lines(file_path, job_done_key, -1)
     bfgs_converged_line  = find.lines(file_path, bfgs_converged_key, -1)
     bfgs_failed_line     = find.lines(file_path, bfgs_failed_key, -1)
-    maxiter_reached_line = find.lines(file_path, maxiter_reached_key, -1)
+    maxiter_reached_line = find.lines(file_path, maxiter_reached_key, -1, regex=True)
     error_line           = find.lines(file_path, error_key, -1, 1, True)
     error_failed_line    = find.lines(file_path, error_failed_line, -1)
 
@@ -159,7 +159,7 @@ def read_out(filepath) -> dict:
         error = error_line[1].strip()
     elif error_failed_line:
         error = error_failed_line[0].strip()
-    
+
     # Was the calculation successful?
     if job_done and not bfgs_failed and not maxiter_reached and not error:
         success = True
@@ -212,8 +212,8 @@ def read_out(filepath) -> dict:
         'Maxiter reached'       : maxiter_reached,
         'Error'                 : error,
         'Success'               : success,
-        'CELL_PARAMETERS_out'   : cell_parameters,
-        'ATOMIC_POSITIONS_out'  : atomic_positions,
+        'CELL_PARAMETERS out'   : cell_parameters,
+        'ATOMIC_POSITIONS out'  : atomic_positions,
         'Alat'                  : alat,
         'Volume'                : volume,
         'Density'               : density,
@@ -526,7 +526,7 @@ def _update_other_values(
     # Key in upper cases for CARD values
     key = key.strip().upper()
     # CELL_PARAMETERS ?
-    if key in ['CELL_PARAMETERS', 'CELL_PARAMETERS_OUT']:
+    if key in ['CELL_PARAMETERS', 'CELL_PARAMETERS out']:
         if 'angstrom' in value[0] or 'bohr' in value[0]:
             edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 1, 0, 0, True)
             edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 1, 0, 0, True)
@@ -551,7 +551,7 @@ def _update_other_values(
             set_value(filepath, 'ntyp', new_ntyp, indent)
         return None
     # ATOMIC_POSITIONS ?
-    elif key in ['ATOMIC_POSITIONS', 'ATOMIC_POSITIONS_OUT']:
+    elif key in ['ATOMIC_POSITIONS', 'ATOMIC_POSITIONS out']:
         new_nat = len(value) - 1
         if old_values['nat'] != new_nat:
             set_value(filepath, 'nat', new_nat, indent)
@@ -906,8 +906,8 @@ def scf_from_relax(
     scf_in = file.get(folder_path, scf_in)
     # Replace CELL_PARAMETERS, ATOMIC_POSITIONS, ATOMIC_SPECIES, alat, ibrav and calculation
     atomic_species = data['ATOMIC_SPECIES']
-    cell_parameters = data['CELL_PARAMETERS_out']
-    atomic_positions = data['ATOMIC_POSITIONS_out']
+    cell_parameters = data['CELL_PARAMETERS out']
+    atomic_positions = data['ATOMIC_POSITIONS out']
     alat = data['Alat']
     set_value(scf_in, 'ATOMIC_SPECIES', atomic_species)
     set_value(scf_in, 'CELL_PARAMETERS', cell_parameters)
@@ -1035,9 +1035,9 @@ pw_cards = {
     #
     'HUBBARD' : ['label(1)-manifold(1)', 'u_val(1)', 'label(1)-manifold(1)', 'j0_val(1)', 'paramType(1)', 'label(1)-manifold(1)', 'paramValue(1)', 'label(I)-manifold(I)', 'u_val(I)', 'label(I)-manifold(I)', 'j0_val(I)', 'label(I)-manifold(I)', 'label(J)-manifold(J)', 'I', 'J', 'v_val(I,J)'],
     # Extra card for output CELL_PARAMETERS
-    'CELL_PARAMETERS_out': ['v1', 'v2', 'v3'],
+    'CELL_PARAMETERS out': ['v1', 'v2', 'v3'],
     # Extra card for output ATOMIC_POSITIONS
-    'ATOMIC_POSITIONS_out' : ['X', 'x', 'y', 'z', 'if_pos(1)', 'if_pos(2)', 'if_pos(3)'],
+    'ATOMIC_POSITIONS out' : ['X', 'x', 'y', 'z', 'if_pos(1)', 'if_pos(2)', 'if_pos(3)'],
 }
 """Dictionary with every possible CARDs as keys, and the corresponding variables as values."""
 

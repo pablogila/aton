@@ -57,12 +57,12 @@ def test_read():
         'Total SCF correction' : 0.0,
         'ibrav'                : 1,
         'Runtime'              : '48m 8.71s',
-        'CELL_PARAMETERS_out'  : [
+        'CELL_PARAMETERS out'  : [
             'CELL_PARAMETERS alat= 10.0',
             '1.000000000   0.000000000   0.000000000',
             '0.000000000   1.000000000   0.000000000',
             '0.000000000   0.000000000   1.000000000'],
-        'ATOMIC_POSITIONS_out' : [
+        'ATOMIC_POSITIONS out' : [
             'ATOMIC_POSITIONS crystal',
             'I                1.0000000000        0.0000000000        0.0000000000',
             'C                0.0000000000        1.0000000000        0.0000000000',
@@ -124,7 +124,7 @@ def test_scf_from_relax():
     aton.api.qe.scf_from_relax(folder=folder)
     result = aton.api.qe.read_in(folder + 'scf.in')
     for key in ideal:
-        if key in ['ATOMIC_SPECIES', 'CELL_PARAMETERS', 'CELL_PARAMETERS_out', 'ATOMIC_POSITIONS', 'ATOMIC_POSITIONS_out']:
+        if key in ['ATOMIC_SPECIES', 'CELL_PARAMETERS', 'CELL_PARAMETERS out', 'ATOMIC_POSITIONS', 'ATOMIC_POSITIONS out']:
             ideal[key] = aton.api.qe.normalize_card(ideal[key])
         assert result[key] == ideal[key]
     assert 'A' not in result.keys()
