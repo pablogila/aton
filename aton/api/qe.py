@@ -35,7 +35,6 @@ Dicts with input file description
 
 import pandas as pd
 import numpy as np
-import shutil
 import os
 from aton._version import __version__
 import aton.file as file
@@ -915,8 +914,9 @@ def resume(
     Old input and output files will be renamed automatically.
     """
     folder = file.get_dir(folder)
-    input_file = file.get(folder, include=in_str, exclude='resumed')
-    output_file = file.get(folder, out_str, exclude='resumed')
+    exclude = ['resumed', 'slurm-']
+    input_file = file.get(folder, include=in_str, exclude=exclude)
+    output_file = file.get(folder, out_str, exclude=exclude)
     if not input_file or not output_file:
         raise FileNotFoundError('Missing input or output file')
     dict_out = read_out(output_file)
