@@ -200,9 +200,9 @@ def read_out(filepath) -> dict:
                 cell_parameters_raw.append(line)
             elif append_positions:
                 atomic_positions_raw.append(line)
-        cell_parameters = normalize_card(cell_parameters_raw)
         atomic_positions = normalize_card(atomic_positions_raw)
-        if cell_parameters:
+        if cell_parameters_raw:
+            cell_parameters = normalize_card(cell_parameters_raw)
             if 'alat' in cell_parameters[0]:
                 alat = extract.number(cell_parameters[0], 'alat')
     # If not found, at least try to keep the latest iteration
