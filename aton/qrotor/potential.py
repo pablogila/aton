@@ -6,6 +6,8 @@ This module contains functions to calculate the actual `potential_values` of the
 
 # Index
 
+User functions:
+
 | | |
 | --- | --- |
 | `save()`        | Save the potential from a System to a data file |
@@ -13,7 +15,8 @@ This module contains functions to calculate the actual `potential_values` of the
 | `from_qe()`     | Creates a potential data file from Quantum ESPRESSO outputs |
 | `merge()`       | Add and subtract potentials from systems |
 
-To solve or interpolate a potential, use `aton.qrotor.solve.potential()`.
+To solve the system, optionally interpolating to a new gridsize, use `System.solve(gridsize)`.  
+However, if you just want to solve or interpolate the potential, check `aton.qrotor.solve.potential()`.
 This will run several checks before applying the following functions automatically:
 
 | | |
