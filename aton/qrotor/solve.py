@@ -4,9 +4,14 @@
 This module is used to solve any given quantum system.
 
 Although the functions of this module can be used independently,
-it is highly recommended to use the `System.solve()` method instead,
-which does all the solving automatically (see `aton.qrotor.system.System.solve()`).
-This documentation page is left for reference and for advanced users.
+it is highly recommended to use the methods `System.solve()` or
+`System.solve_potential()` instead to solve the whole quantum system
+or just the potential values.
+These user methods perform all calculations automatically,
+see `aton.qrotor.system.System.solve()` and
+`aton.qrotor.system.System.solve_potential()` respectively for more details.
+
+This documentation page is left for reference and advanced users only.
 
 
 # Index
@@ -72,6 +77,8 @@ def potential(system:System, gridsize:int=None) -> System:
         offset = min(V)
         V = V - offset
         system.potential_offset = offset
+    system.potential_max = max(V)
+    system.potential_min = min(V)
     system.potential_values = V
     return system
 
@@ -93,14 +100,15 @@ def schrodinger(system:System) -> System:
     system.version = __version__
     system.runtime = time.time() - time_start
     system.eigenvalues = eigenvalues
-    system.potential_max = max(V)
-    system.potential_min = min(V)
     system.energy_barrier = max(V) - min(eigenvalues)
     # Solve excitations and tunnel splittings, assuming triplet degeneracy
     system = excitations(system)
     # Do we really need to save eigenvectors?
     if system.save_eigenvectors == True:
         system.eigenvectors = np.transpose(eigenvectors)
+    # Save potential max and min, in case these are not already saved
+    system.potential_max = max(V)
+    system.potential_min = min(V)
     return system
 
 
@@ -139,7 +147,7 @@ def excitations(system: System) -> System:
     Excitations are calculated as the energy difference between the mean energy of the
     ground state level and the mean energy of each excited level.
 
-    Tunnel splittings are calculated as the difference between the medians of
+    Tunnel splittings are calculated as the difference between the mean values of
     the two subgroups within each degenerate level.
     """
     # Get eigenvalues, stop before any possible None value

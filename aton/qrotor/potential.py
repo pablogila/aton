@@ -16,8 +16,8 @@ User functions:
 | `merge()`       | Add and subtract potentials from systems |
 | `scale()`       | Scale potential values by a given factor |
 
-To solve the system, optionally interpolating to a new gridsize, use `System.solve(gridsize)`.  
-However, if you just want to solve or interpolate the potential, check `aton.qrotor.solve.potential()`.
+To solve the system, optionally interpolating to a new gridsize, use the `System.solve(gridsize)` method.  
+However, if you just want to quickly solve or interpolate the potential, check the `System.solve_potential(gridsize)` method.
 This will run several checks before applying the following functions automatically:
 
 | | |

@@ -70,6 +70,15 @@ def test_solve_zero():
     assert round(system.eigenvalues[8], 2) == 16.0
 
 
+def test_solve_potential():
+    system = qr.System()
+    system.gridsize = 500
+    system.potential_name = 'sin'
+    system.potential_constants = [0, 1, 3, 0]
+    system.solve_potential()
+    assert round(system.potential_max, 2) == 1.0
+
+
 def test_phase():
     sys = qr.System()
     sys.B = 1.0

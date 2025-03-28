@@ -27,7 +27,7 @@ class System:
             searched_E: int = 21,
             correct_potential_offset: bool = True,
             save_eigenvectors: bool = True,
-            group: str = 'CH3',
+            group: str = '',
             B: float = B_CH3,
             gridsize: int = 200000,
             grid = [],
@@ -50,13 +50,21 @@ class System:
         self.save_eigenvectors: bool = save_eigenvectors
         """Save or not the eigenvectors. Final file size will be bigger."""
         self.group: str = group
-        """Chemical group, methyl or amine: `'CH3'`, `'CD3'`, `'NH3'`, `'ND3'`."""
+        """Chemical group, methyl or amine: `'CH3'`, `'CD3'`, `'NH3'`, `'ND3'`.
+
+        Can be used to set the value of `B` automatically at startup.
+        It can also be configured afterwards with `System.set_group()`.
+        This group can be used as metadata to analyse different datasets.
+        """
         self.set_group(group)  # Normalise the group name, and set the value of B
         ## Potential
         if not B:
             B = self.B
         self.B: float = B
-        """Rotational inertia, as in $B=\\frac{\\hbar^2}{2I}$."""
+        """Rotational inertia, as in $B=\\frac{\\hbar^2}{2I}$.
+
+        Defaults to the value for a methyl group.
+        """
         self.gridsize: int = gridsize
         """Number of points in the grid."""
         self.grid = grid
@@ -67,6 +75,7 @@ class System:
         """
         self.potential_name: str = potential_name
         """Name of the desired potential: `'zero'`, `'titov2023'`, `'test'`...
+
         If empty or unrecognised, the custom potential values inside `System.potential_values` will be used. 
         """
         self.potential_constants: list = potential_constants
@@ -112,16 +121,35 @@ class System:
         """Time taken to solve the eigenvalues."""
 
     def solve(self, new_gridsize:int=None):
-        """Default method to solve the quantum system.
+        """Default user method to solve the quantum system.
 
         The potential can be interpolated to a `new_gridsize`.
-    
-        Same as running `aton.qrotor.solve.energies(System)`.
+
+        Same as running `aton.qrotor.solve.energies(System)`
+        with an optional new gridsize.
         """
         from .solve import energies
         if new_gridsize:
             self.gridsize = new_gridsize
         return energies(self)
+
+    def solve_potential(self, new_gridsize:int=None):
+        """Default user method to quickly solve the potential of the quantum system.
+
+        This method does not solve the energies of the system,
+        it just computes the potential and sets `System.potential_max`,
+        `System.potential_min` and `System.potential_offset` accordingly.
+        To solve the potential AND the energies, check `System.solve()`.
+
+        The potential can be interpolated to a `new_gridsize`.
+
+        Same as running `aton.qrotor.solve.potential(System)`
+        with an optional new gridsize.
+        """
+        from .solve import potential
+        if new_gridsize:
+            self.gridsize = new_gridsize
+        return potential(self)
 
     def change_phase(self, phase:float, calculate:bool=True):
         """Apply a phase shift to the grid and potential values.
