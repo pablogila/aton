@@ -205,13 +205,13 @@ def backup(
         filepath:str,
         keep:bool=True,
         label:str='backup',
-        timestamp:bool=True,
+        timestamp:str='%y%m%dT%H%M%S',
         ) -> str:
     """Backup a file including the current timestamp in the name.
 
     Keeps the original file by default, unless `keep = False`.
     Appends a '_backup' `label` at the end of the filename.
-    The timestamp can be optionally disabled with `timestamp = False`.
+    The timestamp can be optionally customised or disabled.
     Returns the new backup filepath.
     """
     filepath = get(filepath)
@@ -219,7 +219,7 @@ def backup(
     if label:
         label = '_' + label
     if timestamp:
-        now = '_' + datetime.now().strftime("%y%m%dT%H%M%S")
+        now = '_' + datetime.now().strftime(timestamp)
     dir_path = os.path.dirname(filepath)
     basename = os.path.basename(filepath)
     name, ext = os.path.splitext(basename)

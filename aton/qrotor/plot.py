@@ -33,6 +33,7 @@ def potential(
         title:str=None,
         marker='',
         linestyle='-',
+        cm:bool=False,
         ) -> None:
     """Plot the potential values of `data` (System object, or list of systems).
 
@@ -40,6 +41,7 @@ def potential(
     If empty, system[0].comment will be used as title if no more comments are present.
 
     `marker` and `linestyle` can be a Matplotlib string or list of strings.
+    Optionally, the Viridis colormap can be used with `cm = True`.
     """
     system = systems.as_list(data)
     title_str = title if title else (system[0].comment if (system[0].comment and (len(system) == 1 or not system[-1].comment)) else 'Rotational potential energy')
@@ -62,8 +64,13 @@ def potential(
     plt.ylabel('Potential energy / meV')
     plt.xticks([-2*np.pi, -3*np.pi/2, -np.pi, -np.pi/2, 0, np.pi/2, np.pi, 3*np.pi/2, 2*np.pi], [r'$-2\pi$', r'$-\frac{3\pi}{2}$', r'$-\pi$', r'$-\frac{\pi}{2}$', '0', r'$\frac{\pi}{2}$', r'$\pi$', r'$\frac{3\pi}{2}$', r'$2\pi$'])
 
-    for i, s in enumerate(system):
-        plt.plot(s.grid, s.potential_values, marker=marker[i], linestyle=linestyle[i], label=s.comment)
+    if cm:  # Plot using a colormap
+        colors = plt.cm.viridis(np.linspace(0, 1, len(system)+1))  # +1 to avoid the lighter tones
+        for i, s in enumerate(system):
+            plt.plot(s.grid, s.potential_values, marker=marker[i], linestyle=linestyle[i], label=s.comment, color=colors[i])
+    else:  # Regular plot
+        for i, s in enumerate(system):
+            plt.plot(s.grid, s.potential_values, marker=marker[i], linestyle=linestyle[i], label=s.comment)
 
     if all(s.comment for s in system) and len(system) != 1:
         plt.legend(fontsize='small')
@@ -145,7 +152,10 @@ def reduced_energies(
     as vertical lines (floats or ints) or regions
     (lists inside the values list, from min to max).
     A `legend` of the same len as `values` can be included.
+    These values are assumed to be divided by B by the user.
     """
+    if values and (isinstance(values, float) or isinstance(values, int) or isinstance(values, np.float64)):
+        values = [values]
     if values and len(values) <= len(legend):
         plot_legend = True
     else:

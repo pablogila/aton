@@ -14,6 +14,7 @@ User functions:
 | `load()`        | Load a System with a custom potential from a potential data file |
 | `from_qe()`     | Creates a potential data file from Quantum ESPRESSO outputs |
 | `merge()`       | Add and subtract potentials from systems |
+| `scale()`       | Scale potential values by a given factor |
 
 To solve the system, optionally interpolating to a new gridsize, use `System.solve(gridsize)`.  
 However, if you just want to solve or interpolate the potential, check `aton.qrotor.solve.potential()`.
@@ -135,6 +136,7 @@ def load(
     Units will be converted automatically to radians and meV.
 
     An optional `comment` can be included in the output System.
+    Set to the parent folder name by default.
 
     A previous System object can be provided through `system` to update its potential values.
     """
@@ -171,7 +173,7 @@ def load(
     system.gridsize = len(positions)
     system.potential_values = np.array(potentials)
     # System comment as the parent folder name
-    system.comment = os.path.basename(os.path.dirname(file_path)) if not comment else comment
+    system.comment = os.path.basename(os.path.dirname(file_path)) if comment==None else comment
     print(f"Loaded {filepath}")
     return system
 
@@ -275,14 +277,18 @@ def from_qe(
     return None
 
 
-def merge(add=[], subtract=[], comment:str=None) -> System:
+def merge(
+        add=[],
+        subtract=[],
+        comment:str=None
+        ) -> System:
     """Add or subtract potentials from different systems.
 
-    Adds the potentials from the systems in `add`,
+    Adds the potential values from the systems in `add`,
     removes the ones from `subtract`.
     All systems will be interpolated to the bigger gridsize if needed.
 
-    The first System will be returned with the resulting potential values,
+    A copy of the first System will be returned with the resulting potential values,
     with an optional `comment` if indicated.
     """
     add = systems.as_list(add)
@@ -314,6 +320,25 @@ def merge(add=[], subtract=[], comment:str=None) -> System:
         result.potential_values = np.sum([result.potential_values, system.potential_values], axis=0)
     for system in subtract:
         result.potential_values = np.sum([result.potential_values, -system.potential_values], axis=0)
+    if comment != None:
+        result.comment = comment
+    return result
+
+
+def scale(
+        system:System,
+        factor:float,
+        comment:str=None
+        ) -> System:
+    """Returns a copy of `system` with potential values scaled by a `factor`.
+
+    An optional `comment` can be included.
+    """
+    result = deepcopy(system)
+    if factor != 0:
+        result.potential_values = system.potential_values * factor
+    else:
+        result.potential_values = np.zeros(system.gridsize)
     if comment != None:
         result.comment = comment
     return result
@@ -353,7 +378,7 @@ def solve(system:System):
     data = deepcopy(system)
     # Is there a potential_name?
     if not data.potential_name:
-        if not any(data.potential_values):
+        if data.potential_values is None or len(data.potential_values) == 0:
             raise ValueError(f'No potential_name and no potential_values found in the system!')
     elif data.potential_name.lower() == 'titov2023':
         data.potential_values = titov2023(data)
@@ -364,7 +389,8 @@ def solve(system:System):
     elif data.potential_name.lower() in alias.math['cos']:
         data.potential_values = cosine(data)
     # At least there should be potential_values
-    elif not any(data.potential_values):
+    #elif not any(data.potential_values):
+    elif data.potential_values is None or len(data.potential_values) == 0:
         raise ValueError("Unrecognised potential_name '{data.potential_name}' and no potential_values found")
     return data.potential_values
 

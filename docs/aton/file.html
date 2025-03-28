@@ -113,7 +113,7 @@
     </ul>
 
 
-            <footer>ATON v0.6.4 documentation</footer>
+            <footer>ATON v0.6.6 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -406,13 +406,13 @@
 </span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>        <span class="n">keep</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>        <span class="n">label</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;backup&#39;</span><span class="p">,</span>
-</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>        <span class="n">timestamp</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>        <span class="n">timestamp</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;%y%m</span><span class="si">%d</span><span class="s1">T%H%M%S&#39;</span><span class="p">,</span>
 </span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Backup a file including the current timestamp in the name.</span>
 </span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>
 </span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a><span class="sd">    Keeps the original file by default, unless `keep = False`.</span>
 </span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a><span class="sd">    Appends a &#39;_backup&#39; `label` at the end of the filename.</span>
-</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a><span class="sd">    The timestamp can be optionally disabled with `timestamp = False`.</span>
+</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a><span class="sd">    The timestamp can be optionally customised or disabled.</span>
 </span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a><span class="sd">    Returns the new backup filepath.</span>
 </span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>    <span class="n">filepath</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
@@ -420,7 +420,7 @@
 </span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>    <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
 </span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>        <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">label</span>
 </span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>    <span class="k">if</span> <span class="n">timestamp</span><span class="p">:</span>
-</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a>        <span class="n">now</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%y%m</span><span class="si">%d</span><span class="s2">T%H%M%S&quot;</span><span class="p">)</span>
+</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a>        <span class="n">now</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span>
 </span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>    <span class="n">dir_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 </span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a>    <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 </span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>    <span class="n">name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">)</span>
@@ -858,7 +858,7 @@ It also returns folders if <code>also_folders = True</code>.</p>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">backup</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">keep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>,</span><span class="param">	<span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;backup&#39;</span>,</span><span class="param">	<span class="n">timestamp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
+        <span class="name">backup</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">keep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>,</span><span class="param">	<span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;backup&#39;</span>,</span><span class="param">	<span class="n">timestamp</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;%y%m</span><span class="si">%d</span><span class="s1">T%H%M%S&#39;</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
 
                 <label class="view-source-button" for="backup-view-source"><span>View Source</span></label>
 
@@ -868,13 +868,13 @@ It also returns folders if <code>also_folders = True</code>.</p>
 </span><span id="backup-206"><a href="#backup-206"><span class="linenos">206</span></a>        <span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
 </span><span id="backup-207"><a href="#backup-207"><span class="linenos">207</span></a>        <span class="n">keep</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><span id="backup-208"><a href="#backup-208"><span class="linenos">208</span></a>        <span class="n">label</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;backup&#39;</span><span class="p">,</span>
-</span><span id="backup-209"><a href="#backup-209"><span class="linenos">209</span></a>        <span class="n">timestamp</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="backup-209"><a href="#backup-209"><span class="linenos">209</span></a>        <span class="n">timestamp</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;%y%m</span><span class="si">%d</span><span class="s1">T%H%M%S&#39;</span><span class="p">,</span>
 </span><span id="backup-210"><a href="#backup-210"><span class="linenos">210</span></a>        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="backup-211"><a href="#backup-211"><span class="linenos">211</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Backup a file including the current timestamp in the name.</span>
 </span><span id="backup-212"><a href="#backup-212"><span class="linenos">212</span></a>
 </span><span id="backup-213"><a href="#backup-213"><span class="linenos">213</span></a><span class="sd">    Keeps the original file by default, unless `keep = False`.</span>
 </span><span id="backup-214"><a href="#backup-214"><span class="linenos">214</span></a><span class="sd">    Appends a &#39;_backup&#39; `label` at the end of the filename.</span>
-</span><span id="backup-215"><a href="#backup-215"><span class="linenos">215</span></a><span class="sd">    The timestamp can be optionally disabled with `timestamp = False`.</span>
+</span><span id="backup-215"><a href="#backup-215"><span class="linenos">215</span></a><span class="sd">    The timestamp can be optionally customised or disabled.</span>
 </span><span id="backup-216"><a href="#backup-216"><span class="linenos">216</span></a><span class="sd">    Returns the new backup filepath.</span>
 </span><span id="backup-217"><a href="#backup-217"><span class="linenos">217</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="backup-218"><a href="#backup-218"><span class="linenos">218</span></a>    <span class="n">filepath</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
@@ -882,7 +882,7 @@ It also returns folders if <code>also_folders = True</code>.</p>
 </span><span id="backup-220"><a href="#backup-220"><span class="linenos">220</span></a>    <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
 </span><span id="backup-221"><a href="#backup-221"><span class="linenos">221</span></a>        <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">label</span>
 </span><span id="backup-222"><a href="#backup-222"><span class="linenos">222</span></a>    <span class="k">if</span> <span class="n">timestamp</span><span class="p">:</span>
-</span><span id="backup-223"><a href="#backup-223"><span class="linenos">223</span></a>        <span class="n">now</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%y%m</span><span class="si">%d</span><span class="s2">T%H%M%S&quot;</span><span class="p">)</span>
+</span><span id="backup-223"><a href="#backup-223"><span class="linenos">223</span></a>        <span class="n">now</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span>
 </span><span id="backup-224"><a href="#backup-224"><span class="linenos">224</span></a>    <span class="n">dir_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 </span><span id="backup-225"><a href="#backup-225"><span class="linenos">225</span></a>    <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 </span><span id="backup-226"><a href="#backup-226"><span class="linenos">226</span></a>    <span class="n">name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">)</span>
@@ -900,7 +900,7 @@ It also returns folders if <code>also_folders = True</code>.</p>
 
 <p>Keeps the original file by default, unless <code>keep = False</code>.
 Appends a '_backup' <code>label</code> at the end of the filename.
-The timestamp can be optionally disabled with <code>timestamp = False</code>.
+The timestamp can be optionally customised or disabled.
 Returns the new backup filepath.</p>
 </div>
 
