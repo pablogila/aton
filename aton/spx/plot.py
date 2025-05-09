@@ -49,6 +49,9 @@ def plot(spectra:Spectra):
     # Set plot offset
     number_of_plots = len(sdata.dfs)
     height = (top_ylim - low_ylim)
+    colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+    if hasattr(sdata, 'plotting') and sdata.plotting.viridis:
+        colors = plt.cm.viridis(np.linspace(0, 1, number_of_plots+1))  # +1 to avoid the lighter tones
     if hasattr(sdata, 'plotting') and sdata.plotting.offset is True:
         for i, df in enumerate(sdata.dfs):
             reverse_i = (number_of_plots - 1) - i
@@ -64,25 +67,25 @@ def plot(spectra:Spectra):
     if hasattr(sdata, 'plotting') and hasattr(sdata.plotting, 'legend'):
         if sdata.plotting.legend == False:
             for df in sdata.dfs:
-                df.plot(x=df.columns[0], y=df.columns[1], ax=ax)
+                df.plot(x=df.columns[0], y=df.columns[1], color=colors[i], ax=ax)
         elif sdata.plotting.legend != None:
             if len(sdata.plotting.legend) == len(sdata.dfs):
                 for i, df in enumerate(sdata.dfs):
                     if sdata.plotting.legend[i] == False:
                         continue  # Skip plots with False in the legend
                     clean_name = sdata.plotting.legend[i]
-                    df.plot(x=df.columns[0], y=df.columns[1], label=clean_name, ax=ax)
+                    df.plot(x=df.columns[0], y=df.columns[1], color=colors[i], label=clean_name, ax=ax)
             elif len(sdata.plotting.legend) == 1:
                 clean_name = sdata.plotting.legend[0]
                 for i, df in enumerate(sdata.dfs):
-                    df.plot(x=df.columns[0], y=df.columns[1], label=clean_name, ax=ax)
+                    df.plot(x=df.columns[0], y=df.columns[1], color=colors[i], label=clean_name, ax=ax)
         elif sdata.plotting.legend == None and len(sdata.files) == len(sdata.dfs):
             for df, name in zip(sdata.dfs, sdata.files):
                 clean_name = name
                 for string in strings_to_delete_from_name:
                     clean_name = clean_name.replace(string, '')
                 clean_name = clean_name.replace('_', ' ')
-                df.plot(x=df.columns[0], y=df.columns[1], label=clean_name, ax=ax)
+                df.plot(x=df.columns[0], y=df.columns[1], color=colors[i], label=clean_name, ax=ax)
     # Matplotlib title and axis, additional margins
     plt.title(title)
     plt.xlabel(xlabel)

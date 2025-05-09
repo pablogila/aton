@@ -65,6 +65,7 @@ class Plotting:
             legend_title:str=None,
             legend_size='medium',
             legend_loc='best',
+            viridis:bool=False,
             save_as:str=None,
         ):
         """Default values can be overwritten when initializing the Plotting object."""
@@ -128,6 +129,8 @@ class Plotting:
         """Size of the legend, as in matplotlib. Defaults to `'medium'`."""
         self.legend_loc = legend_loc
         """Location of the legend, as in matplotlib. Defaults to `'best'`."""
+        self.viridis: bool = viridis
+        """Use the Viridis colormap for the plot. Defaults to `False`."""
         self.save_as = save_as
         """Filename to save the plot. None by default."""
 
