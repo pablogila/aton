@@ -13,8 +13,6 @@ Functions to move files around.
 | `get()`               | Check that a file exists, and return the full path |
 | `get_list()`          | Get a list of the files inside a folder, applying optional filters |
 | `get_dir()`           | Get the full path of a folder or the cwd |
-| `copy()`              | Copy file |
-| `move()`              | Move file |
 | `remove()`            | Remove file or folder |
 | `backup()`            | Backup a file including the current timestamp in the name |
 | `rename_on_folder()`  | Batch rename files from a folder |
@@ -33,24 +31,24 @@ from datetime import datetime
 
 
 def save(object, filename:str=None):
-    """Save a Python object in the current working directory as a compressed binary `*.aton` file."""
+    """Save a Python object in the current working directory as a compressed binary file, using [pickle](https://docs.python.org/3/library/pickle.html)."""
     filename = 'data' if filename is None else filename
-    if not filename.endswith('.aton'):
-        filename += '.aton'
+    if not filename.endswith('.bin.gz'):
+        filename += '.bin.gz'
     file = os.path.join(os.getcwd(), filename)
     with gzip.open(file, 'wb') as f:
         pickle.dump(object, f)
     print(f"Data saved and compressed to {file}")
 
 
-def load(filepath:str='data.aton'):
-    """Load a Python object from a compressed binary `*.aton` file.
+def load(filepath:str='data.bin.gz'):
+    """Load a Python object from a compressed binary file, using [pickle](https://docs.python.org/3/library/pickle.html).
 
     Use only if you trust the person who sent you the file!
     """
     file_path = get(filepath, return_anyway=True)
     if not file_path:
-        file_path = get(filepath + '.aton', return_anyway=True)
+        file_path = get(filepath + '.bin.gz', return_anyway=True)
     if not file_path:
         raise FileNotFoundError(f"Missing file {filepath}")
     with gzip.open(file_path, 'rb') as f:
@@ -164,25 +162,6 @@ def get_dir(folder=None) -> str:
         else:
             raise FileNotFoundError(f'Missing folder at {folder}')
     return path
-
-
-def copy(
-        old:str,
-        new:str
-    ) -> None:
-    """Copies `old` file to `new` file"""
-    # Yes, I know, why use ATON for this right? copy() and move() functions are here just for consistancy.
-    file = shutil.copy(old, new)
-    return None
-
-
-def move(
-        old:str,
-        new:str
-    ) -> None:
-    """Moves `old` file to `new` file."""
-    file = shutil.move(old, new)
-    return None
 
 
 def remove(filepath:str) -> None:
@@ -316,6 +295,6 @@ def copy_to_folders(
         path = new_file.replace(extension, '')
         os.makedirs(path, exist_ok=True)
         new_file_path = os.path.join(path, new_file)
-        copy(old_file, new_file_path)
+        shutil.copy(old_file, new_file_path)
     return None
 
