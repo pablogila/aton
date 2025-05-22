@@ -70,11 +70,9 @@
   </ul></li>
   <li><a href="#documentation">Documentation</a>
   <ul>
+    <li><a href="#general-text-edition">General text edition</a></li>
     <li><a href="#interfaces-for-ab-initio-codes">Interfaces for <em>ab-initio</em> codes</a></li>
     <li><a href="#physico-chemical-constants">Physico-chemical constants</a></li>
-    <li><a href="#quantum-rotations">Quantum rotations</a></li>
-    <li><a href="#spectra-analysis">Spectra analysis</a></li>
-    <li><a href="#general-text-edition">General text edition</a></li>
     <li><a href="#system-tools">System tools</a></li>
   </ul></li>
   <li><a href="#contributing">Contributing</a>
@@ -95,13 +93,11 @@
                     <li><a href="aton/call.html">call</a></li>
                     <li><a href="aton/file.html">file</a></li>
                     <li><a href="aton/phys.html">phys</a></li>
-                    <li><a href="aton/qrotor.html">qrotor</a></li>
-                    <li><a href="aton/spx.html">spx</a></li>
                     <li><a href="aton/txt.html">txt</a></li>
             </ul>
 
 
-            <footer>ATON v0.6.8 documentation</footer>
+            <footer>ATON v0.7.0 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -119,22 +115,19 @@ aton    </h1>
 
 <h1 id="welcome-to-aton">Welcome to ATON</h1>
 
-<p>The <strong>A</strong>b-ini<strong>T</strong>i<strong>O</strong> &amp; <strong>N</strong>eutron research toolbox,
+<p><strong>A</strong> <strong>T</strong>ext <strong>O</strong>ptimizer for scie<strong>N</strong>tific python,
 or <strong>ATON</strong>,
-provides powerful and comprehensive tools
-for cutting-edge materials research,
-focused on (but not limited to) neutron science.
-Designed to bridge the gap between theoretical modeling and experimental validation,
-ATON allows researchers to streamline and simplify workflows in the study of advanced materials.</p>
+is a package that provides powerful text-edition tools
+to edit and analyse simuation data.</p>
 
 <p>Just like its <a href="https://en.wikipedia.org/wiki/Aten">ancient Egyptian deity</a> counterpart,
-this all-in-one Python package comprises a range of utility tools
-from INS spectra analysis to <em>ab-initio</em> interfaces
-for <a href="https://www.quantum-espresso.org/">Quantum ESPRESSO</a>,
+this Python package comprises several utilities to facilitate your simulation routines.
+This includes a <a href="#general-text-edition">txt</a> module for easy and straight-forward text edition;
+an <a href="#interfaces-for-ab-initio-codes">api</a> module with interfaces for simulation and HPC codes, such as <a href="https://www.quantum-espresso.org/">Quantum ESPRESSO</a>,
 <a href="https://phonopy.github.io/phonopy/">Phonopy</a> and
-<a href="https://castep-docs.github.io/castep-docs/">CASTEP</a>.
-Conversion factors and universal constants from the <a href="https://doi.org/10.48550/arXiv.2409.03787">2022 CODATA</a>
-Recommended Values of the Fundamental Physical Constants are also included.  </p>
+<a href="https://castep-docs.github.io/castep-docs/">CASTEP</a>;
+and a <a href="#physico-chemical-constants">phys</a> module with physico-chemical definitions, such as the <a href="https://doi.org/10.48550/arXiv.2409.03787">2022 CODATA</a>
+Recommended Values of the Fundamental Physical Constants.</p>
 
 <p>The source code is available on <a href="https://github.com/pablogila/aton/">GitHub</a>.   </p>
 
@@ -152,14 +145,7 @@ Recommended Values of the Fundamental Physical Constants are also included.  </p
 
 <h2 id="with-pip">With pip</h2>
 
-<p>Install ATON with  </p>
-
-<div class="pdoc-code codehilite">
-<pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>aton
-</code></pre>
-</div>
-
-<p>Or upgrade to a new version as</p>
+<p>Install or upgrade ATON with  </p>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>aton<span class="w"> </span>-U
@@ -170,7 +156,7 @@ Recommended Values of the Fundamental Physical Constants are also included.  </p
 
 <p>Optionally, you can install ATON from the <a href="https://github.com/pablogila/aton/">GitHub repo</a>.
 Clone the repository or download the <a href="https://github.com/pablogila/aton/tags">latest stable release</a>
-as a ZIP, unzip it, and run inside the <code>ATON/</code> directory:  </p>
+as a ZIP, unzip it, and run inside it:  </p>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>.
@@ -184,6 +170,37 @@ as a ZIP, unzip it, and run inside the <code>ATON/</code> directory:  </p>
 <p>The full ATON documentation is available <a href="https://pablogila.github.io/aton/">online</a>.<br />
 An offline version is found at <code>docs/aton.html</code>.<br />
 Code examples are included in the <a href="https://github.com/pablogila/aton/tree/main/examples"><code>examples/</code></a> folder.    </p>
+
+<h2 id="general-text-edition">General text edition</h2>
+
+<p>The <strong>txt</strong> module handles text files.
+It powers more complex subpackages,
+such as <a href="#interfaces-for-ab-initio-codes">aton.api</a>.</p>
+
+<h3 id="atontxt"><code><a href="aton/txt.html">aton.txt</a></code></h3>
+
+<table>
+<thead>
+<tr>
+  <th></th>
+  <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code><a href="aton/txt/find.html">aton.txt.find</a></code></td>
+  <td>Search for specific content in text files</td>
+</tr>
+<tr>
+  <td><code><a href="aton/txt/edit.html">aton.txt.edit</a></code></td>
+  <td>Manipulate text files</td>
+</tr>
+<tr>
+  <td><code><a href="aton/txt/extract.html">aton.txt.extract</a></code></td>
+  <td>Extract data from raw text strings</td>
+</tr>
+</tbody>
+</table>
 
 <h2 id="interfaces-for-ab-initio-codes">Interfaces for <em>ab-initio</em> codes</h2>
 
@@ -244,134 +261,19 @@ Values are accessed directly as <code>phys.value</code> or <code>phys.function()
   <td>Megadictionary with data for all chemical elements</td>
 </tr>
 <tr>
-  <td><code><a href="aton/phys/functions.html">aton.phys.functions</a></code></td>
-  <td>Functions to sort and analyse element data</td>
-</tr>
-</tbody>
-</table>
-
-<h2 id="quantum-rotations">Quantum rotations</h2>
-
-<p>The <strong>QRotor</strong> module is used to study energy excitations and tunnel splittings
-from molecular rotations, such as those of methyl and amine groups.</p>
-
-<h3 id="atonqrotor"><code><a href="aton/qrotor.html">aton.qrotor</a></code></h3>
-
-<table>
-<thead>
-<tr>
-  <th></th>
-  <th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td><code><a href="aton/qrotor/system.html">aton.qrotor.system</a></code></td>
-  <td>Definition of the quantum <code>System</code> object</td>
+  <td><code><a href="aton/phys/isotope.html">aton.phys.isotope</a></code></td>
+  <td>Analyse isotope data from text strings</td>
 </tr>
 <tr>
-  <td><code><a href="aton/qrotor/systems.html">aton.qrotor.systems</a></code></td>
-  <td>Functions to manage several System objects</td>
-</tr>
-<tr>
-  <td><code><a href="aton/qrotor/rotate.html">aton.qrotor.rotate</a></code></td>
-  <td>Rotate specific atoms from structural files</td>
-</tr>
-<tr>
-  <td><code><a href="aton/qrotor/constants.html">aton.qrotor.constants</a></code></td>
-  <td>Common bond lengths and inertias</td>
-</tr>
-<tr>
-  <td><code><a href="aton/qrotor/potential.html">aton.qrotor.potential</a></code></td>
-  <td>Potential definitions and loading functions</td>
-</tr>
-<tr>
-  <td><code><a href="aton/qrotor/solve.html">aton.qrotor.solve</a></code></td>
-  <td>Solve rotation eigenvalues and eigenvectors</td>
-</tr>
-<tr>
-  <td><code><a href="aton/qrotor/plot.html">aton.qrotor.plot</a></code></td>
-  <td>Plotting functions</td>
-</tr>
-</tbody>
-</table>
-
-<h2 id="spectra-analysis">Spectra analysis</h2>
-
-<p>The <strong>spx</strong> module includes tools for spectral analysis from
-Inelastic Neutron Scattering, Raman, Infrared, etc.</p>
-
-<h3 id="atonspx"><code><a href="aton/spx.html">aton.spx</a></code></h3>
-
-<table>
-<thead>
-<tr>
-  <th></th>
-  <th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td><code><a href="aton/spx/classes.html">aton.spx.classes</a></code></td>
-  <td>Class definitions for the spectra module</td>
-</tr>
-<tr>
-  <td><code><a href="aton/spx/fit.html">aton.spx.fit</a></code></td>
-  <td>Spectra fitting functions</td>
-</tr>
-<tr>
-  <td><code><a href="aton/spx/normalize.html">aton.spx.normalize</a></code></td>
-  <td>Spectra normalization</td>
-</tr>
-<tr>
-  <td><code><a href="aton/spx/plot.html">aton.spx.plot</a></code></td>
-  <td>Plotting</td>
-</tr>
-<tr>
-  <td><code><a href="aton/spx/deuterium.html">aton.spx.deuterium</a></code></td>
-  <td>Deuteration estimations via INS</td>
-</tr>
-<tr>
-  <td><code><a href="aton/spx/samples.html">aton.spx.samples</a></code></td>
-  <td>Sample materials for testing</td>
-</tr>
-</tbody>
-</table>
-
-<h2 id="general-text-edition">General text edition</h2>
-
-<p>The <strong>txt</strong> module handles text files.
-It powers more complex subpackages,
-such as <a href="#interfaces-for-ab-initio-codes">aton.api</a>.</p>
-
-<h3 id="atontxt"><code><a href="aton/txt.html">aton.txt</a></code></h3>
-
-<table>
-<thead>
-<tr>
-  <th></th>
-  <th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td><code><a href="aton/txt/find.html">aton.txt.find</a></code></td>
-  <td>Search for specific content in text files</td>
-</tr>
-<tr>
-  <td><code><a href="aton/txt/edit.html">aton.txt.edit</a></code></td>
-  <td>Manipulate text files</td>
-</tr>
-<tr>
-  <td><code><a href="aton/txt/extract.html">aton.txt.extract</a></code></td>
-  <td>Extract data from raw text strings</td>
+  <td><code><a href="aton/phys/export_atoms.html">aton.phys.export_atoms</a></code></td>
+  <td>Update and export the <code><a href="aton/phys/atoms.html">aton.phys.atoms</a></code> dict</td>
 </tr>
 </tbody>
 </table>
 
 <h2 id="system-tools">System tools</h2>
 
-<p>Additional utility tools are available for common system tasks across subpackages.</p>
+<p>Additional utility tools are available for common system tasks.</p>
 
 <table>
 <thead>
@@ -478,8 +380,6 @@ See the attached GNU Affero General Public License for more details.  </p>
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">phys</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">txt</span>
 </span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">api</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">spx</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">qrotor</span>
 </span></pre></div>
 
 

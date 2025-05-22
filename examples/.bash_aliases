@@ -1,5 +1,5 @@
 # This file can be placed in your Linux HOME folder
-# to use custom terminal commands with ATON
+# to use custom terminal commands with ATON and other Python packages
 
 # Your $HOME/.bashrc file must contain the following lines,
 # add them uncommented if not present already:
@@ -20,5 +20,5 @@ fi
 # Install or upgrade ATON in your environment with:
 # pip install aton -U
 # Now, to open the ATON command line interface, you just have to type 'aton'
-alias aton='venv && python3 -i -c "import aton; import aton.qrotor as qr; from aton import api; from aton import txt; from aton import spx; import numpy as np; import pandas as pd; import scipy; import matplotlib.pyplot as plt; import math; print(aton.version)"'
+alias aton='venv && python3 -i -c "import aton; from aton import api; from aton import txt; from aton import phys; import numpy as np; import pandas as pd; import scipy; import matplotlib.pyplot as plt; import math"'
 

@@ -22,6 +22,7 @@ Functions to manipulate the content of text files.
 import mmap
 from . import find
 import aton.file as file
+import shutil
 
 
 def insert_at(
@@ -315,7 +316,7 @@ def from_template(
         comment:str=None,
     ) -> None:
     """Creates `new` file from `old`, replacing values from a `correct` dict, inserting a `comment` on top."""
-    file.copy(old, new)
+    shutil.copy(old, new)
     if comment:
         insert_at(new, comment, 0)
     if correct:

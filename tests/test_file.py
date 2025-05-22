@@ -1,3 +1,4 @@
+import shutil
 from aton import file
 
 
@@ -31,39 +32,13 @@ def test_get():
     assert len(empty_file_list) == 0
 
 
-def test_copy():
-    try:
-        file.remove(sample_copy)
-        file.remove(sample_copy_2)
-    except:
-        pass
-    # Copy files
-    file.copy(sample, sample_copy)
-    assert file.get(sample_copy) != None
-    # Move files
-    file.move(sample_copy, sample_copy_2)
-    assert file.get(sample_copy_2) != None
-    try:
-        file.get(sample_copy)
-        assert False
-    except FileNotFoundError:
-        assert True
-    # Remove
-    file.remove(sample_copy_2)
-    try:
-        file.get(sample_copy_2)
-        assert False
-    except:
-        assert True
-
-
 def test_rename():
     try:
         file.remove(sample_copy)
         file.remove(sample_ok)
     except:
         pass
-    file.copy(sample, sample_copy)
+    shutil.copy(sample, sample_copy)
     file.rename_on_folder(old='copy', new='ok', folder=folder)
     try:
         file.remove(sample_ok)

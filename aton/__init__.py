@@ -10,6 +10,4 @@ from . import call
 from . import phys
 from . import txt
 from . import api
-from . import spx
-from . import qrotor
 

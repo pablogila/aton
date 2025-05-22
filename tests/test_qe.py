@@ -1,4 +1,5 @@
 import aton
+import shutil
 
 
 folder = 'tests/samples/'
@@ -136,7 +137,7 @@ def test_scf_from_relax():
 
 def test_update_other_values():
     tempfile = folder + 'temp.in'
-    aton.file.copy(folder + 'relax.in', tempfile)
+    shutil.copy(folder + 'relax.in', tempfile)
     aton.api.qe.set_value(tempfile, 'celldm(1)', 10.0)
     modified = aton.api.qe.read_in(tempfile)
     assert 'A' not in modified.keys()
@@ -145,7 +146,7 @@ def test_update_other_values():
 
 def test_set_value():
     tempfile = folder + 'temp.in'
-    aton.file.copy(folder + 'relax.in', tempfile)
+    shutil.copy(folder + 'relax.in', tempfile)
     aton.api.qe.set_value(tempfile, 'ecutwfc', 80.0)
     aton.api.qe.set_value(tempfile, 'ibrav', 5)
     aton.api.qe.set_value(tempfile, 'calculation', "'vc-relax'")
@@ -169,7 +170,7 @@ def test_set_value():
 
 def test_add_namelist():
     tempfile = folder + 'temp_namelist.in'
-    aton.file.copy(folder + 'relax.in', tempfile)
+    shutil.copy(folder + 'relax.in', tempfile)
     aton.api.qe.set_value(tempfile, 'cell_dynamics', "'bfgs'")
     modified = aton.api.qe.read_in(tempfile)
     assert modified['cell_dynamics'] == "'bfgs'"
@@ -204,7 +205,7 @@ def test_add_atom():
         'Cl  1.0  1.0  1.0']
     ideal_positions = aton.api.qe.normalize_card(ideal_positions)
     tempfile = folder + 'temp.in'
-    aton.file.copy(folder + 'relax.in', tempfile)
+    shutil.copy(folder + 'relax.in', tempfile)
     position_1 = '  O   0.0   0.0   0.0'
     position_2 = ['Cl', 1.0, 1.0, 1.0]
     aton.api.qe.add_atom(filepath=tempfile, position=position_1)
