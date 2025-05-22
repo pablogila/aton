@@ -10,9 +10,10 @@ It also includes functions to manage this data.
 
 | | |
 | --- | --- |
-| `aton.phys.units`     | Universal constants and conversion factors |
-| `aton.phys.atoms`     | Data from all chemical elements |
-| `aton.phys.functions` | Functions to sort and manage element data from the `aton.phys.atoms` dict |
+| `aton.phys.units`        | Universal constants and conversion factors |
+| `aton.phys.atoms`        | Data from all chemical elements |
+| `aton.phys.isotope`      | Analyse isotope data from text strings |
+| `aton.phys.export_atoms` | Update and export the `aton.phys.atoms` dict |
 
 
 # Examples
@@ -59,6 +60,7 @@ Total bound scattering `cross_sections` $\\sigma_s$ are in barns (1 b = 100 fm$^
 """
 
 from .units import *
-from .functions import *
 from .atoms import atoms
+from .isotope import *
+from .export_atoms import *
 
