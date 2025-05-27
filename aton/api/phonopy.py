@@ -36,6 +36,7 @@ import aton.txt.edit as edit # text
 import aton.txt.extract as extract
 import aton.api.qe as qe
 import aton.api.slurm as slurm
+import shutil
 
 
 def make_supercells(
@@ -130,7 +131,7 @@ def _copy_scf_header_to_supercells(
         raise RuntimeError('No ATOMIC_SPECIES found in header!')
     # Copy the scf to a temp file
     temp_scf = '_scf_temp.in'
-    file.copy(scf_file, temp_scf)
+    shutil.copy(scf_file, temp_scf)
     # Remove the top content from the temp file
     edit.delete_under(temp_scf, 'K_POINTS', -1, 2, False)
     # Find the new number of atoms and replace the line
