@@ -401,7 +401,7 @@ def _update_value(
     key_uncommented = key
     key_uncommented = key_uncommented.replace('(', r'\(')
     key_uncommented = key_uncommented.replace(')', r'\)')
-    key_uncommented = rf'(?!\s*!\s*){key_uncommented}'
+    key_uncommented = rf'(?!\s*!\s*){key_uncommented}\s*='
     # Convert to int if necessary
     if key in _pw_int_values:
         value = int(value)
@@ -547,9 +547,9 @@ def _update_other_values(
     # CELL_PARAMETERS ?
     if key in ['CELL_PARAMETERS', 'CELL_PARAMETERS out']:
         if 'angstrom' in value[0] or 'bohr' in value[0]:
-            edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 1, 0, 0, True)
-            edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 1, 0, 0, True)
-            edit.replace_line(file_path, r'(?!\s*!\s*)cos[AB][BC]\s*=', '', 1, 0, 0, True)
+            edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 0, 0, 0, True)
+            edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 0, 0, 0, True)
+            edit.replace_line(file_path, r'(?!\s*!\s*)cos[AB][BC]\s*=', '', 0, 0, 0, True)
         elif 'alat' in value[0]:
             alat = extract.number(value[0])
             if alat:
@@ -579,13 +579,13 @@ def _update_other_values(
     key = key.lower()
     # Lattice params Angstroms?
     if key in ['a', 'b', 'c', 'cosab', 'cosac', 'cosbc']:
-        edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 1, 0, 0, True)
+        edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 0, 0, 0, True)
         edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
         return None
     # Lattice params Bohrs ?
-    elif 'celldm(' in key:
-        edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 1, 0, 0, True)
-        edit.replace_line(file_path, r'(?!\s*!\s*)cos[AB][BC]\s*=', '', 1, 0, 0, True)
+    elif 'celldm' in key:
+        edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 0, 0, 0, True)
+        edit.replace_line(file_path, r'(?!\s*!\s*)cos[AB][BC]\s*=', '', 0, 0, 0, True)
         edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
         return None
     return None

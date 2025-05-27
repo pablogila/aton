@@ -32,11 +32,12 @@ from aton._version import __version__
 import aton.file as file
 import aton.call as call
 import aton.txt.find as find
-import aton.txt.edit as edit # text
+import aton.txt.edit as edit
 import aton.txt.extract as extract
 import aton.api.qe as qe
 import aton.api.slurm as slurm
 import shutil
+import aton.phys as phys
 
 
 def make_supercells(
@@ -98,10 +99,25 @@ def _supercells_from_scf(
     print(f'\naton.api.phonopy {__version__}\n')
     folder = call.here(folder)
     scf_in = file.get(folder, scf, True)
-    if scf_in is None:
+    scf_temp1 = _ensure_bohr_units(folder, scf_in)
+    if scf_temp1 is None:
         raise FileNotFoundError('No SCF input found in path!')
-    call.bash(f'phonopy --qe -d --dim="{dimension}" -c {scf_in}')
+    call.bash(f'phonopy --qe -d --dim="{dimension}" -c {scf_temp1}')
+    os.remove(scf_temp1)
     return None
+
+
+def _ensure_bohr_units(folder:str=None, scf:str='scf.in') -> None:
+    """Check that the lattice units are bohr instead of angstrom in the `scf` input file."""
+    folder = call.here(folder)
+    scf_in = file.get(folder, scf, True)
+    scf_temp1 = '_scf_temp_1.in'
+    shutil.copy(scf_in, scf_temp1)
+    input_values = qe.read_in(scf_in)
+    if 'A' in input_values:
+        celldm = input_values['A'] * phys.AA_to_bohr
+        qe.set_value(scf_temp1, 'celldm(1)', celldm)
+    return scf_temp1
 
 
 def _copy_scf_header_to_supercells(
@@ -130,10 +146,8 @@ def _copy_scf_header_to_supercells(
     if not is_header:
         raise RuntimeError('No ATOMIC_SPECIES found in header!')
     # Copy the scf to a temp file
-    temp_scf = '_scf_temp.in'
-    shutil.copy(scf_file, temp_scf)
-    # Remove the top content from the temp file
-    edit.delete_under(temp_scf, 'K_POINTS', -1, 2, False)
+    scf_temp2 = '_scf_temp_2.in'
+    shutil.copy(scf_file, scf_temp2)
     # Find the new number of atoms and replace the line
     updated_values = find.lines(supercell_sample, 'ibrav', 1)  # !    ibrav = 0, nat = 384, ntyp = 5
     if not updated_values:
@@ -143,22 +157,24 @@ def _copy_scf_header_to_supercells(
         nat = int(input('nat = '))
     else:
         nat = extract.number(updated_values[0], 'nat')
-    qe.set_value(temp_scf, 'nat', nat)
+    qe.set_value(scf_temp2, 'nat', nat)
     # Remove the lattice parameters, since Phonopy already indicates units
-    qe.set_value(temp_scf, 'celldm(1)', '')
-    qe.set_value(temp_scf, 'A', '')
-    qe.set_value(temp_scf, 'B', '')
-    qe.set_value(temp_scf, 'C', '')
-    qe.set_value(temp_scf, 'cosAB', '')
-    qe.set_value(temp_scf, 'cosAC', '')
-    qe.set_value(temp_scf, 'cosBC', '')
+    qe.set_value(scf_temp2, 'celldm(1)', '')
+    qe.set_value(scf_temp2, 'A', '')
+    qe.set_value(scf_temp2, 'B', '')
+    qe.set_value(scf_temp2, 'C', '')
+    qe.set_value(scf_temp2, 'cosAB', '')
+    qe.set_value(scf_temp2, 'cosAC', '')
+    qe.set_value(scf_temp2, 'cosBC', '')
+    # Remove the top content from the temp file
+    edit.delete_under(scf_temp2, 'K_POINTS', -1, 2, False)
     # Add the header to the supercells
-    with open(temp_scf, 'r') as f:
+    with open(scf_temp2, 'r') as f:
         header = f.read()
     for supercell in supercells:
         edit.insert_at(supercell, header, 0)
     # Remove the temp file
-    os.remove('_scf_temp.in')
+    os.remove(scf_temp2)
     print('Done!')
     return None
 
