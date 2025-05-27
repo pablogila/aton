@@ -42,6 +42,7 @@ def make_supercells(
         dimension:str='2 2 2',
         relax_in:str='relax.in',
         relax_out:str='relax.out',
+        scf:str=None,
         folder:str=None,
         slurm_template:str='template.slurm',
     ) -> None:
@@ -50,6 +51,9 @@ def make_supercells(
     from the `relax_in` and `relax_out` files in the `folder`
     ('relax.in', 'relax.out' and CWD by default, respectively),
     needed for the Phonopy calculations with Quantum ESPRESSO.
+    Alternatively, a previously relaxed `scf` input file can be provided,
+    which will override the creation of a new scf file
+    from the `relax_in` and `relax_out` files.
 
     By default, at the end of the execution it will check
     that an `slurm_template` ('template.slurm') is present and valid;
@@ -61,9 +65,11 @@ def make_supercells(
     """
     print(f'\nWelcome to aton.api.phonopy {__version__}\n'
           'Creating all supercell inputs with Phonopy for Quantum ESPRESSO...\n')
-    qe.scf_from_relax(folder, relax_in, relax_out)
-    _supercells_from_scf(dimension, folder)
-    _copy_scf_header_to_supercells(folder)
+    if not scf:
+        qe.scf_from_relax(folder, relax_in, relax_out)
+        scf = 'scf.in'
+    _supercells_from_scf(dimension, folder, scf)
+    _copy_scf_header_to_supercells(folder, scf)
     print('\n------------------------------------------------------\n'
           'PLEASE CHECH BELOW THE CONTENT OF supercell-001.in\n'
           '------------------------------------------------------\n')
