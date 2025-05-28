@@ -30,3 +30,19 @@ def test_extract_element():
     assert extract.element(text=string, index=4) == 'He4'
     assert extract.element(text=string, index=5) == 'Ag'
 
+
+def test_extract_isotope():
+    assert extract.isotope('He4') == ('He', 4)
+    assert extract.isotope('He5') == ('He', 5)
+    assert extract.isotope('Au') == ('Au', 0)
+    try:
+        extract.isotope('X')
+        assert False, "Expected KeyError for non-existent element!"
+    except KeyError:
+        assert True
+    try:
+        extract.isotope('H9')
+        assert False, "Expected KeyError for unrecognized isotope!"
+    except KeyError:
+        assert True
+

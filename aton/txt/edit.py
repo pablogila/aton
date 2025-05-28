@@ -157,6 +157,8 @@ def replace_line(
     More lines can be replaced with `additional` lines (int).
     Note that the matched line plus the additional lines
     will be replaced, this is, additional lines +1.
+
+    If the `key` is not found, an optional error can be raised with `raise_errors=True`.
     """
     file_path = file.get(filepath)
     if regex:

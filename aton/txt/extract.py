@@ -12,6 +12,7 @@ simplifying the use of regular expresions.
 `column()`  
 `coords()`  
 `element()`  
+`isotope()`  
 
 
 # Examples
@@ -55,12 +56,20 @@ third_element = txt.extract.element(line, 2)
 # 'Pb'
 ```
 
+To split an isotope name into its element and mass number,
+```python
+txt.extract.isotope('He4')
+# ('He', 4)  (symbol, mass number)
+txt.extract.isotope('Au')
+# ('Au', 0)  (No mass number)
+```
+
 ---
 """
 
 
 import re
-import aton.phys as phys
+import periodictable
 
 
 def number(
@@ -132,7 +141,10 @@ def coords(text:str) -> list:
     return matches
 
 
-def element(text:str, index:int=0) -> str:
+def element(
+        text:str,
+        index:int=0
+    ) -> str:
     """Extract a chemical element from a raw `text` string.
 
     If there are several elements, you can return a specific `index` match (positive, 0 by default).
@@ -149,15 +161,39 @@ def element(text:str, index:int=0) -> str:
             matches.append(str(match.group(1)))
     # We have a list with possible matches. Let's determine which are actual elements.
     found_elements = []
-    for possible_element in matches:
-        possible_element = possible_element.strip()
-        if not possible_element in phys.atoms.keys():
-            try:
-                element, isotope = phys.split_isotope(possible_element)
-            except:  # It is not a valid atom
-                continue
-        found_elements.append(possible_element)
+    for candidate in matches:
+        candidate = candidate.strip()
+        try:
+            symbol, mass_number = isotope(candidate)
+        except:  # It is not a valid atom
+            continue
+        found_elements.append(candidate)
     if len(found_elements) <= index:
         return found_elements[-1]
     return found_elements[index]
+
+
+def isotope(name:str) -> tuple:
+    """Split the `name` of an isotope into the element and the mass number, eg. 'He4' -> ('He', 4).
+
+    The isotope will be 0 if only the element name is provided, eg. 'He' -> ('He', 0).
+    If the element or isotope does not exist, it raises an error.
+    """
+    name = name.strip("'")
+    name = name.strip('"')
+    name = name.strip()
+    symbol = ''.join(filter(str.isalpha, name))
+    mass_number = ''.join(filter(str.isdigit, name))
+    if mass_number:
+        mass_number = int(mass_number)
+    else:
+        mass_number = 0
+    # Check that the element exists
+    if not symbol in [a.symbol for a in [e for e in periodictable.elements]]:
+        raise KeyError(f'Unrecognised element: {symbol}')
+    if mass_number != 0:
+        isotopes = periodictable.elements.symbol(symbol).isotopes
+        if not mass_number in isotopes:
+            raise KeyError(f'Unrecognised isotope: {name}. Allowed mass numbers for {symbol} are: {isotopes}')
+    return symbol, mass_number
 

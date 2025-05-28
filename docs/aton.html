@@ -71,8 +71,7 @@
   <li><a href="#documentation">Documentation</a>
   <ul>
     <li><a href="#general-text-edition">General text edition</a></li>
-    <li><a href="#interfaces-for-ab-initio-codes">Interfaces for <em>ab-initio</em> codes</a></li>
-    <li><a href="#physico-chemical-constants">Physico-chemical constants</a></li>
+    <li><a href="#interfaces-for-ab-initio-and-hpc-codes">Interfaces for <em>ab-initio</em> and HPC codes</a></li>
     <li><a href="#system-tools">System tools</a></li>
   </ul></li>
   <li><a href="#contributing">Contributing</a>
@@ -92,12 +91,11 @@
                     <li><a href="aton/api.html">api</a></li>
                     <li><a href="aton/call.html">call</a></li>
                     <li><a href="aton/file.html">file</a></li>
-                    <li><a href="aton/phys.html">phys</a></li>
                     <li><a href="aton/txt.html">txt</a></li>
             </ul>
 
 
-            <footer>ATON v0.8.0a1 documentation</footer>
+            <footer>ATON v0.8.0 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -115,19 +113,22 @@ aton    </h1>
 
 <h1 id="welcome-to-aton">Welcome to ATON</h1>
 
-<p><strong>A</strong> <strong>T</strong>ext <strong>O</strong>ptimizer for scie<strong>N</strong>tific python,
+<p>The <strong>A</strong>dvanced <strong>T</strong>ext <strong>O</strong>ptimizer for scie<strong>N</strong>tific python,
 or <strong>ATON</strong>,
-is a package that provides powerful text-edition tools
+is a package that provides powerful and comprehensive text-edition tools
 to edit and analyse simuation data.</p>
 
 <p>Just like its <a href="https://en.wikipedia.org/wiki/Aten">ancient Egyptian deity</a> counterpart,
-this Python package comprises several utilities to facilitate your simulation routines.
-This includes a <a href="#general-text-edition">txt</a> module for easy and straight-forward text edition;
-an <a href="#interfaces-for-ab-initio-codes">api</a> module with interfaces for simulation and HPC codes, such as <a href="https://www.quantum-espresso.org/">Quantum ESPRESSO</a>,
+this Python package aims to provide straightforward, comprehensive tools
+for easily creating custom interfaces for any text-based software.</p>
+
+<p>The heart and soul of ATON is the <a href="#general-text-edition">txt</a> module,
+which simplifies the automation of text edition tasks.
+It also includes an <a href="#interfaces-for-ab-initio-codes">api</a> module with interfaces for simulation and HPC codes,
+such as <a href="https://slurm.schedmd.com/documentation.html">Slurm</a>,
+<a href="https://www.quantum-espresso.org/">Quantum ESPRESSO</a>,
 <a href="https://phonopy.github.io/phonopy/">Phonopy</a> and
-<a href="https://castep-docs.github.io/castep-docs/">CASTEP</a>;
-and a <a href="#physico-chemical-constants">phys</a> module with physico-chemical definitions, such as the <a href="https://doi.org/10.48550/arXiv.2409.03787">2022 CODATA</a>
-Recommended Values of the Fundamental Physical Constants.</p>
+<a href="https://castep-docs.github.io/castep-docs/">CASTEP</a>.</p>
 
 <p>The source code is available on <a href="https://github.com/pablogila/aton/">GitHub</a>.   </p>
 
@@ -173,9 +174,9 @@ Code examples are included in the <a href="https://github.com/pablogila/aton/tre
 
 <h2 id="general-text-edition">General text edition</h2>
 
-<p>The <strong>txt</strong> module handles text files.
-It powers more complex subpackages,
-such as <a href="#interfaces-for-ab-initio-codes">aton.api</a>.</p>
+<p>The <strong>txt</strong> module is used to automate the editing of text files.
+It enables the creation of more powerful interfaces,
+such as those from the <a href="#interfaces-for-ab-initio-codes">aton.api</a> module.</p>
 
 <h3 id="atontxt"><code><a href="aton/txt.html">aton.txt</a></code></h3>
 
@@ -202,7 +203,7 @@ such as <a href="#interfaces-for-ab-initio-codes">aton.api</a>.</p>
 </tbody>
 </table>
 
-<h2 id="interfaces-for-ab-initio-codes">Interfaces for <em>ab-initio</em> codes</h2>
+<h2 id="interfaces-for-ab-initio-and-hpc-codes">Interfaces for <em>ab-initio</em> and HPC codes</h2>
 
 <p>The <strong>api</strong> module contains Python interfaces for several <em>ab-initio</em> codes and related.
 These are powered by the <a href="#general-text-edition">aton.txt</a> module and can be easily extended.</p>
@@ -236,44 +237,9 @@ These are powered by the <a href="#general-text-edition">aton.txt</a> module and
 </tbody>
 </table>
 
-<h2 id="physico-chemical-constants">Physico-chemical constants</h2>
-
-<p>The <strong>phys</strong> module contains physical constants and conversion factors,
-as well as chemical information from all known elements.
-Values are accessed directly as <code>phys.value</code> or <code>phys.function()</code>.</p>
-
-<h3 id="atonphys"><code><a href="aton/phys.html">aton.phys</a></code></h3>
-
-<table>
-<thead>
-<tr>
-  <th></th>
-  <th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td><code><a href="aton/phys/units.html">aton.phys.units</a></code></td>
-  <td>Physical constants and conversion factors</td>
-</tr>
-<tr>
-  <td><code><a href="aton/phys/atoms.html">aton.phys.atoms</a></code></td>
-  <td>Megadictionary with data for all chemical elements</td>
-</tr>
-<tr>
-  <td><code><a href="aton/phys/isotope.html">aton.phys.isotope</a></code></td>
-  <td>Analyse isotope data from text strings</td>
-</tr>
-<tr>
-  <td><code><a href="aton/phys/export_atoms.html">aton.phys.export_atoms</a></code></td>
-  <td>Update and export the <code><a href="aton/phys/atoms.html">aton.phys.atoms</a></code> dict</td>
-</tr>
-</tbody>
-</table>
-
 <h2 id="system-tools">System tools</h2>
 
-<p>Additional utility tools are available for common system tasks.</p>
+<p>Additional utility tools are available for common system tasks:</p>
 
 <table>
 <thead>
@@ -285,7 +251,7 @@ Values are accessed directly as <code>phys.value</code> or <code>phys.function()
 <tbody>
 <tr>
   <td><code><a href="aton/file.html">aton.file</a></code></td>
-  <td>File manipulation</td>
+  <td>Easy file manipulation</td>
 </tr>
 <tr>
   <td><code><a href="aton/alias.html">aton.alias</a></code></td>
@@ -318,7 +284,7 @@ For major changes, please get in touch first to discuss the details.  </p>
 
 <h2 id="automated-testing">Automated testing</h2>
 
-<p>If you are modifying the source code, you should run the automated tests of the <a href="https://github.com/pablogila/aton/tree/main/tests"><code>ATON/tests/</code></a> folder to check that everything works as intended.
+<p>If you are modifying the source code, you should run the automated tests of the <a href="https://github.com/pablogila/aton/tree/main/tests"><code>tests/</code></a> folder to check that everything works as intended.
 To do so, first install PyTest in your environment,</p>
 
 <div class="pdoc-code codehilite">
@@ -377,9 +343,8 @@ See the attached GNU Affero General Public License for more details.  </p>
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">file</span>
 </span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">alias</span>
 </span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">call</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">phys</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">txt</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">api</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">txt</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">api</span>
 </span></pre></div>
 
 
