@@ -37,7 +37,7 @@ import aton.txt.extract as extract
 import aton.api.qe as qe
 import aton.api.slurm as slurm
 import shutil
-import aton.phys as phys
+import scipy.constants as const
 
 
 def make_supercells(
@@ -103,7 +103,7 @@ def _supercells_from_scf(
     if scf_temp1 is None:
         raise FileNotFoundError('No SCF input found in path!')
     call.bash(f'phonopy --qe -d --dim="{dimension}" -c {scf_temp1}')
-    os.remove(scf_temp1)
+    #os.remove(scf_temp1) TODO
     return None
 
 
@@ -114,8 +114,8 @@ def _ensure_bohr_units(folder:str=None, scf:str='scf.in') -> None:
     scf_temp1 = '_scf_temp_1.in'
     shutil.copy(scf_in, scf_temp1)
     input_values = qe.read_in(scf_in)
-    if 'A' in input_values:
-        celldm = input_values['A'] * phys.AA_to_bohr
+    if 'A' in input_values:  # Convert angstrom to bohr
+        celldm = input_values['A'] / (const.physical_constants['Bohr radius'][0] * 1e10)
         qe.set_value(scf_temp1, 'celldm(1)', celldm)
     return scf_temp1
 

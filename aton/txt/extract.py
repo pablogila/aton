@@ -1,7 +1,8 @@
 """
 # Description
 
-Functions to extract data from raw text strings.
+Functions to extract specific data from raw text strings,
+simplifying the use of regular expresions.
 
 
 # Index

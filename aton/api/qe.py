@@ -38,10 +38,10 @@ import numpy as np
 import os
 from aton._version import __version__
 import aton.file as file
-import aton.phys.atoms
 import aton.txt.find as find
 import aton.txt.edit as edit
 import aton.txt.extract as extract
+import periodictable
 
 
 def read_in(filepath) -> dict:
@@ -633,7 +633,7 @@ def add_atom(filepath, position, indent='  ') -> None:
             is_atom_missing = False
             break
     if is_atom_missing:  # Update ATOMIC_SPECIES. ntyp should be updated automatically.
-        mass = aton.phys.atoms[atom].mass
+        mass = periodictable.elements.symbol(atom).mass
         atomic_species.append(f'{atom}   {mass}   {atom}.upf')
         set_value(filepath=filepath, key='ATOMIC_SPECIES', value=atomic_species, indent=indent)
     return None

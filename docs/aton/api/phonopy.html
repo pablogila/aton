@@ -81,7 +81,7 @@
     </ul>
 
 
-            <footer>ATON v0.7.3 documentation</footer>
+            <footer>ATON v0.8.0a1 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -176,7 +176,7 @@ using a <code>template.slurm</code> file,</p>
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.api.qe</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qe</span>
 </span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.api.slurm</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">slurm</span>
 </span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">aton.phys</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">phys</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">const</span>
 </span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>
 </span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>
 </span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="k">def</span><span class="w"> </span><span class="nf">make_supercells</span><span class="p">(</span>
@@ -242,7 +242,7 @@ using a <code>template.slurm</code> file,</p>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>    <span class="k">if</span> <span class="n">scf_temp1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s1">&#39;No SCF input found in path!&#39;</span><span class="p">)</span>
 </span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>    <span class="n">call</span><span class="o">.</span><span class="n">bash</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;phonopy --qe -d --dim=&quot;</span><span class="si">{</span><span class="n">dimension</span><span class="si">}</span><span class="s1">&quot; -c </span><span class="si">{</span><span class="n">scf_temp1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">scf_temp1</span><span class="p">)</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="c1">#os.remove(scf_temp1) TODO</span>
 </span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>    <span class="k">return</span> <span class="kc">None</span>
 </span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>
 </span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>
@@ -253,8 +253,8 @@ using a <code>template.slurm</code> file,</p>
 </span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="n">scf_temp1</span> <span class="o">=</span> <span class="s1">&#39;_scf_temp_1.in&#39;</span>
 </span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">scf_in</span><span class="p">,</span> <span class="n">scf_temp1</span><span class="p">)</span>
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>    <span class="n">input_values</span> <span class="o">=</span> <span class="n">qe</span><span class="o">.</span><span class="n">read_in</span><span class="p">(</span><span class="n">scf_in</span><span class="p">)</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>    <span class="k">if</span> <span class="s1">&#39;A&#39;</span> <span class="ow">in</span> <span class="n">input_values</span><span class="p">:</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="n">celldm</span> <span class="o">=</span> <span class="n">input_values</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">phys</span><span class="o">.</span><span class="n">AA_to_bohr</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>    <span class="k">if</span> <span class="s1">&#39;A&#39;</span> <span class="ow">in</span> <span class="n">input_values</span><span class="p">:</span>  <span class="c1"># Convert angstrom to bohr</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="n">celldm</span> <span class="o">=</span> <span class="n">input_values</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;Bohr radius&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e10</span><span class="p">)</span>
 </span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="n">qe</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">scf_temp1</span><span class="p">,</span> <span class="s1">&#39;celldm(1)&#39;</span><span class="p">,</span> <span class="n">celldm</span><span class="p">)</span>
 </span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>    <span class="k">return</span> <span class="n">scf_temp1</span>
 </span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>
