@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-DESCRIPTION = "The Ab-iniTiO & Neutron research toolbox, or ATON, provides powerful and comprehensive tools for cutting-edge materials research, focused on (but not limited to) neutron science."
+DESCRIPTION = "The Advanced Text Operations for scieNtific python (ATON) provides powerful and comprehensive text-edition tools to edit and analyse simuation data."
 
 exec(open('aton/_version.py').read())
 

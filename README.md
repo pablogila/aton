@@ -3,12 +3,12 @@
 
 # Welcome to ATON
 
-The **A**dvanced **T**ext **O**ptimizer for scie**N**tific python,
+The **A**dvanced **T**ext **O**perations for scie**N**tific python,
 or [ATON](https://pablogila.github.io/aton/),
 is a package that provides powerful and comprehensive text-edition tools
 to edit and analyse simuation data.
 
-Just like its [ancient Egyptian deity](https://en.wikipedia.org/wiki/Aten) counterpart,
+In a nod to its [ancient Egyptian deity](https://en.wikipedia.org/wiki/Aten) counterpart,
 this Python package aims to provide straightforward, comprehensive tools
 for easily creating custom interfaces for any text-based software.
 
