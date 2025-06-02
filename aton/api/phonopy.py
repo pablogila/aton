@@ -103,7 +103,7 @@ def _supercells_from_scf(
     if scf_temp1 is None:
         raise FileNotFoundError('No SCF input found in path!')
     call.bash(f'phonopy --qe -d --dim="{dimension}" -c {scf_temp1}')
-    #os.remove(scf_temp1) TODO
+    os.remove(scf_temp1)
     return None
 
 
