@@ -25,16 +25,19 @@ from aton._version import __version__
 
 def here(folder=None) -> str:
     """Runs the rest of the script inside the specified `folder`.
-    
+
     If none is provided, it runs from the same directory where the current script lies.
     This is really useful to run scripts from the VSCode terminal, etc.
-    Returns the path of the used `folder`, or the path of the script if folder is not provided.\n
+    Returns the path of the used `folder`, or the path of the script if the folder is not provided.
+    If it runs on the Python CLI and no folder is provided, it just returns the CWD.\n
     Note that this changes not only the working directory of your script,
     but also of other scripts that import and run your script.
     """
     if folder:
         caller = os.path.abspath(folder)
-    else:
+    elif not sys.argv[0]:  # This code is running in CLI
+        return os.getcwd()
+    else:  # Return the parent folder of the current script
         caller = os.path.dirname(os.path.abspath(os.path.realpath(sys.argv[0])))
     os.chdir(caller)
     return caller
