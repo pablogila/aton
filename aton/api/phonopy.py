@@ -111,7 +111,7 @@ def _ensure_bohr_units(folder:str=None, scf:str='scf.in') -> None:
     """Check that the lattice units are bohr instead of angstrom in the `scf` input file."""
     folder = call.here(folder)
     scf_in = file.get(folder, scf, True)
-    scf_temp1 = '_scf_temp_1.in'
+    scf_temp1 = '_temp_scf_in_bohr_units.in'
     shutil.copy(scf_in, scf_temp1)
     input_values = qe.read_in(scf_in)
     if 'A' in input_values:  # Convert angstrom to bohr
@@ -146,7 +146,7 @@ def _copy_scf_header_to_supercells(
     if not is_header:
         raise RuntimeError('No ATOMIC_SPECIES found in header!')
     # Copy the scf to a temp file
-    scf_temp2 = '_scf_temp_2.in'
+    scf_temp2 = '_temp_scf_with_updated_supercell_values.in'
     shutil.copy(scf_file, scf_temp2)
     # Find the new number of atoms and replace the line
     updated_values = find.lines(supercell_sample, 'ibrav', 1)  # !    ibrav = 0, nat = 384, ntyp = 5
