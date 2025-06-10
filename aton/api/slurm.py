@@ -8,11 +8,13 @@ Functions to handle Slurm calls, to run calculations in clusters.
 
 | | |
 | --- | --- |
-| `sbatch()`         | Sbatch all calculations |
-| `scancel()`        | Scancel all calculations, or applying some filters |
-| `scancel_here()`   | Scancel all calculations running from a specific folder |
-| `squeue()`         | Get a Pandas DataFrame with info about the submitted calculations |
-| `check_template()` | Checks that the slurm template is OK, and provides an example if not |
+| `sbatch()`           | Sbatch all calculations |
+| `squeue()`           | Get a Pandas DataFrame with info about the submitted calculations |
+| `scancel()`          | Scancel all calculations, or applying some filters |
+| `scancel_errors()`   | Scancel calculations with specific errors |
+| `scancel_here()`     | Scancel all calculations running from a specific folder |
+| `get_running_here()` | Get a list with all jobs running in a given folder |
+| `check_template()`   | Checks that the slurm template is OK, and provides an example if not |
 
 ---
 """
@@ -108,22 +110,37 @@ def sbatch(
     print(f'Done! Temporary slurm files were moved to ./{slurm_folder}/\n')
 
 
+def squeue(user) -> pd.DataFrame:
+    """Returns a Pandas DataFrame with the jobs from a specific `user`"""
+    result = call.bash(command=f'squeue -u {user}', verbose=False)
+    data = result.stdout
+    lines = data.strip().split('\n')
+    data_rows = [line.split() for line in lines[1:]]
+    df = pd.DataFrame(data_rows, columns=lines[0].split())
+    return df
+
+
 def scancel(
         user:str,
         status:str='',
         text:str='',
+        jobs:list=[],
         testing:bool=False,
         key_jobid:str='JOBID',
         key_name:str='NAME',
         key_status:str='ST',
         ) -> None:
     """Cancel all `user` jobs.
-    
+
     If a particular `status` string is provided,
     only the calculations with said status will be cancelled.
 
     If a particular `text` string is provided,
     only the calculations containing said text in the name will be deleted.
+
+    If a list of `jobs` is provided, those JOBIDs will be cancelled.
+
+    These filters can all be combined to provide strict control.
 
     If `testing = True`, it shows the calculations that would be deleted.
 
@@ -133,7 +150,7 @@ def scancel(
     df = squeue(user)
     if testing:
         print('aton.api.slurm.scancel(testing=True):')
-        print(f'The following calculations would be deleted for the user {user}')
+        print(f'The following calculations would be killed for the user {user}')
         print(f'{key_jobid}   {key_status}   {key_name}')
     jobid_list = df[key_jobid].tolist()
     name_list = df[key_name].tolist()
@@ -141,12 +158,16 @@ def scancel(
     for i, jobid in enumerate(jobid_list):
         name = name_list[i]
         st = status_list[i]
+        job = jobid_list[i]
         # Should we delete this process?
         bool_1: bool = status == '' and text == ''
         bool_2: bool = status == st and text == ''
         bool_3: bool = status == '' and text in name
         bool_4: bool = status == st and text in name
         will_delete: bool = bool_1 or bool_2 or bool_3 or bool_4
+        if jobs:
+            jobs = [str(i).strip() for i in jobs]
+            will_delete = will_delete and job in jobs
         if will_delete:
             if testing:
                 print(f'{jobid}   {st}   {name}')
@@ -154,38 +175,93 @@ def scancel(
                 call.bash(f'scancel {jobid}')
 
 
-def scancel_here(jobs=None, folder=None, prefix:str='slurm-', sufix:str='.out') -> None:
-    """Cancel all running `jobs` in a given `folder`.
+def scancel_errors(
+        errors=['oom_killed', 'OOM Killed', 'Out Of Memory'],
+        folder=None,
+        prefix:str='slurm-',
+        sufix:str='.out',
+        testing=False,
+        ) -> None:
+    """Cancel all running jobs with any matching `errors` in a given `folder`.
 
-    If no job is provided, all jobs detected in the current folder will be cancelled.
+    By default it matches Out Of Memory errors (OOM).
     The jobs will be detected from the `<prefix>JOBID<sufix>` files, `slurm-JOBID.out` by default.
+    If `testing=True`, it will only print the jobs that would be cancelled.
     """
-    if jobs == None:  # Get the list of jobs
-        filenames = file.get_list(folder=folder, include=prefix, abspath=False)
-        if not filenames:
-            raise FileNotFoundError(f'To scancel all calculations, {prefix}JOBID{sufix} files are needed!\nConfigure the folder, as well as the prefix and sufix if necessary.')
-        jobs = []
-        for filename in filenames:
-            filename = filename.replace(prefix, '')
-            filename = filename.replace(sufix, '')
-            jobs.append(filename)
-    if isinstance(jobs, str):
-        jobs = [jobs]
-    if not isinstance(jobs, list):
-        raise ValueError(f'Input jobs must be a string or a list of strings! Yours was: {type(jobs)}')
-    for job in jobs:
+    filenames = get_running_here(folder=folder, prefix=prefix, sufix=sufix, get_files=True)
+    filenames_to_cancel = []
+    jobs_to_cancel = []
+    # Ensure errors is a list
+    if not isinstance(errors, list):
+        errors = [str(errors)]
+    # Find errors in the slurm files
+    for f in filenames:
+        matches = []
+        for e in errors:
+            m = find.lines(filepath=f, key=e)
+            matches.extend(m)
+        if matches:
+            filenames_to_cancel.append(f)
+    # Convert filenames to JOBIDs
+    for f in filenames_to_cancel:
+        f = f.replace(prefix, '')
+        f = f.replace(sufix, '')
+        jobs_to_cancel.append(f)
+    # Report or scancel
+    if testing:
+        print('The following jobs would be cancelled:')
+        for job in jobs_to_cancel:
+            print(f'{job}')
+        return None
+    for job in jobs_to_cancel:
         call.bash(f'scancel {job}', folder)
     return None
 
 
-def squeue(user) -> pd.DataFrame:
-    """Returns a Pandas DataFrame with the jobs from a specific `user`"""
-    result = call.bash(command=f'squeue -u {user}', verbose=False)
-    data = result.stdout
-    lines = data.strip().split('\n')
-    data_rows = [line.split() for line in lines[1:]]
-    df = pd.DataFrame(data_rows, columns=lines[0].split())
-    return df
+def scancel_here(
+        folder=None,
+        prefix:str='slurm-',
+        sufix:str='.out',
+        testing:bool=False,
+        ) -> None:
+    """Cancel all running jobs in a given `folder`.
+
+    The jobs will be detected from the `<prefix>JOBID<sufix>` files, `slurm-JOBID.out` by default.
+    If `testing=True`, it will only print the jobs that would be cancelled.
+    """
+    jobs_to_cancel = get_running_here(folder=folder, prefix=prefix, sufix=sufix)
+    if testing:
+        print('The following jobs would be cancelled:')
+        for job in jobs_to_cancel:
+            print(f'{job}')
+        return None
+    for job in jobs_to_cancel:
+        call.bash(f'scancel {job}', folder)
+    return None
+
+
+def get_running_here(
+        folder=None,
+        prefix:str='slurm-',
+        sufix:str='.out',
+        get_files=False
+        ) -> list:
+    """Return a list with all running `jobs` in a given `folder`.
+
+    The jobs will be detected from the `<prefix>JOBID<sufix>` files, `slurm-JOBID.out` by default.
+    If `get_files=True`, a list with the filenames will be returned instead of the JOBIDs.
+    """
+    filenames = file.get_list(folder=folder, include=prefix, abspath=False)
+    if not filenames:
+        raise FileNotFoundError(f'To detect the calculations, {prefix}JOBID{sufix} files are needed!\nConfigure the folder, as well as the prefix and sufix if necessary.')
+    if get_files:
+        return filenames
+    jobs = []
+    for filename in filenames:
+        filename = filename.replace(prefix, '')
+        filename = filename.replace(sufix, '')
+        jobs.append(filename)
+    return jobs
 
 
 def check_template(
