@@ -122,21 +122,21 @@ def squeue(user) -> pd.DataFrame:
 
 def scancel(
         user:str,
-        status:str='',
         text:str='',
+        status:str='',
         jobs:list=[],
-        testing:bool=False,
         key_jobid:str='JOBID',
         key_name:str='NAME',
         key_status:str='ST',
+        testing:bool=False,
         ) -> None:
     """Cancel all `user` jobs.
 
+    If a particular `text` string is provided,
+    only the calculations containing said string in the name will be deleted.
+
     If a particular `status` string is provided,
     only the calculations with said status will be cancelled.
-
-    If a particular `text` string is provided,
-    only the calculations containing said text in the name will be deleted.
 
     If a list of `jobs` is provided, those JOBIDs will be cancelled.
 
@@ -176,19 +176,27 @@ def scancel(
 
 
 def scancel_errors(
+        user:str='',
         errors=['oom_killed', 'OOM Killed', 'Out Of Memory'],
         folder=None,
         prefix:str='slurm-',
         sufix:str='.out',
+        key_jobid:str='JOBID',
         testing=False,
         ) -> None:
     """Cancel all running jobs with any matching `errors` in a given `folder`.
 
     By default it matches Out Of Memory errors (OOM).
     The jobs will be detected from the `<prefix>JOBID<sufix>` files, `slurm-JOBID.out` by default.
+
+    If an `user` name is provided, it additionally checks if the jobs are actually scheduled
+    to avoid reporting or killing jobs that have already finished.
+    If the slurm squeue 'JOBID' title is different in your cluster,
+    change it with `key_jobid`.
+
     If `testing=True`, it will only print the jobs that would be cancelled.
     """
-    filenames = get_running_here(folder=folder, prefix=prefix, sufix=sufix, get_files=True)
+    filenames = get_running_here(user=user, folder=folder, prefix=prefix, sufix=sufix, key_jobid=key_jobid, get_files=True)
     filenames_to_cancel = []
     jobs_to_cancel = []
     # Ensure errors is a list
@@ -219,17 +227,25 @@ def scancel_errors(
 
 
 def scancel_here(
+        user:str='',
         folder=None,
         prefix:str='slurm-',
         sufix:str='.out',
+        key_jobid:str='JOBID',
         testing:bool=False,
         ) -> None:
     """Cancel all running jobs in a given `folder`.
 
     The jobs will be detected from the `<prefix>JOBID<sufix>` files, `slurm-JOBID.out` by default.
+
+    If an `user` name is provided, it additionally checks if the jobs are actually scheduled
+    to avoid reporting or killing jobs that have already finished.
+    If the slurm squeue 'JOBID' title is different in your cluster,
+    change it with `key_jobid`.
+
     If `testing=True`, it will only print the jobs that would be cancelled.
     """
-    jobs_to_cancel = get_running_here(folder=folder, prefix=prefix, sufix=sufix)
+    jobs_to_cancel = get_running_here(user=user, folder=folder, prefix=prefix, sufix=sufix, key_jobid=key_jobid, get_files=False)
     if testing:
         print('The following jobs would be cancelled:')
         for job in jobs_to_cancel:
@@ -241,26 +257,42 @@ def scancel_here(
 
 
 def get_running_here(
+        user:str='',
         folder=None,
         prefix:str='slurm-',
         sufix:str='.out',
+        key_jobid:str='JOBID',
         get_files=False
         ) -> list:
-    """Return a list with all running `jobs` in a given `folder`.
+    """Return a list with all running `jobs` in a given `folder`, or current working directory if not specified.
 
     The jobs will be detected from the `<prefix>JOBID<sufix>` files, `slurm-JOBID.out` by default.
+
+    If an `user` name is provided, it additionally checks if the jobs are actually scheduled
+    to avoid reporting or killing jobs that have already finished.
+    If the slurm squeue 'JOBID' title is different in your cluster,
+    change it with `key_jobid`.
+
     If `get_files=True`, a list with the filenames will be returned instead of the JOBIDs.
     """
     filenames = file.get_list(folder=folder, include=prefix, abspath=False)
     if not filenames:
         raise FileNotFoundError(f'To detect the calculations, {prefix}JOBID{sufix} files are needed!\nConfigure the folder, as well as the prefix and sufix if necessary.')
-    if get_files:
-        return filenames
     jobs = []
     for filename in filenames:
         filename = filename.replace(prefix, '')
         filename = filename.replace(sufix, '')
         jobs.append(filename)
+    # Check if the jobs are actually scheduled
+    if user:
+        df = squeue(user)
+        jobid_list = df[key_jobid].tolist()
+        jobs = [job for job in jobs if job in jobid_list]
+    # Return the filenames if specified
+    if get_files:
+        if user:
+            filenames = [f for f in filenames if any(job in f for job in jobs)]
+        return filenames
     return jobs
 
 
