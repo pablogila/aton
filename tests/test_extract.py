@@ -29,6 +29,13 @@ def test_extract_element():
     assert extract.element(text=string, index=3) == 'O'
     assert extract.element(text=string, index=4) == 'He4'
     assert extract.element(text=string, index=5) == 'Ag'
+    bad_string = 'there is no element here and H34 is not a valid isotope'
+    assert extract.element(text=bad_string, raise_errors=False) == ''
+    try:
+        extract.element(text=bad_string)
+        raise RuntimeError("If no element or isotope is recognised, an error should be raised!")
+    except:
+        assert True
 
 
 def test_extract_isotope():
@@ -45,4 +52,6 @@ def test_extract_isotope():
         assert False, "Expected KeyError for unrecognized isotope!"
     except KeyError:
         assert True
+    assert extract.isotope('H9', raise_errors=False) == ('',0)
+    assert extract.isotope('X9', raise_errors=False) == ('',0)
 

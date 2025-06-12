@@ -143,12 +143,15 @@ def coords(text:str) -> list:
 
 def element(
         text:str,
-        index:int=0
+        index:int=0,
+        raise_errors=True,
     ) -> str:
     """Extract a chemical element from a raw `text` string.
 
     If there are several elements, you can return a specific `index` match (positive, 0 by default).
     Allows for standard elements (H, He, Na...) and isotopes (H2, He4...).
+    An error is raised if no valid element or isotope is found;
+    to override this and simply return an empty string instead, set `raise_errors=False`.
     """
     if text is None:
         return None
@@ -168,16 +171,21 @@ def element(
         except:  # It is not a valid atom
             continue
         found_elements.append(candidate)
+    if len(found_elements) == 0:
+        if raise_errors:
+            raise ValueError(f'No valid element nor isotope found in the string:\n{text}')
+        return ''
     if len(found_elements) <= index:
         return found_elements[-1]
     return found_elements[index]
 
 
-def isotope(name:str) -> tuple:
+def isotope(name:str, raise_errors=True) -> tuple:
     """Split the `name` of an isotope into the element and the mass number, eg. 'He4' -> ('He', 4).
 
     The isotope will be 0 if only the element name is provided, eg. 'He' -> ('He', 0).
-    If the element or isotope does not exist, it raises an error.
+    If the element or isotope does not exist, it raises an error;
+    to override this and simply return `('',0)` instead, set `raise_errors=False`.
     """
     name = name.strip("'")
     name = name.strip('"')
@@ -190,10 +198,14 @@ def isotope(name:str) -> tuple:
         mass_number = 0
     # Check that the element exists
     if not symbol in [a.symbol for a in [e for e in periodictable.elements]]:
+        if not raise_errors:
+            return ('', 0)
         raise KeyError(f'Unrecognised element: {symbol}')
     if mass_number != 0:
         isotopes = periodictable.elements.symbol(symbol).isotopes
         if not mass_number in isotopes:
+            if not raise_errors:
+                return ('', 0)
             raise KeyError(f'Unrecognised isotope: {name}. Allowed mass numbers for {symbol} are: {isotopes}')
     return symbol, mass_number
 
