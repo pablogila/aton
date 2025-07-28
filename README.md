@@ -1,4 +1,4 @@
-<p align="center"><img width="40.0%" src="pics/aton.png"></p>
+<p align="center"><img width="50.0%" src="pics/aton.png"></p>
 
 
 # Welcome to ATON

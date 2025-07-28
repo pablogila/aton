@@ -8,8 +8,8 @@ Functions to move files around.
 
 | | |
 | --- | --- |
-| `save()`              | Save a Python object to a compressed binary file, as `.aton` |
-| `load()`              | Load a Python object from a compressed binary file, as `.aton` |
+| `save()`              | Save a Python object to a compressed binary file, as `.bin.gz` |
+| `load()`              | Load a Python object from a compressed binary file, as `.bin.gz` |
 | `get()`               | Check that a file exists, and return the full path |
 | `get_list()`          | Get a list of the files inside a folder, applying optional filters |
 | `get_dir()`           | Get the full path of a folder or the cwd |
