@@ -906,6 +906,8 @@ def resume(
 
     This can be used to quickly resume an unfinished or interrupted calculation.
 
+    Note that for the moment this is only expected to work for `ibrav=0` calculations.  # TODO
+
     Takes a `folder` from a QE calculation, CWD if empty.
     Input and output files are determined automatically,
     but must be specified with `in_str` and `out_str`
@@ -965,12 +967,16 @@ def scf_from_relax(
     cell_parameters = data['CELL_PARAMETERS out']
     atomic_positions = data['ATOMIC_POSITIONS out']
     alat = data['Alat']
+    calculation = data['calculation']
     set_value(scf_in, 'ATOMIC_SPECIES', atomic_species)
-    set_value(scf_in, 'CELL_PARAMETERS', cell_parameters)
     set_value(scf_in, 'ATOMIC_POSITIONS', atomic_positions)
-    set_value(scf_in, 'celldm(1)', alat)
     set_value(scf_in, 'ibrav', 0)
     set_value(scf_in, 'calculation', "'scf'")
+    if cell_parameters and alat:
+        set_value(scf_in, 'CELL_PARAMETERS', cell_parameters)
+        set_value(scf_in, 'celldm(1)', alat)
+    elif calculation == 'vc-relax':
+        raise ValueError(f'Missing lattice parameters from {calculation} calculation, CELL_PARAMETERS={cell_parameters}, celldm(1)={alat}')
     # Terminal feedback
     print(f'Created input SCF file at:'
           f'{scf_in}\n')

@@ -1,5 +1,5 @@
 """
-# *Ab-initio* API interfaces
+# API interfaces for *ab-initio* codes
 
 This module contains interfaces for several *ab-initio* calculation softwares.
 These interfaces can be easily expanded with the `aton.txt` module.

@@ -1,6 +1,9 @@
 # Custom
 cleanpy.sh
 
+# Include version
+!_version.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
