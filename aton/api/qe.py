@@ -22,6 +22,7 @@ Data analysis
 `get_atom()`  
 `count_elements()`  
 `normalize_card()`  
+`consts_from_cell_parameters()`  
 `to_cartesian()`  
 `from_cartesian()`  
 
@@ -42,6 +43,11 @@ import aton.txt.find as find
 import aton.txt.edit as edit
 import aton.txt.extract as extract
 import periodictable
+from scipy.constants import physical_constants
+
+
+# Handy conversion factors
+_BOHR_TO_ANGSTROM = physical_constants['Bohr radius'][0] * 1e10
 
 
 def read_in(filepath) -> dict:
@@ -104,9 +110,12 @@ def read_out(filepath) -> dict:
     The output keys are:
     `'Energy'` (Ry), `'Total force'` (float), `'Total SCF correction'` (float),
     `'Runtime'` (str), `'JOB DONE'` (bool), `'BFGS converged'` (bool), `'BFGS failed'` (bool),
-    `'Maxiter reached'` (bool), `'Error'` (str), `'Success'` (bool), `'CELL_PARAMETERS out'` (list of str), `'ATOMIC_POSITIONS out'` (list of str), `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Density'` (g/cm^3).
-
-    Note that these output keys start with a **C**apital letter.
+    `'Maxiter reached'` (bool), `'Error'` (str), `'Success'` (bool),
+    `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Density'` (g/cm^3),
+    `'CELL_PARAMETERS out'` (list of str), `'ATOMIC_POSITIONS out'` (list of str),
+    `'celldm(i) out'` (i = 1...6, float),
+    `'cosBC out'`, `'cosAC out'`, `'cosAB out'` (float),
+    `'A out'`, `'B out'`, and `'C out'` (float).
     """
     file_path = file.get(filepath)
 
@@ -236,6 +245,15 @@ def read_out(filepath) -> dict:
         'Volume'                : volume,
         'Density'               : density,
     }
+
+    # Extract lattice parameters A, B, C, celldm(i) and cosines
+    if alat:
+        consts = consts_from_cell_parameters(cell_parameters, alat)
+    else:
+        consts = consts_from_cell_parameters(cell_parameters)
+    consts_out = {key + ' out': value for key, value in consts.items()}
+    output.update(consts_out)
+
     return output
 
 
@@ -895,6 +913,103 @@ def count_elements(atomic_positions) -> dict:
         else:
             elements[element] = 1
     return elements
+
+
+def consts_from_cell_parameters(cell_parameters: list, alat: float | None = None) -> dict:
+    """Calculates the lattice parameters from CELL_PARAMETERS.
+
+    Takes the normalized `cell_parameters` card, and an optional `alat` value for celldm(1) in Bohr,
+    if not specified in the first line of the CELL_PARAMETERS (`cell_parameters[0]`).
+
+    Returns a dictionary with the lattice parameters, with the keys:
+    `'celldm(1) out'`, `'celldm(2) out'`, `'celldm(3) out'`,
+    `'celldm(4) out'`, `'celldm(5) out'`, `'celldm(6) out'`,
+    `'cosBC out'`, `'cosAC out'`, `'cosAB out'`,
+    `'A out'`, `'B out'`, and `'C out'`.
+    """
+    if not cell_parameters:
+        return {
+        'celldm(1)': None,
+        'celldm(2)': None,
+        'celldm(3)': None,
+        'celldm(4)': None,
+        'celldm(5)': None,
+        'celldm(6)': None,
+        'cosBC': None,
+        'cosAC': None,
+        'cosAB': None,
+        'A': None, 
+        'B': None,
+        'C': None,
+        }
+    if len(cell_parameters) < 4:
+        raise ValueError("Input list is too short or empty for cell parameters.")
+    header = cell_parameters[0].lower()
+    scaling_factor = 1.0
+    # Determine scaling factor based on the card header
+    if 'bohr' in header:  # No scaling needed
+        pass
+    elif 'angstrom' in header or 'ang' in header:
+        scaling_factor = 1.0 / _BOHR_TO_ANGSTROM
+    elif 'alat' in header:  # Try to extract alat from the header first, e.g., 'CELL_PARAMETERS (alat=10.0)'
+        alat_from_header = extract.number(cell_parameters[0])
+        if alat_from_header is not None:
+            scaling_factor = alat_from_header
+        elif alat is not None:
+            if alat <= 1e-10:  # Validate the provided value
+                 raise ValueError(
+                    f"CELL_PARAMETERS card is 'alat' but the provided celldm(1)={alat} "
+                    "is near zero, leading to unsafe scaling."
+                )
+            scaling_factor = alat
+        else:  # alat is required but neither source provided a value
+            raise ValueError("CELL_PARAMETERS card is 'alat' but no celldm(1) value could be determined.")
+    # Extract and scale vectors
+    raw_vectors = []
+    for line in cell_parameters[1:4]: 
+        coords_list = extract.coords(line)
+        if len(coords_list) != 3:
+            raise ValueError(f"Vector line has incorrect number of components: {len(coords_list)}")
+        raw_vectors.append(coords_list)
+    # Convert to NumPy array for 3x3 matrix operations and convert to Bohr
+    M = np.array(raw_vectors) 
+    M *= scaling_factor
+    # Extract scaled vectors
+    a_vec, b_vec, c_vec = M[0], M[1], M[2]
+    # Lengths (in Bohr)
+    a_len_bohr = np.linalg.norm(a_vec)
+    b_len_bohr = np.linalg.norm(b_vec)
+    c_len_bohr = np.linalg.norm(c_vec)
+    # Check for zero length vectors before division
+    if a_len_bohr <= 1e-10 or b_len_bohr <= 1e-10 or c_len_bohr <= 1e-10:
+        raise ZeroDivisionError("One or more cell vectors have near-zero length after scaling.")
+    # celldm(i) values (Bohr/Ratios/Cosines)
+    celldm_1 = a_len_bohr
+    celldm_2 = b_len_bohr / a_len_bohr
+    celldm_3 = c_len_bohr / a_len_bohr
+    cosBC = np.dot(b_vec, c_vec) / (b_len_bohr * c_len_bohr) 
+    cosAC = np.dot(a_vec, c_vec) / (a_len_bohr * c_len_bohr)
+    cosAB = np.dot(a_vec, b_vec) / (a_len_bohr * b_len_bohr)
+    # celldm(4,5,6) are the cosines of the angles
+    celldm_4, celldm_5, celldm_6 = cosBC, cosAC, cosAB
+    # Calculate Lengths in Angstroms
+    a_len_ang = a_len_bohr * _BOHR_TO_ANGSTROM
+    b_len_ang = b_len_bohr * _BOHR_TO_ANGSTROM
+    c_len_ang = c_len_bohr * _BOHR_TO_ANGSTROM
+    return {
+        'celldm(1)': float(celldm_1),
+        'celldm(2)': float(celldm_2),
+        'celldm(3)': float(celldm_3),
+        'celldm(4)': float(celldm_4),
+        'celldm(5)': float(celldm_5),
+        'celldm(6)': float(celldm_6),
+        'cosBC': float(cosBC),
+        'cosAC': float(cosAC),
+        'cosAB': float(cosAB),
+        'A': float(a_len_ang), 
+        'B': float(b_len_ang),
+        'C': float(c_len_ang),
+    }
 
 
 def resume(
