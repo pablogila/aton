@@ -21,7 +21,7 @@ fix_dict ={
     '[txt.extract](https://pablogila.github.io/aton/aton/txt/extract.html)'             : '`aton.txt.extract`',
     '[txt.edit](https://pablogila.github.io/aton/aton/txt/edit.html)'                   : '`aton.txt.edit`',
     '[aton.api](https://pablogila.github.io/aton/aton/api.html)'                        : '`aton.api`',
-    '[api.qe](https://pablogila.github.io/aton/aton/api/qe.html)'                       : '`aton.api.qe`',
+    '[api.pwx](https://pablogila.github.io/aton/aton/api/pwx.html)'                     : '`aton.api.pwx`',
     '[api.phonopy](https://pablogila.github.io/aton/aton/api/phonopy.html)'             : '`aton.api.phonopy`',
     '[api.castep](https://pablogila.github.io/aton/aton/api/castep.html)'               : '`aton.api.castep`',
     '[api.slurm](https://pablogila.github.io/aton/aton/api/slurm.html)'                 : '`aton.api.slurm`',

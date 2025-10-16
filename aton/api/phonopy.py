@@ -34,7 +34,7 @@ import aton.call as call
 import aton.txt.find as find
 import aton.txt.edit as edit
 import aton.txt.extract as extract
-import aton.api.qe as qe
+import aton.api.pwx as pwx
 import aton.api.slurm as slurm
 import shutil
 import scipy.constants as const
@@ -68,7 +68,7 @@ def make_supercells(
     print(f'\nWelcome to aton.api.phonopy {__version__}\n'
           'Creating all supercell inputs with Phonopy for Quantum ESPRESSO...\n')
     if not scf:
-        qe.scf_from_relax(folder, relax_in, relax_out)
+        pwx.scf_from_relax(folder, relax_in, relax_out)
         scf = 'scf.in'
     _supercells_from_scf(dimension, folder, scf)
     _copy_scf_header_to_supercells(folder, scf)
@@ -113,10 +113,10 @@ def _ensure_bohr_units(folder:str=None, scf:str='scf.in') -> None:
     scf_in = file.get(folder, scf, True)
     scf_temp1 = '_temp_scf_in_bohr_units.in'
     shutil.copy(scf_in, scf_temp1)
-    input_values = qe.read_in(scf_in)
+    input_values = pwx.read_in(scf_in)
     if 'A' in input_values:  # Convert angstrom to bohr
         celldm = input_values['A'] / (const.physical_constants['Bohr radius'][0] * 1e10)
-        qe.set_value(scf_temp1, 'celldm(1)', celldm)
+        pwx.set_value(scf_temp1, 'celldm(1)', celldm)
     return scf_temp1
 
 
@@ -157,15 +157,15 @@ def _copy_scf_header_to_supercells(
         nat = int(input('nat = '))
     else:
         nat = extract.number(updated_values[0], 'nat')
-    qe.set_value(scf_temp2, 'nat', nat)
+    pwx.set_value(scf_temp2, 'nat', nat)
     # Remove the lattice parameters, since Phonopy already indicates units
-    qe.set_value(scf_temp2, 'celldm(1)', '')
-    qe.set_value(scf_temp2, 'A', '')
-    qe.set_value(scf_temp2, 'B', '')
-    qe.set_value(scf_temp2, 'C', '')
-    qe.set_value(scf_temp2, 'cosAB', '')
-    qe.set_value(scf_temp2, 'cosAC', '')
-    qe.set_value(scf_temp2, 'cosBC', '')
+    pwx.set_value(scf_temp2, 'celldm(1)', '')
+    pwx.set_value(scf_temp2, 'A', '')
+    pwx.set_value(scf_temp2, 'B', '')
+    pwx.set_value(scf_temp2, 'C', '')
+    pwx.set_value(scf_temp2, 'cosAB', '')
+    pwx.set_value(scf_temp2, 'cosAC', '')
+    pwx.set_value(scf_temp2, 'cosBC', '')
     # Remove the top content from the temp file
     edit.delete_under(scf_temp2, 'K_POINTS', -1, 2, False)
     # Add the header to the supercells

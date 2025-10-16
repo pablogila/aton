@@ -262,7 +262,7 @@ def read_dir(
         in_str:str='.in',
         out_str:str='.out'
     ) -> dict:
-    """Takes a `folder` from a QE calculation, returns a dict with input and output values.
+    """Takes a `folder` from a QE pw.x calculation, returns a dict with input and output values.
     
     Input and output files are determined automatically,
     but must be specified with `in_str` and `out_str`
@@ -294,7 +294,7 @@ def read_dirs(
         calc_type_index=0,
         calc_id_index=1
     ) -> None:
-    """Reads recursively QE calculations from all the subfolders inside the given `directory`.
+    """Reads recursively QE pw.x calculations from all the subfolders inside the given `directory`.
 
     Results are saved to CSV files inside the current directory.
     Input and output files are determined automatically, but must be specified with
@@ -1012,7 +1012,7 @@ def consts_from_cell_parameters(cell_parameters: list, alat: float | None = None
     }
 
 
-def resume(
+def resume(                               # TODO: make it work for non-ibrav=0 calculations
         folder=None,
         in_str:str='.in',
         out_str:str='.out',
@@ -1021,9 +1021,9 @@ def resume(
 
     This can be used to quickly resume an unfinished or interrupted calculation.
 
-    Note that for the moment this is only expected to work for `ibrav=0` calculations.  # TODO
+    Note that for the moment this is only expected to work for `ibrav=0` calculations.
 
-    Takes a `folder` from a QE calculation, CWD if empty.
+    Takes a `folder` from a QE pw.x calculation, CWD if empty.
     Input and output files are determined automatically,
     but must be specified with `in_str` and `out_str`
     if more than one file ends with `.in` or `.out`.
@@ -1063,7 +1063,7 @@ def scf_from_relax(
     update the names if necessary.
     """
     # Terminal feedback
-    print(f'\naton.api.qe {__version__}\n'
+    print(f'\naton.api.pwx {__version__}\n'
           f'Creating Quantum ESPRESSO SCF input from previous relax calculation:\n'
           f'{relax_in}\n{relax_out}\n')
     folder_path = folder

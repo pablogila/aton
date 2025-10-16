@@ -88,7 +88,7 @@ These are powered by the [aton.txt](#general-text-edition) module and can be eas
 
 | | |  
 | --- | --- |  
-| [api.qe](https://pablogila.github.io/aton/aton/api/qe.html)           | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
+| [api.pwx](https://pablogila.github.io/aton/aton/api/pwx.html)           | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
 | [api.phonopy](https://pablogila.github.io/aton/aton/api/phonopy.html) | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
 | [api.castep](https://pablogila.github.io/aton/aton/api/castep.html)   | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
 | [api.slurm](https://pablogila.github.io/aton/aton/api/slurm.html) | Batch jobs via [Slurm](https://slurm.schedmd.com/) |
