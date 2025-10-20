@@ -122,7 +122,7 @@ def read_out(filepath) -> dict:
     energy_key           = '!    total energy'
     force_key            = 'Total force'
     scf_key              = 'Total SCF correction'
-    pressure_key         = '(kbar)     P='
+    pressure_key         = 'P='
     time_key             = 'PWSCF'
     time_stop_key        = 'CPU'
     job_done_key         = 'JOB DONE.'
