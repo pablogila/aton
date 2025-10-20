@@ -111,17 +111,18 @@ def read_out(filepath) -> dict:
     `'Energy'` (Ry), `'Total force'` (float), `'Total SCF correction'` (float),
     `'Runtime'` (str), `'JOB DONE'` (bool), `'BFGS converged'` (bool), `'BFGS failed'` (bool),
     `'Maxiter reached'` (bool), `'Error'` (str), `'Success'` (bool),
-    `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Density'` (g/cm^3),
+    `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Density'` (g/cm^3), `'Pressure'` (kbar),
     `'CELL_PARAMETERS out'` (list of str), `'ATOMIC_POSITIONS out'` (list of str),
     `'celldm(i) out'` (i = 1...6, float),
     `'cosBC out'`, `'cosAC out'`, `'cosAB out'` (float),
-    `'A out'`, `'B out'`, and `'C out'` (float).
+    `'A out'`, `'B out'`, and `'C out'` (angstrom).
     """
     file_path = file.get(filepath)
 
     energy_key           = '!    total energy'
     force_key            = 'Total force'
     scf_key              = 'Total SCF correction'
+    pressure_key         = '(kbar)     P='
     time_key             = 'PWSCF'
     time_stop_key        = 'CPU'
     job_done_key         = 'JOB DONE.'
@@ -135,6 +136,7 @@ def read_out(filepath) -> dict:
 
     energy_line          = find.lines(file_path, energy_key, -1)
     force_line           = find.lines(file_path, force_key, -1)
+    pressure_line        = find.lines(file_path, pressure_key, -1)
     time_line            = find.lines(file_path, time_key, -1)
     job_done_line        = find.lines(file_path, job_done_key, -1)
     bfgs_converged_line  = find.lines(file_path, bfgs_converged_key, -1)
@@ -146,6 +148,7 @@ def read_out(filepath) -> dict:
     energy: float = None
     force: float = None
     scf: float = None
+    pressure: float = None
     time: str = None
     job_done: bool = False
     bfgs_converged: bool = False
@@ -159,6 +162,8 @@ def read_out(filepath) -> dict:
     if force_line:
         force = extract.number(force_line[0], force_key)
         scf = extract.number(force_line[0], scf_key)
+    if pressure_line:
+        pressure = extract.number(pressure_line[0], pressure_key)
     if time_line:
         time = extract.string(time_line[0], time_key, time_stop_key)
     if job_done_line:
@@ -244,6 +249,7 @@ def read_out(filepath) -> dict:
         'Alat'                  : alat,
         'Volume'                : volume,
         'Density'               : density,
+        'Pressure'              : pressure,
     }
 
     # Extract lattice parameters A, B, C, celldm(i) and cosines
@@ -922,10 +928,8 @@ def consts_from_cell_parameters(cell_parameters: list, alat: float | None = None
     if not specified in the first line of the CELL_PARAMETERS (`cell_parameters[0]`).
 
     Returns a dictionary with the lattice parameters, with the keys:
-    `'celldm(1) out'`, `'celldm(2) out'`, `'celldm(3) out'`,
-    `'celldm(4) out'`, `'celldm(5) out'`, `'celldm(6) out'`,
-    `'cosBC out'`, `'cosAC out'`, `'cosAB out'`,
-    `'A out'`, `'B out'`, and `'C out'`.
+    `'celldm(1)'`, `'celldm(2)'`, `'celldm(3)'`, `'celldm(4)'`, `'celldm(5)'`, `'celldm(6)'`,
+    `'cosBC'`, `'cosAC'`, `'cosAB'`, `'A'`, `'B'`, and `'C'`.
     """
     if not cell_parameters:
         return {
