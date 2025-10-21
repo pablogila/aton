@@ -9,7 +9,7 @@ These interfaces can be easily expanded with the `aton.txt` module.
 
 | | |  
 | --- | --- |  
-| `aton.api.pwx`      | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
+| `aton.api.pwx`     | Interface for [Quantum ESPRESSO](https://www.quantum-espresso.org/)'s [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html) module |  
 | `aton.api.phonopy` | Interface for [Phonopy](https://phonopy.github.io/phonopy/) calculations |  
 | `aton.api.castep`  | Interface for [CASTEP](https://castep-docs.github.io/castep-docs/) calculations |  
 | `aton.api.slurm`   | Batch jobs via [Slurm](https://slurm.schedmd.com/) |

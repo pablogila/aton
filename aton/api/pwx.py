@@ -6,29 +6,45 @@ Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html
 
 # Index
 
-Input and output reading  
-`read_in()`  
-`read_out()`  
-`read_dir()`  
-`read_dirs()`  
 
-Input file manipulation  
-`set_value()`  
-`add_atom()`  
-`resume()`  
-`scf_from_relax()`  
+## Input and output reading  
 
-Data analysis  
-`get_atom()`  
-`count_elements()`  
-`normalize_card()`  
-`consts_from_cell_parameters()`  
-`to_cartesian()`  
-`from_cartesian()`  
+| | |  
+| --- | --- |  
+| `read_in()` | Read an input file as a Python dict |    
+`read_out()`  | Read an output file as a Python dict |  
+`read_dir()`  | Read the input and output from a directory and return a dict |  
+`read_dirs()` | Read all inputs and outputs from all subfolders, and save to CSVs |  
 
-Dicts with input file description  
-`pw_namelists`  
-`pw_cards`  
+
+## Input file manipulation  
+
+| | |  
+| --- | --- |  
+`set_value()`      | Replace the value of a specific parameter from an input file |  
+`add_atom()`       | Add an atom to a given input file |  
+`resume()`         | Update an input file with the atomic coordinates of a previous output file |  
+`scf_from_relax()` | Create a scf.in from a previous relax calculation |  
+
+
+## Data analysis  
+
+| | |  
+| --- | --- |  
+`get_atom()`        | Take the approximate position of an atom and return the full coordinates |  
+`count_elements()`  | Take the ATOMIC_POSITIONS and return a dict as {element: number} |  
+`normalize_card()`  | Take a matched card, and return it in a normalized format |  
+`consts_from_cell_parameters()` | Get the lattice parameters from the CELL_PARAMETERS matrix |  
+`to_cartesian()`    | Convert coordinates from crystal lattice vectors to cartesian |  
+`from_cartesian()`  | Convert coordinates from cartesian to the base of lattice vectors |  
+
+
+## Dicts with input file description  
+
+| | |  
+| --- | --- |  
+`pw_namelists` | All possible NAMELISTS as keys, and the corresponding variables as values |  
+`pw_cards`     | All possible CARDs as keys, and the corresponding variables as values |  
 
 ---
 """
@@ -109,11 +125,12 @@ def read_out(filepath) -> dict:
 
     The output keys are:
     `'Energy'` (Ry), `'Total force'` (float), `'Total SCF correction'` (float),
-    `'Runtime'` (str), `'JOB DONE'` (bool), `'BFGS converged'` (bool), `'BFGS failed'` (bool),
-    `'Maxiter reached'` (bool), `'Error'` (str), `'Success'` (bool),
+    `'Runtime'` (str), `'Success'` (bool), `'JOB DONE'` (bool),
+    `'BFGS converged'` (bool), `'BFGS failed'` (bool),
+    `'Maxiter reached'` (bool), `'Error'` (str),
     `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Density'` (g/cm^3), `'Pressure'` (kbar),
     `'CELL_PARAMETERS out'` (list of str), `'ATOMIC_POSITIONS out'` (list of str),
-    `'celldm(i) out'` (i = 1...6, float),
+    `'celldm(i) out'` with i=1...6 (float),
     `'cosBC out'`, `'cosAC out'`, `'cosAB out'` (float),
     `'A out'`, `'B out'`, and `'C out'` (angstrom).
     """
