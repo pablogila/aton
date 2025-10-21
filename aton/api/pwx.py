@@ -12,31 +12,31 @@ Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html
 | | |  
 | --- | --- |  
 | `read_in()` | Read an input file as a Python dict |    
-`read_out()`  | Read an output file as a Python dict |  
-`read_dir()`  | Read the input and output from a directory and return a dict |  
-`read_dirs()` | Read all inputs and outputs from all subfolders, and save to CSVs |  
+| `read_out()`  | Read an output file as a Python dict |  
+| `read_dir()`  | Read the input and output from a directory and return a dict |  
+| `read_dirs()` | Read all inputs and outputs from all subfolders, and save to CSVs |  
 
 
 ## Input file manipulation  
 
 | | |  
 | --- | --- |  
-`set_value()`      | Replace the value of a specific parameter from an input file |  
-`add_atom()`       | Add an atom to a given input file |  
-`resume()`         | Update an input file with the atomic coordinates of a previous output file |  
-`scf_from_relax()` | Create a scf.in from a previous relax calculation |  
+| `set_value()`      | Replace the value of a specific parameter from an input file |  
+| `add_atom()`       | Add an atom to a given input file |  
+| `resume()`         | Update an input file with the atomic coordinates of a previous output file |  
+| `scf_from_relax()` | Create a scf.in from a previous relax calculation |  
 
 
 ## Data analysis  
 
 | | |  
 | --- | --- |  
-`get_atom()`        | Take the approximate position of an atom and return the full coordinates |  
-`count_elements()`  | Take the ATOMIC_POSITIONS and return a dict as {element: number} |  
-`normalize_card()`  | Take a matched card, and return it in a normalized format |  
-`consts_from_cell_parameters()` | Get the lattice parameters from the CELL_PARAMETERS matrix |  
-`to_cartesian()`    | Convert coordinates from crystal lattice vectors to cartesian |  
-`from_cartesian()`  | Convert coordinates from cartesian to the base of lattice vectors |  
+| `get_atom()`        | Take the approximate position of an atom and return the full coordinates |  
+| `count_elements()`  | Take the ATOMIC_POSITIONS and return a dict as {element: number} |  
+| `normalize_card()`  | Take a matched card, and return it in a normalized format |  
+| `consts_from_cell_parameters()` | Get the lattice parameters from the CELL_PARAMETERS matrix |  
+| `to_cartesian()`    | Convert coordinates from crystal lattice vectors to cartesian |  
+| `from_cartesian()`  | Convert coordinates from cartesian to the base of lattice vectors |  
 
 
 ## Dicts with input file description  
@@ -751,7 +751,7 @@ def get_atom(
     return matched_line.strip()
 
 
-def normalize_card(card:list, indent='') -> list:
+def normalize_card(card:list, indent:str='') -> list:
     """Take a matched card, and return it in a normalised format.
 
     Optionally change indentation with `indent`, 0 spaces by default.
@@ -787,7 +787,7 @@ def normalize_card(card:list, indent='') -> list:
     return cleaned_content
 
 
-def _normalize_cell_parameters(card, indent='') -> list:
+def _normalize_cell_parameters(card, indent:str='') -> list:
     """Performs extra formatting to a previously cleaned CELL_PARAMETERS `card`.
 
     Optionally change indentation with `indent`, 0 spaces by default.
@@ -819,7 +819,7 @@ def _normalize_cell_parameters(card, indent='') -> list:
     return cell_parameters
 
 
-def _normalize_atomic_positions(card, indent='') -> list:
+def _normalize_atomic_positions(card, indent:str='') -> list:
     """Performs extra formatting to a previously cleaned ATOMIC_POSITIONS `card`.
 
     Optionally change indentation with `indent`, 2 spaces by default.
@@ -832,14 +832,18 @@ def _normalize_atomic_positions(card, indent='') -> list:
         atom = extract.element(line)
         if not atom:
             raise ValueError(f'Atoms must be defined as the atom (H, He, Na...) or the isotope (H2, He4...)! Yours was:\n{line}')
+        if len(atom) == 1 and len(indent) > 0:  # Align the line
+            atom = indent + ' ' + atom
+        else:
+            atom = indent + atom
         coords = extract.coords(line)
         if len(coords) < 3:
             raise ValueError(f'Each ATOMIC_POSITION must have at least three coordinates! Yours contained the line:\n{line}\nDetected coordinates were:\n{coords}')
         if len(coords) > 6:  # Including optional parameters
             coords = coords[:6]
-        new_line = f"{indent}{atom}"
+        new_line = f"{atom}"
         for coord in coords:
-            new_line = f"{new_line}   {coord:.15f}"
+            new_line = f"{new_line}   {coord:.15f}d0"  # Double float precission
         atomic_positions.append(new_line)
     if 'alat' in atomic_positions[0]:
         atomic_positions[0] = 'ATOMIC_POSITIONS alat'
@@ -856,7 +860,7 @@ def _normalize_atomic_positions(card, indent='') -> list:
     return atomic_positions
 
 
-def _normalize_atomic_species(card, indent='') -> list:
+def _normalize_atomic_species(card, indent:str='') -> list:
     """Performs extra formatting to a previously cleaned ATOMIC_SPECIES `card`.
 
     Optionally change indentation with `indent`, 2 spaces by default.
@@ -884,7 +888,7 @@ def _normalize_atomic_species(card, indent='') -> list:
     return atomic_species
 
 
-def _normalize_k_points(card, indent='') -> list:
+def _normalize_k_points(card, indent:str='') -> list:
     """Performs extra formatting to a previously cleaned K_POINTS `card`.
 
     Optionally change indentation with `indent`, 2 spaces by default.

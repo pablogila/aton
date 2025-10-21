@@ -32,8 +32,8 @@ def test_normalize_atomic_positions():
     atomic_positions = " ATOMIC_POSITIONS {crystal} \n I   5.000000   0.0000000000000   0.000000000000000 \n C   0.000000000000000   5.000000000000000000   0.000000 "
     ideal_positions = [
         'ATOMIC_POSITIONS crystal',
-        'I   5.000000000000000   0.000000000000000   0.000000000000000',
-        'C   0.000000000000000   5.000000000000000   0.000000000000000']
+        'I   5.000000000000000d0   0.000000000000000d0   0.000000000000000d0',
+        'C   0.000000000000000d0   5.000000000000000d0   0.000000000000000d0']
     normalized_positions = aton.api.pwx.normalize_card(atomic_positions)
     assert normalized_positions == ideal_positions
 
