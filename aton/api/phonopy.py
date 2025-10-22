@@ -47,6 +47,7 @@ def make_supercells(
         scf:str=None,
         folder:str=None,
         slurm_template:str='template.slurm',
+        update:dict=None,
     ) -> None:
     """
     Creates the supercell inputs of a given `dimension` ('2 2 2' by default),
@@ -56,6 +57,7 @@ def make_supercells(
     Alternatively, a previously relaxed `scf` input file can be provided,
     which will override the creation of a new scf file
     from the `relax_in` and `relax_out` files.
+    Convergence values for the scf file can be updated with an `update` dict.
 
     By default, at the end of the execution it will check
     that an `slurm_template` ('template.slurm') is present and valid;
@@ -63,12 +65,12 @@ def make_supercells(
     If not, an example with instructions will be provided.
     This check can be skipped with `slurm_template=''`.
     The template will allow to easily run the Phonopy calculations with the one-line command
-    `aton.api.slurm.sbatch('supercell-', 'template.slurm')`
+    `aton.api.slurm.sbatch('supercell-', 'template.slurm')`.
     """
     print(f'\nWelcome to aton.api.phonopy {__version__}\n'
           'Creating all supercell inputs with Phonopy for Quantum ESPRESSO...\n')
     if not scf:
-        pwx.scf_from_relax(folder, relax_in, relax_out)
+        pwx.scf_from_relax(folder, relax_in, relax_out, update=update)
         scf = 'scf.in'
     _supercells_from_scf(dimension, folder, scf)
     _copy_scf_header_to_supercells(folder, scf)

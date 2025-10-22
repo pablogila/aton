@@ -22,6 +22,7 @@ Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html
 | | |  
 | --- | --- |  
 | `set_value()`      | Replace the value of a specific parameter from an input file |  
+| `set_values()`     | Replace the value of multiple specific parameters from an input file |  
 | `add_atom()`       | Add an atom to a given input file |  
 | `resume()`         | Update an input file with the atomic coordinates of a previous output file |  
 | `scf_from_relax()` | Create a scf.in from a previous relax calculation |  
@@ -387,7 +388,7 @@ def set_value(
         indent:str='  ',
     ) -> None:
     """Replace the `value` of a `key` parameter in an input `filepath`.
-    
+
     Delete parameters with `value=''`.
     Remember to include the single quotes `'` on values that use them.
 
@@ -425,6 +426,22 @@ def set_value(
             _add_card(filepath, key, value, indent)
     else:
         raise ValueError(f'Unrecognised key: {key}')
+    return None
+
+
+def set_values(
+        filepath,
+        update:dict,
+        indent:str='  ',
+        ) -> None:
+    """Replace multiple values of an input `filepath` with an `update` dict.
+
+    Calls `set_value` recursively. If `update` is empty, nothig will happen.
+    """
+    if not update:
+        return None
+    for key, value in update.items():
+        set_value(filepath=filepath, key=key, value=value, indent=indent)
     return None
 
 
@@ -1081,6 +1098,7 @@ def scf_from_relax(
         relax_in:str='relax.in',
         relax_out:str='relax.out',
         update:dict=None,
+        indent:str='  ',
     ) -> None:
     """Create a Quantum ESPRESSO `scf.in` file from a previous relax calculation.
     
@@ -1119,9 +1137,7 @@ def scf_from_relax(
     elif calculation == 'vc-relax':
         raise ValueError(f'Missing lattice parameters from {calculation} calculation, CELL_PARAMETERS={cell_parameters}, celldm(1)={alat}')
     # Update user-specified values
-    if update:
-        for key, value in update.items():
-            set_value(scf_in, key, value)
+    set_values(filepath=scf_in, update=update, indent=indent)
     # Terminal feedback
     print(f'Created input SCF file at:'
           f'{scf_in}\n')
