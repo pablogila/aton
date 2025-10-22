@@ -1079,13 +1079,14 @@ def resume(                               # TODO: make it work for non-ibrav=0 c
 def scf_from_relax(
         folder:str=None,
         relax_in:str='relax.in',
-        relax_out:str='relax.out'
+        relax_out:str='relax.out',
+        update:dict=None,
     ) -> None:
     """Create a Quantum ESPRESSO `scf.in` file from a previous relax calculation.
     
     If no `folder` is provided, the current working directory is used.
-    The `relax_in` and `relax_out` files by default are `relax.in` and `relax.out`,
-    update the names if necessary.
+    The `relax_in` and `relax_out` files are `relax.in` and `relax.out` by default.
+    Update specific values (such as convergence values) with an `update` dictionaty.
     """
     # Terminal feedback
     print(f'\naton.api.pwx {__version__}\n'
@@ -1099,7 +1100,7 @@ def scf_from_relax(
     data = read_dir(folder_path, relax_in, relax_out)
     # Create the scf.in from the previous relax.in
     scf_in = os.path.join(folder_path, 'scf.in')
-    comment = f'! Automatic SCF input made with ATON {__version__}. https://pablogila.github.io/ATON'
+    comment = f'! Automatic SCF input made with ATON {__version__}. https://pablogila.github.io/aton'
     edit.from_template(relax_in, scf_in, None, comment)
     scf_in = file.get(folder_path, scf_in)
     # Replace CELL_PARAMETERS, ATOMIC_POSITIONS, ATOMIC_SPECIES, alat, ibrav and calculation
@@ -1117,6 +1118,10 @@ def scf_from_relax(
         set_value(scf_in, 'celldm(1)', alat)
     elif calculation == 'vc-relax':
         raise ValueError(f'Missing lattice parameters from {calculation} calculation, CELL_PARAMETERS={cell_parameters}, celldm(1)={alat}')
+    # Update user-specified values
+    if update:
+        for key, value in update.items():
+            set_value(scf_in, key, value)
     # Terminal feedback
     print(f'Created input SCF file at:'
           f'{scf_in}\n')

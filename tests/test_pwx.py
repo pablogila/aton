@@ -102,6 +102,7 @@ def test_read():
 def test_scf_from_relax():
     ideal = {
         'calculation'      : "'scf'",
+        'etot_conv_thr'    : 3.0e-12,
         'celldm(1)'        : 10.0,
         'ibrav'            : 0,
         'occupations'      : "'fixed'",
@@ -122,7 +123,8 @@ def test_scf_from_relax():
             'C                0.0000000000        1.0000000000        0.0000000000',
             'N                0.0000000000        0.0000000000        1.0000000000'],
     }
-    aton.api.pwx.scf_from_relax(folder=folder)
+    update = {'etot_conv_thr': 3.0e-12}
+    aton.api.pwx.scf_from_relax(folder=folder, update=update)
     result = aton.api.pwx.read_in(folder + 'scf.in')
     for key in ideal:
         if key in ['ATOMIC_SPECIES', 'CELL_PARAMETERS', 'CELL_PARAMETERS out', 'ATOMIC_POSITIONS', 'ATOMIC_POSITIONS out']:
