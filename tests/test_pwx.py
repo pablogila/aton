@@ -1,5 +1,6 @@
 import aton
 import shutil
+import pandas
 
 
 folder = 'tests/samples/'
@@ -97,6 +98,20 @@ def test_read():
         if key in aton.api.pwx.pw_cards:
             ideal[key] = aton.api.pwx.normalize_card(ideal[key])
         assert result[key] == ideal[key]
+
+
+def test_read_dirs():
+    aton.api.pwx.read_dirs(folder=folder, in_str='relax.in', out_str='relax.out', calc_splitter='_', calc_type_index=0, calc_id_index=1)
+    csv = aton.file.get(folder+'test.csv')
+    assert csv
+    df = pandas.read_csv(csv)
+    assert not df.empty
+    assert df['ID'].to_list() == ['dir1', 'dir2']
+    try:
+        aton.file.remove(folder + 'test.csv')
+    except:
+        pass
+
 
 
 def test_scf_from_relax():

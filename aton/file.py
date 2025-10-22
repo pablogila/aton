@@ -99,6 +99,7 @@ def get_list(
         exclude=None,
         abspath:bool=True,
         also_folders:bool=False,
+        only_folders:bool=False,
     ) -> list:
     """Return the files inside a `folder`, applying optional filters.
 
@@ -107,7 +108,10 @@ def get_list(
 
     The full paths are returned by default; to get only the base names, set `abspath = False`.
     The CWD folder is used by default if no `folder` is provided.
-    It also returns folders if `also_folders = True`.
+
+    By default it only returns files, not folders.
+    It can optionally also/only returns folders,
+    with `also_folders` or `only_folders` set to `True`.
     """
     if not folder:
         folder = os.getcwd()
@@ -122,8 +126,10 @@ def get_list(
     # Absolute paths?
     if abspath:
         files = [os.path.join(folder, f) for f in files]
-    # Should we keep only files?
-    if not also_folders:
+    # Should we keep only folders, also folders, or only files?
+    if only_folders:
+        files = [f for f in files if os.path.isdir(f)]
+    elif not also_folders:
         files = [f for f in files if not os.path.isdir(f if abspath else os.path.join(folder, f))]
     # Apply filters if provided
     if include is not None:
@@ -143,6 +149,7 @@ def get_list(
         exclude = [os.path.basename(i) for i in exclude]
         # Exclude the corresponding files
         files = [f for f in files if not any(filter_str in os.path.basename(f) for filter_str in exclude)]
+    files.sort()
     return files
 
 

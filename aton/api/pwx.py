@@ -311,7 +311,7 @@ def read_dir(
 
 
 def read_dirs(
-        directory,
+        folder,
         in_str:str='.in',
         out_str:str='.out',
         calc_splitter='_',
@@ -333,18 +333,14 @@ def read_dirs(
 
     If everything fails, the subfolder name will be used for the CSV file.
     """
-    print(f'Reading all Quantum ESPRESSO calculations from {directory} ...')
-    folders = file.get_list(directory)
+    print(f'Reading all Quantum ESPRESSO calculations from {folder} ...')
+    folders = file.get_list(folder, only_folders=True)
     if not folders:
         raise FileNotFoundError('The directory is empty!')
     # Separate calculations by their title in an array
     calc_types = []
-    folders.sort()
-    for folder in folders:
-        if not os.path.isdir(folder):
-            folders.remove(folder)
-            continue
-        folder_name = os.path.basename(folder)
+    for f in folders:
+        folder_name = os.path.basename(f)
         try:
             calc_name = folder_name.split(calc_splitter)[calc_type_index]
         except:
@@ -357,16 +353,18 @@ def read_dirs(
         len_calcs = 0
         success_counter = 0
         results = pd.DataFrame()
-        for folder in folders:
-            if not calc in folder:
+        for f in folders:
+            if not calc in f:
                 continue
             len_calcs += 1
-            folder_name = os.path.basename(folder)
+            folder_name = os.path.basename(f)
             try:
                 calc_id = folder_name.split(calc_splitter)[calc_id_index]
             except:
                 calc_id = folder_name
-            df = pd.DataFrame.from_dict(read_dir(folder, in_str, out_str))
+            dictionary = read_dir(f, in_str, out_str)
+            #df = pd.DataFrame.from_dict(dictionary)
+            df = pd.DataFrame({k: [v] for k, v in dictionary.items()}) if dictionary else None
             if df is None:
                 continue
             # Join input and output in the same dataframe
@@ -376,7 +374,7 @@ def read_dirs(
             if df['Success'][0]:
                 success_counter += 1
                 total_success_counter += 1
-        results.to_csv(os.path.join(directory, calc+'.csv'))
+        results.to_csv(os.path.join(folder, calc+'.csv'))
         print(f'Saved to CSV: {calc} ({success_counter} successful calculations out of {len_calcs})')
     print(f'Total successful calculations: {total_success_counter} out of {len_folders}')
 
