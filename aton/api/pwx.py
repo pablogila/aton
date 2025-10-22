@@ -314,9 +314,11 @@ def read_dirs(
         folder,
         in_str:str='.in',
         out_str:str='.out',
-        calc_splitter='_',
-        calc_type_index=0,
-        calc_id_index=1
+        include=None,
+        exclude=None,
+        separator='_',
+        type_index=0,
+        id_index=1
     ) -> None:
     """Reads recursively QE pw.x calculations from all the subfolders inside the given `directory`.
 
@@ -324,17 +326,20 @@ def read_dirs(
     Input and output files are determined automatically, but must be specified with
     `in_str` and `out_str` if more than one file ends with `.in` or `.out`.
 
+    Only folders containing all strings in the `include` list will be included.
+    Folders containing any string from the `exclude` list will be ignored.
+
     To properly group the calculations per type, saving separated CSVs for each calculation type,
-    you can modify `calc_splitter` ('_' by default), `calc_type_index` (0) and `calc_id_index` (1).
+    you can modify `separator` ('_' by default), `type_index` (0) and `id_index` (1).
     With these default values, a subfolder named './CalculationType_CalculationID_AdditionalText/'
     will be interpreted as follows:
     - Calculation type: 'CalculationType' (The output CSV will be named after this)
     - CalculationID: 'CalculationID' (Stored in the 'ID' column of the resulting dataframe)
 
-    If everything fails, the subfolder name will be used for the CSV file.
+    If the detection fails, the subfolder name will be used for the CSV file.
     """
     print(f'Reading all Quantum ESPRESSO calculations from {folder} ...')
-    folders = file.get_list(folder, only_folders=True)
+    folders = file.get_list(folder, include=include, exclude=exclude, only_folders=True)
     if not folders:
         raise FileNotFoundError('The directory is empty!')
     # Separate calculations by their title in an array
@@ -342,7 +347,7 @@ def read_dirs(
     for f in folders:
         folder_name = os.path.basename(f)
         try:
-            calc_name = folder_name.split(calc_splitter)[calc_type_index]
+            calc_name = folder_name.split(separator)[type_index]
         except:
             calc_name = folder_name
         if not calc_name in calc_types:
@@ -359,7 +364,7 @@ def read_dirs(
             len_calcs += 1
             folder_name = os.path.basename(f)
             try:
-                calc_id = folder_name.split(calc_splitter)[calc_id_index]
+                calc_id = folder_name.split(separator)[id_index]
             except:
                 calc_id = folder_name
             dictionary = read_dir(f, in_str, out_str)

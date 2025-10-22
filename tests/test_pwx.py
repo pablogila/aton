@@ -101,7 +101,7 @@ def test_read():
 
 
 def test_read_dirs():
-    aton.api.pwx.read_dirs(folder=folder, in_str='relax.in', out_str='relax.out', calc_splitter='_', calc_type_index=0, calc_id_index=1)
+    aton.api.pwx.read_dirs(folder=folder, in_str='relax.in', out_str='relax.out', separator='_', type_index=0, id_index=1, exclude='ignored')
     csv = aton.file.get(folder+'test.csv')
     assert csv
     df = pandas.read_csv(csv)
