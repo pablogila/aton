@@ -260,3 +260,11 @@ def test_get_atom():
     assert aton.api.pwx.get_atom(filepath=relax, position=approx_list_2, precision=3) == ideal
     assert aton.api.pwx.get_atom(filepath=relax, position=approx_str, precision=3) == ideal
 
+
+def test_kpoints_bands():
+    file = folder + 'kpoints_bands.in'
+    data = aton.api.pwx.read_in(file)
+    assert data['K_POINTS'][1] == '11'
+    assert data['K_POINTS'][2] == '0.00  0.00  0.00  30    !G'
+    assert data['K_POINTS'][12] == '0.50  0.00  0.50  30    !X'
+

@@ -916,11 +916,24 @@ def _normalize_k_points(card, indent:str='') -> list:
     if card == None:
         return None
     k_points = [card[0].strip()]
-    points = card[1].split()
-    line = f'{indent}{points[0].strip()}'
-    for point in points[1:]:
-        line = f'{line} {point.strip()}'
-    k_points.append(line)
+    # Find the biggest str to align the columns to the left
+    longest_str = 0
+    for line in card[1:]:
+        points = line.split()
+        for point in points:
+            point.strip()
+            if len(point) > longest_str:
+                longest_str = len(point)
+    # Format the points
+    for line in card[1:]:
+        points = line.split()
+        new_line = ''
+        for point in points:
+            s = point.strip()
+            s = s.ljust(longest_str)
+            new_line = f'{new_line}{s} '
+        new_line = indent + new_line.strip()
+        k_points.append(new_line)
     if 'automatic' in k_points[0]:
         k_points[0] = 'K_POINTS automatic'
     elif 'gamma' in k_points[0]:
