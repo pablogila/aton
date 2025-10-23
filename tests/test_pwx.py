@@ -261,10 +261,18 @@ def test_get_atom():
     assert aton.api.pwx.get_atom(filepath=relax, position=approx_str, precision=3) == ideal
 
 
-def test_kpoints_bands():
-    file = folder + 'kpoints_bands.in'
+def test_bands_kpoints():
+    file = folder + 'bands_kpoints.in'
     data = aton.api.pwx.read_in(file)
     assert data['K_POINTS'][1] == '11'
     assert data['K_POINTS'][2] == '0.00  0.00  0.00  30    !G'
     assert data['K_POINTS'][12] == '0.50  0.00  0.50  30    !X'
+
+
+def test_scf_fermi():
+    file = folder + 'scf_fermi.out'
+    data = aton.api.pwx.read_out(file)
+    assert data['Efermi'] == 6.5160
+    assert data['Energy'] == -93.45256277
+    assert data['Pressure'] == 19.87
 

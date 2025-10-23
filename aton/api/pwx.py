@@ -128,7 +128,7 @@ def read_out(filepath) -> dict:
     `'Energy'` (Ry), `'Total force'` (float), `'Total SCF correction'` (float),
     `'Runtime'` (str), `'Success'` (bool), `'JOB DONE'` (bool),
     `'BFGS converged'` (bool), `'BFGS failed'` (bool),
-    `'Maxiter reached'` (bool), `'Error'` (str),
+    `'Maxiter reached'` (bool), `'Error'` (str), `'Efermi'` (eV),
     `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Density'` (g/cm^3), `'Pressure'` (kbar),
     `'CELL_PARAMETERS out'` (list of str), `'ATOMIC_POSITIONS out'` (list of str),
     `'celldm(i) out'` with i=1...6 (float),
@@ -141,6 +141,7 @@ def read_out(filepath) -> dict:
     force_key            = 'Total force'
     scf_key              = 'Total SCF correction'
     pressure_key         = 'P='
+    efermi_key           = 'the Fermi energy is'
     time_key             = 'PWSCF'
     time_stop_key        = 'CPU'
     job_done_key         = 'JOB DONE.'
@@ -155,6 +156,7 @@ def read_out(filepath) -> dict:
     energy_line          = find.lines(file_path, energy_key, -1)
     force_line           = find.lines(file_path, force_key, -1)
     pressure_line        = find.lines(file_path, pressure_key, -1)
+    efermi_line          = find.lines(file_path, efermi_key, -1)
     time_line            = find.lines(file_path, time_key, -1)
     job_done_line        = find.lines(file_path, job_done_key, -1)
     bfgs_converged_line  = find.lines(file_path, bfgs_converged_key, -1)
@@ -167,6 +169,7 @@ def read_out(filepath) -> dict:
     force: float = None
     scf: float = None
     pressure: float = None
+    efermi: float = None
     time: str = None
     job_done: bool = False
     bfgs_converged: bool = False
@@ -182,6 +185,8 @@ def read_out(filepath) -> dict:
         scf = extract.number(force_line[0], scf_key)
     if pressure_line:
         pressure = extract.number(pressure_line[0], pressure_key)
+    if efermi_line:
+        efermi = extract.number(efermi_line[0], efermi_key)
     if time_line:
         time = extract.string(time_line[0], time_key, time_stop_key)
     if job_done_line:
@@ -268,6 +273,7 @@ def read_out(filepath) -> dict:
         'Volume'                : volume,
         'Density'               : density,
         'Pressure'              : pressure,
+        'Efermi'                : efermi,
     }
 
     # Extract lattice parameters A, B, C, celldm(i) and cosines
