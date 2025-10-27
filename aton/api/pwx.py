@@ -99,7 +99,7 @@ def read_in(filepath) -> dict:
     # Try to find all the cards. Card titles will be saved in the 0 position of each result.
     for card in pw_cards.keys():
         card_lower = card.lower()
-        card_uncommented = rf'(?!\s*!\s*)({card}|{card_lower})'
+        card_uncommented = rf'(?!\s*!\s*)({card}|{card_lower})'  # Legacy regex
         card_content = find.between(filepath=file_path, key1=card_uncommented, key2=_all_cards_regex, include_keys=True, match=-1, regex=True)
         if not card_content:
             continue
@@ -468,7 +468,8 @@ def _update_value(
     key_uncommented = key
     key_uncommented = key_uncommented.replace('(', r'\(')
     key_uncommented = key_uncommented.replace(')', r'\)')
-    key_uncommented = rf'(?!\s*!\s*){key_uncommented}\s*='
+    key_uncommented = rf'^\s*\b({key_uncommented})\s*='
+    #key_uncommented = rf'(?!\s*!\s*){key_uncommented}\s*='  # Legacy regex
     # Convert to int if necessary
     if key in _pw_int_values:
         value = int(value)
@@ -538,14 +539,16 @@ def _add_namelist(
     # Get the present namelists, plus the target one
     present_namelists = []
     for section in namelists:
-        is_section_present = find.lines(filepath=filepath, key=rf'(?!\s*!\s*)({section})', regex=True)
+        is_section_present = find.lines(filepath=filepath, key=rf'^\s*\b({section})', regex=True)
+        #is_section_present = find.lines(filepath=filepath, key=rf'(?!\s*!\s*)({section})', regex=True)  # Legacy regex
         if is_section_present or section.upper() == namelist.upper():
             present_namelists.append(section)
     # Get the very next section after the desired one
     for section in present_namelists:
         if section == namelist:
             break
-        next_namelist = rf'(?!\s*!\s*)({section})(?!\s*=)'
+        next_namelist = rf'^\s*\b({section})(?!\s*=)'
+        #next_namelist = rf'(?!\s*!\s*)({section})(?!\s*=)'
     # Insert the target namelist on top of it!
     edit.insert_under(filepath, next_namelist, f'{namelist}\n/\n', 1, -1, True)
     return None
@@ -614,14 +617,19 @@ def _update_other_values(
     # CELL_PARAMETERS ?
     if key in ['CELL_PARAMETERS', 'CELL_PARAMETERS out']:
         if 'angstrom' in value[0] or 'bohr' in value[0]:
-            edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 0, 0, 0, True)
-            edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 0, 0, 0, True)
-            edit.replace_line(file_path, r'(?!\s*!\s*)cos[AB][BC]\s*=', '', 0, 0, 0, True)
+            edit.replace_line(file_path, r'^\s*\b(celldm\(\d\))\s*=', '', 0, 0, 0, True)
+            edit.replace_line(file_path, r'^\s*\b([ABC])\s*=', '', 0, 0, 0, True)
+            edit.replace_line(file_path, r'^\s*\b(cos[AB][BC])\s*=', '', 0, 0, 0, True)
+            #edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 0, 0, 0, True)  # Legacy regex
+            #edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 0, 0, 0, True)  # Legacy regex
+            #edit.replace_line(file_path, r'(?!\s*!\s*)cos[AB][BC]\s*=', '', 0, 0, 0, True)  # Legacy regex
         elif 'alat' in value[0]:
             alat = extract.number(value[0])
             if alat:
-                edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
-                edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', f'celldm(1) = {alat}', 1, 0, 0, True)
+                edit.replace_line(file_path, r'^\s*\b(CELL_PARAMETERS)', 'CELL_PARAMETERS alat', -1, 0, 0, True)
+                edit.replace_line(file_path, r'^\s*\b(celldm\(\d\))\s*=', f'celldm(1) = {alat}', 1, 0, 0, True)
+                #edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)  # Legacy regex
+                #edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', f'celldm(1) = {alat}', 1, 0, 0, True)  # Legacy regex
         return None
     # ATOMIC_SPECIES ?
     elif key == 'ATOMIC_SPECIES':
@@ -646,14 +654,19 @@ def _update_other_values(
     key = key.lower()
     # Lattice params Angstroms?
     if key in ['a', 'b', 'c', 'cosab', 'cosac', 'cosbc']:
-        edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 0, 0, 0, True)
-        edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
+        edit.replace_line(file_path, r'^\s*\b(celldm\(\d\))\s*=', '', 0, 0, 0, True)
+        edit.replace_line(file_path, r'^\s*\b(CELL_PARAMETERS)', 'CELL_PARAMETERS alat', -1, 0, 0, True)
+        #edit.replace_line(file_path, r'(?!\s*!\s*)celldm\(\d\)\s*=', '', 0, 0, 0, True)  # Legacy regex
+        #edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)  # Legacy regex
         return None
     # Lattice params Bohrs ?
     elif 'celldm' in key:
-        edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 0, 0, 0, True)
-        edit.replace_line(file_path, r'(?!\s*!\s*)cos[AB][BC]\s*=', '', 0, 0, 0, True)
-        edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)
+        edit.replace_line(file_path, r'^\s*\b([ABC])\s*=', '', 0, 0, 0, True)
+        edit.replace_line(file_path, r'^\s*\b(cos[AB][BC])\s*=', '', 0, 0, 0, True)
+        edit.replace_line(file_path, r'^\s*\b(CELL_PARAMETERS)', 'CELL_PARAMETERS alat', -1, 0, 0, True)
+        #edit.replace_line(file_path, r'(?!\s*!\s*)[ABC]\s*=', '', 0, 0, 0, True)  # Legacy regex
+        #edit.replace_line(file_path, r'(?!\s*!\s*)cos[AB][BC]\s*=', '', 0, 0, 0, True)  # Legacy regex
+        #edit.replace_line(file_path, r'(?!\s*!\s*)CELL_PARAMETERS', 'CELL_PARAMETERS alat', -1, 0, 0, True)  # Legacy regex
         return None
     return None
 
@@ -764,7 +777,8 @@ def get_atom(
             return ''
         raise ValueError(f'No matching position found! Try again with a less tight precision parameter.\nSearched coordinates: {coordinates_rounded}')
     # We must get the literal line, not the normalized one!
-    atomic_positions_uncommented = rf'(?!\s*!\s*)(ATOMIC_POSITIONS|atomic_positions)'
+    atomic_positions_uncommented = rf'^\s*\b(ATOMIC_POSITIONS|atomic_positions)'
+    #atomic_positions_uncommented = rf'(?!\s*!\s*)(ATOMIC_POSITIONS|atomic_positions)'  # Legacy regex
     atomic_positions_lines = find.between(filepath=filepath, key1=atomic_positions_uncommented, key2=_all_cards_regex, include_keys=False, match=-1, regex=True)
     # Remove commented or empty lines
     atomic_positions_lines = atomic_positions_lines.splitlines()

@@ -48,6 +48,7 @@ def make_supercells(
         folder:str=None,
         slurm_template:str='template.slurm',
         update:dict=None,
+        update_E:bool=True,
     ) -> None:
     """
     Creates the supercell inputs of a given `dimension` ('2 2 2' by default),
@@ -57,7 +58,12 @@ def make_supercells(
     Alternatively, a previously relaxed `scf` input file can be provided,
     which will override the creation of a new scf file
     from the `relax_in` and `relax_out` files.
-    Convergence values for the scf file can be updated with an `update` dict.
+
+    Extensive convergence values for the energy (`etot_conv_thr` and `conv_thr`)
+    are updated automatically according to the supercell size.
+    This can be disabled with `update_E=False`.
+    Any input value can be updated with an `update` dict,
+    overriding automatic values.
 
     By default, at the end of the execution it will check
     that an `slurm_template` ('template.slurm') is present and valid;
@@ -72,8 +78,11 @@ def make_supercells(
     if not scf:
         pwx.scf_from_relax(folder, relax_in, relax_out, update=update)
         scf = 'scf.in'
+    _check_dims = extract.coords(dimension)
+    if len(_check_dims) != 3:
+        raise ValueError('Supercell dimension must be given as "nx ny nz"!')
     _supercells_from_scf(dimension, folder, scf)
-    _copy_scf_header_to_supercells(folder, scf)
+    _copy_scf_header_to_supercells(folder, scf, update, update_E)
     print('\n------------------------------------------------------\n'
           'PLEASE CHECH BELOW THE CONTENT OF supercell-001.in\n'
           '------------------------------------------------------\n')
@@ -92,13 +101,12 @@ def make_supercells(
 def _supercells_from_scf(
         dimension:str='2 2 2',
         folder:str=None,
-        scf:str='scf.in'
+        scf:str='scf.in',
     ) -> None:
     """
     Creates supercells of a given `dimension` (`2 2 2` by default) inside a `folder`,
     from a Quantum ESPRESSO `scf` input (`scf.in` by default).
     """
-    print(f'\naton.api.phonopy {__version__}\n')
     folder = call.here(folder)
     scf_in = file.get(folder, scf, True)
     scf_temp1 = _ensure_bohr_units(folder, scf_in)
@@ -119,16 +127,18 @@ def _ensure_bohr_units(folder:str=None, scf:str='scf.in') -> None:
     if 'A' in input_values:  # Convert angstrom to bohr
         celldm = input_values['A'] / (const.physical_constants['Bohr radius'][0] * 1e10)
         pwx.set_value(scf_temp1, 'celldm(1)', celldm)
+        print(f'Updated celldm(1) from A:  {input_values["A"]} AA  ->  {celldm} bohr')
     return scf_temp1
 
 
 def _copy_scf_header_to_supercells(
         folder:str=None,
         scf:str='scf.in',
+        update:dict=None,
+        update_E:bool=True,
     ) -> None:
     """Paste the header from the `scf` file in `folder` to the supercells created by Phonopy."""
-    print(f'\naton.api.phonopy {__version__}\n'
-          f'Adding headers to Phonopy supercells for Quantum ESPRESSO...\n')
+    print(f'Creating header...\n')
     folder = call.here(folder)
     # Check if the header file, the scf.in, exists
     scf_file = file.get(folder, scf, True)
@@ -150,6 +160,7 @@ def _copy_scf_header_to_supercells(
     # Copy the scf to a temp file
     scf_temp2 = '_temp_scf_with_updated_supercell_values.in'
     shutil.copy(scf_file, scf_temp2)
+    values = pwx.read_in(scf_temp2)
     # Find the new number of atoms and replace the line
     updated_values = find.lines(supercell_sample, 'ibrav', 1)  # !    ibrav = 0, nat = 384, ntyp = 5
     if not updated_values:
@@ -158,8 +169,9 @@ def _copy_scf_header_to_supercells(
               "Please, introduce the NEW NUMBER OF ATOMS in the supercells manually (int):")
         nat = int(input('nat = '))
     else:
-        nat = extract.number(updated_values[0], 'nat')
+        nat = int(extract.number(updated_values[0], 'nat'))
     pwx.set_value(scf_temp2, 'nat', nat)
+    print(f'Updated nat:  {values['nat']}  ->  {nat}')
     # Remove the lattice parameters, since Phonopy already indicates units
     pwx.set_value(scf_temp2, 'celldm(1)', '')
     pwx.set_value(scf_temp2, 'A', '')
@@ -168,9 +180,28 @@ def _copy_scf_header_to_supercells(
     pwx.set_value(scf_temp2, 'cosAB', '')
     pwx.set_value(scf_temp2, 'cosAC', '')
     pwx.set_value(scf_temp2, 'cosBC', '')
+    print('Updated lattice parameters')
     # Remove the top content from the temp file
     edit.delete_under(scf_temp2, 'K_POINTS', -1, 2, False)
+    # Update extensive energy values
+    if update_E:
+        old_nat = values['nat']
+        new_atoms_factor = nat / old_nat
+        etot_conv_thr = values['etot_conv_thr']
+        conv_thr = values['conv_thr']
+        new_etot_conv_thr = etot_conv_thr * new_atoms_factor
+        new_conv_thr      = conv_thr      * new_atoms_factor
+        pwx.set_value(scf_temp2, 'etot_conv_thr', new_etot_conv_thr)
+        pwx.set_value(scf_temp2, 'conv_thr', new_conv_thr)
+        print(f'Updated etot_conv_thr:  {etot_conv_thr}  ->  {new_etot_conv_thr}')
+        print(f'Updated conv_thr:  {conv_thr}  ->  {new_conv_thr}')
+    # Update any other user-defined values
+    if update:
+        pwx.set_values(scf_temp2, update)
+        for key, value in update.items():
+            print(f'Updated {key}:  {values[key]}  ->  {value}')
     # Add the header to the supercells
+    print(f'\nAdding header to the supercells...\n')
     with open(scf_temp2, 'r') as f:
         header = f.read()
     for supercell in supercells:
