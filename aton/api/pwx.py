@@ -1090,7 +1090,7 @@ def consts_from_cell_parameters(cell_parameters: list, alat: float | None = None
     }
 
 
-def resume(                               # TODO: make it work for non-ibrav=0 calculations
+def resume(
         folder=None,
         in_str:str='.in',
         out_str:str='.out',
@@ -1114,18 +1114,27 @@ def resume(                               # TODO: make it work for non-ibrav=0 c
     output_file = file.get(folder, out_str, exclude=exclude)
     if not input_file or not output_file:
         raise FileNotFoundError('Missing input or output file')
+    # Check that ibrav == 0
+    dict_in = read_in(input_file)
+    if dict_in['ibrav'] != 0:  # TODO: make it work for non-ibrav=0 calculations
+        raise NotImplementedError('Currently only ibrav=0 calculations can be resumed automatically!')
+    # Get the new values from the output file
     dict_out = read_out(output_file)
     atomic_positions = dict_out.get('ATOMIC_POSITIONS out')
     cell_parameters = dict_out.get('CELL_PARAMETERS out')
     if not atomic_positions:
         raise ValueError(f'Missing atomic positions in output file {output_file}')
     # Backup old files
-    file.backup(input_file, keep=True, label='resumed')
-    file.backup(output_file, keep=False, label='resumed')
+    backup_in = file.backup(input_file, keep=True, label='resumed')
+    backup_out = file.backup(output_file, keep=False, label='resumed')
     # Update input file
     set_value(input_file, 'ATOMIC_POSITIONS', atomic_positions)
     if cell_parameters:
         set_value(input_file, 'CELL_PARAMETERS', cell_parameters)
+    print(f'Updated {input_file} from previous output, ready to resume!')
+    print('Previous input and output files are backuped at:')
+    print(f'  {backup_in}')
+    print(f'  {backup_out}')
     return None
 
 
