@@ -19,7 +19,7 @@ from a folder with `relax.in` and `relax.out` files,
 using a `template.slurm` file,
 ```python
 from aton import api
-api.phonopy.make_supercells()
+api.phonopy.make_supercells('relax.in', 'relax.out')
 api.slurm.sbatch('supercell-', 'template.slurm')
 ```
 
@@ -41,23 +41,27 @@ import scipy.constants as const
 
 
 def make_supercells(
-        dimension:str='2 2 2',
         relax_in:str='relax.in',
         relax_out:str='relax.out',
         scf:str=None,
-        folder:str=None,
         slurm_template:str='template.slurm',
+        folder:str=None,
+        dimension:str='2 2 2',
+        amplitude:float=None,
         update:dict=None,
         update_E:bool=True,
     ) -> None:
     """
-    Creates the supercell inputs of a given `dimension` ('2 2 2' by default),
-    from the `relax_in` and `relax_out` files in the `folder`
+    Creates and prepares the supercell inputs of Phonopy,
+
+    These supercells are created from the `relax_in` and `relax_out` files in the `folder`
     ('relax.in', 'relax.out' and CWD by default, respectively),
     needed for the Phonopy calculations with Quantum ESPRESSO.
     Alternatively, a previously relaxed `scf` input file can be provided,
     which will override the creation of a new scf file
     from the `relax_in` and `relax_out` files.
+    The cells have a given `dimension` ('2 2 2' by default),
+    and the displacement `amplitude` is set to phonopy's default unless specified.
 
     Extensive convergence values for the energy (`etot_conv_thr` and `conv_thr`)
     are updated automatically according to the supercell size.
@@ -81,7 +85,7 @@ def make_supercells(
     _check_dims = extract.coords(dimension)
     if len(_check_dims) != 3:
         raise ValueError('Supercell dimension must be given as "nx ny nz"!')
-    _supercells_from_scf(dimension, folder, scf)
+    _supercells_from_scf(folder, scf, dimension, amplitude)
     _copy_scf_header_to_supercells(folder, scf, update, update_E)
     print('\n------------------------------------------------------\n'
           'PLEASE CHECH BELOW THE CONTENT OF supercell-001.in\n'
@@ -99,9 +103,10 @@ def make_supercells(
 
 
 def _supercells_from_scf(
-        dimension:str='2 2 2',
         folder:str=None,
         scf:str='scf.in',
+        dimension:str='2 2 2',
+        amplitude:float=None,
     ) -> None:
     """
     Creates supercells of a given `dimension` (`2 2 2` by default) inside a `folder`,
@@ -112,7 +117,10 @@ def _supercells_from_scf(
     scf_temp1 = _ensure_bohr_units(folder, scf_in)
     if scf_temp1 is None:
         raise FileNotFoundError('No SCF input found in path!')
-    call.bash(f'phonopy --qe -d --dim="{dimension}" -c {scf_temp1}')
+    if amplitude:
+        call.bash(f'phonopy --qe -d --dim="{dimension}" --amplitude="{amplitude}" -c {scf_temp1}')
+    else:
+        call.bash(f'phonopy --qe -d --dim="{dimension}" -c {scf_temp1}')
     os.remove(scf_temp1)
     return None
 
@@ -201,13 +209,13 @@ def _copy_scf_header_to_supercells(
         for key, value in update.items():
             print(f'Updated {key}:  {values[key]}  ->  {value}')
     # Add the header to the supercells
-    print(f'\nAdding header to the supercells...\n')
+    print(f'\nAdding header to the supercells...')
     with open(scf_temp2, 'r') as f:
         header = f.read()
     for supercell in supercells:
         edit.insert_at(supercell, header, 0)
     # Remove the temp file
     os.remove(scf_temp2)
-    print('Done!')
+    print('Done.')
     return None
 

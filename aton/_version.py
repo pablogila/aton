@@ -10,5 +10,5 @@ https://semver.org/
 
 """
 
-__version__ = 'v0.11.4'
+__version__ = 'v0.12.0'
 

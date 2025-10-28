@@ -309,24 +309,24 @@ def check_template(
     slurm_example = 'template_EXAMPLE.slurm'
     new_slurm_file = os.path.join(folder, slurm_example)
     # Default slurm template
-    content =f'''# Automatic slurm template created with ATON {__version__}\n# https://pablogila.github.io/ATON
+    content =f"""# Automatic slurm template created with ATON {__version__}
+# https://pablogila.github.io/aton
+
 #!/bin/bash
 #SBATCH --partition=general
 #SBATCH --qos=regular
 #SBATCH --job-name=JOBNAME
-#SBATCH --ntasks=32
-#SBATCH --time=1-00:00:00
-#SBATCH --mem=128G
-# #SBATCH --mail-user=YOUR@EMAIL
-# #SBATCH --mail-type=END
+#SBATCH --ntasks=16
+#SBATCH --time=12:00:00
+#SBATCH --mem=64G
 
 module purge
 module load QuantumESPRESSO/7.3-foss-2023a
 
 srun --cpu_bind=cores pw.x -inp INPUT > OUTPUT
-'''
+"""
     # If the slurm template does not exist, create one
-    slurm_file = file.get(folder, template, True)
+    slurm_file = file.get(folder, template, return_anyway=True)
     if not slurm_file:
         with open(new_slurm_file, 'w') as f:
             f.write(content)
