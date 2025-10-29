@@ -61,6 +61,7 @@ import aton.txt.edit as edit
 import aton.txt.extract as extract
 import periodictable
 from scipy.constants import physical_constants
+from copy import deepcopy
 
 
 # Handy conversion factors
@@ -995,7 +996,402 @@ def count_elements(atomic_positions) -> dict:
     return elements
 
 
-def consts_from_cell_parameters(cell_parameters: list, alat: float | None = None) -> dict:
+def consts_from_cell_parameters(
+        cell_parameters: list,
+        AA: float | None = None, 
+        bohr: float | None = None,
+        tol: float = 1e-4,
+        ) -> dict:
+    """Calculates the basic lattice parameters from CELL_PARAMETERS.
+
+    Takes the normalized `cell_parameters` card, and optional `AA` (Angstrom) 
+    or `bohr` values for the alat parameter.
+
+    Returns a dictionary with the fundamental lattice parameters:
+    `'A'`, `'B'`, `'C'`, `'alpha'`, `'beta'`, `'gamma'`, `'cosBC'`, `'cosAC'`, `'cosAB'`, `'volume'`
+    All lengths are returned in Angstrom, angles in degrees.
+
+    Parameters
+    ----------
+    cell_parameters : list
+        List of strings with CELL_PARAMETERS card
+    AA : float, optional
+        Lattice parameter in Angstrom if using 'alat' units
+    bohr : float, optional  
+        Lattice parameter in Bohr if using 'alat' units
+
+    Returns
+    -------
+    dict
+        Dictionary containing basic lattice parameters
+
+    Raises
+    ------
+    ValueError
+        If both AA and bohr are provided, or if alat is needed but not provided
+    """
+    if not cell_parameters:
+        return {
+            'A': None, 'B': None, 'C': None,
+            'alpha': None, 'beta': None, 'gamma': None,
+            'cosBC': None, 'cosAC': None, 'cosAB': None,
+            'volume': None
+        }
+    
+    if len(cell_parameters) < 4:
+        raise ValueError("Input list is too short or empty for cell parameters.")
+    
+    # Check that only one of AA or bohr is provided
+    if AA is not None and bohr is not None:
+        raise ValueError("Only one of 'AA' or 'bohr' arguments can be provided, not both.")
+    
+    header = cell_parameters[0].lower()
+    scaling_factor = 1.0
+    
+    # Determine scaling factor based on the card header
+    if 'bohr' in header:  # Vectors are already in Bohr, no scaling needed
+        pass
+    elif 'angstrom' in header or 'ang' in header:
+        # Convert from Angstrom to Bohr for internal calculations
+        scaling_factor = 1.0 / _BOHR_TO_ANGSTROM
+    elif 'alat' in header: # Extract alat from header or use provided AA/bohr
+        alat_from_header = extract.number(cell_parameters[0])
+        if alat_from_header is not None:
+            scaling_factor = alat_from_header
+        elif AA is not None:
+            if AA <= tol:
+                raise ValueError(
+                    f"CELL_PARAMETERS card is 'alat' but the provided AA={AA} "
+                    "is near zero, leading to unsafe scaling."
+                )
+            # Convert Angstrom to Bohr
+            scaling_factor = AA / _BOHR_TO_ANGSTROM
+        elif bohr is not None:
+            if bohr <= tol:
+                raise ValueError(
+                    f"CELL_PARAMETERS card is 'alat' but the provided bohr={bohr} "
+                    "is near zero, leading to unsafe scaling."
+                )
+            scaling_factor = bohr
+        else:
+            raise ValueError(
+                "CELL_PARAMETERS card is 'alat' but no alat value could be determined. "
+                "Provide either 'AA' (Angstrom) or 'bohr' argument."
+            )
+    
+    # Extract and scale vectors
+    raw_vectors = []
+    for line in cell_parameters[1:4]: 
+        coords_list = extract.coords(line)
+        if len(coords_list) != 3:
+            raise ValueError(f"Vector line has incorrect number of components: {len(coords_list)}")
+        raw_vectors.append(coords_list)
+    
+    # Convert to NumPy array for 3x3 matrix operations
+    M = np.array(raw_vectors) 
+    M *= scaling_factor  # Now all vectors are in Bohr
+    
+    # Extract scaled vectors
+    a_vec, b_vec, c_vec = M[0], M[1], M[2]
+    
+    # Lengths (in Bohr)
+    a_len_bohr = np.linalg.norm(a_vec)
+    b_len_bohr = np.linalg.norm(b_vec)
+    c_len_bohr = np.linalg.norm(c_vec)
+    
+    # Check for zero length vectors
+    if a_len_bohr <= tol or b_len_bohr <= tol or c_len_bohr <= tol:
+        raise ZeroDivisionError("One or more cell vectors have near-zero length after scaling.")
+    
+    # Calculate cosines directly from dot products (most accurate)
+    cosBC = np.dot(b_vec, c_vec) / (b_len_bohr * c_len_bohr)
+    cosAC = np.dot(a_vec, c_vec) / (a_len_bohr * c_len_bohr)
+    cosAB = np.dot(a_vec, b_vec) / (a_len_bohr * b_len_bohr)
+    
+    # Calculate angles in degrees from the cosines
+    # Use np.clip to avoid numerical issues with arccos
+    alpha_deg = np.degrees(np.arccos(np.clip(cosBC, -1.0, 1.0)))
+    beta_deg = np.degrees(np.arccos(np.clip(cosAC, -1.0, 1.0)))
+    gamma_deg = np.degrees(np.arccos(np.clip(cosAB, -1.0, 1.0)))
+    
+    # Calculate volume (in Bohr^3)
+    volume_bohr = np.abs(np.dot(a_vec, np.cross(b_vec, c_vec)))
+    
+    # Convert lengths to Angstrom for output
+    a_len_ang = a_len_bohr * _BOHR_TO_ANGSTROM
+    b_len_ang = b_len_bohr * _BOHR_TO_ANGSTROM
+    c_len_ang = c_len_bohr * _BOHR_TO_ANGSTROM
+    volume_ang = volume_bohr * (_BOHR_TO_ANGSTROM ** 3)
+    
+    consts = {
+        'A': float(a_len_ang), 
+        'B': float(b_len_ang),
+        'C': float(c_len_ang),
+        'alpha': float(alpha_deg),
+        'beta': float(beta_deg),
+        'gamma': float(gamma_deg),
+        'cosBC': float(cosBC),
+        'cosAC': float(cosAC),
+        'cosAB': float(cosAB),
+        'volume': float(volume_ang),
+    }
+    temp = {  # Add the actual vectors for better symmetry detection
+        'a_vec_bohr': a_vec.tolist(),
+        'b_vec_bohr': b_vec.tolist(), 
+        'c_vec_bohr': c_vec.tolist(),
+        'a_len_bohr': float(a_len_bohr),
+        'b_len_bohr': float(b_len_bohr),
+        'c_len_bohr': float(c_len_bohr),
+    }
+    consts_temp = deepcopy(consts)
+    consts_temp.update(temp)
+
+    ibrav = _ibrav_from_consts(consts_temp, tol)
+    consts.update(ibrav)
+
+    return consts
+
+
+def _ibrav_from_consts(
+        lattice_params: dict,
+        tol: float = 1e-4
+    ) -> dict:
+    """Determine the Bravais lattice type (ibrav) from lattice constants.
+    
+    Parameters
+    ----------
+    lattice_params : dict
+        Dictionary containing lattice parameters with keys:
+        'A', 'B', 'C' (lengths in Angstrom)
+        'alpha', 'beta', 'gamma' (angles in degrees)
+        'cosBC', 'cosAC', 'cosAB' (cosines of angles)
+        'a_vec_bohr', 'b_vec_bohr', 'c_vec_bohr' (vectors in Bohr)
+        'a_len_bohr', 'b_len_bohr', 'c_len_bohr' (lengths in Bohr)
+    tol : float
+        Tolerance for symmetry comparisons
+    
+    Returns
+    -------
+    dict
+        Dictionary with keys:
+        'ibrav': Bravais lattice index (0-14)
+        'ibrav name': String description of the lattice
+    """
+    # Extract values from dictionary
+    A = lattice_params['A']
+    B = lattice_params['B']
+    C = lattice_params['C']
+    alpha = lattice_params['alpha']
+    beta = lattice_params['beta']
+    gamma = lattice_params['gamma']
+    a_vec = np.array(lattice_params['a_vec_bohr'])
+    b_vec = np.array(lattice_params['b_vec_bohr'])
+    c_vec = np.array(lattice_params['c_vec_bohr'])
+    a_len_bohr = lattice_params['a_len_bohr']
+    
+    # Helper functions for comparisons
+    def eq(x, y):
+        return abs(x - y) < tol
+    
+    def eq_angle(angle, target):
+        return abs(angle - target) < tol or abs(angle - (180 - target)) < tol
+    
+    def eq_vec(v1, v2):
+        """Compare vectors allowing for sign changes and normalization."""
+        v1_norm = v1 / np.linalg.norm(v1) if np.linalg.norm(v1) > 0 else v1
+        v2_norm = v2 / np.linalg.norm(v2) if np.linalg.norm(v2) > 0 else v2
+        return (np.allclose(v1_norm, v2_norm, atol=tol) or 
+                np.allclose(v1_norm, -v2_norm, atol=tol))
+    
+    def matches_pattern(vectors, patterns):
+        """Check if vectors match any of the given patterns."""
+        for pattern in patterns:
+            # Try all permutations of the vectors
+            for perm in [(0,1,2), (0,2,1), (1,0,2), (1,2,0), (2,0,1), (2,1,0)]:
+                matched = True
+                for i in range(3):
+                    if not eq_vec(vectors[perm[i]], pattern[i]):
+                        matched = False
+                        break
+                if matched:
+                    return True
+        return False
+
+    # Use vectors in alat units for pattern matching (alat = |a|)
+    alat = a_len_bohr
+    vectors_alat = [a_vec / alat, b_vec / alat, c_vec / alat]
+
+    # 1. Check cubic systems
+    if eq(A, B) and eq(B, C) and eq_angle(alpha, 90) and eq_angle(beta, 90) and eq_angle(gamma, 90):
+        # Cubic F (fcc) - ibrav=2
+        fcc_patterns = [
+            [np.array([-0.5,0,0.5]), np.array([0,0.5,0.5]), np.array([-0.5,0.5,0])],
+            [np.array([0.5,0.5,0]), np.array([0.5,0,0.5]), np.array([0,0.5,0.5])]
+        ]
+        
+        # Cubic I (bcc) - ibrav=3
+        bcc_patterns = [
+            [np.array([0.5,0.5,0.5]), np.array([-0.5,0.5,0.5]), np.array([-0.5,-0.5,0.5])]
+        ]
+        
+        # Cubic I (bcc) alternate - ibrav=-3
+        bcc_alt_patterns = [
+            [np.array([-0.5,0.5,0.5]), np.array([0.5,-0.5,0.5]), np.array([0.5,0.5,-0.5])]
+        ]
+        
+        if matches_pattern(vectors_alat, fcc_patterns):
+            return {'ibrav': 2, 'ibrav name': "cubic F (fcc)"}
+        elif matches_pattern(vectors_alat, bcc_patterns):
+            return {'ibrav': 3, 'ibrav name': "cubic I (bcc)"}
+        elif matches_pattern(vectors_alat, bcc_alt_patterns):
+            return {'ibrav': -3, 'ibrav name': "cubic I (bcc), symmetric axis"}
+        else:
+            return {'ibrav': 1, 'ibrav name': "cubic P (sc)"}
+    
+    # 2. Check tetragonal systems  
+    if eq(A, B) and not eq(A, C) and eq_angle(alpha, 90) and eq_angle(beta, 90) and eq_angle(gamma, 90):
+        celldm_3 = C / A
+        
+        # Tetragonal I (bct) - ibrav=7
+        bct_patterns = [
+            [np.array([0.5,-0.5,celldm_3]), np.array([0.5,0.5,celldm_3]), np.array([-0.5,-0.5,celldm_3])],
+            [np.array([0.5,0.5,celldm_3]), np.array([-0.5,0.5,celldm_3]), np.array([-0.5,-0.5,celldm_3])]
+        ]
+        
+        if matches_pattern(vectors_alat, bct_patterns):
+            return {'ibrav': 7, 'ibrav name': "tetragonal I (bct)"}
+        else:
+            return {'ibrav': 6, 'ibrav name': "tetragonal P (st)"}
+    
+    # 3. Check orthorhombic systems
+    if (not eq(A, B) and not eq(B, C) and not eq(A, C) and 
+        eq_angle(alpha, 90) and eq_angle(beta, 90) and eq_angle(gamma, 90)):
+        celldm_2 = B / A
+        celldm_3 = C / A
+        
+        # Orthorhombic base-centered - ibrav=9
+        bco_patterns = [
+            [np.array([0.5,0.5*celldm_2,0]), np.array([-0.5,0.5*celldm_2,0]), np.array([0,0,celldm_3])]
+        ]
+        
+        # Orthorhombic base-centered alternate - ibrav=-9
+        bco_alt_patterns = [
+            [np.array([0.5,-0.5*celldm_2,0]), np.array([0.5,0.5*celldm_2,0]), np.array([0,0,celldm_3])]
+        ]
+        
+        # Orthorhombic one-face base-centered A-type - ibrav=91
+        bcoA_patterns = [
+            [np.array([1,0,0]), np.array([0,0.5*celldm_2,-0.5*celldm_3]), np.array([0,0.5*celldm_2,0.5*celldm_3])]
+        ]
+        
+        # Orthorhombic face-centered - ibrav=10
+        of_patterns = [
+            [np.array([0.5,0,0.5*celldm_3]), np.array([0.5,0.5*celldm_2,0]), np.array([0,0.5*celldm_2,0.5*celldm_3])]
+        ]
+        
+        # Orthorhombic body-centered - ibrav=11
+        oi_patterns = [
+            [np.array([0.5,0.5*celldm_2,0.5*celldm_3]), np.array([-0.5,0.5*celldm_2,0.5*celldm_3]), 
+             np.array([-0.5,-0.5*celldm_2,0.5*celldm_3])]
+        ]
+        
+        if matches_pattern(vectors_alat, bco_patterns):
+            return {'ibrav': 9, 'ibrav name': "orthorhombic base-centered (bco)"}
+        elif matches_pattern(vectors_alat, bco_alt_patterns):
+            return {'ibrav': -9, 'ibrav name': "orthorhombic base-centered (bco) alternate"}
+        elif matches_pattern(vectors_alat, bcoA_patterns):
+            return {'ibrav': 91, 'ibrav name': "orthorhombic one-face base-centered A-type"}
+        elif matches_pattern(vectors_alat, of_patterns):
+            return {'ibrav': 10, 'ibrav name': "orthorhombic face-centered"}
+        elif matches_pattern(vectors_alat, oi_patterns):
+            return {'ibrav': 11, 'ibrav name': "orthorhombic body-centered"}
+        else:
+            return {'ibrav': 8, 'ibrav name': "orthorhombic P"}
+    
+    # 4. Check hexagonal/trigonal P (ibrav=4)
+    if eq(A, B) and eq_angle(alpha, 90) and eq_angle(beta, 90) and eq_angle(gamma, 120):
+        celldm_3 = C / A
+        
+        # Hexagonal pattern
+        hex_patterns = [
+            [np.array([1,0,0]), np.array([-0.5,0.5*np.sqrt(3),0]), np.array([0,0,celldm_3])]
+        ]
+        
+        if matches_pattern(vectors_alat, hex_patterns):
+            return {'ibrav': 4, 'ibrav name': "hexagonal/trigonal P"}
+    
+    # 5. Check trigonal R (rhombohedral) - ibrav=5 and -5
+    if (eq(A, B) and eq(B, C) and 
+        eq_angle(alpha, beta) and eq_angle(beta, gamma)):
+        cosAB = lattice_params['cosAB']
+        
+        # Calculate tx, ty, tz for trigonal R
+        tx = np.sqrt((1 - cosAB) / 2)
+        ty = np.sqrt((1 - cosAB) / 6)
+        tz = np.sqrt((1 + 2 * cosAB) / 3)
+        
+        # Trigonal R, 3fold axis c - ibrav=5
+        trigonalR_patterns = [
+            [np.array([tx, -ty, tz]), np.array([0, 2*ty, tz]), np.array([-tx, -ty, tz])]
+        ]
+        
+        # Trigonal R, 3fold axis <111> - ibrav=-5
+        a_prime = 1 / np.sqrt(3)
+        u = tz - 2 * np.sqrt(2) * ty
+        v = tz + np.sqrt(2) * ty
+        trigonalR_alt_patterns = [
+            [np.array([a_prime*u, a_prime*v, a_prime*v]), 
+             np.array([a_prime*v, a_prime*u, a_prime*v]), 
+             np.array([a_prime*v, a_prime*v, a_prime*u])]
+        ]
+        
+        if matches_pattern(vectors_alat, trigonalR_alt_patterns):
+            return {'ibrav': -5, 'ibrav name': "trigonal R (3fold axis <111>)"}
+        elif matches_pattern(vectors_alat, trigonalR_patterns):
+            return {'ibrav': 5, 'ibrav name': "trigonal R (3fold axis c)"}
+    
+    # 6. Check monoclinic systems
+    # Monoclinic P (unique axis c) - ibrav=12
+    if (eq_angle(alpha, 90) and eq_angle(beta, 90) and not eq_angle(gamma, 90)):
+        celldm_2 = B / A
+        celldm_3 = C / A
+        cosAB = lattice_params['cosAB']
+        
+        # Monoclinic base-centered (unique axis c) - ibrav=13
+        monoclinicBc_patterns = [
+            [np.array([0.5,0,-0.5*celldm_3]), 
+             np.array([cosAB, np.sqrt(1-cosAB**2), 0]), 
+             np.array([0.5,0,0.5*celldm_3])]
+        ]
+        
+        if matches_pattern(vectors_alat, monoclinicBc_patterns):
+            return {'ibrav': 13, 'ibrav name': "monoclinic base-centered (unique axis c)"}
+        else:
+            return {'ibrav': 12, 'ibrav name': "monoclinic P (unique axis c)"}
+    
+    # Monoclinic P (unique axis b) - ibrav=-12
+    if (eq_angle(alpha, 90) and not eq_angle(beta, 90) and eq_angle(gamma, 90)):
+        celldm_2 = B / A
+        celldm_3 = C / A
+        cosAC = lattice_params['cosAC']
+        
+        # Monoclinic base-centered (unique axis b) - ibrav=-13
+        monoclinicBb_patterns = [
+            [np.array([0.5,0.5*celldm_2,0]), 
+             np.array([-0.5,0.5*celldm_2,0]), 
+             np.array([cosAC,0,np.sqrt(1-cosAC**2)])]
+        ]
+        
+        if matches_pattern(vectors_alat, monoclinicBb_patterns):
+            return {'ibrav': -13, 'ibrav name': "monoclinic base-centered (unique axis b)"}
+        else:
+            return {'ibrav': -12, 'ibrav name': "monoclinic P (unique axis b)"}
+    
+    # 7. Triclinic (fallback if no higher symmetry detected)
+    return {'ibrav': 14, 'ibrav name': "triclinic"}
+
+
+def _consts_from_cell_parameters(cell_parameters: list, alat: float | None = None) -> dict:
     """Calculates the lattice parameters from CELL_PARAMETERS.
 
     Takes the normalized `cell_parameters` card, and an optional `alat` value for celldm(1) in Bohr,
