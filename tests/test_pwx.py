@@ -182,6 +182,9 @@ def test_set_value():
     modified = aton.api.pwx.read_in(tempfile)
     assert 'A' not in modified.keys()
     assert 'celldm(1)' not in modified.keys()
+    aton.api.pwx.set_value(tempfile, 'CELL_PARAMETERS', '')
+    modified = aton.api.pwx.read_in(tempfile)
+    assert not modified['CELL_PARAMETERS']
     aton.file.remove(tempfile)
 
 
@@ -275,4 +278,23 @@ def test_scf_fermi():
     assert data['Efermi'] == 6.5160
     assert data['Energy'] == -93.45256277
     assert data['Pressure'] == 19.87
+
+
+def test_ibrav():
+    file = folder + 'relax.in'
+    alats = aton.api.pwx.get_ibrav(filepath=file)
+    assert alats['ibrav'] == 1
+    assert not '?' in alats['ibrav name']
+
+
+def test_set_ibrav():
+    file = folder + 'relax.in'
+    tmp = folder + 'temp_relax_ibrav.in'
+    shutil.copy(file, tmp)
+    aton.api.pwx.set_ibrav(filepath=tmp)
+    data = aton.api.pwx.read_in(tmp)
+    assert data['ibrav'] == 1
+    assert not data['CELL_PARAMETERS']
+    assert data['A'] == 20.0
+    aton.file.remove(tmp)
 

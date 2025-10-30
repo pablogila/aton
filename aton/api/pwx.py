@@ -23,6 +23,7 @@ Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html
 | --- | --- |  
 | `set_value()`      | Replace the value of a specific parameter from an input file |  
 | `set_values()`     | Replace the value of multiple specific parameters from an input file |  
+| `set_ibrav()`      | Automatically set the ibrav value and constants for an ibrav=0 input file |  
 | `add_atom()`       | Add an atom to a given input file |  
 | `resume()`         | Update an input file with the atomic coordinates of a previous output file |  
 | `scf_from_relax()` | Create a scf.in from a previous relax calculation |  
@@ -32,12 +33,12 @@ Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html
 
 | | |  
 | --- | --- |  
-| `get_atom()`        | Take the approximate position of an atom and return the full coordinates |  
-| `count_elements()`  | Take the ATOMIC_POSITIONS and return a dict as {element: number} |  
-| `normalize_card()`  | Take a matched card, and return it in a normalized format |  
-| `consts_from_cell_parameters()` | Get the lattice parameters from the CELL_PARAMETERS matrix |  
-| `to_cartesian()`    | Convert coordinates from crystal lattice vectors to cartesian |  
-| `from_cartesian()`  | Convert coordinates from cartesian to the base of lattice vectors |  
+| `get_atom()`       | Take the approximate position of an atom and return the full coordinates |  
+| `get_ibrav()`      | Estimate the lattice parameters and ibrav from the input or the CELL_PARAMETERS matrix |  
+| `count_elements()` | Take the ATOMIC_POSITIONS and return a dict as {element: number} |  
+| `normalize_card()` | Take a matched card, and return it in a normalized format |  
+| `to_cartesian()`   | Convert coordinates from crystal lattice vectors to cartesian |  
+| `from_cartesian()` | Convert coordinates from cartesian to the base of lattice vectors |  
 
 
 ## Dicts with input file description  
@@ -119,6 +120,10 @@ def read_in(filepath) -> dict:
             if alat:  # This overwrites any possible celldm(1) previously defined!
                 data['celldm(1)'] = alat
                 data['CELL_PARAMETERS'][0] = 'CELL_PARAMETERS alat'
+    else:
+        data['CELL_PARAMETERS'] = None
+    if not 'ATOMIC_POSITIONS' in data.keys():
+        data['ATOMIC_POSITIONS'] = None
     return data
 
 
@@ -133,8 +138,9 @@ def read_out(filepath) -> dict:
     `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Volume AA'` (AA^3),
     `'Density'` (g/cm^3), `'Pressure'` (kbar),
     `'CELL_PARAMETERS out'` (list of str), `'ATOMIC_POSITIONS out'` (list of str),
-    `'cosBC out'`, `'cosAC out'`, `'cosAB out'` (float),
     `'A out'`, `'B out'`, `'C out'` (angstrom),
+    `'cosBC out'`, `'cosAC out'`, `'cosAB out'` (float),
+    `'ibrav out'` (int), `'ibrav name out'` (str).
     """
     file_path = file.get(filepath)
 
@@ -281,10 +287,10 @@ def read_out(filepath) -> dict:
     }
 
     # Extract lattice parameters A, B, C, celldm(i) and cosines
-    if alat:
-        consts = consts_from_cell_parameters(cell_parameters, alat)
+    if alat and cell_parameters:
+        consts = get_ibrav(cell=cell_parameters, bohr=alat, return_anyway=True)
     else:
-        consts = consts_from_cell_parameters(cell_parameters)
+        consts = get_ibrav(cell=cell_parameters, return_anyway=True)
     consts_out = {key + ' out': value for key, value in consts.items()}
     output.update(consts_out)
 
@@ -568,12 +574,10 @@ def _update_card(
 
     Optionally change indentation with `indent`, 2 spaces by default.
     """
-    if value == '':
-        return None
-    value = normalize_card(value, indent)
-    # Replace the CARD value up to the next CARD found
     key = key.upper().strip()
     key_uncommented = rf'(?!\s*!\s*)({key}|{key.lower()})'
+    value = normalize_card(value, indent)
+    # Replace the CARD value up to the next CARD found
     lines = '\n'.join(value)
     edit.replace_between(filepath=filepath, key1=key_uncommented, key2=_all_cards_regex, text=lines, delete_keys=False, regex=True)
     # We added the CARD below the previous CARD title, so we remove the previous CARD title
@@ -999,39 +1003,60 @@ def count_elements(atomic_positions) -> dict:
     return elements
 
 
-def consts_from_cell_parameters(
-        cell_parameters: list,
-        AA: float | None = None, 
-        bohr: float | None = None,
-        tol: float = 1e-4,
+def get_ibrav(
+        filepath=None,
+        cell:list=None,
+        AA:float|None=None, 
+        bohr:float|None=None,
+        tol:float=1e-4,
+        return_anyway=False,
         ) -> dict:
     """Calculates the lattice parameters from CELL_PARAMETERS and determines Bravais lattice type.
 
     Takes the normalized `cell_parameters` card,
     and optional `AA` (angstrom) or `bohr` values for the alat parameter.
-    Automatically detects the ibrav Bravais lattice type from the cell vectors,
+    Automatically tries to detect the ibrav Bravais lattice type from the cell vectors,
     with a default tolerance of `tol=1e-4`.
 
     Returns a dictionary with the fundamental lattice parameters:
     `'A'`, `'B'`, `'C'`, (angstrom) `'alpha'`, `'beta'`, `'gamma'` (degrees),
-    `'cosBC'`, `'cosAC'`, `'cosAB'`, `'Volume cell'` (AA^3),
-    `'ibrav'`, `'ibrav name'`.
+    `'cosBC'`, `'cosAC'`, `'cosAB'`, `'ibrav'`, `'ibrav name'`.
+    If the ibrav is only partially matched, the `ibrav name` will contain a `?` mark.
     """
     # Check that the input is valid
-    if not cell_parameters:
-        return {
+    empty = {
             'A': None, 'B': None, 'C': None,
             'alpha': None, 'beta': None, 'gamma': None,
             'cosBC': None, 'cosAC': None, 'cosAB': None,
-            'Volume cell': None
+            'ibrav': None, 'ibrav name': None,
         }
-    if len(cell_parameters) < 4:
+    if not filepath and not cell and not return_anyway:
+        raise ValueError("No filepath nor cell parameters provided.")
+    if filepath and cell and not return_anyway:
+        raise ValueError("Provide only filepath or cell parameters, not both.")
+    if filepath:
+        content = read_in(filepath)
+        cell = content.get('CELL_PARAMETERS', None)
+        if not AA and not bohr:
+            AA = content.get('A', None)
+            if AA is None:
+                bohr = content.get('celldm(1)', None)
+    if not cell:
+        if return_anyway:
+            return empty
+        raise ValueError("No CELL_PARAMETERS were found.")
+    if len(cell) < 4:
+        if return_anyway:
+            return empty
         raise ValueError("Input list is too short or empty for cell parameters.")
     # Check that only one of AA or bohr is provided
     if AA is not None and bohr is not None:
+        if return_anyway:
+            return empty
         raise ValueError("Only one of 'AA' or 'bohr' arguments can be provided, not both.")
 
-    header = cell_parameters[0].lower()
+    # Set the scaling factor to angstroms
+    header = cell[0].lower()
     scaling_factor = 1.0
     # Determine scaling factor based on the card header
     if 'bohr' in header:  # Convert from Bohr to Angstrom for all calculations
@@ -1039,27 +1064,37 @@ def consts_from_cell_parameters(
     elif 'angstrom' in header or 'ang' in header:  # No scaling needed
         pass
     elif 'alat' in header:  # Extract alat from header or use provided AA/bohr
-        alat_from_header = extract.number(cell_parameters[0])
+        alat_from_header = extract.number(cell[0])
         if alat_from_header is not None:  # Convert from bohr to angstrom
             scaling_factor = alat_from_header * _BOHR_TO_ANGSTROM
         elif AA is not None:
             if AA <= tol:
+                if return_anyway:
+                    return empty
                 raise ValueError(f"CELL_PARAMETERS card is 'alat' but AA = {AA} < {tol}.")
             scaling_factor = AA  # Use AA directly in Angstrom
         elif bohr is not None:
-            if bohr <= tol:
-                raise ValueError(f"CELL_PARAMETERS card is 'alat' but bohr = {bohr} < {tol}.")
+            if bohr * _BOHR_TO_ANGSTROM <= tol:
+                if return_anyway:
+                    return empty
+                raise ValueError(f"CELL_PARAMETERS card is 'alat' but bohr = {bohr} * {_BOHR_TO_ANGSTROM:.3f} < {tol}.")
             scaling_factor = bohr * _BOHR_TO_ANGSTROM  # Convert Bohr to Angstrom
         else:
+            if return_anyway:
+                return empty
             raise ValueError("CELL_PARAMETERS card is 'alat' but no value could be determined.")
     else:
+        if return_anyway:
+            return empty
         raise ValueError("CELL_PARAMETERS header should specify units in bohr, angstom or alat.")
 
     # Extract and scale vectors
     raw_vectors = []
-    for line in cell_parameters[1:4]: 
+    for line in cell[1:4]: 
         coords_list = extract.coords(line)
         if len(coords_list) != 3:
+            if return_anyway:
+                return empty
             raise ValueError(f"CELL_PARAMETERS should only have 3 components per line:\n {coords_list}")
         raw_vectors.append(coords_list)
 
@@ -1077,6 +1112,8 @@ def consts_from_cell_parameters(
 
     # Check for zero length vectors
     if a_len <= tol or b_len <= tol or c_len <= tol:
+        if return_anyway:
+            return empty
         raise ZeroDivisionError("One or more cell vectors have near-zero length after scaling.")
 
     # Cosines
@@ -1179,6 +1216,7 @@ def _ibrav_from_consts(
     ########
     # Cubic
     ########
+    # a = b = c, alpha = beta = gamma = 90
     if (eq(A, B) and eq(B, C) and
         eq_angle(alpha, 90) and eq_angle(beta, 90) and eq_angle(gamma, 90)):
         sc_patterns = [  # Cubic P (sc) - ibrav=1
@@ -1199,12 +1237,15 @@ def _ibrav_from_consts(
         elif matches_pattern(vectors_alat, sc_patterns):
             return {'ibrav': 1, 'ibrav name': "cubic P (sc)"}
         else:  # Suspicious, but let's default to simple cubic
-            return {'ibrav': 1, 'ibrav name': "cubic P (sc) (default)"}
+            return {'ibrav': 1, 'ibrav name': f"cubic P (sc) ? (tol={tol})"}
 
     #############
     # Tetragonal
     #############
-    if (eq(A, B) and not eq(A, C) and
+    # a = b != c, alpha = beta = gamma = 90
+    if (((eq(A, B) and not eq(A, C)) or
+        (not eq(A, B) and eq(A, C)) or
+        (eq(B, C) and not eq(B, A))) and
         eq_angle(alpha, 90) and eq_angle(beta, 90) and eq_angle(gamma, 90)):
         st_patterns = [  # Tetragonal P (st) - ibrav=6
             [np.array([1, 0, 0]),
@@ -1219,11 +1260,12 @@ def _ibrav_from_consts(
         elif matches_pattern(vectors_alat, st_patterns):
             return {'ibrav': 6, 'ibrav name': "tetragonal P (st)"}
         else:  # Suspicious but let's go default
-            return {'ibrav': 6, 'ibrav name': "tetragonal P (st) (default)"}
+            return {'ibrav': 6, 'ibrav name': f"tetragonal P (st) ? (tol={tol})"}
 
     ###############
     # Orthorhombic
     ###############
+    # a != b != c, alpha = beta = gamma = 90
     if (not eq(A, B) and not eq(B, C) and not eq(A, C) and
         eq_angle(alpha, 90) and eq_angle(beta, 90) and eq_angle(gamma, 90)):
         op_patterns = [  # Orthorhombic P - ibrav=8
@@ -1263,12 +1305,18 @@ def _ibrav_from_consts(
         elif matches_pattern(vectors_alat, op_patterns):
             return {'ibrav': 8, 'ibrav name': "orthorhombic P"}
         else:  # Suspicious but let's go default
-            return {'ibrav': 8, 'ibrav name': "orthorhombic P (default)"}
+            return {'ibrav': 8, 'ibrav name': f"orthorhombic P ? (tol={tol})"}
 
     #################################
     # Hexagonal/trigonal P (ibrav=4)
     #################################
-    if eq(A, B) and eq_angle(alpha, 90) and eq_angle(beta, 90) and eq_angle(gamma, 120):
+    # a = b != c, alpha = beta = 90, gamma = 120
+    if (((eq(A, B) and not eq(A, C)) or
+         (not eq(A, B) and eq(A, C)) or
+         (eq(B, C) and not eq(B, A))) and
+        (eq_angle(alpha, 90) and eq_angle(beta, 90) and eq_angle(gamma, 120)) or
+        (eq_angle(alpha, 90) and eq_angle(beta, 120) and eq_angle(gamma, 90)) or 
+        (eq_angle(alpha, 120) and eq_angle(beta, 90) and eq_angle(gamma, 90))):
         hex_patterns = [  # Hexagonal pattern
             [np.array([1, 0, 0]),
              np.array([-0.5, 0.5*np.sqrt(3), 0]),
@@ -1276,13 +1324,13 @@ def _ibrav_from_consts(
         if matches_pattern(vectors_alat, hex_patterns):
             return {'ibrav': 4, 'ibrav name': "hexagonal/trigonal P"}
         else:  # Suspicious but let's go default
-            return {'ibrav': 4, 'ibrav name': "hexagonal/trigonal P (default)"}
+            return {'ibrav': 4, 'ibrav name': f"hexagonal/trigonal P ? (tol={tol})"}
 
     #############################################
     # Trigonal R (rhombohedral) - ibrav=5 and -5
     #############################################
-    # More restrictive condition: all sides equal, all angles equal, but not 90° nor 120°
-    if (eq(A, B) and eq(B, C) and 
+    # a = b = b, alpha = beta = gamma != 90 != 120
+    if (eq(A, B) and eq(B, C) and
         eq_angle(alpha, beta) and eq_angle(beta, gamma) and
         not eq_angle(alpha, 90) and not eq_angle(alpha, 120)):
         # Calculate tx, ty, tz for trigonal R
@@ -1309,7 +1357,11 @@ def _ibrav_from_consts(
     #############
     # Monoclinic
     #############
-    if (eq_angle(alpha, 90) and eq_angle(beta, 90) and not eq_angle(gamma, 90)):
+    # a != b != c, alpha = beta = 90, gamma != 90
+    if (not eq(A, B) and not eq(A, C) and not eq(B, C) and
+        ((eq_angle(alpha, 90) and eq_angle(beta, 90) and not eq_angle(gamma, 90)) or
+         (eq_angle(alpha, 90) and not eq_angle(beta, 90) and eq_angle(gamma, 90)) or
+         (not eq_angle(alpha, 90) and eq_angle(beta, 90) and eq_angle(gamma, 90)))):
         monoclinicPc_patterns = [  # Monoclinic P (unique axis c) - ibrav=12
             [np.array([1, 0, 0]),
              np.array([b_over_a*cosAB, b_over_a*np.sqrt(1-cosAB**2), 0]),
@@ -1338,21 +1390,61 @@ def _ibrav_from_consts(
         elif matches_pattern(vectors_alat, monoclinicPb_patterns):
             return {'ibrav': -12, 'ibrav name': "monoclinic P (unique axis b)"}
         else:  # Sus...
-            return {'ibrav': -12, 'ibrav name': "monoclinic P (unique axis b) (default)"}
+            return {'ibrav': -12, 'ibrav name': f"monoclinic P (unique axis b) ? (tol={tol})"}
 
     ############
     # Triclinic
     ############
-    triclinic_patterns = [  # Triclinic - ibrav=14
-        [np.array([1, 0, 0]),
-         np.array([b_over_a*cosAB, b_over_a*np.sqrt(1-cosAB**2), 0]),
-         np.array([c_over_a*cosAC,
-                   c_over_a*(cosBC-cosAC*cosAB)/np.sqrt(1-cosAB**2),
-                   c_over_a*np.sqrt(1+2*cosBC*cosAC*cosAB-cosBC**2-cosAC**2-cosAB**2)/np.sqrt(1-cosAB**2)])]]
-    if matches_pattern(vectors_alat, triclinic_patterns):
-        return {'ibrav': 14, 'ibrav name': "triclinic"}
-    else:  # We couldn't figure it out :/
-        return {'ibrav': 0, 'ibrav name': "free (default)"}
+    # a != b != c, alpha != beta != gamma != 90
+    if (not eq(A, B) and not eq(A,C) and not eq(B, C) and
+        not eq_angle(alpha, beta) and not eq_angle(beta, gamma) and not eq_angle(alpha, gamma) and
+        not eq_angle(alpha, 90) and not eq_angle(beta, 90) and not eq_angle(gamma, 90)):
+        triclinic_patterns = [  # Triclinic - ibrav=14
+            [np.array([1, 0, 0]),
+             np.array([b_over_a*cosAB, b_over_a*np.sqrt(1-cosAB**2), 0]),
+             np.array([c_over_a*cosAC,
+                       c_over_a*(cosBC-cosAC*cosAB)/np.sqrt(1-cosAB**2),
+                       c_over_a*np.sqrt(1+2*cosBC*cosAC*cosAB-cosBC**2-cosAC**2-cosAB**2)/np.sqrt(1-cosAB**2)])]]
+        if matches_pattern(vectors_alat, triclinic_patterns):
+            return {'ibrav': 14, 'ibrav name': "triclinic"}
+        else:  # Sus...
+            return {'ibrav': 14, 'ibrav name': f"triclinic ? (tol={tol})"}
+    # We couldn't figure it out :/
+    return {'ibrav': 0, 'ibrav name': f"free ? (tol={tol})"}
+
+
+def set_ibrav(
+        filepath,
+        tol:float=1e-4,
+        ibrav:int=None,
+        ) -> None:
+    """Set the ibrav value and lattice parameters for an ibrav=0 input file automatically.
+
+    The tolerance detection defaults to `tol=1e-4`.
+    An optinal `ibrav` number can be forced if required,
+    but the updated lattice parameters A, B, C, cosBC, cosAC and cosAB should be manually changed accordingly.
+    """
+    values = get_ibrav(filepath=filepath, tol=tol)
+    update = {
+        'ibrav'          : values['ibrav'],
+        'A'              : values['A'],
+        'B'              : values['B'],
+        'C'              : values['C'],
+        'cosBC'          : values['cosBC'],
+        'cosAC'          : values['cosAC'],
+        'cosAB'          : values['cosAB'],
+        'celldm(1)'      : '',
+        'celldm(2)'      : '',
+        'celldm(3)'      : '',
+        'celldm(4)'      : '',
+        'celldm(5)'      : '',
+        'celldm(6)'      : '',
+        'CELL_PARAMETERS': '',
+    }
+    if ibrav:
+        update['ibrav'] = ibrav
+    set_values(filepath, update=update)
+    return None
 
 
 def resume(
