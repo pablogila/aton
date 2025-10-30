@@ -140,6 +140,7 @@ def read_out(filepath) -> dict:
     `'CELL_PARAMETERS out'` (list of str), `'ATOMIC_POSITIONS out'` (list of str),
     `'A out'`, `'B out'`, `'C out'` (angstrom),
     `'cosBC out'`, `'cosAC out'`, `'cosAB out'` (float),
+    `'alpha out'`, `'beta out'`, `'gamma out'`,
     `'ibrav out'` (int), `'ibrav name out'` (str).
     """
     file_path = file.get(filepath)
@@ -1009,6 +1010,7 @@ def get_ibrav(
         AA:float|None=None, 
         bohr:float|None=None,
         tol:float=1e-4,
+        tol_deg:float=1e-2,
         return_anyway=False,
         ) -> dict:
     """Calculates the lattice parameters from CELL_PARAMETERS and determines Bravais lattice type.
@@ -1016,7 +1018,7 @@ def get_ibrav(
     Takes the normalized `cell_parameters` card,
     and optional `AA` (angstrom) or `bohr` values for the alat parameter.
     Automatically tries to detect the ibrav Bravais lattice type from the cell vectors,
-    with a default tolerance of `tol=1e-4`.
+    with a default tolerance of `tol=1e-4` angstroms and `tol_deg=1e-2` degrees.
 
     Returns a dictionary with the fundamental lattice parameters:
     `'A'`, `'B'`, `'C'`, (angstrom) `'alpha'`, `'beta'`, `'gamma'` (degrees),
@@ -1150,14 +1152,15 @@ def get_ibrav(
     }
     consts_temp = deepcopy(consts)
     consts_temp.update(temp)
-    ibrav = _ibrav_from_consts(consts_temp, tol)
+    ibrav = _ibrav_from_consts(lattice_params=consts_temp, tol=tol, tol_deg=tol_deg)
     consts.update(ibrav)
     return consts
 
 
 def _ibrav_from_consts(
         lattice_params: dict,
-        tol: float = 1e-4
+        tol: float = 1e-4,
+        tol_deg: float = 1e-2,
     ) -> dict:
     """Determine the Bravais lattice type (ibrav) from lattice constants and vectors.
 
@@ -1185,7 +1188,7 @@ def _ibrav_from_consts(
     def eq(x, y):
         return abs(x - y) < tol
     def eq_angle(angle, target):
-        return abs(angle - target) < tol or abs(angle - (180 - target)) < tol
+        return abs(angle - target) < tol_deg or abs(angle - (180 - target)) < tol_deg
     def eq_vec(v1, v2):
         """Compare vectors allowing for sign changes and normalization."""
         v1_norm = v1 / np.linalg.norm(v1) if np.linalg.norm(v1) > 0 else v1
@@ -1416,15 +1419,16 @@ def _ibrav_from_consts(
 def set_ibrav(
         filepath,
         tol:float=1e-4,
+        tol_deg:float=1e-2,
         ibrav:int=None,
         ) -> None:
     """Set the ibrav value and lattice parameters for an ibrav=0 input file automatically.
 
-    The tolerance detection defaults to `tol=1e-4`.
+    The tolerance values default to those of `get_ibrav`.
     An optinal `ibrav` number can be forced if required,
     but the updated lattice parameters A, B, C, cosBC, cosAC and cosAB should be manually changed accordingly.
     """
-    values = get_ibrav(filepath=filepath, tol=tol)
+    values = get_ibrav(filepath=filepath, tol=tol, tol_deg=tol_deg)
     update = {
         'ibrav'          : values['ibrav'],
         'A'              : values['A'],
