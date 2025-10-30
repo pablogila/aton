@@ -1010,7 +1010,7 @@ def get_ibrav(
         AA:float|None=None, 
         bohr:float|None=None,
         tol:float=1e-4,
-        tol_deg:float=1e-2,
+        toldeg:float=1e-2,
         return_anyway=False,
         ) -> dict:
     """Calculates the lattice parameters from CELL_PARAMETERS and determines Bravais lattice type.
@@ -1018,7 +1018,7 @@ def get_ibrav(
     Takes the normalized `cell_parameters` card,
     and optional `AA` (angstrom) or `bohr` values for the alat parameter.
     Automatically tries to detect the ibrav Bravais lattice type from the cell vectors,
-    with a default tolerance of `tol=1e-4` angstroms and `tol_deg=1e-2` degrees.
+    with a default tolerance of `tol=1e-4` angstroms and `toldeg=1e-2` degrees.
 
     Returns a dictionary with the fundamental lattice parameters:
     `'A'`, `'B'`, `'C'`, (angstrom) `'alpha'`, `'beta'`, `'gamma'` (degrees),
@@ -1152,7 +1152,7 @@ def get_ibrav(
     }
     consts_temp = deepcopy(consts)
     consts_temp.update(temp)
-    ibrav = _ibrav_from_consts(lattice_params=consts_temp, tol=tol, tol_deg=tol_deg)
+    ibrav = _ibrav_from_consts(lattice_params=consts_temp, tol=tol, toldeg=toldeg)
     consts.update(ibrav)
     return consts
 
@@ -1160,7 +1160,7 @@ def get_ibrav(
 def _ibrav_from_consts(
         lattice_params: dict,
         tol: float = 1e-4,
-        tol_deg: float = 1e-2,
+        toldeg: float = 1e-2,
     ) -> dict:
     """Determine the Bravais lattice type (ibrav) from lattice constants and vectors.
 
@@ -1188,7 +1188,7 @@ def _ibrav_from_consts(
     def eq(x, y):
         return abs(x - y) < tol
     def eq_angle(angle, target):
-        return abs(angle - target) < tol_deg or abs(angle - (180 - target)) < tol_deg
+        return abs(angle - target) < toldeg or abs(angle - (180 - target)) < toldeg
     def eq_vec(v1, v2):
         """Compare vectors allowing for sign changes and normalization."""
         v1_norm = v1 / np.linalg.norm(v1) if np.linalg.norm(v1) > 0 else v1
@@ -1240,7 +1240,7 @@ def _ibrav_from_consts(
         elif matches_pattern(vectors_alat, sc_patterns):
             return {'ibrav': 1, 'ibrav name': "cubic P (sc)"}
         else:  # Suspicious, but let's default to simple cubic
-            return {'ibrav': 1, 'ibrav name': f"cubic P (sc) ? (tol={tol})"}
+            return {'ibrav': 1, 'ibrav name': f"cubic P (sc) ? (tol={tol}, toldeg={toldeg})"}
 
     #############
     # Tetragonal
@@ -1263,7 +1263,7 @@ def _ibrav_from_consts(
         elif matches_pattern(vectors_alat, st_patterns):
             return {'ibrav': 6, 'ibrav name': "tetragonal P (st)"}
         else:  # Suspicious but let's go default
-            return {'ibrav': 6, 'ibrav name': f"tetragonal P (st) ? (tol={tol})"}
+            return {'ibrav': 6, 'ibrav name': f"tetragonal P (st) ? (tol={tol}, toldeg={toldeg})"}
 
     ###############
     # Orthorhombic
@@ -1308,7 +1308,7 @@ def _ibrav_from_consts(
         elif matches_pattern(vectors_alat, op_patterns):
             return {'ibrav': 8, 'ibrav name': "orthorhombic P"}
         else:  # Suspicious but let's go default
-            return {'ibrav': 8, 'ibrav name': f"orthorhombic P ? (tol={tol})"}
+            return {'ibrav': 8, 'ibrav name': f"orthorhombic P ? (tol={tol}, toldeg={toldeg})"}
 
     #################################
     # Hexagonal/trigonal P (ibrav=4)
@@ -1327,7 +1327,7 @@ def _ibrav_from_consts(
         if matches_pattern(vectors_alat, hex_patterns):
             return {'ibrav': 4, 'ibrav name': "hexagonal/trigonal P"}
         else:  # Suspicious but let's go default
-            return {'ibrav': 4, 'ibrav name': f"hexagonal/trigonal P ? (tol={tol})"}
+            return {'ibrav': 4, 'ibrav name': f"hexagonal/trigonal P ? (tol={tol}, toldeg={toldeg})"}
 
     #############################################
     # Trigonal R (rhombohedral) - ibrav=5 and -5
@@ -1355,7 +1355,7 @@ def _ibrav_from_consts(
         elif matches_pattern(vectors_alat, trigonalR_patterns):
             return {'ibrav': 5, 'ibrav name': "trigonal R (3fold axis c)"}
         else:  # Suspicious but let's default
-            return {'ibrav': 5, 'ibrav name': "trigonal R (3fold axis c) (default)"}
+            return {'ibrav': 5, 'ibrav name': f"trigonal R (3fold axis c) ? (tol={tol}, toldeg={toldeg})"}
 
     #############
     # Monoclinic
@@ -1378,7 +1378,7 @@ def _ibrav_from_consts(
         elif matches_pattern(vectors_alat, monoclinicPc_patterns):
             return {'ibrav': 12, 'ibrav name': "monoclinic P (unique axis c)"}
         else:  # Sus... but ok.
-            return {'ibrav': 12, 'ibrav name': "monoclinic P (unique axis c) (default)"}
+            return {'ibrav': 12, 'ibrav name': f"monoclinic P (unique axis c) ? (tol={tol}, toldeg={toldeg})"}
     if (eq_angle(alpha, 90) and not eq_angle(beta, 90) and eq_angle(gamma, 90)):
         monoclinicPb_patterns = [  # Monoclinic P (unique axis b) - ibrav=-12
             [np.array([1, 0, 0]),
@@ -1393,7 +1393,7 @@ def _ibrav_from_consts(
         elif matches_pattern(vectors_alat, monoclinicPb_patterns):
             return {'ibrav': -12, 'ibrav name': "monoclinic P (unique axis b)"}
         else:  # Sus...
-            return {'ibrav': -12, 'ibrav name': f"monoclinic P (unique axis b) ? (tol={tol})"}
+            return {'ibrav': -12, 'ibrav name': f"monoclinic P (unique axis b) ? (tol={tol}, toldeg={toldeg})"}
 
     ############
     # Triclinic
@@ -1411,15 +1411,15 @@ def _ibrav_from_consts(
         if matches_pattern(vectors_alat, triclinic_patterns):
             return {'ibrav': 14, 'ibrav name': "triclinic"}
         else:  # Sus...
-            return {'ibrav': 14, 'ibrav name': f"triclinic ? (tol={tol})"}
+            return {'ibrav': 14, 'ibrav name': f"triclinic ? (tol={tol}, toldeg={toldeg})"}
     # We couldn't figure it out :/
-    return {'ibrav': 0, 'ibrav name': f"free ? (tol={tol})"}
+    return {'ibrav': 0, 'ibrav name': f"free ? (tol={tol}, toldeg={toldeg})"}
 
 
 def set_ibrav(
         filepath,
         tol:float=1e-4,
-        tol_deg:float=1e-2,
+        toldeg:float=1e-2,
         ibrav:int=None,
         ) -> None:
     """Set the ibrav value and lattice parameters for an ibrav=0 input file automatically.
@@ -1428,7 +1428,7 @@ def set_ibrav(
     An optinal `ibrav` number can be forced if required,
     but the updated lattice parameters A, B, C, cosBC, cosAC and cosAB should be manually changed accordingly.
     """
-    values = get_ibrav(filepath=filepath, tol=tol, tol_deg=tol_deg)
+    values = get_ibrav(filepath=filepath, tol=tol, toldeg=toldeg)
     update = {
         'ibrav'          : values['ibrav'],
         'A'              : values['A'],
