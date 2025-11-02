@@ -11,7 +11,7 @@ Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html
 
 | | |  
 | --- | --- |  
-| `read_in()` | Read an input file as a Python dict |    
+| `read_in()`   | Read an input file as a Python dict |    
 | `read_out()`  | Read an output file as a Python dict |  
 | `read_dir()`  | Read the input and output from a directory and return a dict |  
 | `read_dirs()` | Read all inputs and outputs from all subfolders, and save to CSVs |  
@@ -299,9 +299,9 @@ def read_out(filepath) -> dict:
 
 
 def read_dir(
-        folder=None,
         in_str:str='.in',
-        out_str:str='.out'
+        out_str:str='.out',
+        folder=None,
     ) -> dict:
     """Takes a `folder` from a QE pw.x calculation, returns a dict with input and output values.
     
@@ -328,14 +328,14 @@ def read_dir(
 
 
 def read_dirs(
-        folder,
         in_str:str='.in',
         out_str:str='.out',
+        folder=None,
         include=None,
         exclude=None,
         separator='_',
         type_index=0,
-        id_index=1
+        id_index=1,
     ) -> None:
     """Reads recursively QE pw.x calculations from all the subfolders inside the given `directory`.
 
@@ -355,6 +355,7 @@ def read_dirs(
 
     If the detection fails, the subfolder name will be used for the CSV file.
     """
+    folder = file.get_dir(folder)
     print(f'Reading all Quantum ESPRESSO calculations from {folder} ...')
     folders = file.get_list(folder, include=include, exclude=exclude, only_folders=True)
     if not folders:
@@ -384,7 +385,7 @@ def read_dirs(
                 calc_id = folder_name.split(separator)[id_index]
             except:
                 calc_id = folder_name
-            dictionary = read_dir(f, in_str, out_str)
+            dictionary = read_dir(folder=f, in_str=in_str, out_str=out_str)
             #df = pd.DataFrame.from_dict(dictionary)
             df = pd.DataFrame({k: [v] for k, v in dictionary.items()}) if dictionary else None
             if df is None:
@@ -1422,11 +1423,10 @@ def set_ibrav(
         toldeg:float=1e-2,
         ibrav:int=None,
         ) -> None:
-    """Set the ibrav value and lattice parameters for an ibrav=0 input file automatically.
+    """Set the lattice parameters (A, B, C and cosines) and ibrav value for an ibrav=0 input file automatically.
 
     The tolerance values default to those of `get_ibrav`.
-    An optinal `ibrav` number can be forced if required,
-    but the updated lattice parameters A, B, C, cosBC, cosAC and cosAB should be manually changed accordingly.
+    An optinal `ibrav` number can be forced if required.
     """
     values = get_ibrav(filepath=filepath, tol=tol, toldeg=toldeg)
     update = {
@@ -1452,15 +1452,13 @@ def set_ibrav(
 
 
 def resume(
-        folder=None,
         in_str:str='.in',
         out_str:str='.out',
+        folder=None,
     ) -> None:
     """Update an input file with the atomic coordinates of an output file.
 
     This can be used to quickly resume an unfinished or interrupted calculation.
-
-    Note that for the moment this is only expected to work for `ibrav=0` calculations.
 
     Takes a `folder` from a QE pw.x calculation, CWD if empty.
     Input and output files are determined automatically,
@@ -1470,15 +1468,14 @@ def resume(
     Old input and output files will be renamed automatically.
     """
     folder = file.get_dir(folder)
-    exclude = ['resumed', 'slurm-']
+    exclude = ['resumed', 'slurm']
     input_file = file.get(folder, include=in_str, exclude=exclude)
     output_file = file.get(folder, out_str, exclude=exclude)
     if not input_file or not output_file:
         raise FileNotFoundError('Missing input or output file')
-    # Check that ibrav == 0
+    # Check the input
     dict_in = read_in(input_file)
-    if dict_in['ibrav'] != 0:  # TODO: make it work for non-ibrav=0 calculations
-        raise NotImplementedError('Currently only ibrav=0 calculations can be resumed automatically!')
+    ibrav = dict_in['ibrav']
     # Get the new values from the output file
     dict_out = read_out(output_file)
     atomic_positions = dict_out.get('ATOMIC_POSITIONS out')
@@ -1492,6 +1489,8 @@ def resume(
     set_value(input_file, 'ATOMIC_POSITIONS', atomic_positions)
     if cell_parameters:
         set_value(input_file, 'CELL_PARAMETERS', cell_parameters)
+    if ibrav != 0:
+        set_ibrav(filepath=input_file, ibrav=ibrav)
     print(f'Updated {input_file} from previous output, ready to resume!')
     print('Previous input and output files are backuped at:')
     print(f'  {backup_in}')
@@ -1521,7 +1520,7 @@ def scf_from_relax(
         folder_path = os.getcwd()
     relax_in = file.get(folder_path, relax_in)
     relax_out = file.get(folder_path, relax_out)
-    data = read_dir(folder_path, relax_in, relax_out)
+    data = read_dir(folder=folder_path, in_str=relax_in, out_str=relax_out)
     # Create the scf.in from the previous relax.in
     scf_in = os.path.join(folder_path, 'scf.in')
     comment = f'! Automatic SCF input made with ATON {__version__}. https://pablogila.github.io/aton'
