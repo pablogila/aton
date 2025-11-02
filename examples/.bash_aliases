@@ -19,6 +19,7 @@ fi
 # Remember to do so in a new terminal so that everything is loaded properly.
 # Install or upgrade ATON in your environment with:
 # pip install aton -U
-# Now, to open the ATON command line interface, you just have to type 'aton'
-alias aton='venv && python3 -i -c "import aton; from aton import api; from aton import txt; import numpy as np; import pandas as pd; import scipy; import matplotlib.pyplot as plt; import math"'
+# Now, to open the ATON command line interface, you just have to type 'aton'.
+# Feel free to add or remove specific packages from the import:
+alias aton='venv && python3 -i -c "import aton; from aton import api; from aton import txt; import numpy as np; import pandas as pd; import scipy; import matplotlib.pyplot as plt; import math; import qrotor as qr; import periodictable; import scipy.constants as const;"'
 
