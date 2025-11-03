@@ -23,6 +23,11 @@ api.phonopy.make_supercells('relax.in', 'relax.out')
 api.slurm.sbatch('supercell-', 'template.slurm')
 ```
 
+Note that unsuccessful calculations can be restarted with `aton.api.pwx.restart_errors()`:
+```python
+api.pwx.restart_errors('prefix=slurm')
+```
+
 ---
 """
 
@@ -190,7 +195,14 @@ def _copy_scf_header_to_supercells(
     pwx.set_value(scf_temp2, 'cosBC', '')
     print('Updated lattice parameters')
     # Remove the top content from the temp file
-    edit.delete_under(scf_temp2, 'K_POINTS', -1, 2, False)
+    kpoints = values.get('K_POINTS', None)
+    if not kpoints:
+        raise ValueError(f"No K_POINTS were found. Expected format:"
+                         f"  K_POINTS automatic"
+                         f"    x y z d d d"
+                         f"See the temporary file {scf_temp2}")
+    len_kpoints = len(kpoints) - 1  # Without the header
+    edit.delete_under(filepath=scf_temp2, key='K_POINTS', match=-1, skips=len_kpoints, regex=False)
     # Update extensive energy values
     if update_E:
         old_nat = values['nat']

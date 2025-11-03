@@ -40,7 +40,7 @@ def sbatch(
     ) -> None:
     """Sbatch all the calculations at once.
 
-    Calculation names should follow `prefix_ID.ext`,
+    Calculation names should follow `prefixID.ext`,
     with `prefix` as the common name across calculations,
     followed by the calculation ID, used as JOB_NAME.
     The extensions from `in_ext` and `out_ext` ('.in' and '.out' by default)
@@ -75,8 +75,12 @@ def sbatch(
     for filename in inputs_raw:
         if filename.endswith(in_ext):
             inputs.append(filename)
+        else:
+            file_found = file.get(filepath=folder, include=[filename, in_ext], return_anyway=True)
+            if file_found:
+                inputs.append(file_found)
     if len(inputs) == 0:
-        raise FileNotFoundError(f"Input files were not found! Expected {prefix}ID.{in_ext}")
+        raise FileNotFoundError(f"Input files were not found! Expected {prefix}ID{in_ext}")
     # Make the folder for the sbatch'ed slurm files
     call.bash(f"mkdir {slurm_folder}", folder, True, True)
     # Get the template

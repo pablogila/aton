@@ -25,7 +25,8 @@ Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html
 | `set_values()`     | Replace the value of multiple specific parameters from an input file |  
 | `set_ibrav()`      | Automatically set the ibrav value and constants for an ibrav=0 input file |  
 | `add_atom()`       | Add an atom to a given input file |  
-| `resume()`         | Update an input file with the atomic coordinates of a previous output file |  
+| `resume()`         | Resume a single calculation updating the input file with the atomic coordinates of a previous output |  
+| `restart_errors()` | Batch restart calculations with errors from a given folder |  
 | `scf_from_relax()` | Create a scf.in from a previous relax calculation |  
 
 
@@ -60,6 +61,8 @@ import aton.file as file
 import aton.txt.find as find
 import aton.txt.edit as edit
 import aton.txt.extract as extract
+import aton.api.slurm as api_slurm
+from aton.call import bash as call_bash
 import periodictable
 from scipy.constants import physical_constants
 from copy import deepcopy
@@ -1455,6 +1458,8 @@ def resume(
         in_str:str='.in',
         out_str:str='.out',
         folder=None,
+        slurm:str='.slurm',
+        testing:bool=False,
     ) -> None:
     """Update an input file with the atomic coordinates of an output file.
 
@@ -1465,7 +1470,8 @@ def resume(
     but must be specified with `in_str` and `out_str`
     if more than one file ends with `.in` or `.out`.
 
-    Old input and output files will be renamed automatically.
+    Old input and output files will be renamed and backup-ed automatically.
+    The new calculation will be re-submitted by default with the `slurm` file, unless `testing=True`.
     """
     folder = file.get_dir(folder)
     exclude = ['resumed', 'slurm']
@@ -1495,7 +1501,68 @@ def resume(
     print('Previous input and output files are backuped at:')
     print(f'  {backup_in}')
     print(f'  {backup_out}')
+    if testing:
+        return None
+    slurmfile = file.get(filepath=folder, include=slurm)
+    call_bash(f'sbatch {slurmfile}')
     return None
+
+
+def restart_errors(
+        prefix='supercell-',
+        template:str='template.slurm',
+        folder=None,
+        nonstarted:bool=False,
+        testing:bool=False,
+        ) -> list:
+    """Restart unfinished calculations containing the `prefix` inside a given `folder`.
+
+    The new Slurm template should follow `aton.api.slurm.check_template()`.
+    New RAM values and similar should be specified in the template.
+    Non-started calculations are ignored by default,
+    but can also be submitted with `nonstarted=True`.
+    By default, it submits the faulty calculations unless `testing=True`.
+
+    Returns a list with the basename of the faulty calculations.
+    """
+    folder = file.get_dir(folder)
+    include_in = [prefix, '.in']
+    include_out = [prefix, '.out']
+    supercells_in = file.get_list(folder=folder, include=include_in)
+    supercells_out = file.get_list(folder=folder, include=include_out)
+    expected = []
+    finished = []
+    unfinished = []
+    not_started = []
+    for calc in supercells_in:
+        basename = os.path.basename(calc).split('.')[0]
+        expected.append(basename)
+    print('\nChecking output calculations:')
+    for calc in supercells_out:
+        basename = os.path.basename(calc).split('.')[0]
+        data = read_out(calc)
+        if data['Success']:
+            finished.append(basename)
+            print(f'  OK  {basename}')
+            continue
+        print(f'  x   {basename}')
+        unfinished.append(basename)
+    for basename in expected:
+        if (not basename in finished) and (not basename in unfinished):
+            not_started.append(basename)
+    if len(not_started) == 0:
+        print('\nNo nonstarted calculations were detected.\n')
+    else:
+        print('\nNonstarted calculations:')
+        for basename in not_started:
+            print(f'  -   {basename}')
+    if not nonstarted and len(not_started)>0:
+        print('\nNonstarted calculations will NOT be submitted.\n')
+    if nonstarted and len(not_started)>0:
+        unfinished.extend(not_started)
+    if not testing:
+        api_slurm.sbatch(files=unfinished, template=template, folder=folder, prefix=prefix)
+    return unfinished
 
 
 def scf_from_relax(
