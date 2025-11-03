@@ -140,7 +140,7 @@
     </ul>
 
 
-            <footer>ATON v0.14.1 documentation</footer>
+            <footer>ATON v0.14.2 documentation</footer>
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
             built with <span class="visually-hidden">pdoc</span><img
@@ -1193,7 +1193,7 @@
 </span><span id="L-896"><a href="#L-896"><span class="linenos"> 896</span></a>            <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span>
 </span><span id="L-897"><a href="#L-897"><span class="linenos"> 897</span></a>        <span class="n">new_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">atom</span><span class="si">}</span><span class="s2">&quot;</span>
 </span><span id="L-898"><a href="#L-898"><span class="linenos"> 898</span></a>        <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">:</span>
-</span><span id="L-899"><a href="#L-899"><span class="linenos"> 899</span></a>            <span class="n">new_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_line</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">coord</span><span class="si">:</span><span class="s2">.15f</span><span class="si">}</span><span class="s2">d0&quot;</span>  <span class="c1"># Double float precission</span>
+</span><span id="L-899"><a href="#L-899"><span class="linenos"> 899</span></a>            <span class="n">new_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_line</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">coord</span><span class="si">:</span><span class="s2">.15f</span><span class="si">}</span><span class="s2">&quot;</span>
 </span><span id="L-900"><a href="#L-900"><span class="linenos"> 900</span></a>        <span class="n">atomic_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_line</span><span class="p">)</span>
 </span><span id="L-901"><a href="#L-901"><span class="linenos"> 901</span></a>    <span class="k">if</span> <span class="s1">&#39;alat&#39;</span> <span class="ow">in</span> <span class="n">atomic_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
 </span><span id="L-902"><a href="#L-902"><span class="linenos"> 902</span></a>        <span class="n">atomic_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ATOMIC_POSITIONS alat&#39;</span>

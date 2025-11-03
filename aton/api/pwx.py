@@ -896,7 +896,7 @@ def _normalize_atomic_positions(card, indent:str='') -> list:
             coords = coords[:6]
         new_line = f"{atom}"
         for coord in coords:
-            new_line = f"{new_line}   {coord:.15f}d0"  # Double float precission
+            new_line = f"{new_line}   {coord:.15f}"
         atomic_positions.append(new_line)
     if 'alat' in atomic_positions[0]:
         atomic_positions[0] = 'ATOMIC_POSITIONS alat'
