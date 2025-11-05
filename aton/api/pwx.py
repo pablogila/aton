@@ -26,7 +26,7 @@ Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html
 | `set_ibrav()`      | Automatically set the ibrav value and constants for an ibrav=0 input file |  
 | `add_atom()`       | Add an atom to a given input file |  
 | `resume()`         | Resume a single calculation updating the input file with the atomic coordinates of a previous output |  
-| `restart_errors()` | Batch restart calculations with errors from a given folder |  
+| `resume_errors()`  | Batch resume or restart calculations with errors from a given folder |  
 | `scf_from_relax()` | Create a scf.in from a previous relax calculation |  
 
 
@@ -137,7 +137,7 @@ def read_out(filepath) -> dict:
     `'Energy'` (Ry), `'Total force'` (float), `'Total SCF correction'` (float),
     `'Runtime'` (str), `'Success'` (bool), `'JOB DONE'` (bool),
     `'BFGS converged'` (bool), `'BFGS failed'` (bool),
-    `'Maxiter reached'` (bool), `'Error'` (str), `'Efermi'` (eV),
+    `'Maxiter reached'` (bool), `'Timeout'` (bool), `'Error'` (str), `'Efermi'` (eV),
     `'Alat'` (bohr), `'Volume'` (a.u.^3), `'Volume AA'` (AA^3),
     `'Density'` (g/cm^3), `'Pressure'` (kbar),
     `'CELL_PARAMETERS out'` (list of str), `'ATOMIC_POSITIONS out'` (list of str),
@@ -159,6 +159,7 @@ def read_out(filepath) -> dict:
     bfgs_converged_key   = 'bfgs converged'
     bfgs_failed_key      = 'bfgs failed'
     maxiter_reached_key  = r'(Maximum number of iterations reached|maximum number of steps has been reached)'
+    timeout_key          = 'Maximum CPU time exceeded'
     error_key            = 'Error in routine'
     error_failed_line    = 'pw.x: Failed'
     cell_parameters_key  = 'CELL_PARAMETERS'
@@ -173,21 +174,23 @@ def read_out(filepath) -> dict:
     bfgs_converged_line  = find.lines(file_path, bfgs_converged_key, -1)
     bfgs_failed_line     = find.lines(file_path, bfgs_failed_key, -1)
     maxiter_reached_line = find.lines(file_path, maxiter_reached_key, -1, regex=True)
+    timeout_line         = find.lines(file_path, timeout_key, -1)
     error_line           = find.lines(file_path, error_key, -1, 1, True)
     error_failed_line    = find.lines(file_path, error_failed_line, -1)
 
-    energy: float = None
-    force: float = None
-    scf: float = None
-    pressure: float = None
-    efermi: float = None
-    time: str = None
-    job_done: bool = False
-    bfgs_converged: bool = False
-    bfgs_failed: bool = False
-    maxiter_reached: bool = False
-    error: str = ''
-    success: bool = False
+    energy:          float = None
+    force:           float = None
+    scf:             float = None
+    pressure:        float = None
+    efermi:          float = None
+    time:            str   = None
+    job_done:        bool  = False
+    bfgs_converged:  bool  = False
+    bfgs_failed:     bool  = False
+    maxiter_reached: bool  = False
+    timeout:         bool  = False
+    error:           str   = ''
+    success:         bool  = False
 
     if energy_line:
         energy = extract.number(energy_line[0], energy_key)
@@ -208,13 +211,15 @@ def read_out(filepath) -> dict:
         bfgs_failed = True
     if maxiter_reached_line:
         maxiter_reached = True
+    if timeout_line:
+        timeout = True
     if error_line:
         error = error_line[1].strip()
     elif error_failed_line:
         error = error_failed_line[0].strip()
 
     # Was the calculation successful?
-    if job_done and not bfgs_failed and not maxiter_reached and not error:
+    if job_done and not bfgs_failed and not maxiter_reached and not error and not timeout:
         success = True
 
     # CELL_PARAMETERS and ATOMIC_POSITIONS
@@ -278,6 +283,7 @@ def read_out(filepath) -> dict:
         'BFGS converged'        : bfgs_converged,
         'BFGS failed'           : bfgs_failed,
         'Maxiter reached'       : maxiter_reached,
+        'Timeout'               : timeout,
         'Error'                 : error,
         'Success'               : success,
         'CELL_PARAMETERS out'   : cell_parameters,
@@ -1492,6 +1498,7 @@ def resume(
     backup_in = file.backup(input_file, keep=True, label='resumed')
     backup_out = file.backup(output_file, keep=False, label='resumed')
     # Update input file
+    set_value(input_file, 'restart_mode', 'restart')
     set_value(input_file, 'ATOMIC_POSITIONS', atomic_positions)
     if cell_parameters:
         set_value(input_file, 'CELL_PARAMETERS', cell_parameters)
@@ -1508,20 +1515,21 @@ def resume(
     return None
 
 
-def restart_errors(
+def resume_errors(
         prefix='supercell-',
         template:str='template.slurm',
         folder=None,
-        nonstarted:bool=False,
+        restart:bool=True,
+        nonstarted:bool=True,
         testing:bool=False,
         ) -> list:
     """Restart unfinished calculations containing the `prefix` inside a given `folder`.
 
     The new Slurm template should follow `aton.api.slurm.check_template()`.
     New RAM values and similar should be specified in the template.
-    Non-started calculations are ignored by default,
-    but can also be submitted with `nonstarted=True`.
-    By default, it submits the faulty calculations unless `testing=True`.
+    Timeout-ed calculations are set to *restart_mode='restart'* by default, unless `restart=False`.
+    Non-started calculations are also started by default, unless `nonstarted=False`.
+    By default, it sbatches all faulty calculations unless `testing=True`.
 
     Returns a list with the basename of the faulty calculations.
     """
@@ -1532,6 +1540,7 @@ def restart_errors(
     supercells_out = file.get_list(folder=folder, include=include_out)
     expected = []
     finished = []
+    timeout = []
     unfinished = []
     not_started = []
     for calc in supercells_in:
@@ -1544,6 +1553,10 @@ def restart_errors(
         if data['Success']:
             finished.append(basename)
             print(f'  OK  {basename}')
+            continue
+        if data['Timeout']:
+            timeout.append(basename)
+            print(f'  T   {basename}')
             continue
         print(f'  x   {basename}')
         unfinished.append(basename)
@@ -1560,6 +1573,8 @@ def restart_errors(
         print('\nNonstarted calculations will NOT be submitted.\n')
     if nonstarted and len(not_started)>0:
         unfinished.extend(not_started)
+    if restart and len(timeout)>0:
+        pass  ################################################   TODO: set timeout calcs to restart_mode=restart, and add to unfinished.
     if not testing:
         api_slurm.sbatch(files=unfinished, template=template, folder=folder, prefix=prefix)
     return unfinished
