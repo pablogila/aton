@@ -101,14 +101,15 @@ def test_read():
 
 
 def test_read_dirs():
-    aton.api.pwx.read_dirs(folder=folder, in_str='relax.in', out_str='relax.out', separator='_', type_index=0, id_index=1, exclude='ignored')
-    csv = aton.file.get(folder+'test.csv')
+    directory = folder + 'dirs/'
+    aton.api.pwx.read_dirs(folder=directory, in_str='relax.in', out_str='relax.out', separator='_', type_index=0, id_index=1, exclude='ignored')
+    csv = aton.file.get(directory+'test.csv')
     assert csv
     df = pandas.read_csv(csv)
     assert not df.empty
     assert df['ID'].to_list() == ['dir1', 'dir2']
     try:
-        aton.file.remove(folder + 'test.csv')
+        aton.file.remove(directory + 'test.csv')
     except:
         pass
 
@@ -297,4 +298,42 @@ def test_set_ibrav():
     assert not data['CELL_PARAMETERS']
     assert data['A'] == 20.0
     aton.file.remove(tmp)
+
+
+def test_restart_errors():
+    directory = folder + 'restart_errors/'
+
+    test_all = aton.api.pwx.resume_errors(prefix='relax_', folder=directory, timeouted=True, nonstarted=True, testing=True, exclude='copy')
+    assert len(test_all) == 3
+    assert 'relax_failed' in test_all
+    assert 'relax_nonstarted' in test_all
+    assert 'relax_timeouted' in test_all
+    a_data = aton.api.pwx.read_in(directory+'relax_timeouted.in')
+    assert a_data['restart_mode'] == "'restart'"
+    shutil.copy(directory+'relax_timeouted_copy.in', directory+'relax_timeouted.in')
+
+    test_nonstarted = aton.api.pwx.resume_errors(prefix='relax_', folder=directory, timeouted=False, nonstarted=True, testing=True, exclude='copy')
+    assert len(test_nonstarted) == 3
+    assert 'relax_failed' in test_nonstarted
+    assert 'relax_nonstarted' in test_nonstarted
+    assert 'relax_timeouted' in test_nonstarted
+    n_data = aton.api.pwx.read_in(directory+'relax_timeouted.in')
+    assert n_data['restart_mode'] == "'from_scratch'"
+
+    test_timeouted = aton.api.pwx.resume_errors(prefix='relax_', folder=directory, timeouted=True, nonstarted=False, testing=True, exclude='copy')
+    assert len(test_timeouted) == 2
+    assert 'relax_failed' in test_timeouted
+    assert not 'relax_nonstarted' in test_timeouted
+    assert 'relax_timeouted' in test_timeouted
+    t_data = aton.api.pwx.read_in(directory+'relax_timeouted.in')
+    assert t_data['restart_mode'] == "'restart'"
+    shutil.copy(directory+'relax_timeouted_copy.in', directory+'relax_timeouted.in')
+
+    test_failed = aton.api.pwx.resume_errors(prefix='relax_', folder=directory, timeouted=False, nonstarted=False, testing=True, exclude='copy')
+    assert len(test_failed) == 2
+    assert 'relax_failed' in test_failed
+    assert not 'relax_nonstarted' in test_failed
+    assert 'relax_timeouted' in test_failed
+    f_data = aton.api.pwx.read_in(directory+'relax_timeouted.in')
+    assert f_data['restart_mode'] == "'from_scratch'"
 

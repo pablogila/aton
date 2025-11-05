@@ -1519,25 +1519,35 @@ def resume_errors(
         prefix='supercell-',
         template:str='template.slurm',
         folder=None,
-        restart:bool=True,
+        timeouted:bool=True,
         nonstarted:bool=True,
         testing:bool=False,
+        exclude:str|list=None
         ) -> list:
-    """Restart unfinished calculations containing the `prefix` inside a given `folder`.
+    """Resume or restart unfinished calculations containing the `prefix` inside a given `folder`.
 
-    The new Slurm template should follow `aton.api.slurm.check_template()`.
+    Faulty calculations are restarted from scratch,
+    with the new Slurm parameters from the `template` following `aton.api.slurm.check_template()`.
     New RAM values and similar should be specified in the template.
-    Timeout-ed calculations are set to *restart_mode='restart'* by default, unless `restart=False`.
+
+    Timeout-ed calculations are set to *restart_mode='restart'* by default;
+    to handle these as regular faulty calculations restarting from scratch,
+    set `timeouted=False`.
+
     Non-started calculations are also started by default, unless `nonstarted=False`.
+
     By default, it sbatches all faulty calculations unless `testing=True`.
+    Note that timeout-ed calculations will be set to *restart_mode='resume'* anyway if specified by the `timeouted` parameter.
+
+    Specific calculations can be excluded with the `exclude`parameter.
 
     Returns a list with the basename of the faulty calculations.
     """
     folder = file.get_dir(folder)
     include_in = [prefix, '.in']
     include_out = [prefix, '.out']
-    supercells_in = file.get_list(folder=folder, include=include_in)
-    supercells_out = file.get_list(folder=folder, include=include_out)
+    supercells_in = file.get_list(folder=folder, include=include_in, exclude=exclude)
+    supercells_out = file.get_list(folder=folder, include=include_out, exclude=exclude)
     expected = []
     finished = []
     timeout = []
@@ -1556,6 +1566,7 @@ def resume_errors(
             continue
         if data['Timeout']:
             timeout.append(basename)
+            unfinished.append(basename)
             print(f'  T   {basename}')
             continue
         print(f'  x   {basename}')
@@ -1563,18 +1574,23 @@ def resume_errors(
     for basename in expected:
         if (not basename in finished) and (not basename in unfinished):
             not_started.append(basename)
-    if len(not_started) == 0:
-        print('\nNo nonstarted calculations were detected.\n')
-    else:
-        print('\nNonstarted calculations:')
-        for basename in not_started:
-            print(f'  -   {basename}')
+    for basename in not_started:
+        print(f'  -   {basename}')
+    print('\n------- LEGEND -------')
+    print(' OK    Successful')
+    print(' T     Timeout reached')
+    print(' x     Failed')
+    print(' -     Not started yet')
+    print('----------------------\n')
     if not nonstarted and len(not_started)>0:
-        print('\nNonstarted calculations will NOT be submitted.\n')
+        print('Nonstarted calculations will NOT be submitted.\n')
     if nonstarted and len(not_started)>0:
         unfinished.extend(not_started)
-    if restart and len(timeout)>0:
-        pass  ################################################   TODO: set timeout calcs to restart_mode=restart, and add to unfinished.
+    if timeouted and len(timeout)>0:
+        for basename in timeout:  # Set restart_mode='restart'
+            f = file.get(filepath=folder, include=[basename, 'in'], exclude=exclude)
+            set_value(f, 'restart_mode', "'restart'")
+        print("Set restart_mode='resume' for timeout-ed calculations\n")
     if not testing:
         api_slurm.sbatch(files=unfinished, template=template, folder=folder, prefix=prefix)
     return unfinished
