@@ -313,10 +313,11 @@ def check_template(
     slurm_example = 'template_EXAMPLE.slurm'
     new_slurm_file = os.path.join(folder, slurm_example)
     # Default slurm template
-    content =f"""# Automatic slurm template created with ATON {__version__}
+    content =f"""#!/bin/bash
+
+# Automatic slurm template created with ATON {__version__}
 # https://pablogila.github.io/aton
 
-#!/bin/bash
 #SBATCH --partition=general
 #SBATCH --qos=regular
 #SBATCH --job-name=JOBNAME

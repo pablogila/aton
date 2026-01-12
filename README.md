@@ -3,13 +3,12 @@
 
 # Welcome to ATON
 
-The **A**dvanced **T**ext **O**perations for scie**N**tific python,
+The **A**tomic **T**ext **O**perations for pytho**N**,
 or [ATON](https://pablogila.github.io/aton/),
-is a package that provides powerful and comprehensive text-edition tools
-to edit and analyse simuation data.
+provides fast and comprehensive text analysis and edition tools.
 
 In a nod to its [ancient Egyptian deity](https://en.wikipedia.org/wiki/Aten) counterpart,
-this Python package aims to provide straightforward, comprehensive tools
+this Python package aims to provide straightforward, easy-to-implement tools
 for easily creating custom interfaces for any text-based software.
 
 The heart and soul of ATON is the [txt](#general-text-edition) module,
