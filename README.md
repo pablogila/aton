@@ -78,7 +78,7 @@ such as those from the [aton.api](#interfaces-for-ab-initio-codes) module.
 | [txt.extract](https://pablogila.github.io/aton/aton/txt/extract.html) | Extract data from raw text strings |  
 
 
-## Interfaces for *ab-initio* and HPC codes
+## Interfaces for atomic and HPC codes
 
 The **api** module contains Python interfaces for several *ab-initio* codes and related.
 These are powered by the [aton.txt](#general-text-edition) module and can be easily extended.
