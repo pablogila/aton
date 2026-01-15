@@ -36,6 +36,8 @@ Tools to work with the [pw.x](https://www.quantum-espresso.org/Doc/INPUT_PW.html
 | --- | --- |  
 | `get_atom()`       | Take the approximate position of an atom and return the full coordinates |  
 | `get_ibrav()`      | Estimate the lattice parameters and ibrav from the input or the CELL_PARAMETERS matrix |  
+| `get_distance()`   | Calculate the distance between two atoms |  
+| `get_neighbors()`  | Get the neighbors and distances of a specific atom |  
 | `count_elements()` | Take the ATOMIC_POSITIONS and return a dict as {element: number} |  
 | `normalize_card()` | Take a matched card, and return it in a normalized format |  
 | `to_cartesian()`   | Convert coordinates from crystal lattice vectors to cartesian |  
@@ -853,8 +855,8 @@ def _conversion_factor_from_cartesian_positions_to_AA(filepath:str) -> float:
 
 def get_distance(
         filepath:str,
-        position1:list,
-        position2:list,
+        position1:list|str,
+        position2:list|str,
         precision:int=3,
         conversion_factor:float=None,
         literal:bool=False,
@@ -874,14 +876,22 @@ def get_distance(
         conversion_factor = _conversion_factor_from_cartesian_positions_to_AA(filepath)
         if not conversion_factor:
             raise ValueError('Could not determine conversion factor from atomic positions to Angstroms from the input file! You can try to set it manually...')
-    if literal:
+    if literal:  # Used to optimize bulk calculations
         atom1 = position1
         atom2 = position2
+        if isinstance(atom1, str):
+            coords1_raw = extract.coords(atom1)
+        else:
+            coords1_raw = atom1
+        if isinstance(atom2, str):
+            coords2_raw = extract.coords(atom2)
+        else:
+            coords2_raw = atom2
     else:
         atom1 = get_atom(filepath=filepath, position=position1, precision=precision)
         atom2 = get_atom(filepath=filepath, position=position2, precision=precision)
-    coords1_raw = extract.coords(atom1)
-    coords2_raw = extract.coords(atom2)
+        coords1_raw = extract.coords(atom1)
+        coords2_raw = extract.coords(atom2)
     coords1 = to_cartesian(filepath, coords1_raw)
     coords2 = to_cartesian(filepath, coords2_raw)
     dist = euclidean(coords1, coords2) * conversion_factor
@@ -890,7 +900,7 @@ def get_distance(
 
 def get_neighbors(
         filepath:str,
-        position:list,
+        position:list|str,
         elements=None,
         precision:int=3,
         conversion_factor:float=None,
@@ -921,6 +931,7 @@ def get_neighbors(
     atomic_positions_list = atomic_positions[1:]  # Remove header
     # Get the target atom full line
     target_atom = get_atom(filepath=filepath, position=position, precision=precision)
+    target_coordinates = extract.coords(target_atom)
     # Remove the target atom from the list
     atomic_positions_list.remove(target_atom)
     neighbors = []
@@ -929,7 +940,7 @@ def get_neighbors(
             atom = extract.element(line)
             if not atom in elements:
                 continue
-        dist = get_distance(filepath=filepath, position1=target_atom, position2=line, conversion_factor=conversion_factor, precision=precision, literal=True)
+        dist = get_distance(filepath=filepath, position1=target_coordinates, position2=line, conversion_factor=conversion_factor, precision=precision, literal=True)
         neighbors.append((line, dist))
     # Sort by distance
     neighbors.sort(key=lambda x: x[1])
