@@ -65,7 +65,9 @@ import aton.api.slurm as api_slurm
 from aton.call import bash as call_bash
 import periodictable
 from scipy.constants import physical_constants
+from scipy.spatial.distance import euclidean
 from copy import deepcopy
+import math
 
 
 # Handy conversion factors
@@ -743,11 +745,14 @@ def get_atom(
         position:list,
         precision:int=3,
         return_anyway:bool=False,
+        literal:bool=False,
     ) -> str:
     """Takes the approximate `position` of an atom, and returns the full line from the input `filepath`.
 
     It compares the atomic positions rounded up to the specified `precision` decimals.
     If `return_anyway = True`, ignores errors and returns an empty string.
+    The normalized position is returned by default;
+    to return the literal line, set `literal=True`.
     """
     # Check that the coordinates are valid
     if isinstance(position, str):
@@ -795,7 +800,10 @@ def get_atom(
         if return_anyway:
             return ''
         raise ValueError(f'No matching position found! Try again with a less tight precision parameter.\nSearched coordinates: {coordinates_rounded}')
-    # We must get the literal line, not the normalized one!
+    # The normalized line might be enough...
+    if not literal:
+        return matched_pos
+    # But we might want the literal line, not the normalized one!
     atomic_positions_uncommented = rf'^\s*\b(ATOMIC_POSITIONS|atomic_positions)'
     #atomic_positions_uncommented = rf'(?!\s*!\s*)(ATOMIC_POSITIONS|atomic_positions)'  # Legacy regex
     atomic_positions_lines = find.between(filepath=filepath, key1=atomic_positions_uncommented, key2=_all_cards_regex, include_keys=False, match=-1, regex=True)
@@ -808,6 +816,124 @@ def get_atom(
         atomic_positions_cleaned.append(line)
     matched_line = atomic_positions_cleaned[matched_index]
     return matched_line.strip()
+
+
+def _conversion_factor_from_cartesian_positions_to_AA(filepath:str) -> float:
+    """Get the conversion factor for the atomic positions to angstroms for an input `filepath`.
+    A helper function to get the cartesian coordinates in angstroms.
+    It can be used e.g. to multiply the items from the `to_cartesian()` matrix to get it in AA.
+    """
+    data = read_in(filepath)
+    if data['ibrav'] != 0:
+        raise ValueError('Distance calculations are only implemented for systems with ibrav=0')
+    header_atompos_raw = data['ATOMIC_POSITIONS'][0]
+    header_atompos = header_atompos_raw.lower()
+    header_cellparams_raw = data['CELL_PARAMETERS'][0]
+    header_cellparams = header_cellparams_raw.lower()
+    conversion_factor: float = None
+    if 'angstrom' in header_atompos:
+        conversion_factor = 1.0
+    elif 'bohr' in header_atompos:
+        conversion_factor = _BOHR_TO_ANGSTROM
+    elif 'angstrom' in header_cellparams:
+        conversion_factor = 1.0
+    elif 'bohr' in header_cellparams:
+        conversion_factor = _BOHR_TO_ANGSTROM
+    else:
+        celldm1 = data.get('celldm(1)', None)
+        A = data.get('A', None)
+        if celldm1:
+            conversion_factor = celldm1 * _BOHR_TO_ANGSTROM
+        elif A:
+            conversion_factor = A
+        else:
+            return None
+    return conversion_factor
+
+
+def get_distance(
+        filepath:str,
+        position1:list,
+        position2:list,
+        precision:int=3,
+        conversion_factor:float=None,
+        literal:bool=False,
+    ) -> float:
+    """Get the distance between two atoms.
+ 
+    Only for systems with `ibrav=0`.
+    The `position1` and `position2` of the atoms can be approximated,
+    with a default `precision` of 3 decimals,
+    and will be checked from the positions in the input `filepath`.
+    To calculate with the literal given positions as they are, set `literal=True`.
+
+    Units are converted automatically to Angstroms,
+    unless a custom `conversion_factor` is specified.
+    """
+    if not conversion_factor:
+        conversion_factor = _conversion_factor_from_cartesian_positions_to_AA(filepath)
+        if not conversion_factor:
+            raise ValueError('Could not determine conversion factor from atomic positions to Angstroms from the input file! You can try to set it manually...')
+    if literal:
+        atom1 = position1
+        atom2 = position2
+    else:
+        atom1 = get_atom(filepath=filepath, position=position1, precision=precision)
+        atom2 = get_atom(filepath=filepath, position=position2, precision=precision)
+    coords1_raw = extract.coords(atom1)
+    coords2_raw = extract.coords(atom2)
+    coords1 = to_cartesian(filepath, coords1_raw)
+    coords2 = to_cartesian(filepath, coords2_raw)
+    dist = euclidean(coords1, coords2) * conversion_factor
+    return dist
+
+
+def get_neighbors(
+        filepath:str,
+        position:list,
+        elements=None,
+        precision:int=3,
+        conversion_factor:float=None,
+    ) -> str:
+    """Get the neighbors of a given atom from an input `filepath`.
+
+    Returns a list of tuples with `(atom_line:str, distance:float)`, ordered by distance.
+
+    The atom to be analyzed is specified by its approximate `position`.
+    The neighbors can be filtered by specific `elements` (str or list of str).
+    All atoms are considered if `elements=None`.
+    The decimal `precision` can be adjusted to find the atom if necessary.
+    Units are converted automatically to Angstroms,
+    unless a custom `conversion_factor` is specified.
+
+    Note that it might take some seconds for large systems.    
+    """
+    if isinstance(elements, str):  # Convert to a list
+        elements = elements.split()
+    data = read_in(filepath)
+    if not 'ATOMIC_POSITIONS' in data.keys():
+        raise ValueError(f'Missing ATOMIC_POSITIONS in {filepath}')
+    atomic_positions = data['ATOMIC_POSITIONS']
+    if not conversion_factor:
+        conversion_factor = _conversion_factor_from_cartesian_positions_to_AA(filepath)
+        if not conversion_factor:
+            raise ValueError('Could not determine conversion factor from atomic positions to Angstroms from the input file! You can try to set it manually...')
+    atomic_positions_list = atomic_positions[1:]  # Remove header
+    # Get the target atom full line
+    target_atom = get_atom(filepath=filepath, position=position, precision=precision)
+    # Remove the target atom from the list
+    atomic_positions_list.remove(target_atom)
+    neighbors = []
+    for line in atomic_positions_list:
+        if elements:
+            atom = extract.element(line)
+            if not atom in elements:
+                continue
+        dist = get_distance(filepath=filepath, position1=target_atom, position2=line, conversion_factor=conversion_factor, precision=precision, literal=True)
+        neighbors.append((line, dist))
+    # Sort by distance
+    neighbors.sort(key=lambda x: x[1])
+    return neighbors
 
 
 def normalize_card(card:list, indent:str='') -> list:

@@ -337,3 +337,30 @@ def test_restart_errors():
     f_data = aton.api.pwx.read_in(directory+'relax_timeouted.in')
     assert f_data['restart_mode'] == "'from_scratch'"
 
+
+def test_get_neighbors():
+    ch3nh3 = folder + 'CH3NH3.in'
+
+    pos1 = 'N   0.758865   0.489441   0.431544'
+    pos2 = 'C   0.241135   0.507039   0.469908'
+
+    distance = aton.api.pwx.get_distance(filepath=ch3nh3, position1=pos1, position2=pos2)
+    assert abs(distance - 1.47588) < 1.0e-4
+
+    neighbors = aton.api.pwx.get_neighbors(filepath=ch3nh3, position=pos1, elements='H')
+    assert len(neighbors) == 6
+    assert abs(neighbors[0][1] - 0.81087) < 1.0e-4
+    assert abs(neighbors[1][1] - 1.01133) < 1.0e-4
+    assert abs(neighbors[2][1] - 1.01206) < 1.0e-4
+
+    # Test when the target atom has no neighbors
+    neighbors = aton.api.pwx.get_neighbors(filepath=ch3nh3, position=pos1, elements='N')
+    assert len(neighbors) == 0
+
+    # Test with mixed elements
+    neighbors = aton.api.pwx.get_neighbors(filepath=ch3nh3, position=pos1, elements='C H')
+    assert len(neighbors) == 7
+    neighbors = aton.api.pwx.get_neighbors(filepath=ch3nh3, position=pos1, elements=['N', 'C'])
+    assert len(neighbors) == 1
+    assert neighbors[0][0].startswith('C')
+
