@@ -13,7 +13,7 @@ for easily creating custom interfaces for any text-based software.
 
 The heart and soul of ATON is the [txt](#general-text-edition) module,
 which simplifies the automation of text edition tasks.
-It also includes an [api](#interfaces-for-ab-initio-codes) module with interfaces for simulation and HPC codes,
+It also includes an [api](#interfaces-for-ab-initio-codes) module with interfaces for _ab-initio_ and HPC codes,
 such as [Slurm](https://slurm.schedmd.com/documentation.html),
 [Quantum ESPRESSO](https://www.quantum-espresso.org/),
 [Phonopy](https://phonopy.github.io/phonopy/) and

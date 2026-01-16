@@ -694,7 +694,7 @@ def _update_other_values(
     return None
 
 
-def add_atom(filepath, position, indent='  ') -> None:
+def add_atom(filepath:str, position:str|list, indent:str='  ') -> None:
     """Adds an atom in a given input `filepath` at a specified `position`.
 
     Position must be a string or a list, as follows:
@@ -744,8 +744,8 @@ def add_atom(filepath, position, indent='  ') -> None:
 
 def get_atom(
         filepath:str,
-        position:list,
-        precision:int=3,
+        position:str|list,
+        precision:int=4,
         return_anyway:bool=False,
         literal:bool=False,
     ) -> str:
@@ -801,7 +801,7 @@ def get_atom(
     if not matched_pos:
         if return_anyway:
             return ''
-        raise ValueError(f'No matching position found! Try again with a less tight precision parameter.\nSearched coordinates: {coordinates_rounded}')
+        raise ValueError(f'No matching position found! Try again with a different precision parameter.\nSearched coordinates: {coordinates_rounded}')
     # The normalized line might be enough...
     if not literal:
         return matched_pos
@@ -857,8 +857,8 @@ def get_distance(
         filepath:str,
         position1:list|str,
         position2:list|str,
-        precision:int=3,
-        conversion_factor:float=None,
+        precision:int=4,
+        conversion_factor:float|None=None,
         literal:bool=False,
     ) -> float:
     """Get the distance between two atoms.
@@ -901,8 +901,8 @@ def get_distance(
 def get_neighbors(
         filepath:str,
         position:list|str,
-        elements=None,
-        precision:int=3,
+        elements:str|list|None=None,
+        precision:int=4,
         conversion_factor:float=None,
     ) -> str:
     """Get the neighbors of a given atom from an input `filepath`.
