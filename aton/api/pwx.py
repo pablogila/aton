@@ -472,6 +472,8 @@ def set_values(
 
     Calls `set_value` recursively. If `update` is empty, nothig will happen.
     """
+    if not isinstance(update, dict):
+        raise TypeError(f"'update' must be a dict, got {type(update).__name__}")
     if not update:
         return None
     for key, value in update.items():
@@ -1603,6 +1605,7 @@ def resume(
         folder=None,
         slurm:str='.slurm',
         testing:bool=False,
+        update:dict={},
     ) -> None:
     """Update an input file with the atomic coordinates of an output file.
 
@@ -1615,6 +1618,7 @@ def resume(
 
     Old input and output files will be renamed and backup-ed automatically.
     The new calculation will be re-submitted by default with the `slurm` file, unless `testing=True`.
+    Additional custom parameters can be updated with the `update` dict.
     """
     folder = file.get_dir(folder)
     exclude = ['resumed', 'slurm']
@@ -1635,12 +1639,14 @@ def resume(
     backup_in = file.backup(input_file, keep=True, label='resumed')
     backup_out = file.backup(output_file, keep=False, label='resumed')
     # Update input file
-    set_value(input_file, 'restart_mode', 'restart')
+    #set_value(input_file, 'restart_mode', 'restart')  # Problematic for non-user-iterrupted calculations
     set_value(input_file, 'ATOMIC_POSITIONS', atomic_positions)
     if cell_parameters:
         set_value(input_file, 'CELL_PARAMETERS', cell_parameters)
     if ibrav != 0:
         set_ibrav(filepath=input_file, ibrav=ibrav)
+    # Update input file with custom values
+    set_values(input_file, update)
     print(f'Updated {input_file} from previous output, ready to resume!')
     print('Previous input and output files are backuped at:')
     print(f'  {backup_in}')
@@ -1659,7 +1665,7 @@ def resume_errors(
         timeouted:bool=True,
         nonstarted:bool=True,
         testing:bool=False,
-        exclude:str|list=None
+        exclude:str|list=None,
         ) -> list:
     """Resume or restart unfinished calculations containing the `prefix` inside a given `folder`.
 
